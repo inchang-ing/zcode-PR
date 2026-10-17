@@ -1,0 +1,2096 @@
+[
+  {
+    "repo": "BerriAI/litellm",
+    "number": 46116,
+    "title": "[Feature]: Custom display ordering and sorting for Model Group Alias in Admin UI",
+    "comments": [],
+    "createdAt": "2026-10-13T00:28:22Z",
+    "url": "https://github.com/BerriAI/litellm/issues/46116"
+  },
+  {
+    "repo": "BerriAI/litellm",
+    "number": 46087,
+    "title": "[Bug]: Presidio output_parse_pii never restores streamed /v1/messages responses (Anthropic SSE routed through unified_guardrail)",
+    "comments": [],
+    "createdAt": "2026-10-12T21:20:42Z",
+    "url": "https://github.com/BerriAI/litellm/issues/46087"
+  },
+  {
+    "repo": "BerriAI/litellm",
+    "number": 46076,
+    "title": "[Bug]: Management endpoints return raw database exception text in 500 responses",
+    "comments": [],
+    "createdAt": "2026-10-12T19:57:01Z",
+    "url": "https://github.com/BerriAI/litellm/issues/46076"
+  },
+  {
+    "repo": "BerriAI/litellm",
+    "number": 46067,
+    "title": "[Bug]: litellm_key reads a deleted key as present, and destroying it fails with 404 \"No keys found\"",
+    "comments": [],
+    "createdAt": "2026-10-12T19:11:51Z",
+    "url": "https://github.com/BerriAI/litellm/issues/46067"
+  },
+  {
+    "repo": "BerriAI/litellm",
+    "number": 46062,
+    "title": "[Feature]: Per-user ChatGPT subscription passthrough for Codex-compatible clients",
+    "comments": [],
+    "createdAt": "2026-10-12T18:42:45Z",
+    "url": "https://github.com/BerriAI/litellm/issues/46062"
+  },
+  {
+    "repo": "BerriAI/litellm",
+    "number": 46052,
+    "title": "[Bug]: token_counter raises KeyError 'items' for array tool params without items -> /v1/messages/count_tokens 500",
+    "comments": [
+      {
+        "id": "IC_kwDOKALCgc8AAAABbR88gw",
+        "author": {
+          "login": "Mrun25"
+        },
+        "authorAssociation": "NONE",
+        "body": "Reproduced on current main (2a01fe6e): `litellm.token_counter(...)` with a tool whose parameter is `{'type': 'array'}` without an `items` schema raises `KeyError: 'items'` from `_format_type` in `litellm/litellm_core_utils/token_counter.py` - it indexes `props['items']` directly, which holds for OpenAI's strict function calling but not for JSON Schema generally or Anthropic/MCP tool definitions.\n\nI'll take this: treat a missing `items` as an untyped array (along the lines of the suggested fix) and add a regression test. PR coming.",
+        "createdAt": "2026-10-12T13:55:56Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BerriAI/litellm/issues/46052#issuecomment-6125730947",
+        "viewerDidAuthor": false
+      }
+    ],
+    "createdAt": "2026-10-12T13:34:17Z",
+    "url": "https://github.com/BerriAI/litellm/issues/46052"
+  },
+  {
+    "repo": "mem0ai/mem0",
+    "number": 7615,
+    "title": "Add NVIDIA NIM provider support",
+    "comments": [],
+    "createdAt": "2026-10-12T12:53:15Z",
+    "url": "https://github.com/mem0ai/mem0/issues/7615"
+  },
+  {
+    "repo": "mem0ai/mem0",
+    "number": 7614,
+    "title": "Cursor plugin: project_id resolves to the plugin cache folder hash (all workspaces share one app_id)",
+    "comments": [],
+    "createdAt": "2026-10-12T12:28:25Z",
+    "url": "https://github.com/mem0ai/mem0/issues/7614"
+  },
+  {
+    "repo": "mem0ai/mem0",
+    "number": 7602,
+    "title": "@mem0/opencode-plugin fails to load silently on OpenCode V2 (all published versions)",
+    "comments": [],
+    "createdAt": "2026-10-11T10:10:06Z",
+    "url": "https://github.com/mem0ai/mem0/issues/7602"
+  },
+  {
+    "repo": "mem0ai/mem0",
+    "number": 7587,
+    "title": "feat(reranker): add TypeSafe Jev reranker",
+    "comments": [],
+    "createdAt": "2026-10-09T07:34:08Z",
+    "url": "https://github.com/mem0ai/mem0/issues/7587"
+  },
+  {
+    "repo": "langchain-ai/langchain",
+    "number": 41191,
+    "title": "perf(text-splitters): reduce repeated list copying during chunk eviction",
+    "comments": [
+      {
+        "id": "IC_kwDOIPDwls8AAAABbC1Hhw",
+        "author": {
+          "login": "syahra712"
+        },
+        "authorAssociation": "NONE",
+        "body": "Hi, I would like to pick this up if it is still open. Plan: keep `current_doc` in `_merge_splits` as a `collections.deque` and evict with `popleft()`, so each eviction is O(1) instead of copying the remaining window. The `current_doc[0]` / length checks stay identical, so the output is unchanged; I would add a regression test that compares chunk output against the current implementation on character-fallback and word-separated inputs. Could a maintainer assign it to me?",
+        "createdAt": "2026-10-11T14:08:10Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/langchain-ai/langchain/issues/41191#issuecomment-6109874055",
+        "viewerDidAuthor": false
+      }
+    ],
+    "createdAt": "2026-10-10T12:36:23Z",
+    "url": "https://github.com/langchain-ai/langchain/issues/41191"
+  },
+  {
+    "repo": "pydantic/pydantic-ai",
+    "number": 10123,
+    "title": "FallbackModel does not fall back when a Responses stream reports response.failed before any output",
+    "comments": [
+      {
+        "id": "IC_kwDOMMa-Ps8AAAABbUwvLQ",
+        "author": {
+          "login": "pydanty"
+        },
+        "authorAssociation": "CONTRIBUTOR",
+        "body": "<!-- pydanty:status-comment:v1 -->\n**Decision:** maintainer discussion\n\nThe missed fallback is **real and reproduced** — a Responses `response.failed` before any output never reaches the backup model — but whether pre-output stream errors should fall back is a **maintainer decision**: fix narrowly in the OpenAI adapter now, or fold into the general mid-stream fallback work (#5321/#4140).\n\n**Why it matters:** Anyone pairing FallbackModel with OpenAI Responses streaming silently loses the backup model when the provider reports an overload before yielding output.\n\n**Evidence:** - **Reproduced:** a `response.failed` before output never falls back; a leading `error` event does — all four variants at https://play.pydantic.work/p/x0ZZQ4kL\n- **Cause:** the failure raises during consumption in `pydantic_ai_slim/pydantic_ai/models/openai.py:4948-4953`, after `FallbackModel` already returned the stream.\n\n  https://github.com/pydantic/pydantic-ai/blob/ff25d3d83ff5d8e0bf5bde433cdc26f4f9959c2f/pydantic_ai_slim/pydantic_ai/models/openai.py#L4948-L4953\n\n- **Docs vs code:** docs promise exception-based stream fallback; general mid-stream fallback is open (#5321, #4140) and #10066 deliberately leaves it undecided.\n\n**Playground:** https://play.pydantic.work/p/x0ZZQ4kL",
+        "createdAt": "2026-10-12T16:50:16Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/pydantic/pydantic-ai/issues/10123#issuecomment-6128676653",
+        "viewerDidAuthor": false
+      }
+    ],
+    "createdAt": "2026-10-12T15:37:34Z",
+    "url": "https://github.com/pydantic/pydantic-ai/issues/10123"
+  },
+  {
+    "repo": "pydantic/pydantic-ai",
+    "number": 10117,
+    "title": "API reference: overloaded signatures render back to back with no separator",
+    "comments": [
+      {
+        "id": "IC_kwDOMMa-Ps8AAAABbMBcnw",
+        "author": {
+          "login": "pydanty"
+        },
+        "authorAssociation": "CONTRIBUTOR",
+        "body": "<!-- pydanty:status-comment:v1 -->\n**Decision:** maintainer discussion\n\nConfirmed on the live reference, but this is **stock mkdocstrings behavior**, not a broken pydantic-ai contract, and the renderer lives in the private unified-docs repo. A maintainer with access must decide whether to customize overload rendering there — and which of the four fixes — before anything lands repo-side.\n\n**Why it matters:** Everyone reading the API reference hits this: overloaded methods such as `Agent.__init__` and `from_spec` show stacked signatures that look like copy-paste errors and hide the real differences.\n\n**Evidence:** - **Reproduced:** the [live reference](https://pydantic.dev/docs/ai/api/pydantic-ai/agent/) renders stacked `@overload` signatures with no marker, label, or gap.\n- **Cause:** stock mkdocstrings-python default; [upstream declined](https://github.com/mkdocstrings/python/issues/135) overload-rendering improvements.\n- **Constraint:** the identical `Agent.__init__` pair is a Pyright workaround (`pydantic_ai_slim/pydantic_ai/agent/__init__.py:563-567`), so dedup is render-time work in the private `pydantic/unified-docs` repo.\n\n  https://github.com/pydantic/pydantic-ai/blob/69ea1e57201ed59e7d30fbe4a7590d193acecce0/pydantic_ai_slim/pydantic_ai/agent/__init__.py#L563-L567",
+        "createdAt": "2026-10-12T07:11:58Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/pydantic/pydantic-ai/issues/10117#issuecomment-6119513247",
+        "viewerDidAuthor": false
+      }
+    ],
+    "createdAt": "2026-10-12T06:21:05Z",
+    "url": "https://github.com/pydantic/pydantic-ai/issues/10117"
+  },
+  {
+    "repo": "pydantic/pydantic-ai",
+    "number": 10113,
+    "title": "Broken links found in docs",
+    "comments": [
+      {
+        "id": "IC_kwDOMMa-Ps8AAAABbIrhCw",
+        "author": {
+          "login": "pydanty"
+        },
+        "authorAssociation": "CONTRIBUTOR",
+        "body": "<!-- pydanty:status-comment:v1 -->\n**Decision:** maintainer discussion\n\nOne real defect, the Sprites 404, already has open fix #10008, and the pyproject 503/starlette entries are transient; the recurring `pydantic/unified-docs` 404 must be resolved by **retargeting** to a public repo, **removing** the `AGENTS.md` link, or **excluding** it in `lychee.toml`.\n\n**Why it matters:** Weekly checker noise buries real signal for maintainers, and readers of the published Sprites docs page hit a dead link today.\n\n**Evidence:** - **Decision needed:** the `pydantic/unified-docs` 404 recurs weekly from `AGENTS.md:117` because that repo is private; fix by retarget, removal, or `.github/workflows/lychee.toml` exclusion.\n\n  https://github.com/pydantic/pydantic-ai/blob/69ea1e57201ed59e7d30fbe4a7590d193acecce0/AGENTS.md#L117\n\n- **Settled:** the Sprites 404 (`docs/harness/sprites-sandbox.md:77`, parity README `:80`) has open fix [#10008](https://github.com/pydantic/pydantic-ai/pull/10008); the pyproject 503 and starlette entries are transient.\n\n  https://github.com/pydantic/pydantic-ai/blob/69ea1e57201ed59e7d30fbe4a7590d193acecce0/docs/harness/sprites-sandbox.md#L77\n\n- **Duplicate:** five of six entries repeat [#9800](https://github.com/pydantic/pydantic-ai/issues/9800) verbatim; closure policy for weekly checker issues is unstated.",
+        "createdAt": "2026-10-12T01:13:58Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/pydantic/pydantic-ai/issues/10113#issuecomment-6116008203",
+        "viewerDidAuthor": false
+      }
+    ],
+    "createdAt": "2026-10-12T00:26:31Z",
+    "url": "https://github.com/pydantic/pydantic-ai/issues/10113"
+  },
+  {
+    "repo": "pydantic/pydantic-ai",
+    "number": 10112,
+    "title": "Feature request: Evaluate native CIGE agentic test cases with Pydantic Evals",
+    "comments": [
+      {
+        "id": "IC_kwDOMMa-Ps8AAAABbGqAZw",
+        "author": {
+          "login": "pydanty"
+        },
+        "authorAssociation": "CONTRIBUTOR",
+        "body": "<!-- pydanty:status-comment:v1 -->\n**Decision:** not actionable\n\nThe requested CIGE loader **does not exist and cannot be reached** through pydantic_evals' public API — there is no defect to fix. The open call is **built-in loader vs external adapter/example**; `docs/contributing.md` points new behavior outside core first. Much is already buildable via `Case.metadata` plus custom evaluators.\n\n**Why it matters:** Users wanting richer agent test cases must hand-roll adapters today; a placement decision unblocks a ready, guideline-following contributor who offered a prototype and tests.\n\n**Evidence:** - **No defect:** `pydantic_evals/pydantic_evals/dataset.py:790-817` allows only fixed dataset fields (`extra='forbid'`); documented extensibility is evaluator-only ([docs](https://pydantic.dev/docs/ai/evals/core-concepts/)).\n\n  https://github.com/pydantic/pydantic-ai/blob/69ea1e57201ed59e7d30fbe4a7590d193acecce0/pydantic_evals/pydantic_evals/dataset.py#L790-L817\n\n- **No prior work:** no CIGE issue or PR exists; sibling [#7710](https://github.com/pydantic/pydantic-ai/issues/7710) is distinct and has never had a maintainer reply.\n- **Buildable today:** the four CIGE fields carry in `Case.metadata` (`pydantic_evals/pydantic_evals/dataset.py:130`) with `custom_evaluator_types`; tool-call enforcement stays agent-side ([#9015](https://github.com/pydantic/pydantic-ai/issues/9015)).\n\n  https://github.com/pydantic/pydantic-ai/blob/69ea1e57201ed59e7d30fbe4a7590d193acecce0/pydantic_evals/pydantic_evals/dataset.py#L130",
+        "createdAt": "2026-10-11T21:19:43Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/pydantic/pydantic-ai/issues/10112#issuecomment-6113886311",
+        "viewerDidAuthor": false
+      }
+    ],
+    "createdAt": "2026-10-11T20:56:39Z",
+    "url": "https://github.com/pydantic/pydantic-ai/issues/10112"
+  },
+  {
+    "repo": "pydantic/pydantic-ai",
+    "number": 10111,
+    "title": "Decision score validation rejects valid full-precision probabilities due to floating-point rounding",
+    "comments": [
+      {
+        "id": "IC_kwDOMMa-Ps8AAAABbGDohw",
+        "author": {
+          "login": "pydanty"
+        },
+        "authorAssociation": "CONTRIBUTOR",
+        "body": "<!-- pydanty:status-comment:v1 -->\n**Decision:** maintainer discussion\n\nThe validator **rejects valid answers**: full-precision probabilities summing to one within float noise fail, against the helper's own docstring and the choice-question branch's ±1e-6 tolerance. Maintainers must pick the mechanism — tolerance in `_score_fits()`, wider minimum half-unit in `_probability_bounds()`, or a shared constant.\n\n**Why it matters:** Users of System One or OpenAI Decisions score outputs whose backend returns unrounded probabilities lose valid answers with no workaround, and the behavior ships in the latest release.\n\n**Evidence:** - **Reproduced:** full-precision case raises `UnexpectedModelBehavior` through both `decide()` paths; rounded inputs pass, wrong scores still rejected ([playground](https://play.pydantic.work/p/LOAQjCpz))\n- **Conflict:** `_score_fits()`'s docstring promises sums-to-one acceptance while enforcing `0 <= remaining` `pydantic_ai_slim/pydantic_ai/models/decision.py:249-267`\n\n  https://github.com/pydantic/pydantic-ai/blob/69ea1e57201ed59e7d30fbe4a7590d193acecce0/pydantic_ai_slim/pydantic_ai/models/decision.py#L249-L267\n\n- **Decision needed:** no test or maintainer statement pins strictness; tolerance value and placement are open `pydantic_ai_slim/pydantic_ai/models/openai_decisions.py:380-395`\n\n  https://github.com/pydantic/pydantic-ai/blob/69ea1e57201ed59e7d30fbe4a7590d193acecce0/pydantic_ai_slim/pydantic_ai/models/openai_decisions.py#L380-L395\n\n**Playground:** https://play.pydantic.work/p/LOAQjCpz",
+        "createdAt": "2026-10-11T20:13:55Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/pydantic/pydantic-ai/issues/10111#issuecomment-6113257607",
+        "viewerDidAuthor": false
+      }
+    ],
+    "createdAt": "2026-10-11T19:13:19Z",
+    "url": "https://github.com/pydantic/pydantic-ai/issues/10111"
+  },
+  {
+    "repo": "pydantic/pydantic-ai",
+    "number": 10110,
+    "title": "DynamicToolset(per_run_step=False) journals get_tools before every model request under DBOS, unlike a static MCPToolset",
+    "comments": [
+      {
+        "id": "IC_kwDOMMa-Ps8AAAABbFEMKA",
+        "author": {
+          "login": "pydanty"
+        },
+        "authorAssociation": "CONTRIBUTOR",
+        "body": "<!-- pydanty:status-comment:v1 -->\n**Decision:** not actionable\n\nReproduced, but the behavior is **documented design**: `dbos.md` promises dynamic toolsets round-trip parity only, and the compat suite records this sequence. Maintainers must decide whether to extend the per-run cache to `DynamicToolset` — implicit gate vs explicit opt-in — and how pre-recorded workflows handle fewer journal steps.\n\n**Why it matters:** Users running per-run MCP servers through dynamic toolsets under DBOS pay growing journal storage and step counts on every model request in a run.\n\n**Evidence:** - **Documented:** `docs/durable_execution/dbos.md:162-171` promises dynamic toolsets round-trip parity only; once-per-run discovery is documented for static `MCPToolset` alone.\n\n  https://github.com/pydantic/pydantic-ai/blob/69ea1e57201ed59e7d30fbe4a7590d193acecce0/docs/durable_execution/dbos.md#L162-L171\n\n- **Test-pinned:** `tests/durable_exec/test_durable_exec_compat.py:302-310` records one dynamic `get_tools` step per model request as the canonical sequence.\n\n  https://github.com/pydantic/pydantic-ai/blob/69ea1e57201ed59e7d30fbe4a7590d193acecce0/tests/durable_exec/test_durable_exec_compat.py#L302-L310\n\n- **Reproduced:** https://play.pydantic.work/p/krbG5wOa — 3 dynamic vs 1 static `get_tools` steps; https://github.com/pydantic/pydantic-ai/pull/6623 added the dynamic step deliberately.\n\n**Playground:** https://play.pydantic.work/p/krbG5wOa",
+        "createdAt": "2026-10-11T18:24:21Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/pydantic/pydantic-ai/issues/10110#issuecomment-6112218152",
+        "viewerDidAuthor": false
+      }
+    ],
+    "createdAt": "2026-10-11T17:52:59Z",
+    "url": "https://github.com/pydantic/pydantic-ai/issues/10110"
+  },
+  {
+    "repo": "pydantic/pydantic-ai",
+    "number": 10101,
+    "title": "Tool return text sent to the model changes after a message history round trip (datetime, UUID, Decimal, bytes, str Enum)",
+    "comments": [
+      {
+        "id": "IC_kwDOMMa-Ps8AAAABa58SMA",
+        "author": {
+          "login": "pydanty"
+        },
+        "authorAssociation": "CONTRIBUTOR",
+        "body": "<!-- pydanty:status-comment:v1 -->\n**Decision:** maintainer discussion\n\nThe drift is real on current main and violates the checked-in prompt-prefix-stability guarantee; the remedy is a **maintainer decision**: preserve each value's JSON encoding through the round trip, or send these scalars unquoted from the start — which changes first-run prompts.\n\n**Why it matters:** Any app that saves and resumes message history — the documented pattern — sends a changed prompt after restore, so provider prompt caches miss and replays differ from the original run.\n\n**Evidence:** - **Reproduced:** `datetime`/`date`/`UUID`/`Decimal`/`bytes` tool returns go quoted → unquoted after the documented save/restore (https://play.pydantic.work/p/FkNMx2FB); str-valued Enums do not drift.\n- **Cause:** `model_response_str` passes `str` content through and JSON-encodes everything else: `pydantic_ai_slim/pydantic_ai/messages.py:1609-1615`.\n\n  https://github.com/pydantic/pydantic-ai/blob/69ea1e57201ed59e7d30fbe4a7590d193acecce0/pydantic_ai_slim/pydantic_ai/messages.py#L1609-L1615\n\n- **Related:** the `bytes` slice is tracked in https://github.com/pydantic/pydantic-ai/issues/8367; no statement decides scalar quoting.\n\n**Playground:** https://play.pydantic.work/p/FkNMx2FB",
+        "createdAt": "2026-10-10T18:02:40Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/pydantic/pydantic-ai/issues/10101#issuecomment-6100554288",
+        "viewerDidAuthor": false
+      }
+    ],
+    "createdAt": "2026-10-10T17:13:16Z",
+    "url": "https://github.com/pydantic/pydantic-ai/issues/10101"
+  },
+  {
+    "repo": "langflow-ai/langflow",
+    "number": 15709,
+    "title": "Follow-up on a private security report submitted September 12",
+    "comments": [
+      {
+        "id": "IC_kwDOI7jmA88AAAABbW-5Hw",
+        "author": {
+          "login": "erichare"
+        },
+        "authorAssociation": "MEMBER",
+        "body": "Hi @28Hus, thanks for following up, and sorry for the wait.\n\nWe can't discuss private security reports in a public issue, so I've passed this to the team that handles our HackerOne reports and asked them to follow up with you there on status and next steps. Please share your report reference and any verification details in that HackerOne thread rather than here.\n\nThanks for reporting this responsibly.\n",
+        "createdAt": "2026-10-12T19:19:14Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/langflow-ai/langflow/issues/15709#issuecomment-6131005727",
+        "viewerDidAuthor": false
+      }
+    ],
+    "createdAt": "2026-10-12T03:33:48Z",
+    "url": "https://github.com/langflow-ai/langflow/issues/15709"
+  },
+  {
+    "repo": "langflow-ai/langflow",
+    "number": 15669,
+    "title": "milestone",
+    "comments": [
+      {
+        "id": "IC_kwDOI7jmA88AAAABas7zSg",
+        "author": {
+          "login": "gingeekrishna"
+        },
+        "authorAssociation": "CONTRIBUTOR",
+        "body": "\n@gothamgodzilla \n\nCould you clarify what you mean by \"milestone memory\"? A few things this could mean:\n\n- A way to snapshot/checkpoint a flow's memory state at a point in time and restore it later\n- A \"milestones\" concept for tracking project progress (separate from flow memory)\n- Something else specific to a component or workflow you're building\n\nA concrete use case or example (what you're trying to build, and what's missing today) would help a lot in scoping this and figuring out if/how it fits.",
+        "createdAt": "2026-10-09T18:31:20Z",
+        "includesCreatedEdit": true,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/langflow-ai/langflow/issues/15669#issuecomment-6086914890",
+        "viewerDidAuthor": false
+      }
+    ],
+    "createdAt": "2026-10-09T10:56:59Z",
+    "url": "https://github.com/langflow-ai/langflow/issues/15669"
+  },
+  {
+    "repo": "langflow-ai/langflow",
+    "number": 15598,
+    "title": "Component idea: source-rights evidence preflight for web/RAG inputs",
+    "comments": [],
+    "createdAt": "2026-10-06T19:52:01Z",
+    "url": "https://github.com/langflow-ai/langflow/issues/15598"
+  },
+  {
+    "repo": "langflow-ai/langflow",
+    "number": 15573,
+    "title": "langflow kasir dan mengelola laporan penjualan",
+    "comments": [],
+    "createdAt": "2026-10-06T13:03:32Z",
+    "url": "https://github.com/langflow-ai/langflow/issues/15573"
+  },
+  {
+    "repo": "microsoft/autogen",
+    "number": 8343,
+    "title": "microsoft/autogen was independently reviewed on Hlido — scored 80/100, right of reply open",
+    "comments": [],
+    "createdAt": "2026-10-12T11:01:52Z",
+    "url": "https://github.com/microsoft/autogen/issues/8343"
+  },
+  {
+    "repo": "microsoft/autogen",
+    "number": 8301,
+    "title": "Governance sample executes on any unrecognised verdict (fail-open)",
+    "comments": [
+      {
+        "id": "IC_kwDOKInPB88AAAABYWkAnw",
+        "author": {
+          "login": "sattyamjjain"
+        },
+        "authorAssociation": "NONE",
+        "body": "+1, and the safe form you suggest is right. One small addition for the PR: parse the verdict into an enum at the boundary, map anything unknown to deny, and add a test that \"deny\", \"DENY\", \"\" and None all block. Then a later refactor can't reopen it.\n\nYour failopen corpus is useful. In agent-audit-kit, we have rules for the neighbouring shapes, auth checks that return allow on an empty secret (AAK-MCP-NOAUTH-DEFAULT), and empty allowlists treated as allow-all (AAK-MCP-012), but not this verdict-parsing one. Would you be ok if I turn your cases into a static rule, with credit to the repo?",
+        "createdAt": "2026-10-01T10:08:45Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/microsoft/autogen/issues/8301#issuecomment-5929238687",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDOKInPB88AAAABYW1z4A",
+        "author": {
+          "login": "samvallad33"
+        },
+        "authorAssociation": "NONE",
+        "body": "\nFifteen of thirty-six enforcement projects failing open matches what we saw building our own gate: the execute branch is the path of least resistance in every hand-rolled verdict parser, and a \"DENY\" with different casing quietly joins the allow path. The fix that survives later refactors is to not let the verdict parser be the only fence — Operator Lite sits below whatever governance layer exists, at the tool/subprocess boundary, with a deny-by-default posture on unknown effects plus a shadow mode that receipts every call (including the unrecognized-verdict ones) into a hash-chained log before anything executes. In this sample's terms: even when the verdict string falls through to execute, the effect still has to cross a deterministic gate that has never heard of verdict strings, so the fail-open bug degrades from \"arbitrary execution\" to \"policy layer bypassed but effects still fenced.\" Ports: github.com/samvallad33/vestige/tree/main/operator-lite/ports. (Disclosure: I built it — free and open.)\n",
+        "createdAt": "2026-10-01T10:29:00Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/microsoft/autogen/issues/8301#issuecomment-5929530336",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDOKInPB88AAAABYdRNmw",
+        "author": {
+          "login": "arian-gogani"
+        },
+        "authorAssociation": "NONE",
+        "body": "Correction to my opening report: I checked two pinned revisions of PR #7960 today. The initial revision (`0cd67042`) executed for six unknown verdicts: `denied`, `DENY`, `block`, `error`, `\"\"`, and `None`. The contributor hardened that same PR in `ec6cf48c` on September 14, before I opened this issue. All six now block, and the hardened revision validates the action hash too. The sample is still in an open PR, not in AutoGen main. I should have checked the latest PR head before filing.\n\nI also got one example wrong in the issue body: exact `\"deny\"` blocked even in the initial revision. The claim that 15 of 36 projects currently have this defect is withdrawn; the audit mixed revisions and is not a current prevalence estimate. I moved this case out of the active list and published the old-versus-new comparison and runnable source-pinned check: https://github.com/arian-gogani/failopen/tree/main/historical/autogen-verdict\n\n@sattyamjjain, yes, the repository is MIT licensed, so you may use the historical case with the required license notice and attribution. Please label it as a regression pattern, not an unresolved AutoGen vulnerability. A static rule should catch an untrusted verdict flowing through exact-string checks into an execution fallthrough. The current PR head is a useful negative test: it must not trigger on the explicit non-permit branch.\n",
+        "createdAt": "2026-10-01T16:55:35Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/microsoft/autogen/issues/8301#issuecomment-5936270747",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDOKInPB88AAAABZuXxQw",
+        "author": {
+          "login": "bhooshanvarma"
+        },
+        "authorAssociation": "NONE",
+        "body": "@arian-gogani Your October 1 correction is useful: the initial PR revision failed open for unknown verdicts, while ec6cf48c blocks them and validates the action hash. I would treat this as a historical regression case, as you requested.\n\nI build Prudenze at Hyperwise. Revera is our reproduction and verification entry point. I would like to try one private, source-pinned comparison that checks both verdict handling and whether any action actually executes, with your attribution preserved.\n\nWould you be open to trying that one private Revera reproduction?\n\nIndu",
+        "createdAt": "2026-10-06T17:02:26Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/microsoft/autogen/issues/8301#issuecomment-6021312835",
+        "viewerDidAuthor": false
+      }
+    ],
+    "createdAt": "2026-09-30T16:37:08Z",
+    "url": "https://github.com/microsoft/autogen/issues/8301"
+  },
+  {
+    "repo": "huggingface/transformers",
+    "number": 49546,
+    "title": "CPU SDPA could use native GQA with a mask on torch >= 2.9 (1.2x decode, no repeat_kv)",
+    "comments": [],
+    "createdAt": "2026-10-12T23:25:42Z",
+    "url": "https://github.com/huggingface/transformers/issues/49546"
+  },
+  {
+    "repo": "huggingface/transformers",
+    "number": 49545,
+    "title": "[serge] integration failure triage - 2026-10-12",
+    "comments": [],
+    "createdAt": "2026-10-12T22:12:38Z",
+    "url": "https://github.com/huggingface/transformers/issues/49545"
+  },
+  {
+    "repo": "huggingface/transformers",
+    "number": 49540,
+    "title": "Gemma 3/4 multimodal models fail with tp_plan=\"auto\" because of mixed Tensor/DTensor usage",
+    "comments": [
+      {
+        "id": "IC_kwDOCUB6oc8AAAABbb3Qfg",
+        "author": {
+          "login": "akasakariko"
+        },
+        "authorAssociation": "NONE",
+        "body": "I'd like to work on this",
+        "createdAt": "2026-10-13T01:31:58Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/huggingface/transformers/issues/49540#issuecomment-6136123518",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDOCUB6oc8AAAABbb_TSA",
+        "author": {
+          "login": "rvonnevski-create"
+        },
+        "authorAssociation": "NONE",
+        "body": "I don't have time to read\r\n\r\nSaadetud rakendusest Outlook Androidile<https://aka.ms/AAb9ysg>\r\n________________________________\r\nFrom: 赤坂理子 ***@***.***>\r\nSent: Tuesday, 13 October 2026 04:38:02\r\nTo: huggingface/transformers ***@***.***>\r\nCc: Subscribed ***@***.***>\r\nSubject: Re: [huggingface/transformers] Gemma 3/4 multimodal models fail with tp_plan=\"auto\" because of mixed Tensor/DTensor usage (Issue #49540)\r\n\r\n[https://avatars.githubusercontent.com/u/148060537?s=20&v=4]akasakariko left a comment (huggingface/transformers#49540)<https://github.com/huggingface/transformers/issues/49540#issuecomment-6136123518>\r\n\r\nI'd like to work on this\r\n\r\n―\r\nReply to this email directly, view it on GitHub<https://github.com/huggingface/transformers/issues/49540?email_source=notifications&email_token=CP6ICNRCMJ7CERW4MSPOJFT5TWBPVA5CNFSNUABFM5UWIORPF5TWS5BNNB2WEL2JONZXKZKDN5WW2ZLOOQXTMMJTGYYTEMZVGE4KM4TFMFZW63VKON2WE43DOJUWEZLEUVSXMZLOOSWGM33PORSXEX3DNRUWG2Y#issuecomment-6136123518>, or unsubscribe<https://github.com/notifications/unsubscribe-auth/CP6ICNRAKLMQE7F7FIHYZX35TWBPVAVCNFSNUABFKJSXA33TNF2G64TZHMYTKNJSGIYDMNBRHNEXG43VMU5TKOBRHA4TKOBWGQ4KC5QC>.\r\nYou are receiving this because you are subscribed to this thread.Message ID: ***@***.***>\r\n",
+        "createdAt": "2026-10-13T01:44:21Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/huggingface/transformers/issues/49540#issuecomment-6136255304",
+        "viewerDidAuthor": false
+      }
+    ],
+    "createdAt": "2026-10-12T19:00:41Z",
+    "url": "https://github.com/huggingface/transformers/issues/49540"
+  },
+  {
+    "repo": "huggingface/transformers",
+    "number": 49536,
+    "title": "Mamba2: non-fused gated RMSNorm ignores n_groups and disagrees with fused training",
+    "comments": [],
+    "createdAt": "2026-10-12T16:18:02Z",
+    "url": "https://github.com/huggingface/transformers/issues/49536"
+  },
+  {
+    "repo": "huggingface/transformers",
+    "number": 49529,
+    "title": "MM Grounding DINO and LLMDet: decoder box and class heads are tied to layer 0 although the config says they are not shared",
+    "comments": [],
+    "createdAt": "2026-10-12T14:19:24Z",
+    "url": "https://github.com/huggingface/transformers/issues/49529"
+  },
+  {
+    "repo": "huggingface/transformers",
+    "number": 49497,
+    "title": "ZeRO-3: from_pretrained reads and converts the full checkpoint on every rank",
+    "comments": [
+      {
+        "id": "IC_kwDOCUB6oc8AAAABbC1bpA",
+        "author": {
+          "login": "samarth-git27"
+        },
+        "authorAssociation": "NONE",
+        "body": "Hi! This is a very interesting issue, and I'd like to contribute to resolving it.\n\nI understand that you've already developed a local patch and tested parameter and persistent-buffer correctness across two devices. Would you be open to collaboration on additional regression tests or investigating edge cases in the rank-0-only checkpoint-loading approach?\n\nI'd be happy to help with a focused part of the implementation and testing, while coordinating with your existing work to avoid duplication.",
+        "createdAt": "2026-10-11T14:08:44Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/huggingface/transformers/issues/49497#issuecomment-6109879204",
+        "viewerDidAuthor": false
+      }
+    ],
+    "createdAt": "2026-10-11T11:02:37Z",
+    "url": "https://github.com/huggingface/transformers/issues/49497"
+  },
+  {
+    "repo": "huggingface/transformers",
+    "number": 49483,
+    "title": "Chunked prefill mishandles prefix-cache continuation",
+    "comments": [
+      {
+        "id": "IC_kwDOCUB6oc8AAAABa5ab0w",
+        "author": {
+          "login": "sandeeppathuri1830"
+        },
+        "authorAssociation": "NONE",
+        "body": "Exactly... the expected cache length is 17 token prompt length. ",
+        "createdAt": "2026-10-10T17:02:09Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/huggingface/transformers/issues/49483#issuecomment-6099999699",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDOCUB6oc8AAAABbD-NMw",
+        "author": {
+          "login": "Subodh-17"
+        },
+        "authorAssociation": "NONE",
+        "body": "Hi @LE0-Lin,\n\nThanks for reporting this issue! I was able to reproduce the prefix-cache continuation bug with chunked prefill on CPU for both DynamicCache and StaticCache.\n\nSince you mentioned that you'd like to work on a fix, I wanted to check whether you've already started working on a PR. If so, please go ahead! If you're busy or would prefer someone else to take it on, I'd be happy to submit a fix with regression tests.\n\nThanks!\n",
+        "createdAt": "2026-10-11T16:19:42Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/huggingface/transformers/issues/49483#issuecomment-6111071539",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDOCUB6oc8AAAABbLuqlg",
+        "author": {
+          "login": "LE0-Lin"
+        },
+        "authorAssociation": "CONTRIBUTOR",
+        "body": "Thanks for reproducing it. I'd like to continue with this fix. I've finished the reproductions, but haven't opened a PR yet because I'm waiting for a maintainer to confirm the scope. I plan to cover full-prompt and suffix-only continuation with both DynamicCache and StaticCache.\n",
+        "createdAt": "2026-10-12T06:46:55Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/huggingface/transformers/issues/49483#issuecomment-6119205526",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDOCUB6oc8AAAABbUbGGg",
+        "author": {
+          "login": "Subodh-17"
+        },
+        "authorAssociation": "NONE",
+        "body": "The reproduction makes sense, especially the cache-length mismatch (27 vs. 17) and the `StaticCache` out-of-bounds failure. I'd be happy to help with the fix.\n\nCould a maintainer confirm the intended scope and coordinate with the existing contributor before I proceed? I suggest covering both full-prompt and suffix-only continuation, with regression tests for `DynamicCache` and `StaticCache`, while preserving equivalence with unchunked continuation.\n",
+        "createdAt": "2026-10-12T16:26:57Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/huggingface/transformers/issues/49483#issuecomment-6128322074",
+        "viewerDidAuthor": false
+      }
+    ],
+    "createdAt": "2026-10-10T10:12:52Z",
+    "url": "https://github.com/huggingface/transformers/issues/49483"
+  },
+  {
+    "repo": "huggingface/diffusers",
+    "number": 15020,
+    "title": "[LoRA] Text-encoder LoRA loading assumes CLIP module names and fails for T5 / SmolLM3 / ChatGLM text encoders",
+    "comments": [],
+    "createdAt": "2026-10-12T23:20:20Z",
+    "url": "https://github.com/huggingface/diffusers/issues/15020"
+  },
+  {
+    "repo": "huggingface/diffusers",
+    "number": 15018,
+    "title": "offload_state_dict=True leaves CPU model weights on meta after loading",
+    "comments": [],
+    "createdAt": "2026-10-12T16:59:31Z",
+    "url": "https://github.com/huggingface/diffusers/issues/15018"
+  },
+  {
+    "repo": "huggingface/diffusers",
+    "number": 15009,
+    "title": "[modular] `SequentialPipelineBlocks` gets `required` wrong in both `inputs` and `required_inputs`",
+    "comments": [
+      {
+        "id": "IC_kwDOHa8MBc8AAAABbJooSg",
+        "author": {
+          "login": "sayakpaul"
+        },
+        "authorAssociation": "MEMBER",
+        "body": "Just for my own understanding:\n\n* First view: `core.inputs` — input specifications, each with a name and a .required flag.\n* Second view: `core.required_inputs` — the set of names the block considers mandatory.",
+        "createdAt": "2026-10-12T03:06:05Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/huggingface/diffusers/issues/15009#issuecomment-6117009482",
+        "viewerDidAuthor": false
+      }
+    ],
+    "createdAt": "2026-10-11T22:25:52Z",
+    "url": "https://github.com/huggingface/diffusers/issues/15009"
+  },
+  {
+    "repo": "huggingface/diffusers",
+    "number": 14993,
+    "title": "WanCausalConv3d copies every activation with F.pad. Let the conv do the spatial padding.",
+    "comments": [
+      {
+        "id": "IC_kwDOHa8MBc8AAAABaYGiVA",
+        "author": {
+          "login": "will-rice"
+        },
+        "authorAssociation": "NONE",
+        "body": "cc @yiyixuxu @sayakpaul, since this touches the Wan and QwenImage VAEs.",
+        "createdAt": "2026-10-08T17:07:47Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/huggingface/diffusers/issues/14993#issuecomment-6065070676",
+        "viewerDidAuthor": false
+      }
+    ],
+    "createdAt": "2026-10-08T16:48:07Z",
+    "url": "https://github.com/huggingface/diffusers/issues/14993"
+  },
+  {
+    "repo": "huggingface/diffusers",
+    "number": 14992,
+    "title": "Add an optional Transformer Engine FP8 training example for FLUX",
+    "comments": [],
+    "createdAt": "2026-10-08T16:25:26Z",
+    "url": "https://github.com/huggingface/diffusers/issues/14992"
+  },
+  {
+    "repo": "huggingface/diffusers",
+    "number": 14939,
+    "title": "Propose translation to romanian for the diffusers hugging face course",
+    "comments": [],
+    "createdAt": "2026-10-04T17:39:34Z",
+    "url": "https://github.com/huggingface/diffusers/issues/14939"
+  },
+  {
+    "repo": "stanfordnlp/dspy",
+    "number": 10639,
+    "title": "[Bug] MCP text-mode result loses where non-text blocks sat: before,image,after and before,after return the same value",
+    "comments": [],
+    "createdAt": "2026-10-13T01:30:51Z",
+    "url": "https://github.com/stanfordnlp/dspy/issues/10639"
+  },
+  {
+    "repo": "stanfordnlp/dspy",
+    "number": 10631,
+    "title": "[Feature] Python 3.15: close the LiteLLM and GEPA support gaps",
+    "comments": [],
+    "createdAt": "2026-10-12T17:02:52Z",
+    "url": "https://github.com/stanfordnlp/dspy/issues/10631"
+  },
+  {
+    "repo": "optuna/optuna",
+    "number": 6886,
+    "title": "Vectorize `_truncnorm._log_ndtr`: TPE sampling spends much of its time in a per-element Python loop",
+    "comments": [
+      {
+        "id": "IC_kwDOB0okGM8AAAABZ7OmuA",
+        "author": {
+          "login": "c-bata"
+        },
+        "authorAssociation": "MEMBER",
+        "body": "@nabenabe0928 Do you have an opinion on this?",
+        "createdAt": "2026-10-07T09:12:39Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/optuna/optuna/issues/6886#issuecomment-6034794168",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDOB0okGM8AAAABZ9TTIA",
+        "author": {
+          "login": "nabenabe0928"
+        },
+        "authorAssociation": "CONTRIBUTOR",
+        "body": "@c-bata \nI could have sped up TPESampler but I didn't publish the PR in the past considering the review cost.\nIt totally depends on how much we'd like to optimize the Sampler's runtime.\nFrom the runtime perspective, I do agree that we can still speed it up. (And he is right that `log_ndtr` is the bottleneck)\n\n- https://github.com/nabenabe0928/optuna/pull/46/changes",
+        "createdAt": "2026-10-07T11:29:08Z",
+        "includesCreatedEdit": true,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [
+          {
+            "content": "HEART",
+            "users": {
+              "totalCount": 1
+            }
+          }
+        ],
+        "url": "https://github.com/optuna/optuna/issues/6886#issuecomment-6036968224",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDOB0okGM8AAAABZ9XRvQ",
+        "author": {
+          "login": "nabenabe0928"
+        },
+        "authorAssociation": "CONTRIBUTOR",
+        "body": "More specifically, erf doesn't have to be evaluated for `log_ndtr`, so skipping its evaluation and directly computing `log_ndtr` (with no exp calls) are the right approach.\nThis way, the proto would be faster.",
+        "createdAt": "2026-10-07T11:33:26Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/optuna/optuna/issues/6886#issuecomment-6037033405",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDOB0okGM8AAAABaBsYgw",
+        "author": {
+          "login": "jbogocz"
+        },
+        "authorAssociation": "NONE",
+        "body": "Thanks for looking into this. Good point, computing it directly in log space is the better way. I checked the Med2 form, `-u**2 - 0.5625 + rb(s)/sb(s) - log(u) - log(2)`, against `scipy.special.log_ndtr` down to a = -1e4 and it agrees to about 1e-15 relative, so the `a <= -20` series loop can go too.\n\nIf you think the speed-up is worth it, I can open a small PR that only changes `_log_ndtr`, based on your nabenabe0928/optuna#46 (with you as co-author), and extend the SciPy comparison in `test_truncnorm.py` to the far tail. If you'd rather upstream it yourself, that's fine too.\n",
+        "createdAt": "2026-10-07T15:53:38Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/optuna/optuna/issues/6886#issuecomment-6041573507",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDOB0okGM8AAAABaJtNhg",
+        "author": {
+          "login": "c-bata"
+        },
+        "authorAssociation": "MEMBER",
+        "body": "@jbogocz @nabenabe0928 Thanks to both of you for the proposal and the extra information. The speed improvements look promising.\n\nTPE is Optuna’s default sampler, so it’s important to keep it easy to maintain. We need to think about whether the speed-up is worth the extra code and maintenance work. I’d like the core developers to discuss this before asking you to open a PR.\n\nIf we decide to make this change, we’ll make sure to give proper credit, including co-authorship if appropriate. For now, I’ll add the needs-discussion label so the core developers can discuss it.",
+        "createdAt": "2026-10-08T01:00:15Z",
+        "includesCreatedEdit": true,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [
+          {
+            "content": "THUMBS_UP",
+            "users": {
+              "totalCount": 1
+            }
+          }
+        ],
+        "url": "https://github.com/optuna/optuna/issues/6886#issuecomment-6049975686",
+        "viewerDidAuthor": false
+      }
+    ],
+    "createdAt": "2026-10-05T20:47:33Z",
+    "url": "https://github.com/optuna/optuna/issues/6886"
+  },
+  {
+    "repo": "optuna/optuna",
+    "number": 6768,
+    "title": "Followup of the OMP issue",
+    "comments": [
+      {
+        "id": "IC_kwDOB0okGM8AAAABPqTIIA",
+        "author": {
+          "login": "greekera1000"
+        },
+        "authorAssociation": "NONE",
+        "body": "hi @nabenabe0928 , @kAIto47802, I’d like to investigate this further. I can benchmark the thread-limiting behavior on both Linux and Windows, compare different `max_thread` settings, and report the results before proposing a change. Would it be okay for me to work on this?\n",
+        "createdAt": "2026-08-19T17:52:27Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/optuna/optuna/issues/6768#issuecomment-5345953824",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDOB0okGM8AAAABPsfD1Q",
+        "author": {
+          "login": "nabenabe0928"
+        },
+        "authorAssociation": "CONTRIBUTOR",
+        "body": "@greekera1000 \nhow are you planning to benchmark on both?\nPlease explain in 100 words.",
+        "createdAt": "2026-08-19T21:32:03Z",
+        "includesCreatedEdit": true,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/optuna/optuna/issues/6768#issuecomment-5348246485",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDOB0okGM8AAAABPv7n6Q",
+        "author": {
+          "login": "greekera1000"
+        },
+        "authorAssociation": "NONE",
+        "body": "hi @nabenabe0928  thanks for the reply ! I'll reuse the existing BBOB/WFG optunahub harness so results stay comparable to #6753. Plan: run GPSampler(seed=42) end-to-end on BBOB (single-objective) and WFG (3-objective), dim=10, 100–200 trials, sweeping max_threads ∈ {1,2,4,8} via torch.set_num_threads/OPENBLAS_NUM_THREADS. Same protocol on Linux and Windows, logging threadpool_info(), torch.get_num_threads(), and CPU model, since the real variable is the BLAS backend (OpenBLAS vs MKL), not just the OS. I'll report median Real and User time over repeats — User≫Real flags oversubscription. Aim: confirm whether the single-obj/multi-obj optimum differs on Windows and inform an adaptive max_threads.",
+        "createdAt": "2026-08-20T05:42:49Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/optuna/optuna/issues/6768#issuecomment-5351860201",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDOB0okGM8AAAABPw-tUw",
+        "author": {
+          "login": "nabenabe0928"
+        },
+        "authorAssociation": "CONTRIBUTOR",
+        "body": "@greekera1000 \n\n> [!IMPORTANT]\n> The verification is incomplete so I kindly ask you to NOT open a PR regarding this.\n> BUT if you have access to a Windows environment, please report runtime on your environment.\n\nOn Windows, please report:\n- max_threads ∈ {1,2,4,8}\n- single-objective BBOB and 3-objective WFG\n- seed,\n- dimension\n- trial count\n- harness fixed\n- BLAS/LAPACK backend\n- version (threadpool_info()),\n- CPU model\n- physical/logical core count,\n- torch.get_num_threads()\n- relevant thread environment variables. \n\nIf practical, comparing OpenBLAS vs MKL on the same Windows machine would be especially useful. Run each configuration in a fresh process and report median Real/User time over several repeats.",
+        "createdAt": "2026-08-20T07:46:18Z",
+        "includesCreatedEdit": true,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/optuna/optuna/issues/6768#issuecomment-5352959315",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDOB0okGM8AAAABPydyow",
+        "author": {
+          "login": "greekera1000"
+        },
+        "authorAssociation": "NONE",
+        "body": "Reporting Windows runtime as requested. Native Windows 11, Intel i7-11800H (8 physical / 16 logical), OpenBLAS + Intel OpenMP (libiomp, not libgomp — torch 2.11 CPU ships iomp). Same harness/spec as #6753: BBOB (single-obj) and WFG (3-obj), seed=42, dim=10, 100 trials, median of 3, fresh process per thread setting.\n\n**Findings mirror the Linux results:** for single-objective **BBOB, `max_threads=1` is fastest** and higher counts only add oversubscription (see User time climbing with no wall-clock benefit). For 3-objective **WFG, `max_threads=1` is clearly *not* best — 4 threads is ~2.3× faster than 1** (88.4s → 38.5s). So on Windows too, a fixed limit of 1 penalises multi-objective, which supports the adaptive-`max_threads` direction.\n\n**Config:** seed=42, dimension=10, n_trials=100, repeats=3 (median reported), fresh process per config, Optuna thread-limiter no-op'd, threads set via `torch.set_num_threads` + `OMP/OPENBLAS/MKL_NUM_THREADS`.\n\n**Environment:**\n- OS: Windows-11-10.0.26200-SP0\n- CPU: Intel64 Family 6 Model 141 Stepping 1 (i7-11800H), 8 physical / 16 logical cores\n- Python 3.14.0, optuna 4.9.0, torch 2.11.0+cpu, scipy 1.17.1, numpy 2.3.5, optunahub 0.4.1\n- `torch.get_num_threads()` default: 8\n- thread env vars (unset by default): `{'OMP_NUM_THREADS': None, 'OPENBLAS_NUM_THREADS': None, 'MKL_NUM_THREADS': None}`\n- BLAS/LAPACK backends (`threadpool_info`):\n  - blas/openblas — libscipy_openblas v0.3.30 (default num_threads=16)\n  - openmp/openmp — libiomp (default num_threads=8)\n  - openmp/openmp — libiomp (default num_threads=1)\n\n**BBOB (single-objective, dim=10)**\n\n| max_threads | Real median [s] | User median [s] | System median [s] |\n| ----------- | --------------- | --------------- | ----------------- |\n| 1 | 6.026 | 5.703 | 0.375 |\n| 2 | 8.13 | 14.688 | 1.0 |\n| 4 | 8.699 | 30.094 | 2.484 |\n| 8 | 10.953 | 75.078 | 7.156 |\n\n**WFG (3-objective, dim=10)**\n\n| max_threads | Real median [s] | User median [s] | System median [s] |\n| ----------- | --------------- | --------------- | ----------------- |\n| 1 | 88.416 | 86.859 | 0.828 |\n| 2 | 72.161 | 141.547 | 2.219 |\n| 4 | 38.512 | 147.938 | 4.547 |\n| 8 | 43.661 | 332.031 | 14.172 | \n\nHappy to rerun with different trial counts/dimensions, or add the OpenBLAS-vs-MKL comparison on this machine if useful.",
+        "createdAt": "2026-08-20T10:14:11Z",
+        "includesCreatedEdit": true,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [
+          {
+            "content": "THUMBS_UP",
+            "users": {
+              "totalCount": 1
+            }
+          }
+        ],
+        "url": "https://github.com/optuna/optuna/issues/6768#issuecomment-5354517155",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDOB0okGM8AAAABSh0nPA",
+        "author": {
+          "login": "kAIto47802"
+        },
+        "authorAssociation": "COLLABORATOR",
+        "body": "I benchmarked the performance with and without the proposed early yield when `sys.platform == \"darwin\"`. The runtime varied across benchmark problems, and I did not observe a clear, consistent improvement.\n\n## Benchmark Result\n\n**Machine Environment.** The benchmarks are conducted on a MacBook Pro running macOS 15.0.1 with an Apple M1 chip (8 CPU cores: 4 performance and 4 efficiency cores) and 8 GB of memory.\n\n**Versions.** The benchmarks are conducted using Python 3.13.0, SciPy 1.18.1, PyTorch 2.13.0, and the recent Optuna master ([f6898dab5bba804dd2bdb6ce7cc06b41b51506e4](https://github.com/optuna/optuna/tree/f6898dab5bba804dd2bdb6ce7cc06b41b51506e4)).\n\n**Objective functions.** I use one representative function from each of the five BBOB function groups [available in OptunaHub](https://hub.optuna.org/benchmarks/bbob/):\n\n- [Sphere Function](https://coco-platform.org/testsuites/bbob/functions/f01.html) (function ID: 1);\n- [Attractive Sector Function](https://coco-platform.org/testsuites/bbob/functions/f06.html) (function ID: 6);\n- [Ellipsoidal Function](https://coco-platform.org/testsuites/bbob/functions/f10.html) (function ID: 10);\n- [Rastrigin Function](https://coco-platform.org/testsuites/bbob/functions/f15.html) (function ID: 15); and\n- [Gallagher’s Gaussian 101-me Peaks Function](https://coco-platform.org/testsuites/bbob/functions/f21.html) (function ID: 21).\n\n**Implementation details.** I use dimensions 5 and 20, with 200 trials each. Each experiment is run with 5 different random seeds. The diff between master and the branch containing the proposed early yield used in these benchmarks is available [here](https://github.com/optuna/optuna/compare/master...kAIto47802:optuna:skip-gp-thread-limiting-on-macos). The benchmarking codes and the visualization codes I use are as follows:\n\n<details>\n\n<summary> Benchmark code </summary>\n\n```py\nfrom __future__ import annotations\n\nfrom argparse import ArgumentParser, Namespace\nfrom datetime import datetime\nimport subprocess\nfrom typing import cast\nfrom pathlib import Path\n\nimport numpy as np\nimport optuna\nimport optunahub\nimport scipy\n\n\ndef _extract_elapsed_time(study: optuna.study.Study) -> list[float]:\n    return [\n        (\n            cast(datetime, t.datetime_complete) - cast(datetime, study.trials[0].datetime_start)\n        ).total_seconds()\n        for t in study.trials\n    ]\n\n\ndef _extract_objective_value(study: optuna.study.Study) -> list[float | None]:\n    return [t.value for t in study.trials]\n\n\ndef _get_git_commit_hash() -> str:\n    return subprocess.check_output([\"git\", \"rev-parse\", \"--short\", \"HEAD\"]).strip().decode(\"utf-8\")\n\n\ndef experiment_once(\n    objective: optunahub.benchmarks.BaseProblem,\n    n_trials: int,\n    seed: int,\n) -> tuple[list[float], list[float | None]]:\n    sampler = optuna.samplers.GPSampler(seed=seed)\n    study = optuna.create_study(sampler=sampler, directions=objective.directions)\n    study.optimize(objective, n_trials=n_trials)\n    times = _extract_elapsed_time(study)\n    values = _extract_objective_value(study)\n    return times, values\n\n\ndef main(args: Namespace) -> None:\n    save_path = Path(\n        f\"results/bbob_fn{args.function_id}_dim{args.dimension}_{_get_git_commit_hash()}_trial{args.n_trials}.npz\"\n    )\n    if save_path.exists():\n        print(f\"Results already exist at {save_path}. Skipping benchmark.\")\n        return\n\n    bbob = optunahub.load_module(\"benchmarks/bbob\")\n    objective = bbob.Problem(function_id=args.function_id, dimension=args.dimension)\n\n    times, values = zip(\n        *[experiment_once(objective, args.n_trials, seed) for seed in range(args.n_seeds)]\n    )\n\n    save_path.parent.mkdir(exist_ok=True)\n    np.savez(\n        save_path,\n        times=np.array(times),\n        values=np.array(values),\n        function_id=args.function_id,\n        dimension=args.dimension,\n    )\n\n\nif __name__ == \"__main__\":\n    parser = ArgumentParser()\n    parser.add_argument(\n        \"--function-id\",\n        type=int,\n        default=3,\n        help=\"Function ID (1-24) for the BBOB benchmark.\",\n    )\n    parser.add_argument(\n        \"--dimension\",\n        type=int,\n        default=5,\n        help=\"Dimension (2, 3, 5, 10, 20, 40, 60) for the BBOB benchmark.\",\n    )\n    parser.add_argument(\n        \"--n-trials\",\n        type=int,\n        default=200,\n        help=\"Number of trials for the optimization.\",\n    )\n    parser.add_argument(\n        \"--n-seeds\",\n        type=int,\n        default=5,\n        help=\"Number of random seeds for the optimization.\",\n    )\n    args = parser.parse_args()\n\n    main(args)\n```\n\n</details>\n\n\n<details>\n<summary> Visualization code </summary>\n\n```py\nfrom __future__ import annotations\n\nfrom argparse import ArgumentParser, Namespace\n\nimport matplotlib.pyplot as plt\nfrom matplotlib.figure import Figure\nimport numpy as np\n\n\ndef _prepare_data(data: dict[str, np.ndarray | int]) -> tuple[np.ndarray, np.ndarray]:\n    times = data[\"times\"]\n    values = data[\"values\"]\n    assert isinstance(times, np.ndarray) and isinstance(values, np.ndarray)\n    assert times.shape == values.shape\n    return times, values\n\n\ndef plot_results(\n    data: dict[str, np.ndarray],\n    colors: dict[str, str],\n    markers: dict[str, str],\n    labels: dict[str, str],\n    ylabel: str,\n    accumulate: bool = False,\n    legend_loc: str = \"upper left\",\n) -> Figure:\n\n    fig, ax = plt.subplots()\n    for name, d in data.items():\n        if accumulate:\n            d = np.minimum.accumulate(d, axis=-1)\n        mean = np.mean(d, axis=0)\n        std = np.std(d, axis=0)\n        dx = np.arange(mean.shape[0]) + 1\n        ax.plot(\n            dx,\n            mean,\n            colors[name],\n            label=labels[name],\n            marker=markers[name],\n            markevery=4,\n            markerfacecolor=\"none\",\n        )\n        ax.fill_between(\n            dx,\n            mean - std,\n            mean + std,\n            alpha=0.2,\n            color=colors[name],\n        )\n    ax.legend(\n        loc=legend_loc,\n        fontsize=8,\n    )\n    ax.set_xlabel(\"Number of Trials\")\n    ax.set_ylabel(ylabel)\n    ax.grid(which=\"major\", color=\"black\")\n\n    return fig\n\n\ndef main(args: Namespace) -> None:\n    comments = {\n        f\"{h}\": f\"{c} ({h})\"\n        for h, c in zip(args.commits, args.comments)\n    }\n    colors = dict(\n        zip(\n            comments.keys(),\n            [\n                \"#0072B2\",\n                \"#CC79A7\",\n                \"#F0E442\",\n                \"#D55E00\",\n                \"#009E73\",\n                \"#E69F00\",\n                \"#56B4E9\",\n                \"#000000\",\n            ][: len(comments)],\n        )\n    )\n    markers = dict(zip(comments.keys(), [\"o\", \"s\", \"D\", \"^\", \"v\", \"P\", \"*\", \"X\"][: len(comments)]))\n\n    data = [\n        np.load(\n            f\"results/bbob_fn{args.function_id}_dim{args.dimension}_{h}_trial{args.n_trials}.npz\",\n        )\n        for h in comments.keys()\n    ]\n\n    times, values = zip(*[_prepare_data(d) for d in data])\n\n    fig = plot_results(\n        dict(zip(comments.keys(), times)),\n        colors=colors,\n        markers=markers,\n        labels=comments,\n        ylabel=\"Elapsed Time / s\",\n        accumulate=False,\n    )\n    fig.savefig(\n        f\"results/times_bbob_fn{args.function_id}_dim{args.dimension}_{'-'.join(args.commits)}.png\",\n        bbox_inches=\"tight\",\n    )\n\n    fig = plot_results(\n        dict(zip(comments, values)),\n        colors=colors,\n        markers=markers,\n        labels=comments,\n        ylabel=\"Function Value\",\n        accumulate=True,\n        legend_loc=\"upper right\",\n    )\n    fig.savefig(\n        f\"results/values_bbob_fn{args.function_id}_dim{args.dimension}_{'-'.join(args.commits)}.png\",\n        bbox_inches=\"tight\",\n    )\n\n\nif __name__ == \"__main__\":\n    parser = ArgumentParser()\n    parser.add_argument(\n        \"--function-id\",\n        type=int,\n        default=3,\n        help=\"Function ID (1-24) for the BBOB benchmark.\",\n    )\n    parser.add_argument(\n        \"--dimension\",\n        type=int,\n        default=5,\n        help=\"Dimension (2, 3, 5, 10, 20, 40, 60) for the BBOB benchmark.\",\n    )\n    parser.add_argument(\n        \"--n-trials\",\n        type=int,\n        default=200,\n        help=\"Number of trials for the optimization.\",\n    )\n    parser.add_argument(\n        \"--commits\",\n        type=str,\n        nargs=\"+\",\n        help=\"Git commit hash to append to the output filenames.\",\n    )\n    parser.add_argument(\n        \"--comments\",\n        type=str,\n        nargs=\"+\",\n        help=\"Additional comments corresponding to the git commit hash.\",\n    )\n    args = parser.parse_args()\n    main(args)\n```\n\n</details>\n\n\n<details> <summary> Execution script </summary>\n\n```bash\n#!/bin/bash\n\nfunction_ids=(1 6 10 15 21)\ndimensions=(5 20)\nbranches=(\"master\" \"skip-gp-thread-limiting-on-macos\")\n\ncommits=()\nfor branch in \"${branches[@]}\"; do\n  commits+=(\"$(git rev-parse --short \"$branch\")\")\ndone\n\nfor function_id in \"${function_ids[@]}\"; do\n  for dimension in \"${dimensions[@]}\"; do\n    for branch in \"${branches[@]}\"; do\n      git switch \"$branch\"\n      echo \"Running function $function_id with dimension $dimension in branch $branch\"\n      python benchmark.py --function-id \"$function_id\" --dimension \"$dimension\"\n    done\n  done\ndone\n\nfor function_id in \"${function_ids[@]}\"; do\n  for dimension in \"${dimensions[@]}\"; do\n      python plot.py \\\n        --commits \"${commits[@]}\" \\\n        --comments \"Original\" \"Early yield\" \\\n        --function-id \"$function_id\" \\\n        --dimension \"$dimension\"\n  done\ndone\n```\n\n</details>\n\n\n**Results.** Figure 1 shows the results for the elapsed time at the end of each trial.\n\n\n<table>\n  <tr>\n    <td align=\"center\">\n      <img src=\"https://github.com/user-attachments/assets/5a45fa7a-0f5d-4061-b7d8-666a097726c2\" alt=\"a\" width=\"100%\">\n      <p>(a) function 1, dimension 5</p>\n    </td>\n    <td align=\"center\">\n      <img src=\"https://github.com/user-attachments/assets/811a22e4-6ef1-4f2e-bb15-3a77972459c8\" alt=\"a\" width=\"100%\">\n      <p>(b) function 1, dimension 20</p>\n    </td>\n  </tr>\n  <tr>\n    <td align=\"center\">\n      <img src=\"https://github.com/user-attachments/assets/7fe595f0-1f47-4f4a-b471-bbf99c32f675\" alt=\"a\" width=\"100%\">\n      <p>(c) function 6, dimension 5</p>\n    </td>\n    <td align=\"center\">\n      <img src=\"https://github.com/user-attachments/assets/8b833102-0cfc-4f03-a73c-9cf014bb906f\" alt=\"a\" width=\"100%\">\n      <p>(d) function 6, dimension 20</p>\n    </td>\n  </tr>\n  <tr>\n    <td align=\"center\">\n      <img src=\"https://github.com/user-attachments/assets/145e7e08-10a4-460d-9c1f-ea24cdaaae71\" alt=\"a\" width=\"100%\">\n      <p>(e) function 10, dimension 5</p>\n    </td>\n    <td align=\"center\">\n      <img src=\"https://github.com/user-attachments/assets/e21b9265-e99b-481b-884d-32dfc5d0e332\" alt=\"a\" width=\"100%\">\n      <p>(f) function 10, dimension 20</p>\n    </td>\n  </tr>\n  <tr>\n    <td align=\"center\">\n      <img src=\"https://github.com/user-attachments/assets/5f5e55dd-0d60-42d7-bc22-5c91a1b14518\" alt=\"a\" width=\"100%\">\n      <p>(g) function 15, dimension 5</p>\n    </td>\n    <td align=\"center\">\n      <img src=\"https://github.com/user-attachments/assets/e85db950-d104-4403-a974-2201d3e6de30\" alt=\"a\" width=\"100%\">\n      <p>(h) function 15, dimension 20</p>\n    </td>\n  </tr>\n  <tr>\n    <td align=\"center\">\n      <img src=\"https://github.com/user-attachments/assets/d8dcd6a6-bb67-424a-98ab-f5cf81995df4\" alt=\"a\" width=\"100%\">\n      <p>(i) function 21, dimension 5</p>\n    </td>\n    <td align=\"center\">\n      <img src=\"https://github.com/user-attachments/assets/f5181e93-fb17-4bee-b817-62433907d561\" alt=\"a\" width=\"100%\">\n      <p>(j) function 21, dimension 20</p>\n    </td>\n  </tr>\n</table>\n\n_Figure 1._ The elapsed time at the end of each trial. The solid lines denote the mean, and the translucent areas denote the standard error, both computed over five independent runs with different random seeds.",
+        "createdAt": "2026-09-04T09:22:52Z",
+        "includesCreatedEdit": true,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/optuna/optuna/issues/6768#issuecomment-5538391868",
+        "viewerDidAuthor": false
+      }
+    ],
+    "createdAt": "2026-07-24T02:53:43Z",
+    "url": "https://github.com/optuna/optuna/issues/6768"
+  },
+  {
+    "repo": "optuna/optuna",
+    "number": 6491,
+    "title": "[Question/Design] Make Trial serializable with cloudpickle",
+    "comments": [
+      {
+        "id": "IC_kwDOB0okGM72YOdV",
+        "author": {
+          "login": "KushDutta23"
+        },
+        "authorAssociation": "NONE",
+        "body": "Thanks for raising this!\n\nIt seems that making `Trial` serializable would require separating its state from runtime dependencies (e.g., storage references or internal context). One possible approach could be to introduce a lightweight, serializable representation of `Trial` that only contains essential attributes, while keeping non-serializable parts on the worker side.\n\nHowever, this might introduce tradeoffs such as:\n- Increased complexity in maintaining consistency between serialized and live objects\n- Potential performance overhead during serialization/deserialization\n- Risk of breaking existing APIs or assumptions\n\nWould it make sense to explore a minimal “proxy” or “snapshot” version of Trial for remote callbacks instead of fully serializing the object?",
+        "createdAt": "2026-03-26T10:44:50Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/optuna/optuna/issues/6491#issuecomment-4133545813",
+        "viewerDidAuthor": false
+      }
+    ],
+    "createdAt": "2026-03-04T17:13:24Z",
+    "url": "https://github.com/optuna/optuna/issues/6491"
+  },
+  {
+    "repo": "optuna/optuna",
+    "number": 6212,
+    "title": "Filter out incompatible hyperparameters",
+    "comments": [
+      {
+        "id": "IC_kwDOB0okGM65s5_C",
+        "author": {
+          "login": "nabenabe0928"
+        },
+        "authorAssociation": "CONTRIBUTOR",
+        "body": "@fabiom91 Are you aware of BruteForceSampler indeed?\nP.S. I noticed that you explicitly mentioned BruteForceSampler.\nI haven't precisely investigated what you cannot achieve by BruteForceSampler, but could you give me a simpler example where your use case doesn't work with BruteForceSampler?\nIn principle, BruteForceSampler has the full access to the define-by-run interface, meaning that you can fully describe your dependencies using if statements.\n\nSince you can even dynamically change your search space ranges in float and int, I cannot clearly see your issue.\nIf you need to fail some trials based on a pair or tuple of parameters, e.g., `a + b + c = 1`, it's a bit trickier to use BruteForceSampler, but otherwise, it shouldn't be a problem.",
+        "createdAt": "2025-07-25T01:17:07Z",
+        "includesCreatedEdit": true,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/optuna/optuna/issues/6212#issuecomment-3115556802",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDOB0okGM65yJmt",
+        "author": {
+          "login": "fabiom91"
+        },
+        "authorAssociation": "NONE",
+        "body": "Hi @nabenabe0928 no, I didn't investigate much `BruteForceSampler` as I tried to make it work with `GridSampler` instead. My mistake. What I did was actually building a custom validation method where I can add constraints manually. Nevertheless, this was the \"alternative\" solution: would it be possible to generate constraints dynamically: evaluate the search space and exclude incompatible combination without the user defined constraints?\n\n## My workaround:\n\n```python\nimport numpy as np\nimport optuna\nfrom sklearn.model_selection import cross_val_score\nfrom sklearn.utils import check_X_y\nimport torch\nfrom itertools import product\n\ndef validate_string(string):\n    if isinstance(string, str) and '_' in string:\n        q1, q2 = string.split('_')\n        try:\n            q1, q2 = int(q1), int(q2)\n        except ValueError:\n            try:\n                q1, q2 = float(q1), float(q2)\n            except ValueError:\n                return string\n        if q1 < 0 or q2 > 100 or q1 >= q2:\n            raise ValueError(f\"Invalid quantile range: {string}. Must be in the format 'x_y' where 0 <= x < y <= 100.\")\n        return (q1, q2)\n    return string\n\nclass Constraints:\n    OPERATORS = {\n        '==': lambda x, y: x == y,\n        '!=': lambda x, y: x != y,\n        '>=': lambda x, y: x >= y,\n        '<=': lambda x, y: x <= y,\n        '>': lambda x, y: x > y,\n        '<': lambda x, y: x < y,\n    }\n\n    def __init__(self, rules):\n        self.rules = rules\n\n    def _parse_condition(self, cond):\n        if '__' in cond and '=' in cond:\n            key, val = cond.split('=')\n            val = val.strip(\"\\\"'\")\n            val = validate_string(val)\n            if isinstance(val, str):\n                if val.lower() == 'none':\n                    val = None\n                elif val.lower() == 'true':\n                    val = True\n                elif val.lower() == 'false':\n                    val = False\n            return key, val\n        return cond, None\n\n    def is_valid(self, params):\n        for rule in self.rules:\n            left, op, right = rule\n            left_key, left_val = self._parse_condition(left)\n\n            if left_val is not None:\n                if params.get(left_key) != left_val:\n                    continue\n                right_val = params.get(op)\n                if right_val not in right:\n                    return False\n            else:\n                left_val = params.get(left)\n                right_val = params.get(right) if isinstance(right, str) else right\n                if left_val is None or right_val is None:\n                    continue\n                if not self.OPERATORS[op](left_val, right_val):\n                    return False\n        return True\n\nclass DynamicSearchObjective:\n    def __init__(self, pipeline, steps, X_train, y_train, validate_search_space=False, scoring='roc_auc'):\n        self.pipeline = pipeline\n        self.steps = steps\n        self.X_train, self.y_train = check_X_y(X_train, y_train, accept_sparse=True)\n        self.n_features = self.X_train.shape[1]\n        self.min_class_count = np.bincount(self.y_train)[np.bincount(self.y_train) > 0].min()\n        self.scoring = scoring\n        self.search_space = self._get_search_space()\n        self.validate_search_space = validate_search_space\n        self.valid_combos = None\n        self.n_trials = None\n        self.trial_number = 0\n        if self.validate_search_space:\n            self.valid_combos = self._validate_search_space()\n            self.n_trials = len(self.valid_combos)\n        # self.device = 'cuda' if torch.cuda.is_available() else 'cpu'\n\n    def _get_search_space(self):\n        search_space = {}\n        for step_name, step_obj in self.steps:\n            cname = step_obj.__class__.__name__.lower()\n            if cname == 'robustscaler':\n                search_space[f'{step_name}__quantile_range'] = ['10_90', '25_75']\n            elif cname == 'powertransformer':\n                search_space[f'{step_name}__standardize'] = [True]\n            elif cname == 'smote':\n                search_space[f'{step_name}__k_neighbors'] = list(range(1, min(self.min_class_count - 1, 3)))\n                search_space[f'{step_name}__sampling_strategy'] = ['auto', 'minority']\n            elif cname == 'adasyn':\n                search_space[f'{step_name}__n_neighbors'] = list(range(1, min(self.min_class_count - 1, 3)))\n                search_space[f'{step_name}__sampling_strategy'] = ['auto', 'minority']\n            elif cname == 'pca':\n                search_space[f'{step_name}__n_components'] = [3, 5, 15]\n                search_space[f'{step_name}__whiten'] = [False]\n                search_space[f'{step_name}__svd_solver'] = ['auto', 'full', 'arpack', 'randomized']\n            elif cname == 'selectkbest':\n                search_space[f'{step_name}__k'] = [3, 5, 15]\n            elif cname == 'sequentialfeatureselector':\n                search_space[f'{step_name}__direction'] = ['forward', 'backward']\n            elif cname == 'rfe':\n                search_space[f'{step_name}__n_features_to_select'] = [3, 5, 15]\n            elif cname == 'logisticregression':\n                search_space[f'{step_name}__C'] = [float(x) for x in np.logspace(-3, 0, num=3)]\n                search_space[f'{step_name}__penalty'] = ['l1', 'l2']\n                search_space[f'{step_name}__solver'] = ['liblinear', 'saga', 'lbfgs']\n                search_space[f'{step_name}__class_weight'] = [None, 'balanced']\n            elif cname == 'xgbclassifier':\n                search_space[f'{step_name}__n_estimators'] = list(range(100, 501, 100))\n                search_space[f'{step_name}__learning_rate'] = [float(x) for x in np.logspace(-3, 0, num=4)]\n                search_space[f'{step_name}__max_depth'] = [int(x) for x in np.linspace(3, 10, num=4).astype(int)]\n                search_space[f'{step_name}__subsample'] = [float(x) for x in np.linspace(0.5, 1.0, num=3)]\n                search_space[f'{step_name}__colsample_bytree'] = [float(x) for x in np.linspace(0.5, 1.0, num=3)]\n            elif cname == 'randomforestclassifier':\n                search_space[f'{step_name}__n_estimators'] = list(range(100, 501, 100))\n                search_space[f'{step_name}__max_depth'] = [int(x) for x in np.linspace(3, 10, num=4).astype(int)]\n                search_space[f'{step_name}__min_samples_split'] = [int(x) for x in np.linspace(3, 10, num=4).astype(int)]\n                search_space[f'{step_name}__min_samples_leaf'] = [int(x) for x in np.linspace(1, 5, num=3).astype(int)]\n            elif cname == 'xgbregressor' or cname == 'randomforestregressor':\n                search_space[f'{step_name}__n_estimators'] = list(range(100, 501, 100))\n            elif cname == 'ridge':\n                search_space[f'{step_name}__alpha'] = [float(x) for x in np.logspace(-3, 2, num=4)]\n            elif cname == 'lasso':\n                search_space[f'{step_name}__alpha'] = [float(x) for x in np.logspace(-4, 0, num=10)]\n            elif cname == 'elasticnet':\n                search_space[f'{step_name}__alpha'] = [float(x) for x in np.logspace(-4, 0, num=10)]\n                search_space[f'{step_name}__l1_ratio'] = [float(x) for x in np.linspace(0.1, 0.9, num=5)]\n\n        for k, values in search_space.items():\n            search_space[k] = [validate_string(v) if isinstance(v, str) else v for v in values]\n\n        return search_space\n\n    def _validate_search_space(self):\n        constraints = Constraints([\n            ('pca__n_components', '>=', 'selectkbest__k'),\n            ('logisticregression__penalty=l1', 'logisticregression__solver', ['saga', 'liblinear']),\n            ('logisticregression__solver=lbfgs', 'logisticregression__penalty', ['l2']),\n        ])\n        all_combinations = [\n            {\n                k: validate_string(v) if isinstance(v, str) else v\n                for k, v in zip(self.search_space.keys(), values)\n            }\n            for values in product(*self.search_space.values())\n        ]\n        valid_combinations = [combo for combo in all_combinations if constraints.is_valid(combo)]\n        min_samples_features = min(self.X_train.shape[0], self.X_train.shape[1])\n        filtered_combos = []\n        for combo in valid_combinations:\n            if (\n                combo.get('pca__svd_solver') == 'arpack'\n                and 'pca__n_components' in combo\n                and combo['pca__n_components'] >= min_samples_features\n            ):\n                continue\n            if (\n                combo.get('logisticregression__solver') == 'liblinear'\n                and combo.get('logisticregression__penalty') == 'l1'\n            ):\n                continue\n            filtered_combos.append(combo)\n        return filtered_combos\n\n\n    def _get_trial_results(self, params):\n        try:\n            self.pipeline.set_params(**params)\n            score = cross_val_score(self.pipeline, self.X_train, self.y_train, cv=5, scoring=self.scoring, error_score='raise').mean()\n            return score\n        except Exception as e:\n            print(f\"Pipeline failed with params: {params}, error: {e}\")\n            return float('nan')\n\n    def __call__(self, trial: optuna.trial.Trial):\n        if not self.validate_search_space:\n            params = {}\n            for step_name, _ in self.steps:\n                for param_name, values in self.search_space.items():\n                    if not param_name.startswith(f\"{step_name}__\"):\n                        continue\n\n                    if isinstance(values[0], (str, type(None), bool)):\n                        value = trial.suggest_categorical(param_name, values)\n                        value = validate_string(value)\n                    elif isinstance(values[0], int):\n                        value = trial.suggest_int(param_name, min(values), max(values))\n                    elif isinstance(values[0], float):\n                        value = trial.suggest_float(param_name, min(values), max(values))\n                    else:\n                        raise ValueError(f\"Unsupported type in search space: {type(values[0])}\")\n\n                    params[param_name] = value\n            # params = self._set_device(params)\n            for param_name, value in params.items():\n                trial.set_user_attr(param_name, value)\n            return self._get_trial_results(params)\n        else:\n            combo = self.valid_combos[self.trial_number]\n            # combo = self._set_device(combo)\n            for param_name, value in combo.items():\n                trial.set_user_attr(param_name, value)\n            self.trial_number += 1\n            return self._get_trial_results(combo)\n```\n\nWith this constraints a slight reduction of the search space I was able to reduce the number of trials to ~4600 for `LogisticRegression` (with PCA, SMOTE, etc.), 720 for `XGBoost` and 240 for `RandomForest`. Some trials still fail but it takes a lot less to run.",
+        "createdAt": "2025-07-25T08:44:04Z",
+        "includesCreatedEdit": true,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/optuna/optuna/issues/6212#issuecomment-3116931501",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDOB0okGM65yoCz",
+        "author": {
+          "login": "nabenabe0928"
+        },
+        "authorAssociation": "CONTRIBUTOR",
+        "body": "@fabiom91 \nWhy don't you simply code like this?:\n\n```python\n\nlogistic_regression_penalty = trial.suggest_categorical(\n    \"logistic_regression_penalty\", [\"l1\", \"l2\"]\n)\nif logistic_regression_penalty == \"l1\":\n    logisticregression_solver = trial.suggest_categorical(\n        \"logisticregression_solver_l1\", [\"saga\", \"liblinear\"]\n    )\nelif logistic_regression_penalty == \"l2\":\n    logisticregression_solver = trial.suggest_categorical(\n        \"logisticregression_solver_l2\", [\"saga\", \"liblinear\", \"lbfgs\"]\n    )\n\nselect_best_k_index = trial.suggest_int(\n    \"select_best_k_index\", 0, 2\n)\nselect_best_k = [3, 5, 15][select_best_k_index]\npca_n_components_index = trial.suggest_int(\n    \"pca_n_components_index\", 0, 2\n)\npca_n_components = [3, 5, 15][pca_n_components_index]\n\n\n```",
+        "createdAt": "2025-07-25T09:25:37Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [
+          {
+            "content": "THUMBS_UP",
+            "users": {
+              "totalCount": 1
+            }
+          }
+        ],
+        "url": "https://github.com/optuna/optuna/issues/6212#issuecomment-3117056179",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDOB0okGM66DASu",
+        "author": {
+          "login": "fabiom91"
+        },
+        "authorAssociation": "NONE",
+        "body": "That looks a lot better but I still have to define manually the constraints with `if` statements",
+        "createdAt": "2025-07-26T06:09:58Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [
+          {
+            "content": "THUMBS_UP",
+            "users": {
+              "totalCount": 1
+            }
+          }
+        ],
+        "url": "https://github.com/optuna/optuna/issues/6212#issuecomment-3121349806",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDOB0okGM7HZNdm",
+        "author": {
+          "login": "redfave"
+        },
+        "authorAssociation": "NONE",
+        "body": "I would like to have such a filter feature, to narrow down the search space, before the trial starts, as this would speed up the search a lot, when I don't need to try specific paramater combinations anyway.\n\n> Why don't you simply code like this?:\n\nAnd unfortunately, this appproach is not suitable for my case. \n\n```\n    cluster_num = trial.suggest_categorical(\n        name=ParameterNames.cluster_num,\n        choices=[\n            16,\n            32,\n            64,\n            128,\n            256,\n            512,\n            1024,\n            2048,\n            4096,\n            8192,\n            16384,\n            32768,\n            49152,  # increment in 16k steps from 32k on on\n            65536,\n            81920,\n            98304,\n            114688,\n            131072,\n        ],\n    )\n    batch_size = trial.suggest_categorical(\n        name=ParameterNames.batch_size,\n        choices=[\n            b\n            for b in [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192]\n            # batch size gets narrowed down,\n            # depending on cluster size\n            if b <= cluster_num // 8  # max range limit\n        ],\n    )\n```\n\nThis code fails with [the following error](https://github.com/optuna/optuna/issues/2199):\n```\n[rank0]:   File \"/home/fooo/PycharmProjects/bar/.venv/lib/python3.13/site-packages/optuna/distributions.py\", line 672, in check_distribution_compatibility\n[rank0]:     raise ValueError(\n[rank0]:         CategoricalDistribution.__name__ + \" does not support dynamic value space.\"\n[rank0]:     )\n[rank0]: ValueError: CategoricalDistribution does not support dynamic value space.\n```\nThe implementation of such a filter will probably be related to resolve this constraint: https://github.com/optuna/optuna/issues/372#issuecomment-480690635",
+        "createdAt": "2025-09-29T06:54:44Z",
+        "includesCreatedEdit": true,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/optuna/optuna/issues/6212#issuecomment-3345274726",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDOB0okGM7MnizR",
+        "author": {
+          "login": "malun22"
+        },
+        "authorAssociation": "NONE",
+        "body": "@redfave have you found a solution to that?",
+        "createdAt": "2025-10-22T15:10:49Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/optuna/optuna/issues/6212#issuecomment-3432918225",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDOB0okGM7MoAEV",
+        "author": {
+          "login": "redfave"
+        },
+        "authorAssociation": "NONE",
+        "body": "> [@redfave](https://github.com/redfave) have you found a solution to that?\n\nNot really. I simply let it run to suggest values for some of the parameters, and then I freeze these and look for other parameters. It's plainly stupid, but it's the best approach I have found so far 🤷‍♂️",
+        "createdAt": "2025-10-22T15:34:16Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/optuna/optuna/issues/6212#issuecomment-3433038101",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDOB0okGM8AAAABA8c7LQ",
+        "author": {
+          "login": "nabenabe0928"
+        },
+        "authorAssociation": "CONTRIBUTOR",
+        "body": "@redfave @malun22 \nSorry for the late response, I simply missed both of your comments.\nIndeed, your case can also be handled:\n\n```python\ncluster_num_choices = [...]\ncluster_num_ind = trial.suggest_int(\n    name=ParameterNames.cluster_num + \"_ind\", low=0, high=len(cluster_num_choices) - 1\n)\ncluster_num = cluster_num_choices[cluster_num_ind]\nbatch_size_choices = [b for b in [...] if b <= cluster_num // 8]\nbatch_size_ind = trial.suggest_int(\n    name=ParameterNames.batch_size + \"_ind\", low=0, high=len(batch_size_choices) - 1\n)\n```",
+        "createdAt": "2026-05-01T07:38:05Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [
+          {
+            "content": "HEART",
+            "users": {
+              "totalCount": 1
+            }
+          }
+        ],
+        "url": "https://github.com/optuna/optuna/issues/6212#issuecomment-4358355757",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDOB0okGM8AAAABHVWnRg",
+        "author": {
+          "login": "malun22"
+        },
+        "authorAssociation": "NONE",
+        "body": "Doesn't this has the major drawback that Optuna then assumes similarities between the indices (for example, 2 and 3 are more similar than 2 and 10) based on their order, even though that is not the case with categorical parameters?",
+        "createdAt": "2026-06-24T08:00:13Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/optuna/optuna/issues/6212#issuecomment-4787119942",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDOB0okGM8AAAABHVl5zA",
+        "author": {
+          "login": "nabenabe0928"
+        },
+        "authorAssociation": "CONTRIBUTOR",
+        "body": "@malun22 \nIf you prefer not to consider the order information, you can opt `suggest_categorical` as well.\nAlthough it is now deprecated, you can also use `categorical_distance_func` to let `TPESampler` consider the distance structure of categorical parameters.\nSee the API doc for more details:\n- https://optuna.readthedocs.io/en/stable/reference/samplers/generated/optuna.samplers.TPESampler.html",
+        "createdAt": "2026-06-24T08:32:46Z",
+        "includesCreatedEdit": true,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/optuna/optuna/issues/6212#issuecomment-4787370444",
+        "viewerDidAuthor": false
+      }
+    ],
+    "createdAt": "2025-07-22T17:21:32Z",
+    "url": "https://github.com/optuna/optuna/issues/6212"
+  },
+  {
+    "repo": "mlflow/mlflow",
+    "number": 26647,
+    "title": "[FR] Add a traced PydanticAI example using Parallel Search MCP",
+    "comments": [
+      {
+        "id": "IC_kwDOCB5Jx88AAAABbJJHyw",
+        "author": {
+          "login": "harupy"
+        },
+        "authorAssociation": "MEMBER",
+        "body": "@georgeatparallel Thanks for the FR. How large is the example?",
+        "createdAt": "2026-10-12T02:09:05Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/mlflow/mlflow/issues/26647#issuecomment-6116493259",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDOCB5Jx88AAAABbUMZpw",
+        "author": {
+          "login": "georgeatparallel"
+        },
+        "authorAssociation": "NONE",
+        "body": "@harupy Small. One Python script under `examples/pydanticai/` (roughly 100 lines) plus a short README with the install steps, and a one-line link from the PydanticAI tracing guide. No changes to MLflow code or APIs.",
+        "createdAt": "2026-10-12T16:12:20Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/mlflow/mlflow/issues/26647#issuecomment-6128081319",
+        "viewerDidAuthor": false
+      }
+    ],
+    "createdAt": "2026-10-11T05:40:42Z",
+    "url": "https://github.com/mlflow/mlflow/issues/26647"
+  },
+  {
+    "repo": "mlflow/mlflow",
+    "number": 26611,
+    "title": "[BUG] `strands`, `semantic_kernel` and `haystack` autolog export every span twice when `MLFLOW_USE_DEFAULT_TRACER_PROVIDER=false`",
+    "comments": [
+      {
+        "id": "IC_kwDOCB5Jx88AAAABawy1hg",
+        "author": {
+          "login": "github-actions"
+        },
+        "authorAssociation": "CONTRIBUTOR",
+        "body": "<!-- mlflow-triage-run:38004163876 -->\n\n> [!NOTE]\n> [Automated triage](https://github.com/mlflow/mlflow/actions/runs/38004163876/attempts/1). Please verify the findings.\n\n### Summary\n\n**Reproduced**: with `MLFLOW_USE_DEFAULT_TRACER_PROVIDER=false`, `mlflow.strands.autolog()` makes MLflow export every span on the shared provider twice. This includes non-Strands spans such as `mlflow.start_span()`. It happens at `master` (0a881c2). In isolated mode each span is exported once.\n\n- Expected: each span reaches `MlflowV3SpanExporter.export` once in both tracer-provider modes.\n- Actual: shared mode gives `total exports=8  unique spans=4  ratio=2.0`. If a span is started before `autolog()`, it gives `ratio=1.5`.\n- Fails at: [`mlflow/strands/autolog.py#L84-L85`](https://github.com/mlflow/mlflow/blob/0a881c229f6aa5118fd5322f28d2b99f183ad235/mlflow/strands/autolog.py#L84-L85) (and the `on_start` forward at [L55](https://github.com/mlflow/mlflow/blob/0a881c229f6aa5118fd5322f28d2b99f183ad235/mlflow/strands/autolog.py#L55))\n\n### How to reproduce\n\nTested on MLflow `master` @ 0a881c2, Python 3.10.22, Linux, with strands-agents 1.57.2 and opentelemetry-sdk 1.45.0.\n\nI used the issue's `repro_strands_double_export.py` unchanged:\n\n```shell\nuv run --with strands-agents python repro_strands_double_export.py shared\n#   exported 2x  chat / execute_event_loop_cycle / invoke_agent example-agent / manual-span\n#   total exports=8  unique spans=4  ratio=2.0\nuv run --with strands-agents python repro_strands_double_export.py isolated\n#   total exports=4  unique spans=4  ratio=1.0\n```\n\nFor the warm-up variant from \"Other info\" #2, I added a `mlflow.start_span(\"warmup\")` and `export_counts.clear()` before `autolog()`. That gives `total exports=6  unique spans=4  ratio=1.5` in shared mode.\n\n### Suggested fix\n\nThe root cause matches the issue's analysis. In shared mode, [`provider.py#L666-L679`](https://github.com/mlflow/mlflow/blob/0a881c229f6aa5118fd5322f28d2b99f183ad235/mlflow/tracing/provider.py#L666-L679) adds MLflow's processors to the global `SynchronousMultiSpanProcessor`, which already holds `StrandsSpanProcessor`. So `_get_tracer(__name__).span_processor` is that same composite. The re-entrancy guard from #20809 stops the recursion, but the forward still runs MLflow's processor, and the composite then runs it again in its own loop.\n\nBelow is the minimal patch I verified. It changes only `mlflow/strands/autolog.py`:\n\n```diff\n@@ def on_start(self, span, parent_context=None):\n-            tracer = _get_tracer(__name__)\n+            processors_before = _get_span_processors(get_tracer_provider())\n+            tracer = _get_tracer(__name__)\n             if isinstance(tracer, NoOpTracer):\n                 return\n-\n-            tracer.span_processor.on_start(span, parent_context)\n+            # Shared provider: the dispatching composite already runs MLflow's processors,\n+            # unless _get_tracer() just registered them (the in-progress loop won't reach them).\n+            processors = _get_span_processors(tracer)\n+            if self not in processors or processors != processors_before:\n+                tracer.span_processor.on_start(span, parent_context)\n@@ def on_end(self, span):\n             tracer = _get_tracer(__name__)\n-            tracer.span_processor.on_end(span)\n+            if self not in _get_span_processors(tracer):\n+                tracer.span_processor.on_end(span)\n@@\n+def _get_span_processors(tracer_or_provider) -> tuple[object, ...]:\n+    composite = getattr(tracer_or_provider, \"span_processor\", None) or getattr(\n+        tracer_or_provider, \"_active_span_processor\", None\n+    )\n+    return getattr(composite, \"_span_processors\", ())\n+\n def setup_strands_tracing():\n@@\n-            provider.add_span_processor(processor)\n+            # Run first so on_end enriches spans before MLflow's processor exports them.\n+            provider._active_span_processor._span_processors = (\n+                processor,\n+                *provider._active_span_processor._span_processors,\n+            )\n```\n\nWith this patch:\n\n- Both the plain repro and the warm-up variant give `ratio=1.0` in shared and isolated modes.\n- The enriched span types are kept (`AGENT`, `CHAT_MODEL`).\n- `uv run --with strands-agents pytest tests/strands` passes (7 tests).\n\nThis matches the fix the reporter described. A regression test should count exports per span, which `test_strands_autolog_shared_provider_no_recursion` does not do. `SemanticKernelSpanProcessor` and `HaystackSpanProcessor` forward the same way, so they likely need the same change. I did not verify those two.",
+        "createdAt": "2026-10-09T23:24:18Z",
+        "includesCreatedEdit": true,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/mlflow/mlflow/issues/26611#issuecomment-6090962310",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDOCB5Jx88AAAABaxB12Q",
+        "author": {
+          "login": "LeviLong01"
+        },
+        "authorAssociation": "CONTRIBUTOR",
+        "body": "Thanks for the triage run and the independent reproduction.\n\nAfter the run, I updated the description to cover two more autologgers. `mlflow.semantic_kernel.autolog()` and `mlflow.haystack.autolog()` have the same bug: `SemanticKernelSpanProcessor` and `HaystackSpanProcessor` received the same guard in #20809 and forward the same way, and in shared mode they export every span twice. The reproduction and results are in \"Other info\", section 4. The fix branch now covers all three: [compare with `master`](https://github.com/mlflow/mlflow/compare/master...LeviLong01:mlflow:ll/fix-autolog-shared-provider-double-export).\n\nThe fix and a regression tests are ready on my fork, and I'll open a PR as soon as a maintainer marks this issue `ready`:[compare with `master`](https://github.com/mlflow/mlflow/compare/master...LeviLong01:mlflow:ll/fix-autolog-shared-provider-double-export)\n\n---\n\n> [!WARNING]\n> This comment is AI-generated content.\n",
+        "createdAt": "2026-10-09T23:47:13Z",
+        "includesCreatedEdit": true,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/mlflow/mlflow/issues/26611#issuecomment-6091208153",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDOCB5Jx88AAAABbUyBeg",
+        "author": {
+          "login": "LeviLong01"
+        },
+        "authorAssociation": "CONTRIBUTOR",
+        "body": "Tagging @TomeHirata as you have context from [the root cause PR](https://github.com/mlflow/mlflow/pull/20809).",
+        "createdAt": "2026-10-12T16:51:39Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/mlflow/mlflow/issues/26611#issuecomment-6128697722",
+        "viewerDidAuthor": false
+      }
+    ],
+    "createdAt": "2026-10-09T23:23:14Z",
+    "url": "https://github.com/mlflow/mlflow/issues/26611"
+  },
+  {
+    "repo": "mlflow/mlflow",
+    "number": 26605,
+    "title": "[BUG] Async logging (`synchronous=False`) applies writes for the same run out of order",
+    "comments": [
+      {
+        "id": "IC_kwDOCB5Jx88AAAABaosTpw",
+        "author": {
+          "login": "github-actions"
+        },
+        "authorAssociation": "CONTRIBUTOR",
+        "body": "<!-- mlflow-triage-run:37941007226 -->\n\n> [!NOTE]\n> [Automated triage](https://github.com/mlflow/mlflow/actions/runs/37941007226/attempts/1). Please verify the findings.\n\n### Summary\n\n**Reproduced**: with `synchronous=False`, batches for the same run go to a 10-worker thread pool and can be applied out of order, so the last-logged value often isn't the one that gets stored. Reproduced at current master (`3.17.1.dev0`).\n\n- Expected: `wrong final tag in 0/10 runs`\n- Actual: `wrong final tag in 10/10 runs` (`0/10` with `MLFLOW_ASYNC_LOGGING_THREADPOOL_SIZE=1`)\n- Fails at: https://github.com/mlflow/mlflow/blob/6a5bd6c174dcdec4f3f7f0b63962637685fe76f0/mlflow/utils/async_logging/async_logging_queue.py#L211-L213\n\n### How to reproduce\n\nTested on MLflow 3.17.1.dev0 (6a5bd6c), Python 3.10.22, Linux.\n\n```python\nimport tempfile\nimport mlflow\n\nmlflow.set_tracking_uri(f\"sqlite:///{tempfile.mkdtemp()}/m.db\")\nwrong = 0\nfor _ in range(10):\n    with mlflow.start_run() as run:\n        for i in range(20):\n            mlflow.set_tag(\"stage\", str(i), synchronous=False)\n    wrong += mlflow.get_run(run.info.run_id).data.tags[\"stage\"] != \"19\"\nprint(f\"wrong final tag in {wrong}/10 runs\")\n```\n\n```\n$ uv run python repro.py\nwrong final tag in 10/10 runs\n$ MLFLOW_ASYNC_LOGGING_THREADPOOL_SIZE=1 uv run python repro.py\nwrong final tag in 0/10 runs\n```\n\n### Suggested fix\n\n`_log_run_data` dequeues batches in FIFO order, but [submits each one to `_batch_logging_worker_threadpool` on its own](https://github.com/mlflow/mlflow/blob/6a5bd6c174dcdec4f3f7f0b63962637685fe76f0/mlflow/utils/async_logging/async_logging_queue.py#L197-L222). That pool has `MLFLOW_ASYNC_LOGGING_THREADPOOL_SIZE or 10` workers ([L337-L340](https://github.com/mlflow/mlflow/blob/6a5bd6c174dcdec4f3f7f0b63962637685fe76f0/mlflow/utils/async_logging/async_logging_queue.py#L337-L340)), so nothing keeps two batches for the same run in order.\n\nThe fix: keep a per-run FIFO, and run at most one drain task per run, so different runs still log concurrently. Core of the change:\n\n```diff\n+        self._run_queues: dict[str, deque[RunBatch]] = {}\n+        self._run_queues_lock = threading.Lock()\n ...\n         for run_batch in run_batches:\n+            with self._run_queues_lock:\n+                run_queue = self._run_queues.setdefault(run_batch.run_id, deque())\n+                run_queue.append(run_batch)\n+                if len(run_queue) > 1:\n+                    # A worker is already draining this run's queue.\n+                    continue\n             try:\n-                self._batch_logging_worker_threadpool.submit(logging_func, run_batch)\n+                self._batch_logging_worker_threadpool.submit(\n+                    self._drain_run_queue, run_batch.run_id\n+                )\n             except Exception as e:\n                 ...\n+                with self._run_queues_lock:\n+                    del self._run_queues[run_batch.run_id]\n                 run_batch.exception = e\n                 run_batch.complete()\n+\n+    def _drain_run_queue(self, run_id: str) -> None:\n+        while True:\n+            with self._run_queues_lock:\n+                run_batch = self._run_queues[run_id][0]\n+            # existing logging_func body: call self._logging_func, set exception, complete()\n+            ...\n+            with self._run_queues_lock:\n+                run_queue = self._run_queues[run_id]\n+                run_queue.popleft()\n+                if not run_queue:\n+                    del self._run_queues[run_id]\n+                    return\n```\n\nAlso remove `_run_queues` and `_run_queues_lock` in `__getstate__`, and recreate them in `__setstate__`.\n\nChecked with this patch applied:\n- The repro prints `wrong final tag in 0/10 runs`.\n- `tests/utils/test_async_logging_queue.py` and `tests/utils/test_async_artifacts_logging_queue.py` pass (13 tests).\n- The async tests selected from `tests/tracking/test_tracking.py` and `tests/tracking/test_client.py` pass.\n\nOne assertion needs updating. [`test_single_thread_publish_consume_queue`](https://github.com/mlflow/mlflow/blob/6a5bd6c174dcdec4f3f7f0b63962637685fe76f0/tests/utils/test_async_logging_queue.py#L83-L84) mocks `submit` and expects 2 calls. Both grouped batches belong to the same run, so the patch submits only once (`call_count == 1`). A regression test like the repro above (many `set_tag` calls on one run, check the final value) should go with the fix.",
+        "createdAt": "2026-10-09T14:01:53Z",
+        "includesCreatedEdit": true,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/mlflow/mlflow/issues/26605#issuecomment-6082466727",
+        "viewerDidAuthor": false
+      }
+    ],
+    "createdAt": "2026-10-09T14:00:41Z",
+    "url": "https://github.com/mlflow/mlflow/issues/26605"
+  },
+  {
+    "repo": "mlflow/mlflow",
+    "number": 26568,
+    "title": "[FR] Align MCP server tag deletion permissions with Model Registry",
+    "comments": [],
+    "createdAt": "2026-10-08T19:49:14Z",
+    "url": "https://github.com/mlflow/mlflow/issues/26568"
+  },
+  {
+    "repo": "mlflow/mlflow",
+    "number": 26524,
+    "title": "[FR] Add aggregate metrics and summary statistics for MLflow Traces (e.g., total/average token count and cost per session or job)",
+    "comments": [
+      {
+        "id": "IC_kwDOCB5Jx88AAAABaR-LEA",
+        "author": {
+          "login": "mayankdas2005"
+        },
+        "authorAssociation": "NONE",
+        "body": "Hi @RyanJenkins99 , this seems interesting to me. Can i work on this issue once its triaged and marked ready? I am looking to make my first contribution in this repository. ",
+        "createdAt": "2026-10-08T11:14:54Z",
+        "includesCreatedEdit": true,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/mlflow/mlflow/issues/26524#issuecomment-6058642192",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDOCB5Jx88AAAABaakgPA",
+        "author": {
+          "login": "camerontjs-dot"
+        },
+        "authorAssociation": "NONE",
+        "body": "Thanks for the proposal. A source-level investigation at `9c30f9c57b80b6a0af74a457333e7c12be081f26` suggests the session-level portion overlaps existing aggregation and [#26189](https://github.com/mlflow/mlflow/pull/26189), which proposes integrated session exploration with token, estimated-cost, and duration totals. This was a source/API-level check, not verification of the released UI.\n\nOne potentially distinct, smaller slice is a **Traces V4 summary of explicitly selected traces**, rather than a whole-session or experiment aggregate: selected count; observed token and estimated USD cost totals; means over *observed* selected traces; separate observation counts for each metric (missing is not zero); and an indicator for unfinished/provisional traces. The selection, including traces retained across pages, would define the cohort. A summary should not imply complete-session usage, current values for stale selection snapshots, or actual billed spend.\n\nWould maintainers find that selected-cohort slice useful alongside/after #26189, and are observation-based denominators and snapshot limitations acceptable? I also see that mayankdas2005 has expressed interest in this issue, so I would want to coordinate ownership rather than duplicate anyone's work. I am not claiming or implementing the issue before triage and maintainer agreement. The meaning of “job” would need its own definition if that grouping remains in scope.",
+        "createdAt": "2026-10-08T19:39:59Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/mlflow/mlflow/issues/26524#issuecomment-6067658812",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDOCB5Jx88AAAABao7VUA",
+        "author": {
+          "login": "RyanJenkins99"
+        },
+        "authorAssociation": "NONE",
+        "body": "> 3\\. Thanks for the proposal. A source-level investigation at `9c30f9c57b80b6a0af74a457333e7c12be081f26` suggests the session-level portion overlaps existing aggregation and [#26189](https://github.com/mlflow/mlflow/pull/26189), which proposes integrated session exploration with token, estimated-cost, and duration totals. This was a source/API-level check, not verification of the released UI.\n>     One potentially distinct, smaller slice is a **Traces V4 summary of explicitly selected traces**, rather than a whole-session or experiment aggregate: selected count; observed token and estimated USD cost totals; means over _observed_ selected traces; separate observation counts for each metric (missing is not zero); and an indicator for unfinished/provisional traces. The selection, including traces retained across pages, would define the cohort. A summary should not imply complete-session usage, current values for stale selection snapshots, or actual billed spend.\n>     Would maintainers find that selected-cohort slice useful alongside/after [#26189](https://github.com/mlflow/mlflow/pull/26189), and are observation-based denominators and snapshot limitations acceptable? I also see that mayankdas2005 has expressed interest in this issue, so I would want to coordinate ownership rather than duplicate anyone's work. I am not claiming or implementing the issue before triage and maintainer agreement. The meaning of “job” would need its own definition if that grouping remains in scope.\n\nAgreed the per-session part is covered by #26189 plus the existing chat-sessions metrics. What isn't: #26189 aggregates into each session row — no table-wide summary, no averages, and no help when the cohort isn't a session. That's what I'd keep this issue scoped to.\n\nYour slice works, and it's cheap: TracesTable already has cross-page bulk selection (selectedForBulk), the toolbar already exposes selectionCount/selectedTraceInfos, and Tokens/Cost are existing columns. I'd default the cohort to the current filtered set with selection as a refinement — filtering is the usual path to \"total cost for these traces.\"",
+        "createdAt": "2026-10-09T14:15:48Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/mlflow/mlflow/issues/26524#issuecomment-6082712912",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDOCB5Jx88AAAABapytNQ",
+        "author": {
+          "login": "RyanJenkins99"
+        },
+        "authorAssociation": "NONE",
+        "body": "> 2\\. Hi [@RyanJenkins99](https://github.com/RyanJenkins99) , this seems interesting to me. Can i work on this issue once its triaged and marked ready? I am looking to make my first contribution in this repository.\n\nAppreciate the interest! we'll see what the maintainers think anyway, I don't think it's a massive addition but if I need help I'll make sure to keep you in the loop :)",
+        "createdAt": "2026-10-09T15:07:49Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/mlflow/mlflow/issues/26524#issuecomment-6083620149",
+        "viewerDidAuthor": false
+      }
+    ],
+    "createdAt": "2026-10-07T15:03:45Z",
+    "url": "https://github.com/mlflow/mlflow/issues/26524"
+  },
+  {
+    "repo": "gradio-app/gradio",
+    "number": 13964,
+    "title": "Update Modal Deployment Guide with Native Sticky Sessions",
+    "comments": [],
+    "createdAt": "2026-10-13T00:27:06Z",
+    "url": "https://github.com/gradio-app/gradio/issues/13964"
+  },
+  {
+    "repo": "gradio-app/gradio",
+    "number": 13962,
+    "title": "Make it as easy to share/test Gradio MCP server as is share link",
+    "comments": [],
+    "createdAt": "2026-10-12T21:07:32Z",
+    "url": "https://github.com/gradio-app/gradio/issues/13962"
+  },
+  {
+    "repo": "gradio-app/gradio",
+    "number": 13945,
+    "title": "Pluggable Session State Store for Multi Replica Gradio Deployments without Session Affinity",
+    "comments": [],
+    "createdAt": "2026-10-07T23:59:15Z",
+    "url": "https://github.com/gradio-app/gradio/issues/13945"
+  },
+  {
+    "repo": "gradio-app/gradio",
+    "number": 13917,
+    "title": "Smarter queue ETAs using request metadata",
+    "comments": [],
+    "createdAt": "2026-09-28T18:07:00Z",
+    "url": "https://github.com/gradio-app/gradio/issues/13917"
+  },
+  {
+    "repo": "gradio-app/gradio",
+    "number": 13916,
+    "title": "Agent UX: go from trying a Gradio UI to calling it from an agent in one click",
+    "comments": [],
+    "createdAt": "2026-09-28T18:06:56Z",
+    "url": "https://github.com/gradio-app/gradio/issues/13916"
+  },
+  {
+    "repo": "gradio-app/gradio",
+    "number": 13915,
+    "title": "Redesign the footer and make it available on `gr.Server` apps",
+    "comments": [],
+    "createdAt": "2026-09-28T18:06:47Z",
+    "url": "https://github.com/gradio-app/gradio/issues/13915"
+  },
+  {
+    "repo": "gradio-app/gradio",
+    "number": 13914,
+    "title": "Show informative error messages by default (`show_error=True`)",
+    "comments": [
+      {
+        "id": "IC_kwDOCa4eS88AAAABYUAK6w",
+        "author": {
+          "login": "HarshXAI"
+        },
+        "authorAssociation": "NONE",
+        "body": "Turning show_error on so it dumps full tracebacks would help debugging and also leak paths and tokens on public Spaces.\n\nI'd default the user-visible error to exception type plus message, and keep the traceback behind an explicit show_error=True. Docs get a short opt-out note. I can wire that on the queue error path and add a test that a raised ValueError shows the message and not the stack unless show_error is set.\n",
+        "createdAt": "2026-10-01T07:13:14Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/gradio-app/gradio/issues/13914#issuecomment-5926554347",
+        "viewerDidAuthor": false
+      }
+    ],
+    "createdAt": "2026-09-28T18:06:45Z",
+    "url": "https://github.com/gradio-app/gradio/issues/13914"
+  },
+  {
+    "repo": "gradio-app/gradio",
+    "number": 13913,
+    "title": "Deprecate `gradio sketch`",
+    "comments": [],
+    "createdAt": "2026-09-28T18:06:42Z",
+    "url": "https://github.com/gradio-app/gradio/issues/13913"
+  },
+  {
+    "repo": "gradio-app/gradio",
+    "number": 13912,
+    "title": "Move components to an optional `gradio[components]` extra so core Gradio is lightweight",
+    "comments": [],
+    "createdAt": "2026-09-28T18:06:39Z",
+    "url": "https://github.com/gradio-app/gradio/issues/13912"
+  },
+  {
+    "repo": "gradio-app/gradio",
+    "number": 13911,
+    "title": "Easy OAuth with providers other than Hugging Face",
+    "comments": [],
+    "createdAt": "2026-09-28T18:06:37Z",
+    "url": "https://github.com/gradio-app/gradio/issues/13911"
+  },
+  {
+    "repo": "gradio-app/gradio",
+    "number": 13910,
+    "title": "Make Gradio component source (Svelte/HTML) easy to reuse in other apps",
+    "comments": [],
+    "createdAt": "2026-09-28T18:06:34Z",
+    "url": "https://github.com/gradio-app/gradio/issues/13910"
+  },
+  {
+    "repo": "gradio-app/gradio",
+    "number": 13909,
+    "title": "Full security audit for local and Spaces usage before Gradio 7",
+    "comments": [],
+    "createdAt": "2026-09-28T18:06:31Z",
+    "url": "https://github.com/gradio-app/gradio/issues/13909"
+  },
+  {
+    "repo": "langchain-ai/langgraph",
+    "number": 9282,
+    "title": "Async SSE transport shutdown blocks or raises QueueFull when its event queue is full",
+    "comments": [],
+    "createdAt": "2026-10-12T13:04:00Z",
+    "url": "https://github.com/langchain-ai/langgraph/issues/9282"
+  },
+  {
+    "repo": "langchain-ai/langgraph",
+    "number": 9280,
+    "title": "Functional API deadlocks when a task waits on a child task and max_concurrency (or the thread pool) is exhausted",
+    "comments": [
+      {
+        "id": "IC_kwDOKFU0lc8AAAABbLFgmw",
+        "author": {
+          "login": "jayzuccarelli"
+        },
+        "authorAssociation": "NONE",
+        "body": "Reproduced on main with the script above: one parent waiting on one child never returns at `max_concurrency=3` (thread dump matches, the child is never started), and async hangs the same way with one parent at `max_concurrency=2`. I have a fix on a branch that lets a task wait on a nested task without starving it, sync and async, with the full langgraph suite passing. The regression tests go next to `test_imp_nested` in `test_pregel.py` and `test_pregel_async.py`: three parents each waiting on a nested task under a limit that hangs today.\n\nCould a maintainer assign this to me?\n",
+        "createdAt": "2026-10-12T05:47:43Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/langchain-ai/langgraph/issues/9280#issuecomment-6118531227",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDOKFU0lc8AAAABbLb9CQ",
+        "author": {
+          "login": "yifanxiong272"
+        },
+        "authorAssociation": "NONE",
+        "body": "An additional shape that may be worth a regression test: depth rather than fan-out. A chain of nested tasks needs one slot per level, so four nested tasks (outer → middle → inner → render, each waiting on the next) complete with max_concurrency=6 and hang with 5. We found the bug this way: a generated program of three nested subgraph tasks around one node never finished under max_concurrency=4.",
+        "createdAt": "2026-10-12T06:20:39Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/langchain-ai/langgraph/issues/9280#issuecomment-6118898953",
+        "viewerDidAuthor": false
+      }
+    ],
+    "createdAt": "2026-10-12T05:12:44Z",
+    "url": "https://github.com/langchain-ai/langgraph/issues/9280"
+  },
+  {
+    "repo": "langchain-ai/langgraph",
+    "number": 9254,
+    "title": "Compatible api_version ranges reject untagged base images with registry ports",
+    "comments": [
+      {
+        "id": "IC_kwDOKFU0lc8AAAABartoLQ",
+        "author": {
+          "login": "manobhisriram"
+        },
+        "authorAssociation": "NONE",
+        "body": "I reproduced this on current `main` (`cba111d`) using the reporter's example verbatim, and it fails exactly as described with `click.UsageError: Compatible api_version ranges cannot be used with a tagged base_image.`\n\n**Root cause**\n\n`_ensure_compatible_api_version_base_image` in `libs/cli/langgraph_cli/config.py` treats any colon in the reference as a tag separator:\n\n```python\nif \":\" in base_image:\n    raise click.UsageError(...)\n```\n\nIn a Docker image reference a tag can only appear in the final `name[:tag]` segment after the last `/`. A colon before that belongs to a registry `host:port`, so `registry.example.com:5000/team/langgraph-api` is untagged but still rejected. `localhost:5000/langgraph-api` hits the same path.\n\n**Proposed fix**\n\nNarrow the check to the segment that can actually carry a tag:\n\n```python\nlast_segment = base_image.rsplit(\"/\", 1)[-1]\nif \":\" in last_segment:\n    raise click.UsageError(...)\n```\n\nThis keeps rejecting tagged images, including tagged images on a port-qualified registry (`registry.example.com:5000/team/langgraph-api:0.11.0`), since the tag is still in the last segment.\n\n**Validation so far**\n\nWith that change, the reporter's example produces the expected `registry.example.com:5000/team/langgraph-api:0.11.1-py3.11`. I added three regression tests next to the existing `test_docker_tag_with_compatible_api_version_rejects_tagged_base_image`, covering untagged-with-registry-port, untagged-with-localhost-port, and tagged-with-registry-port. The two \"untagged\" tests fail before the change and pass after it.\n\n`uv run pytest tests/unit_tests` in `libs/cli` gives 527 passed / 3 failed; I confirmed those same 3 failures are pre-existing on unmodified `main` in my environment (Windows, Python 3.14) and are `os.linesep` CRLF assertions unrelated to this code path. `ruff check`, `ruff format --diff`, and `ty check langgraph_cli` report nothing new (the 2 `ty` diagnostics in `exec.py` are also pre-existing).\n\nPer the external-contribution policy in `require_issue_link.yml`, could a maintainer triage this and assign it to me? I have the change and tests ready and will open the PR once assigned. Happy to adjust the approach if you'd prefer stricter reference parsing instead of the last-segment check.\n",
+        "createdAt": "2026-10-09T17:10:38Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/langchain-ai/langgraph/issues/9254#issuecomment-6085634093",
+        "viewerDidAuthor": false
+      }
+    ],
+    "createdAt": "2026-10-09T02:52:10Z",
+    "url": "https://github.com/langchain-ai/langgraph/issues/9254"
+  },
+  {
+    "repo": "langchain-ai/langgraph",
+    "number": 9245,
+    "title": "With the default `durability=\"async\"`, one failed checkpoint save permanently drops a state value from the thread",
+    "comments": [
+      {
+        "id": "IC_kwDOKFU0lc8AAAABaO6ZBA",
+        "author": {
+          "login": "patrickmao1"
+        },
+        "authorAssociation": "NONE",
+        "body": "I realized that the PR #9235 actually fixes this issue as a side effect. So this can be closed once that PR is merged.",
+        "createdAt": "2026-10-08T07:57:48Z",
+        "includesCreatedEdit": true,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/langchain-ai/langgraph/issues/9245#issuecomment-6055434500",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDOKFU0lc8AAAABa-QsyQ",
+        "author": {
+          "login": "michaelmanly"
+        },
+        "authorAssociation": "NONE",
+        "body": "I reproduced the checkpoint-save failure and state-loss path. In a control run using `durability=\"sync\"`, the state was preserved in our test. That's a workaround for this execution configuration, not proof the underlying async checkpointing bug is fixed. We have recorded the test evidence; the public page hasn't deployed yet.",
+        "createdAt": "2026-10-11T03:37:07Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/langchain-ai/langgraph/issues/9245#issuecomment-6105083081",
+        "viewerDidAuthor": false
+      }
+    ],
+    "createdAt": "2026-10-08T07:54:20Z",
+    "url": "https://github.com/langchain-ai/langgraph/issues/9245"
+  },
+  {
+    "repo": "langchain-ai/langgraph",
+    "number": 9240,
+    "title": "Clarify that durability modes do not imply exactly-once external side effects",
+    "comments": [
+      {
+        "id": "IC_kwDOKFU0lc8AAAABaVRzgQ",
+        "author": {
+          "login": "Val1-IT"
+        },
+        "authorAssociation": "NONE",
+        "body": "+1 on keeping this docs-only.\n\none thing that might be worth a sentence in the note: \"reconcile an ambiguous outcome before retrying\" assumes the outcome is ambiguous, and it doesn't have to be when the side effect is a write to a database you control. if the tool inserts the operation key (unique constraint) in the same transaction as the write, a crash leaves both or neither. on re-execution the insert conflicts and you return the stored result instead of writing again. reconcile is really only needed for targets you can't put in that transaction, like a payment api or an email send.\n\nwe rely on exactly that in ledgerguard for agent writes to postgres, if a worked example is useful: https://github.com/Val1-IT/Arvanta-Ledgerguard\n",
+        "createdAt": "2026-10-08T14:29:26Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/langchain-ai/langgraph/issues/9240#issuecomment-6062109569",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDOKFU0lc8AAAABahG_-Q",
+        "author": {
+          "login": "sattyamjjain"
+        },
+        "authorAssociation": "NONE",
+        "body": "+1. Most of this guidance already exists; it just isn't linked from where people look.\n\nThe Functional API page has an Idempotency section (https://docs.langchain.com/oss/python/langgraph/functional-api#idempotency), but the Durability modes section (https://docs.langchain.com/oss/python/langgraph/checkpointers#durability-modes) and the Durability docstring in types.py only talk about when state is persisted. One line there saying durability is about checkpoint timing, not effect multiplicity, plus a link to that section, would cover this.\n\nAlso, that page currently says both \"Encapsulate side effects ... in tasks to ensure they are not executed multiple times when resuming\" and \"A task that started but did not finish may run again on that resume\". The second one is the accurate one, so the first probably needs a qualifier.",
+        "createdAt": "2026-10-09T04:52:30Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/langchain-ai/langgraph/issues/9240#issuecomment-6074515449",
+        "viewerDidAuthor": false
+      }
+    ],
+    "createdAt": "2026-10-08T03:57:31Z",
+    "url": "https://github.com/langchain-ai/langgraph/issues/9240"
+  },
+  {
+    "repo": "dask/dask",
+    "number": 12634,
+    "title": "\"ValueError: Missing dependency\" exception when dask arrays are modified before their re-use",
+    "comments": [],
+    "createdAt": "2026-10-12T18:46:59Z",
+    "url": "https://github.com/dask/dask/issues/12634"
+  },
+  {
+    "repo": "dask/dask",
+    "number": 12632,
+    "title": "dask.array.shuffle raises \"Array chunk size or shape is unknown\"",
+    "comments": [],
+    "createdAt": "2026-10-12T12:49:45Z",
+    "url": "https://github.com/dask/dask/issues/12632"
+  },
+  {
+    "repo": "dask/dask",
+    "number": 12631,
+    "title": "`to_zarr(shards=\"auto\")` can lose data when concurrent tasks write to one shard",
+    "comments": [
+      {
+        "id": "IC_kwDOAbcwm88AAAABbQ4heA",
+        "author": {
+          "login": "melonora"
+        },
+        "authorAssociation": "CONTRIBUTOR",
+        "body": "Cheers, will pick it up",
+        "createdAt": "2026-10-12T12:50:29Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/dask/dask/issues/12631#issuecomment-6124609912",
+        "viewerDidAuthor": false
+      }
+    ],
+    "createdAt": "2026-10-12T12:24:15Z",
+    "url": "https://github.com/dask/dask/issues/12631"
+  },
+  {
+    "repo": "explosion/spaCy",
+    "number": 14047,
+    "title": "Python 3.15 (source build): `OverflowError: Python int too large to convert to C ssize_t` in `Tokenizer._flush_specials` on any `spacy.load()` — same recipe works on 3.14",
+    "comments": [],
+    "createdAt": "2026-10-11T19:39:32Z",
+    "url": "https://github.com/explosion/spaCy/issues/14047"
+  },
+  {
+    "repo": "explosion/spaCy",
+    "number": 14046,
+    "title": "spacy-transformers: transformers<4.53.3 pin forces tokenizers<0.22, which has no Python 3.14 wheels",
+    "comments": [],
+    "createdAt": "2026-10-09T19:11:00Z",
+    "url": "https://github.com/explosion/spaCy/issues/14046"
+  },
+  {
+    "repo": "explosion/spaCy",
+    "number": 14040,
+    "title": "Possible POS/dependency misparse of “Staff archive completed files.” with en_core_web_sm 3.8.0",
+    "comments": [],
+    "createdAt": "2026-09-28T18:36:49Z",
+    "url": "https://github.com/explosion/spaCy/issues/14040"
+  },
+  {
+    "repo": "explosion/spaCy",
+    "number": 14032,
+    "title": "Multitoken sets cannot be matched using quantifier operators",
+    "comments": [],
+    "createdAt": "2026-09-10T15:48:45Z",
+    "url": "https://github.com/explosion/spaCy/issues/14032"
+  },
+  {
+    "repo": "explosion/spaCy",
+    "number": 14011,
+    "title": "Explosion bot is broken since March",
+    "comments": [],
+    "createdAt": "2026-08-10T09:28:09Z",
+    "url": "https://github.com/explosion/spaCy/issues/14011"
+  },
+  {
+    "repo": "explosion/spaCy",
+    "number": 14006,
+    "title": "Add cp314t (free-threaded Python 3.14) wheel support",
+    "comments": [],
+    "createdAt": "2026-07-31T19:31:27Z",
+    "url": "https://github.com/explosion/spaCy/issues/14006"
+  },
+  {
+    "repo": "explosion/spaCy",
+    "number": 13998,
+    "title": "Expected 96 from C header, got 88 from PyObject when importing \"en_core_sci_sm\" version 0.5.4",
+    "comments": [],
+    "createdAt": "2026-07-17T17:00:21Z",
+    "url": "https://github.com/explosion/spaCy/issues/13998"
+  },
+  {
+    "repo": "explosion/spaCy",
+    "number": 13992,
+    "title": "[E050] Can't find model 'en_core_web_sm'. It doesn't seem to be a Python package or a valid path to a data directory.",
+    "comments": [],
+    "createdAt": "2026-07-13T03:54:24Z",
+    "url": "https://github.com/explosion/spaCy/issues/13992"
+  },
+  {
+    "repo": "explosion/spaCy",
+    "number": 13989,
+    "title": "Request: [spacy-transformers] add support for 'transformers' v5.3.0 to resolve vulnerability",
+    "comments": [],
+    "createdAt": "2026-07-06T15:37:08Z",
+    "url": "https://github.com/explosion/spaCy/issues/13989"
+  },
+  {
+    "repo": "explosion/spaCy",
+    "number": 13985,
+    "title": "Error: ValueError: numpy.dtype size changed, may indicate binary incompatibility. Expected 96 from C header, got 88 from PyObject",
+    "comments": [],
+    "createdAt": "2026-06-29T15:49:44Z",
+    "url": "https://github.com/explosion/spaCy/issues/13985"
+  },
+  {
+    "repo": "explosion/spaCy",
+    "number": 13984,
+    "title": "Installing spacy-curated-transformers causes thinc build failure",
+    "comments": [
+      {
+        "id": "IC_kwDOAUeP5s8AAAABJfK_uw",
+        "author": {
+          "login": "Manamama"
+        },
+        "authorAssociation": "NONE",
+        "body": "Maybe this be material? : `\n      DEF err = int('Build aborted: the NumPy Cython headers require Cython 3.0.0 or newer.')` \n\nTry `pip install -U cython` first...  Mine is: `pip show cython\nName: Cython\nVersion: 3.0.7\n`  and `3.2.8` after upgrade, and it compiles, even on Termux. ",
+        "createdAt": "2026-07-10T03:12:56Z",
+        "includesCreatedEdit": true,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/explosion/spaCy/issues/13984#issuecomment-4931633083",
+        "viewerDidAuthor": false
+      }
+    ],
+    "createdAt": "2026-06-23T14:18:42Z",
+    "url": "https://github.com/explosion/spaCy/issues/13984"
+  },
+  {
+    "repo": "explosion/spaCy",
+    "number": 13983,
+    "title": "spacy throws exception when run from Terminal, fails to import as module",
+    "comments": [],
+    "createdAt": "2026-06-23T13:53:57Z",
+    "url": "https://github.com/explosion/spaCy/issues/13983"
+  },
+  {
+    "repo": "explosion/spaCy",
+    "number": 13982,
+    "title": "Inconsistent lemmatization for some verbs (e.g. \"scared\" → \"scar\" instead of \"scare\") in English model",
+    "comments": [],
+    "createdAt": "2026-06-22T18:18:53Z",
+    "url": "https://github.com/explosion/spaCy/issues/13982"
+  },
+  {
+    "repo": "cleanlab/cleanlab",
+    "number": 1338,
+    "title": "token_classification.rank.issues_from_scores() raises IndexError when every sentence score is below threshold (or input is empty)",
+    "comments": [
+      {
+        "id": "IC_kwDOB-0Lfc8AAAABXKYDjw",
+        "author": {
+          "login": "RugvedBane"
+        },
+        "authorAssociation": "NONE",
+        "body": "Hi, I've looked into this issue and can confirm the bug on master (HEAD 7506257).\n\nThe root cause is the short-circuit evaluation order in the while loop condition:\n\n```python\n# Buggy — array access runs before bounds check\nwhile sentence_scores[ranking[cutoff]] < threshold and cutoff < len(ranking):\n```\n\nWhen all scores are below threshold, `cutoff` reaches `len(ranking)` and the next iteration indexes out of bounds.\n\nThe fix is a one-line swap:\n\n```python\n# Fixed — bounds check short-circuits first\nwhile cutoff < len(ranking) and sentence_scores[ranking[cutoff]] < threshold:\n```\n\nI noticed PR #1078 contains this fix but bundles it with an unrelated performance refactor which may be why it hasn't merged. I'd like to submit a minimal focused PR with just this fix + regression tests covering the all-below, single-element, and empty input cases.\n\nCould I be assigned?",
+        "createdAt": "2026-09-26T19:50:51Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/cleanlab/cleanlab/issues/1338#issuecomment-5849351055",
+        "viewerDidAuthor": false
+      }
+    ],
+    "createdAt": "2026-09-26T00:08:40Z",
+    "url": "https://github.com/cleanlab/cleanlab/issues/1338"
+  },
+  {
+    "repo": "cleanlab/cleanlab",
+    "number": 1334,
+    "title": "Optional EvalPort interop for Datalab label-quality results",
+    "comments": [],
+    "createdAt": "2026-08-22T19:24:29Z",
+    "url": "https://github.com/cleanlab/cleanlab/issues/1334"
+  },
+  {
+    "repo": "cleanlab/cleanlab",
+    "number": 1306,
+    "title": "Feature Request: EU AI Act compliance mapping for data quality checks",
+    "comments": [],
+    "createdAt": "2026-03-31T04:26:54Z",
+    "url": "https://github.com/cleanlab/cleanlab/issues/1306"
+  },
+  {
+    "repo": "cleanlab/cleanlab",
+    "number": 1302,
+    "title": "Proposal: Connect cleanlab data issues with RAG failure taxonomy (WFGY ProblemMap)",
+    "comments": [],
+    "createdAt": "2026-02-21T13:37:27Z",
+    "url": "https://github.com/cleanlab/cleanlab/issues/1302"
+  },
+  {
+    "repo": "cleanlab/cleanlab",
+    "number": 1301,
+    "title": "[Inconsistent Results in Cleanlab Object Detection Data Cleaning (v2.9.0/v2.7.0) - Batch vs Individual Processing Differences and Parameter Sensitivity]",
+    "comments": [],
+    "createdAt": "2026-02-11T02:02:10Z",
+    "url": "https://github.com/cleanlab/cleanlab/issues/1301"
+  },
+  {
+    "repo": "cleanlab/cleanlab",
+    "number": 1261,
+    "title": "[Short summary of the question] Number of rounds applied in CleanLearning for CV",
+    "comments": [],
+    "createdAt": "2025-12-02T09:39:42Z",
+    "url": "https://github.com/cleanlab/cleanlab/issues/1261"
+  },
+  {
+    "repo": "cleanlab/cleanlab",
+    "number": 1236,
+    "title": "Active learning for segmentation",
+    "comments": [
+      {
+        "id": "IC_kwDOB-0Lfc6mZQU0",
+        "author": {
+          "login": "jwmueller"
+        },
+        "authorAssociation": "MEMBER",
+        "body": "The current `get_active_learning_scores()` method is only designed for classification tasks at the moment.",
+        "createdAt": "2025-04-10T05:57:26Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/cleanlab/cleanlab/issues/1236#issuecomment-2791638324",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDOB-0Lfc7tDfIx",
+        "author": {
+          "login": "Rishabh-git10"
+        },
+        "authorAssociation": "NONE",
+        "body": "Hey @jwmueller, I noticed this enhancement has been sitting for a while. I'd be happy to pick this up and put together a PR to support 3D `pred_probs` (e.g., `(N, L, K)`) for 1D segmentation/token classification.\n\nTo keep it strictly backward-compatible, my plan is:\n1. Update `assert_valid_inputs` in `validation.py` to allow 3D arrays.\n2. Vectorize the token-level scoring natively along the class axis (`axis=-1`).\n3. Aggregate those token scores across the sequence length to return a standard `(N,)` array, allowing users to rank the full 1D signals.\n\nAre you still open to merging something like this? If so, do you have a preference for the default aggregation method to roll token scores into the sequence score (e.g., mean vs. max uncertainty)? Let me know and I can get a draft PR going.",
+        "createdAt": "2026-02-28T12:40:26Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/cleanlab/cleanlab/issues/1236#issuecomment-3977114161",
+        "viewerDidAuthor": false
+      }
+    ],
+    "createdAt": "2025-04-08T12:15:10Z",
+    "url": "https://github.com/cleanlab/cleanlab/issues/1236"
+  },
+  {
+    "repo": "cleanlab/cleanlab",
+    "number": 1215,
+    "title": "undo version caps for sklearn and huggingface hub in docs/requirements.txt",
+    "comments": [
+      {
+        "id": "IC_kwDOB-0Lfc6YtDlq",
+        "author": {
+          "login": "jwmueller"
+        },
+        "authorAssociation": "MEMBER",
+        "body": "To unpin sklearn, must first wait for xgboost package to release new version that fixes this issue:\r\nhttps://github.com/dmlc/xgboost/issues/11093\r\n",
+        "createdAt": "2024-12-25T16:41:29Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/cleanlab/cleanlab/issues/1215#issuecomment-2561948010",
+        "viewerDidAuthor": false
+      }
+    ],
+    "createdAt": "2024-12-10T06:32:02Z",
+    "url": "https://github.com/cleanlab/cleanlab/issues/1215"
+  },
+  {
+    "repo": "cleanlab/cleanlab",
+    "number": 1214,
+    "title": "Upgrade CI from deprecated macOS-12 ",
+    "comments": [
+      {
+        "id": "IC_kwDOB-0Lfc6WzhsL",
+        "author": {
+          "login": "jwmueller"
+        },
+        "authorAssociation": "MEMBER",
+        "body": "related issue: https://github.com/cleanlab/cleanlab/issues/1111",
+        "createdAt": "2024-12-10T02:33:16Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/cleanlab/cleanlab/issues/1214#issuecomment-2530089739",
+        "viewerDidAuthor": false
+      }
+    ],
+    "createdAt": "2024-12-10T02:32:25Z",
+    "url": "https://github.com/cleanlab/cleanlab/issues/1214"
+  },
+  {
+    "repo": "cleanlab/cleanlab",
+    "number": 1202,
+    "title": "Hallucination detection",
+    "comments": [
+      {
+        "id": "IC_kwDOB-0Lfc6M-1OG",
+        "author": {
+          "login": "jwmueller"
+        },
+        "authorAssociation": "MEMBER",
+        "body": "Thank you for the suggestion.  Note we do offer the [Trustworthy Language Model](https://cleanlab.ai/blog/trustworthy-language-model/), which is exactly designed for hallucination detection.\r\n\r\nRelevant tutorials:  \r\nhttps://help.cleanlab.ai/tutorials/tlm/\r\nhttps://help.cleanlab.ai/tutorials/tlm_custom_model/\r\nhttps://help.cleanlab.ai/tutorials/tlm_rag/#alternate-low-latencystreaming-approach-use-tlm-to-assess-responses-from-an-existing-rag-system\r\n\r\nHallucination-detection benchmarks in RAG:  https://towardsdatascience.com/benchmarking-hallucination-detection-methods-in-rag-6a03c555f063\r\n",
+        "createdAt": "2024-09-21T18:36:04Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/cleanlab/cleanlab/issues/1202#issuecomment-2365281158",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDOB-0Lfc65GBMj",
+        "author": {
+          "login": "onestardao"
+        },
+        "authorAssociation": "NONE",
+        "body": "Super appreciate this thread and the TLM resources. We’ve been down this road too — trying to detect hallucinations after they emerge.\n\nBut after dozens of benchmark runs, we realized something brutal:  \nBy the time you *detect* a hallucination, the user has *already* lost trust.\n\nSo we shifted the framing.  \nInstead of “how to detect hallucinations,” we asked:  \n> **Can we sense when the *semantic ground starts shaking* before the house falls?**\n\nThat’s how we landed on semantic delta (ΔS) monitoring — a way to measure how much the model’s response is drifting from the retrieval’s meaning gravity well.  \nWe also layered a BBCR fallback mechanism: when ΔS crosses a threshold, it reroutes to a simpler answer grounded in source chunks.\n\nIf anyone’s curious, we documented this in a semi-unhinged but surprisingly useful write-up:  \n📄 [WFGY PDF – Weirdly Functional Guide for You](https://github.com/onestardao/WFGY)\n\nOh — and got a quiet nod from the dev behind `tesseract.js` for the semantic part. That meant a lot.\n\nAnyway. Just wanted to say: love that this thread exists. Keep shaking things up. 🍷\n",
+        "createdAt": "2025-07-23T01:49:49Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/cleanlab/cleanlab/issues/1202#issuecomment-3105362723",
+        "viewerDidAuthor": false
+      }
+    ],
+    "createdAt": "2024-09-19T08:55:21Z",
+    "url": "https://github.com/cleanlab/cleanlab/issues/1202"
+  },
+  {
+    "repo": "cleanlab/cleanlab",
+    "number": 1200,
+    "title": "Object Detection Label Errors Argument Shape Difficulty",
+    "comments": [
+      {
+        "id": "IC_kwDOB-0Lfc6LAJ-N",
+        "author": {
+          "login": "elisno"
+        },
+        "authorAssociation": "CONTRIBUTOR",
+        "body": "Thanks for the question, @Burhan-Q! I'll admit that the formatting can take some time getting used to. There are a few things to address here:\r\n\r\n**Format of given labels**\r\n\r\nYou're correct about the format for ground truth labels. They should be a `list[dict]` where each dictionary has keys `\"bboxes\"` and `\"labels\"`, both containing NumPy arrays. A small correction is needed in your example:\r\n\r\n1. The array for the `\"labels\"` key should be 1-dimensional, not 2-dimensional, as in your example.\r\n2. It's unclear what the `-1` label represents in your example. If it's meant to indicate a \"no object\" or background class, you might want to handle this differently depending on your use case.\r\n\r\nThe format should look something like this:\r\n\r\n```python\r\ngt = [\r\n    {\r\n        'bboxes': np.array([\r\n            [0.055833, 0.318125, 0.916667, 0.964375],\r\n            [0.204167, 0.325   , 0.771667, 0.98    ],\r\n            [0.      , 0.430625, 0.999167, 0.999375]\r\n        ]),\r\n        'labels': np.array([91, 226, 69])  # Note: 1D array, removed the -1 label\r\n    }\r\n]\r\n```\r\n\r\n**Predictions Format**\r\n\r\nThe format for predictions a bit trickier. It should be a `list[np.ndarray]`, where:\r\n\r\n- The list represents different images\r\n- Each element of the list is a NumPy array **of arrays** (nested arrays)\r\n- This array has `K` elements (one for each class in the dataset)\r\n- Each of these K elements is itself a NumPy array of shape `(M_K, 5)`, where:\r\n  - `M_K` is the number of detections for that class `K`. It can be 0, i.e. an empty array with no predictions for that class.\r\n  - The 5 columns represent your `[xmin, ymin, xmax, ymax, conf]`\r\n\r\nIt's important to note that we're dealing with arrays of arrays, not 3D arrays. Some elements in the top-level array may be empty arrays of shape `(0, 5)` for classes with no detections.\r\n\r\nHere's how you can format your `det` array into the correct `preds` format for a single image:\r\n\r\n```python\r\n# Number of classes\r\nK = 368\r\n\r\n# Create a single empty array to be shared\r\nno_pred = np.empty((0, 5))\r\n\r\n# Create an array where all entries initially point to the same empty, no-detection array\r\npreds = np.array([no_pred] * K)\r\n\r\n# Your example detection array\r\ndet = np.array(\r\n    [\r\n        [2.26000000e+02, 2.18217492e-01, 3.70962501e-01, 7.79024482e-01, 9.99999523e-01, 6.29037023e-01],\r\n        [6.90000000e+01, 7.95739472e-01, 6.41192496e-01, 9.99720514e-01, 9.84477460e-01, 3.43284994e-01],\r\n        [9.10000000e+01, 2.08500028e-03, 4.19329971e-01, 6.62768960e-01, 9.96745944e-01, 5.77416003e-01]\r\n    ]\r\n)\r\n\r\nfor row in det:\r\n    class_index = int(row[0])  # Get the class index\r\n    bbox_and_conf = row[1:]  # Get the rest of the row (bbox and pred_prob)\r\n\r\n    # Check if the class index points to the shared empty array\r\n    if preds[class_index] is no_pred:\r\n        # Replace with a new array if this is the first detection for this class\r\n        preds[class_index] = np.array([bbox_and_conf])\r\n    else:\r\n        # Stack the new detection onto the current array at the class index\r\n        preds[class_index] = np.vstack((preds[class_index], bbox_and_conf))\r\n```\r\n\r\n**Using find_label_issues**\r\n\r\nNow you can use the function like this:\r\n\r\n```python\r\nresult = find_label_issues(gt, [preds])\r\n```\r\n\r\nThe  `[preds]` is wrapped in a list because the function expects a list of prediction arrays, one for each image. In your case, a list with a single element.\r\n\r\n**Further notes**\r\n\r\n1. The shape `(D, K, 1, 5)` you mentioned isn't correct for this use case. The correct structure is an array of `K` arrays, each with shape `(M_K, 5)` as explained above.\r\n2. The `0` dimension you saw in some examples represents a class with no detections for the given image.\r\n\r\n\r\n<details><summary>Full example</summary>\r\n<p>\r\n\r\n```python\r\nimport numpy as np\r\nfrom cleanlab.object_detection.filter import find_label_issues\r\n\r\ngt = [\r\n    {\r\n        'bboxes': np.array([\r\n            [0.055833, 0.318125, 0.916667, 0.964375],\r\n            [0.204167, 0.325   , 0.771667, 0.98    ],\r\n            [0.      , 0.430625, 0.999167, 0.999375]\r\n        ]),\r\n        'labels': np.array([91, 226, 69])  # Note: 1D array, removed the -1 label\r\n    }\r\n]\r\n\r\n# Number of classes\r\nK = 368\r\n\r\n# Create a single empty array to be shared\r\nno_pred = np.empty((0, 5))\r\n\r\n# Create an array where all entries initially point to the same empty, no-detection array\r\npreds = np.array([no_pred] * K)\r\n\r\n# Your example detection array\r\ndet = np.array(\r\n    [\r\n        [2.26000000e+02, 2.18217492e-01, 3.70962501e-01, 7.79024482e-01, 9.99999523e-01, 6.29037023e-01],\r\n        [6.90000000e+01, 7.95739472e-01, 6.41192496e-01, 9.99720514e-01, 9.84477460e-01, 3.43284994e-01],\r\n        [9.10000000e+01, 2.08500028e-03, 4.19329971e-01, 6.62768960e-01, 9.96745944e-01, 5.77416003e-01]\r\n    ]\r\n)\r\n\r\nfor row in det:\r\n    class_index = int(row[0])  # Get the class index\r\n    bbox_and_conf = row[1:]  # Get the rest of the row (bbox and pred_prob)\r\n\r\n    # Check if the class index points to the shared empty array\r\n    if preds[class_index] is no_pred:\r\n        # Replace with a new array if this is the first detection for this class\r\n        preds[class_index] = np.array([bbox_and_conf])\r\n    else:\r\n        # Stack the new detection onto the current array at the class index\r\n        preds[class_index] = np.vstack((preds[class_index], bbox_and_conf))\r\n\r\nresult = find_label_issues(gt, [preds])\r\nresult\r\n# array([False])\r\n``` \r\n\r\n</p>\r\n</details> \r\n",
+        "createdAt": "2024-09-05T15:42:28Z",
+        "includesCreatedEdit": true,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [
+          {
+            "content": "CONFUSED",
+            "users": {
+              "totalCount": 1
+            }
+          },
+          {
+            "content": "HEART",
+            "users": {
+              "totalCount": 1
+            }
+          }
+        ],
+        "url": "https://github.com/cleanlab/cleanlab/issues/1200#issuecomment-2332073869",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDOB-0Lfc6Llo1t",
+        "author": {
+          "login": "Burhan-Q"
+        },
+        "authorAssociation": "NONE",
+        "body": "@elisno Thank you for the reply and example(s). \r\n\r\n> It's unclear what the -1 label represents in your example\r\n\r\nThis was a placeholder and I didn't mean to include it, but since it was included I figure I might as well ask. Suppose that I have a list of ground truth labels that has 750 classes, with some classes being hierarchical classes (like `animal` where `mammal` and `cat` are also included). In this scenario, I want to keep the \"best\" box from a prediction or ground truth, but only use the _most specific_ label (in this case `cat`). I guessed that this would be something I would later have to address with my own logic, but am curious if there's a way in `cleanlab` to handle this.\r\n\r\n---\r\n\r\nOne thing I'm seeing that might be a compatibility issue is with respect to your example for setting the value of the Numpy array. I tested your example on Windows using Python 3.11.6, `numpy==1.26.4`, and `cleanlab==2.6.6` (not that it is used at this point).\r\n\r\n```py\r\n    # Check if the class index points to the shared empty array\r\n    if preds[class_index] is no_pred:\r\n        # Replace with a new array if this is the first detection for this class\r\n        preds[class_index] = np.array([bbox_and_conf])\r\n    else:\r\n        # Stack the new detection onto the current array at the class index\r\n        preds[class_index] = np.vstack((preds[class_index], bbox_and_conf))\r\n```\r\n\r\n1. The conditional `if preds[class_index] is no_pred` evaluates as `False` for me when running this example (even on the very first assignment).\r\n2. Next, the line(s) for assignment `preds[class_index] = np.array([bbox_and_conf])` or `preds[class_index] = np.vstack((preds[class_index], bbox_and_conf))` both do not populate any data into the array when running this example.\r\n\r\n![image](https://github.com/user-attachments/assets/f48d9f45-cf02-42aa-ac78-cecef92b46c1)\r\n",
+        "createdAt": "2024-09-10T19:55:43Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/cleanlab/cleanlab/issues/1200#issuecomment-2341899629",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDOB-0Lfc6Llusg",
+        "author": {
+          "login": "Burhan-Q"
+        },
+        "authorAssociation": "NONE",
+        "body": "If my understanding of your explanation is correct, the array would likely need to be constructed using something like:\r\n\r\n```py\r\n\r\nK = 368  # Number of classes\r\n\r\n# example detection array\r\ndet = np.array(\r\n    [\r\n        [2.26000000e+02, 2.18217492e-01, 3.70962501e-01, 7.79024482e-01, 9.99999523e-01, 6.29037023e-01],\r\n        [6.90000000e+01, 7.95739472e-01, 6.41192496e-01, 9.99720514e-01, 9.84477460e-01, 3.43284994e-01],\r\n        [9.10000000e+01, 2.08500028e-03, 4.19329971e-01, 6.62768960e-01, 9.96745944e-01, 5.77416003e-01]\r\n    ]\r\n)\r\ndet_counts = np.bincount(det[:, 0].astype(int), minlength=K)\r\npreds = [np.zeros((dc, 5)) for dc in det_counts]\r\nclasses = np.unique(det[:, 0]).astype(int)\r\n\r\n# NOTE not possible to make `preds` into an array as-is AFAIK, as the dimensions will be mismatched, \r\n# would need to make all sub-arrays the same size (using max detected class count)\r\n\r\nfor _cls in classes: # iterate classes for faster array construction\r\n    ...\r\n```\r\n\r\nThis would mean that the final result (if not using the max detected class count method) for `preds` would be a `list[list[np.ndarray]]`. The first `list` would be for each image, each nested `list` would be for detections, where each class detection would be a Numpy array of varying dimensionality. \r\n\r\nThe only \"natural\" way that I could see that a `list[np.ndarray[np.ndarray]]` could be constructed, would be if there was a single detection per-class for each image. This is unlikely to occur, since in many cases there are multiples of the same object detected in an image. \r\n\r\nI'll share that this is not my first attempt to work with `cleanlab` and although it was quite some time ago, I know that multi-class object detection data _was_ feasible to use with `find_label_issues`. When I did this previously, it was much less complex to process  the data as well (I think I was only 5 months into working with Python at the time).\r\n\r\nMaybe there's a critical factor I'm missing here about how to construct the Numpy arrays, or that the Numpy version I'm using isn't capable of these operations? I'll try to flesh out my example and test it out to see if it works and post the result. Appreciate anyone pointing out something I missed or where I might be wrong in my understanding/conclusion.",
+        "createdAt": "2024-09-10T20:10:19Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/cleanlab/cleanlab/issues/1200#issuecomment-2341923616",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDOB-0Lfc6LmCbz",
+        "author": {
+          "login": "Burhan-Q"
+        },
+        "authorAssociation": "NONE",
+        "body": "Well, my conclusion was incorrect and `list[list[np.ndarray]]` doesn't work.\r\n\r\n```\r\nTraceback (most recent call last):\r\n  File \"<stdin>\", line 1, in <module>\r\n    is_issue = _find_label_issues(\r\n               ^^^^^^^^^^^^^^^^^^^\r\n  File \".venv/Lib/site-packages/cleanlab/object_detection/filter.py\", line 138, in _find_label_issues\r\n    auxiliary_inputs = _get_valid_inputs_for_compute_scores(ALPHA, labels, predictions)\r\n                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \".venv/Lib/site-packages/cleanlab/object_detection/rank.py\", line 512, in _get_valid_inputs_for_compute_scores\r\n    min_possible_similarity = _get_min_possible_similarity(alpha, predictions, labels)\r\n                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \".venv/Lib/site-packages/cleanlab/object_detection/rank.py\", line 432, in _get_min_possible_similarity\r\n    pred_bboxes, pred_labels, _ = _separate_prediction(prediction)\r\n                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \".venv/Lib/site-packages/cleanlab/object_detection/rank.py\", line 312, in _separate_prediction\r\n    boxes, labels, pred_probs = _separate_prediction_single_box(prediction)\r\n                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \".venv/Lib/site-packages/cleanlab/object_detection/rank.py\", line 288, in _separate_prediction_single_box\r\n    bboxes = [box[:4] for box in boxes]\r\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \".venv/Lib/site-packages/cleanlab/object_detection/rank.py\", line 288, in <listcomp>\r\n    bboxes = [box[:4] for box in boxes]\r\n              ~~~^^^^\r\nTypeError: 'float' object is not subscriptable\r\n```\r\n",
+        "createdAt": "2024-09-10T21:02:05Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/cleanlab/cleanlab/issues/1200#issuecomment-2342004467",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDOB-0Lfc7Exe6j",
+        "author": {
+          "login": "n-patricia"
+        },
+        "authorAssociation": "NONE",
+        "body": "@elisno \n\nHi, I just wanna to confirm, should the prediction have the same number of objects with ground truth? If the predictions return more predicted objects (false negative) then we need to remove them? Because I get this error message\n`*** ValueError: labels and predictions length needs to match`\n\nIf I want to use cleanlab to analyse false negative and false positive objects, how to implement it with cleanlab?\n\nBest,\nNovi",
+        "createdAt": "2025-09-17T04:56:51Z",
+        "includesCreatedEdit": true,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/cleanlab/cleanlab/issues/1200#issuecomment-3301306019",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDOB-0Lfc7bG36H",
+        "author": {
+          "login": "aditya1503"
+        },
+        "authorAssociation": "CONTRIBUTOR",
+        "body": "> [@elisno](https://github.com/elisno)\n> \n> Hi, I just wanna to confirm, should the prediction have the same number of objects with ground truth? If the predictions return more predicted objects (false negative) then we need to remove them? Because I get this error message `*** ValueError: labels and predictions length needs to match`\n> \n> If I want to use cleanlab to analyse false negative and false positive objects, how to implement it with cleanlab?\n> \n> Best, Novi\n\n\n\n> [@elisno](https://github.com/elisno)\n> \n> Hi, I just wanna to confirm, should the prediction have the same number of objects with ground truth? If the predictions return more predicted objects (false negative) then we need to remove them? Because I get this error message `*** ValueError: labels and predictions length needs to match`\n> \n> If I want to use cleanlab to analyse false negative and false positive objects, how to implement it with cleanlab?\n> \n> Best, Novi\n\nHi Novi : predictions do not need to have the same number of objects as ground truth, and you should not remove extra predictions. The error only means that the number of images in labels and predictions must match, not the number of boxes. labels[I] and predictions[I] refer to image indices.",
+        "createdAt": "2025-12-19T18:01:43Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/cleanlab/cleanlab/issues/1200#issuecomment-3676012167",
+        "viewerDidAuthor": false
+      }
+    ],
+    "createdAt": "2024-09-04T15:31:37Z",
+    "url": "https://github.com/cleanlab/cleanlab/issues/1200"
+  },
+  {
+    "repo": "huggingface/peft",
+    "number": 3935,
+    "title": "LoRA on nn.MultiheadAttention: lora_bias=True never trains the bias, and forward fails on a bias-free MHA",
+    "comments": [
+      {
+        "id": "IC_kwDOIf9iDM8AAAABbIacLQ",
+        "author": {
+          "login": "BenjaminBossan"
+        },
+        "authorAssociation": "MEMBER",
+        "body": "Thanks for reporting. This `lora_bias` option hasn't really been used for training, it was added because of some conversion requirement of certain image generation LoRAs. As such, there is no usage here for MHA. Simply raising an error is enough. A PR is welcome.\n\n/peft-triage approved.",
+        "createdAt": "2026-10-12T00:42:18Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/huggingface/peft/issues/3935#issuecomment-6115728429",
+        "viewerDidAuthor": false
+      }
+    ],
+    "createdAt": "2026-10-11T23:01:41Z",
+    "url": "https://github.com/huggingface/peft/issues/3935"
+  },
+  {
+    "repo": "huggingface/peft",
+    "number": 3929,
+    "title": "`ensure_weight_tying=True` silently stops tying the LoRA weights when the model is in bf16/fp16",
+    "comments": [],
+    "createdAt": "2026-10-11T11:11:24Z",
+    "url": "https://github.com/huggingface/peft/issues/3929"
+  },
+  {
+    "repo": "huggingface/peft",
+    "number": 3928,
+    "title": "CPT forward mutates the caller-provided input_type_mask in place",
+    "comments": [
+      {
+        "id": "IC_kwDOIf9iDM8AAAABbIC7QA",
+        "author": {
+          "login": "BenjaminBossan"
+        },
+        "authorAssociation": "MEMBER",
+        "body": "Sounds good, creating a copy looks like the right fix. Thanks.\n\n/peft-triage approved",
+        "createdAt": "2026-10-11T23:57:55Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/huggingface/peft/issues/3928#issuecomment-6115343168",
+        "viewerDidAuthor": false
+      }
+    ],
+    "createdAt": "2026-10-11T08:51:14Z",
+    "url": "https://github.com/huggingface/peft/issues/3928"
+  },
+  {
+    "repo": "huggingface/peft",
+    "number": 3877,
+    "title": "Add support for BoRA",
+    "comments": [
+      {
+        "id": "IC_kwDOIf9iDM8AAAABZUq6zQ",
+        "author": {
+          "login": "githubnemo"
+        },
+        "authorAssociation": "COLLABORATOR",
+        "body": "Thanks for the suggestion. BoRA looks very incremental to DoRA. As far as I can see the difference that BoRA adds a second magnitude term. I think we can re-use almost everything from DoRA including the caching (to speed up inference). It's probably best to focus on the Linear implementation first, verify correctness by running a MetaMathQA benchmark and see if the results are comparable with DoRA and then mimic the full DoRA implementation.\n\nWould you be interested in a PR?",
+        "createdAt": "2026-10-05T12:23:10Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/huggingface/peft/issues/3877#issuecomment-5994363597",
+        "viewerDidAuthor": false
+      }
+    ],
+    "createdAt": "2026-10-03T13:50:35Z",
+    "url": "https://github.com/huggingface/peft/issues/3877"
+  }
+]

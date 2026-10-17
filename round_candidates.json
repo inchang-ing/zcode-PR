@@ -1,0 +1,1582 @@
+[
+  {
+    "repo": "BerriAI/litellm",
+    "number": 46422,
+    "title": "[Bug]: Discussion: Reliability of Jev-Based Decisions with External Context",
+    "createdAt": "2026-10-14T12:32:26Z",
+    "is_bug": true,
+    "labels": [
+      "bug"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/BerriAI/litellm/issues/46422"
+  },
+  {
+    "repo": "BerriAI/litellm",
+    "number": 46418,
+    "title": "include_team_models=true returns no metadata for a team service-account key with working inference access",
+    "createdAt": "2026-10-14T12:16:51Z",
+    "is_bug": false,
+    "labels": [],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/BerriAI/litellm/issues/46418"
+  },
+  {
+    "repo": "BerriAI/litellm",
+    "number": 46413,
+    "title": "Lens worker claims job but never progresses, fails after ~15 min with \"Worker disconnected repeatedly\"",
+    "createdAt": "2026-10-14T09:39:50Z",
+    "is_bug": false,
+    "labels": [],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/BerriAI/litellm/issues/46413"
+  },
+  {
+    "repo": "BerriAI/litellm",
+    "number": 46401,
+    "title": "[Bug]: It frequently runs out of memory—how could I possibly charge for this?",
+    "createdAt": "2026-10-14T07:28:54Z",
+    "is_bug": true,
+    "labels": [
+      "bug"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/BerriAI/litellm/issues/46401"
+  },
+  {
+    "repo": "mem0ai/mem0",
+    "number": 7634,
+    "title": "Optimize AsyncMemory._add_to_vector_store by running DB history fetch and vector search concurrently",
+    "createdAt": "2026-10-14T08:05:39Z",
+    "is_bug": false,
+    "labels": [
+      "enhancement",
+      "sdk-python",
+      "vector-store"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/mem0ai/mem0/issues/7634"
+  },
+  {
+    "repo": "mem0ai/mem0",
+    "number": 7624,
+    "title": "[Enhancement] Per-fact source spans: carry message index from extraction through persist",
+    "createdAt": "2026-10-13T06:28:23Z",
+    "is_bug": false,
+    "labels": [
+      "enhancement",
+      "sdk-python"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/mem0ai/mem0/issues/7624"
+  },
+  {
+    "repo": "mem0ai/mem0",
+    "number": 7615,
+    "title": "Add NVIDIA NIM provider support",
+    "createdAt": "2026-10-12T12:53:15Z",
+    "is_bug": false,
+    "labels": [],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/mem0ai/mem0/issues/7615"
+  },
+  {
+    "repo": "mem0ai/mem0",
+    "number": 7614,
+    "title": "Cursor plugin: project_id resolves to the plugin cache folder hash (all workspaces share one app_id)",
+    "createdAt": "2026-10-12T12:28:25Z",
+    "is_bug": false,
+    "labels": [
+      "integrations",
+      "plugin"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/mem0ai/mem0/issues/7614"
+  },
+  {
+    "repo": "langchain-ai/langchain",
+    "number": 41237,
+    "title": "openai: streaming drops the assistant `audio` payload, so a streamed audio turn cannot be continued",
+    "createdAt": "2026-10-14T04:53:43Z",
+    "is_bug": true,
+    "labels": [
+      "bug",
+      "openai",
+      "external"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/langchain-ai/langchain/issues/41237"
+  },
+  {
+    "repo": "pydantic/pydantic-ai",
+    "number": 10243,
+    "title": "GLM-5.3: object parameters using $ref come back as JSON-encoded strings",
+    "createdAt": "2026-10-14T10:19:00Z",
+    "is_bug": true,
+    "labels": [
+      "bug",
+      "pydanty:bug",
+      "p:3-mid"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/pydantic/pydantic-ai/issues/10243"
+  },
+  {
+    "repo": "langflow-ai/langflow",
+    "number": 15747,
+    "title": "Open the Playground at a given session from the URL (?playground=true&session=<id>)",
+    "createdAt": "2026-10-14T08:57:16Z",
+    "is_bug": false,
+    "labels": [
+      "enhancement"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/langflow-ai/langflow/issues/15747"
+  },
+  {
+    "repo": "microsoft/autogen",
+    "number": 8343,
+    "title": "microsoft/autogen was independently reviewed on Hlido — scored 80/100, right of reply open",
+    "createdAt": "2026-10-12T11:01:52Z",
+    "is_bug": false,
+    "labels": [],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/microsoft/autogen/issues/8343"
+  },
+  {
+    "repo": "huggingface/transformers",
+    "number": 49592,
+    "title": "SAM 3: text-only prompts drop the geometry CLS token that Meta's implementation always adds",
+    "createdAt": "2026-10-14T10:51:48Z",
+    "is_bug": false,
+    "labels": [],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/huggingface/transformers/issues/49592"
+  },
+  {
+    "repo": "huggingface/transformers",
+    "number": 49546,
+    "title": "CPU SDPA could use native GQA with a mask on torch >= 2.9 (1.2x decode, no repeat_kv)",
+    "createdAt": "2026-10-12T23:25:42Z",
+    "is_bug": false,
+    "labels": [],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/huggingface/transformers/issues/49546"
+  },
+  {
+    "repo": "huggingface/transformers",
+    "number": 49540,
+    "title": "Gemma 3/4 multimodal models fail with tp_plan=\"auto\" because of mixed Tensor/DTensor usage",
+    "createdAt": "2026-10-12T19:00:41Z",
+    "is_bug": true,
+    "labels": [
+      "bug"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/huggingface/transformers/issues/49540"
+  },
+  {
+    "repo": "huggingface/transformers",
+    "number": 49536,
+    "title": "Mamba2: non-fused gated RMSNorm ignores n_groups and disagrees with fused training",
+    "createdAt": "2026-10-12T16:18:02Z",
+    "is_bug": false,
+    "labels": [],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/huggingface/transformers/issues/49536"
+  },
+  {
+    "repo": "huggingface/diffusers",
+    "number": 15037,
+    "title": "LTX2 HDR reference preprocessing applies an unintended stride-aligned resize",
+    "createdAt": "2026-10-14T12:17:07Z",
+    "is_bug": false,
+    "labels": [],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/huggingface/diffusers/issues/15037"
+  },
+  {
+    "repo": "huggingface/diffusers",
+    "number": 15027,
+    "title": "Qwen Image 2.1 with torch.compile triggers a recompile on each run with varying image size",
+    "createdAt": "2026-10-14T08:33:25Z",
+    "is_bug": true,
+    "labels": [
+      "bug"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/huggingface/diffusers/issues/15027"
+  },
+  {
+    "repo": "huggingface/diffusers",
+    "number": 15025,
+    "title": "SDXL invisible watermark: apply_watermark encodes float input, and about a third of outputs are not detected by Stability's detect.py",
+    "createdAt": "2026-10-14T06:40:15Z",
+    "is_bug": false,
+    "labels": [],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/huggingface/diffusers/issues/15025"
+  },
+  {
+    "repo": "huggingface/diffusers",
+    "number": 15022,
+    "title": "Modular pipelines: warn when a `denoiser_input_fields` entry is not passed to the transformer",
+    "createdAt": "2026-10-13T19:36:59Z",
+    "is_bug": false,
+    "labels": [],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/huggingface/diffusers/issues/15022"
+  },
+  {
+    "repo": "stanfordnlp/dspy",
+    "number": 10631,
+    "title": "[Feature] Python 3.15: close the LiteLLM and GEPA support gaps",
+    "createdAt": "2026-10-12T17:02:52Z",
+    "is_bug": false,
+    "labels": [],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/stanfordnlp/dspy/issues/10631"
+  },
+  {
+    "repo": "optuna/optuna",
+    "number": 6899,
+    "title": "Pruners patience/startup parameters do not refer to step values but value counts",
+    "createdAt": "2026-10-13T09:47:12Z",
+    "is_bug": false,
+    "labels": [
+      "document"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/optuna/optuna/issues/6899"
+  },
+  {
+    "repo": "optuna/optuna",
+    "number": 6777,
+    "title": "TPESampler RSS grows unbounded with trial count in long-running studies (follow-up to #3050)",
+    "createdAt": "2026-07-28T11:55:53Z",
+    "is_bug": false,
+    "labels": [],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/optuna/optuna/issues/6777"
+  },
+  {
+    "repo": "mlflow/mlflow",
+    "number": 26611,
+    "title": "[BUG] `strands`, `semantic_kernel` and `haystack` autolog export every span twice when `MLFLOW_USE_DEFAULT_TRACER_PROVIDER=false`",
+    "createdAt": "2026-10-09T23:23:14Z",
+    "is_bug": true,
+    "labels": [
+      "bug",
+      "area/tracking",
+      "area/tracing",
+      "ready",
+      "triage: reproduced"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/mlflow/mlflow/issues/26611"
+  },
+  {
+    "repo": "mlflow/mlflow",
+    "number": 26605,
+    "title": "[BUG] Async logging (`synchronous=False`) applies writes for the same run out of order",
+    "createdAt": "2026-10-09T14:00:41Z",
+    "is_bug": true,
+    "labels": [
+      "bug",
+      "area/tracking",
+      "triage: reproduced"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/mlflow/mlflow/issues/26605"
+  },
+  {
+    "repo": "mlflow/mlflow",
+    "number": 26568,
+    "title": "[FR] Align MCP server tag deletion permissions with Model Registry",
+    "createdAt": "2026-10-08T19:49:14Z",
+    "is_bug": false,
+    "labels": [
+      "enhancement",
+      "domain/genai"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/mlflow/mlflow/issues/26568"
+  },
+  {
+    "repo": "gradio-app/gradio",
+    "number": 13964,
+    "title": "Update Modal Deployment Guide with Native Sticky Sessions",
+    "createdAt": "2026-10-13T00:27:06Z",
+    "is_bug": false,
+    "labels": [],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/gradio-app/gradio/issues/13964"
+  },
+  {
+    "repo": "gradio-app/gradio",
+    "number": 13962,
+    "title": "Make it as easy to share/test Gradio MCP server as is share link",
+    "createdAt": "2026-10-12T21:07:32Z",
+    "is_bug": false,
+    "labels": [],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/gradio-app/gradio/issues/13962"
+  },
+  {
+    "repo": "gradio-app/gradio",
+    "number": 13945,
+    "title": "Pluggable Session State Store for Multi Replica Gradio Deployments without Session Affinity",
+    "createdAt": "2026-10-07T23:59:15Z",
+    "is_bug": false,
+    "labels": [],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/gradio-app/gradio/issues/13945"
+  },
+  {
+    "repo": "gradio-app/gradio",
+    "number": 13917,
+    "title": "Smarter queue ETAs using request metadata",
+    "createdAt": "2026-09-28T18:07:00Z",
+    "is_bug": false,
+    "labels": [
+      "enhancement"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/gradio-app/gradio/issues/13917"
+  },
+  {
+    "repo": "dask/dask",
+    "number": 12631,
+    "title": "`to_zarr(shards=\"auto\")` can lose data when concurrent tasks write to one shard",
+    "createdAt": "2026-10-12T12:24:15Z",
+    "is_bug": false,
+    "labels": [
+      "needs triage"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/dask/dask/issues/12631"
+  },
+  {
+    "repo": "explosion/spaCy",
+    "number": 14048,
+    "title": "Shape inconsistency in Tagger.predict",
+    "createdAt": "2026-10-14T03:03:15Z",
+    "is_bug": false,
+    "labels": [],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/explosion/spaCy/issues/14048"
+  },
+  {
+    "repo": "explosion/spaCy",
+    "number": 14047,
+    "title": "Python 3.15 (source build): `OverflowError: Python int too large to convert to C ssize_t` in `Tokenizer._flush_specials` on any `spacy.load()` — same recipe works on 3.14",
+    "createdAt": "2026-10-11T19:39:32Z",
+    "is_bug": false,
+    "labels": [],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/explosion/spaCy/issues/14047"
+  },
+  {
+    "repo": "explosion/spaCy",
+    "number": 14046,
+    "title": "spacy-transformers: transformers<4.53.3 pin forces tokenizers<0.22, which has no Python 3.14 wheels",
+    "createdAt": "2026-10-09T19:11:00Z",
+    "is_bug": false,
+    "labels": [],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/explosion/spaCy/issues/14046"
+  },
+  {
+    "repo": "explosion/spaCy",
+    "number": 14040,
+    "title": "Possible POS/dependency misparse of “Staff archive completed files.” with en_core_web_sm 3.8.0",
+    "createdAt": "2026-09-28T18:36:49Z",
+    "is_bug": false,
+    "labels": [],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/explosion/spaCy/issues/14040"
+  },
+  {
+    "repo": "explosion/spaCy",
+    "number": 14032,
+    "title": "Multitoken sets cannot be matched using quantifier operators",
+    "createdAt": "2026-09-10T15:48:45Z",
+    "is_bug": false,
+    "labels": [],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/explosion/spaCy/issues/14032"
+  },
+  {
+    "repo": "explosion/spaCy",
+    "number": 14011,
+    "title": "Explosion bot is broken since March",
+    "createdAt": "2026-08-10T09:28:09Z",
+    "is_bug": false,
+    "labels": [],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/explosion/spaCy/issues/14011"
+  },
+  {
+    "repo": "cleanlab/cleanlab",
+    "number": 1334,
+    "title": "Optional EvalPort interop for Datalab label-quality results",
+    "createdAt": "2026-08-22T19:24:29Z",
+    "is_bug": false,
+    "labels": [],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/cleanlab/cleanlab/issues/1334"
+  },
+  {
+    "repo": "cleanlab/cleanlab",
+    "number": 1324,
+    "title": "Proposal: end-to-end DINOv2 + ImageFolder tutorial for Datalab image audits",
+    "createdAt": "2026-08-03T07:37:28Z",
+    "is_bug": false,
+    "labels": [],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/cleanlab/cleanlab/issues/1324"
+  },
+  {
+    "repo": "cleanlab/cleanlab",
+    "number": 1306,
+    "title": "Feature Request: EU AI Act compliance mapping for data quality checks",
+    "createdAt": "2026-03-31T04:26:54Z",
+    "is_bug": false,
+    "labels": [],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/cleanlab/cleanlab/issues/1306"
+  },
+  {
+    "repo": "cleanlab/cleanlab",
+    "number": 1302,
+    "title": "Proposal: Connect cleanlab data issues with RAG failure taxonomy (WFGY ProblemMap)",
+    "createdAt": "2026-02-21T13:37:27Z",
+    "is_bug": false,
+    "labels": [],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/cleanlab/cleanlab/issues/1302"
+  },
+  {
+    "repo": "cleanlab/cleanlab",
+    "number": 1301,
+    "title": "[Inconsistent Results in Cleanlab Object Detection Data Cleaning (v2.9.0/v2.7.0) - Batch vs Individual Processing Differences and Parameter Sensitivity]",
+    "createdAt": "2026-02-11T02:02:10Z",
+    "is_bug": false,
+    "labels": [
+      "needs triage"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/cleanlab/cleanlab/issues/1301"
+  },
+  {
+    "repo": "cleanlab/cleanlab",
+    "number": 1261,
+    "title": "[Short summary of the question] Number of rounds applied in CleanLearning for CV",
+    "createdAt": "2025-12-02T09:39:42Z",
+    "is_bug": false,
+    "labels": [
+      "question"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/cleanlab/cleanlab/issues/1261"
+  },
+  {
+    "repo": "huggingface/peft",
+    "number": 3967,
+    "title": "Mixed adapter batch raises KeyError when only one adapter has modules_to_save",
+    "createdAt": "2026-10-14T01:56:32Z",
+    "is_bug": false,
+    "labels": [],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/huggingface/peft/issues/3967"
+  },
+  {
+    "repo": "huggingface/peft",
+    "number": 3964,
+    "title": "An old, unused torchao install makes every LoRA/OFT injection fail with ImportError (e.g. on Colab and Kaggle)",
+    "createdAt": "2026-10-13T20:42:54Z",
+    "is_bug": false,
+    "labels": [],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/huggingface/peft/issues/3964"
+  },
+  {
+    "repo": "numpy/numpy",
+    "number": 32865,
+    "title": "PERF: optimize field accesses in abi3t builds",
+    "createdAt": "2026-10-03T16:16:28Z",
+    "is_bug": false,
+    "labels": [
+      "39 - free-threading"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/numpy/numpy/issues/32865"
+  },
+  {
+    "repo": "pandas-dev/pandas",
+    "number": 71159,
+    "title": "BUG: `bfill`/`ffill` with `axis=1` ignore `inplace=True` and leave the original DataFrame unchanged",
+    "createdAt": "2026-10-14T09:43:48Z",
+    "is_bug": true,
+    "labels": [
+      "bug",
+      "needs triage"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/pandas-dev/pandas/issues/71159"
+  },
+  {
+    "repo": "pandas-dev/pandas",
+    "number": 71158,
+    "title": "BUG: read_csv silently misparses Unicode thousands and decimal markers",
+    "createdAt": "2026-10-14T06:58:51Z",
+    "is_bug": false,
+    "labels": [
+      "needs triage"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/pandas-dev/pandas/issues/71158"
+  },
+  {
+    "repo": "pandas-dev/pandas",
+    "number": 71142,
+    "title": "ENH: DataFrame dtype keyword accept dict",
+    "createdAt": "2026-10-13T16:22:56Z",
+    "is_bug": false,
+    "labels": [
+      "enhancement",
+      "needs discussion",
+      "dataframe",
+      "api - consistency"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/pandas-dev/pandas/issues/71142"
+  },
+  {
+    "repo": "pandas-dev/pandas",
+    "number": 71060,
+    "title": "ENH: NDFrame.ax accessor for Index method pass-through",
+    "createdAt": "2026-10-11T18:54:10Z",
+    "is_bug": false,
+    "labels": [
+      "enhancement",
+      "api design",
+      "needs discussion"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/pandas-dev/pandas/issues/71060"
+  },
+  {
+    "repo": "scikit-learn/scikit-learn",
+    "number": 35138,
+    "title": "Add 'scale' and 'auto' options to gamma parameter in rbf_kernel()",
+    "createdAt": "2026-10-13T10:10:44Z",
+    "is_bug": false,
+    "labels": [
+      "new feature",
+      "needs triage"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/scikit-learn/scikit-learn/issues/35138"
+  },
+  {
+    "repo": "scikit-learn/scikit-learn",
+    "number": 35103,
+    "title": "CI Define GHA policies so that we can use `pull_request_target` after November 2",
+    "createdAt": "2026-10-08T06:36:40Z",
+    "is_bug": false,
+    "labels": [
+      "needs investigation"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/scikit-learn/scikit-learn/issues/35103"
+  },
+  {
+    "repo": "scikit-learn/scikit-learn",
+    "number": 35101,
+    "title": "CI Investigate free-threaded tests slowness ~ 60 minutes rather than 10-15 minutes for other Linux builds",
+    "createdAt": "2026-10-08T04:10:59Z",
+    "is_bug": false,
+    "labels": [
+      "needs investigation",
+      "free-threading"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/scikit-learn/scikit-learn/issues/35101"
+  },
+  {
+    "repo": "scikit-learn/scikit-learn",
+    "number": 35096,
+    "title": "Allow infinite values in X for IsotonicRegression",
+    "createdAt": "2026-10-07T12:13:46Z",
+    "is_bug": false,
+    "labels": [
+      "new feature",
+      "needs investigation"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/scikit-learn/scikit-learn/issues/35096"
+  },
+  {
+    "repo": "pola-rs/polars",
+    "number": 29939,
+    "title": "SQL: support STRUCT and MAP type names",
+    "createdAt": "2026-10-14T12:48:00Z",
+    "is_bug": false,
+    "labels": [
+      "enhancement",
+      "a-sql",
+      "a-dtype-struct"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/pola-rs/polars/issues/29939"
+  },
+  {
+    "repo": "pola-rs/polars",
+    "number": 29937,
+    "title": "`str.contains(regex=True)` OR-chains slower on 1.44.0+/2.0.0 vs 1.43.2",
+    "createdAt": "2026-10-14T12:31:52Z",
+    "is_bug": true,
+    "labels": [
+      "bug",
+      "python",
+      "performance",
+      "needs triage"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/pola-rs/polars/issues/29937"
+  },
+  {
+    "repo": "pola-rs/polars",
+    "number": 29934,
+    "title": "Filtering with `== float(...)` on integer column is still allowed",
+    "createdAt": "2026-10-14T11:36:20Z",
+    "is_bug": false,
+    "labels": [
+      "python",
+      "enhancement"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/pola-rs/polars/issues/29934"
+  },
+  {
+    "repo": "pola-rs/polars",
+    "number": 29924,
+    "title": "Streaming engine doesn't error on mismatched length when the input data has one row",
+    "createdAt": "2026-10-13T22:42:01Z",
+    "is_bug": true,
+    "labels": [
+      "bug",
+      "python",
+      "needs triage",
+      "a-streaming"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/pola-rs/polars/issues/29924"
+  },
+  {
+    "repo": "pola-rs/polars",
+    "number": 29922,
+    "title": "rolling_corr and rolling_cov lose all precision on data far from zero, such as prices",
+    "createdAt": "2026-10-13T17:20:13Z",
+    "is_bug": false,
+    "labels": [],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/pola-rs/polars/issues/29922"
+  },
+  {
+    "repo": "pola-rs/polars",
+    "number": 29915,
+    "title": "Consistent random-access slices over a LazyFrame (for an interactive data viewer)",
+    "createdAt": "2026-10-13T09:51:28Z",
+    "is_bug": false,
+    "labels": [
+      "enhancement"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/pola-rs/polars/issues/29915"
+  },
+  {
+    "repo": "apache/arrow",
+    "number": 53730,
+    "title": "[C++] Remove an unnecessary null pointer check",
+    "createdAt": "2026-10-14T09:42:28Z",
+    "is_bug": false,
+    "labels": [
+      "type: enhancement",
+      "component: c++"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/apache/arrow/issues/53730"
+  },
+  {
+    "repo": "apache/arrow",
+    "number": 53595,
+    "title": "[Python][Parquet] Writing a sparse union column raises ArrowNotImplementedError",
+    "createdAt": "2026-10-13T12:51:41Z",
+    "is_bug": false,
+    "labels": [
+      "component: parquet",
+      "component: python"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/apache/arrow/issues/53595"
+  },
+  {
+    "repo": "sympy/sympy",
+    "number": 30749,
+    "title": "The new contributors guide probably encourages spam",
+    "createdAt": "2026-10-13T19:35:34Z",
+    "is_bug": false,
+    "labels": [],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/sympy/sympy/issues/30749"
+  },
+  {
+    "repo": "sympy/sympy",
+    "number": 30717,
+    "title": "PID controller stabilization",
+    "createdAt": "2026-10-10T17:43:51Z",
+    "is_bug": false,
+    "labels": [
+      "physics.control"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/sympy/sympy/issues/30717"
+  },
+  {
+    "repo": "sympy/sympy",
+    "number": 30708,
+    "title": "hypergeometric functions with nonpositive integer in upper and lower parameters",
+    "createdAt": "2026-10-09T09:07:50Z",
+    "is_bug": false,
+    "labels": [],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/sympy/sympy/issues/30708"
+  },
+  {
+    "repo": "fastapi/fastapi",
+    "number": 10370,
+    "title": "🚀 Roadmap",
+    "createdAt": "2023-10-02T21:54:54Z",
+    "is_bug": false,
+    "labels": [],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/fastapi/fastapi/issues/10370"
+  },
+  {
+    "repo": "pydantic/pydantic",
+    "number": 13923,
+    "title": "Rebuild model when using `model_construct()`",
+    "createdAt": "2026-10-02T20:44:06Z",
+    "is_bug": false,
+    "labels": [
+      "change",
+      "v3"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/pydantic/pydantic/issues/13923"
+  },
+  {
+    "repo": "pydantic/pydantic",
+    "number": 13886,
+    "title": "Add support for string constraints for `SecretStr` type",
+    "createdAt": "2026-09-28T14:47:29Z",
+    "is_bug": false,
+    "labels": [
+      "feature request"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/pydantic/pydantic/issues/13886"
+  },
+  {
+    "repo": "Kludex/starlette",
+    "number": 3447,
+    "title": "Add configurable media handlers and Request.data()",
+    "createdAt": "2026-08-21T22:50:15Z",
+    "is_bug": false,
+    "labels": [
+      "feature"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/Kludex/starlette/issues/3447"
+  },
+  {
+    "repo": "tornadoweb/tornado",
+    "number": 3616,
+    "title": "Getting the templated path that led to an handler",
+    "createdAt": "2026-04-30T09:14:55Z",
+    "is_bug": false,
+    "labels": [],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/tornadoweb/tornado/issues/3616"
+  },
+  {
+    "repo": "tornadoweb/tornado",
+    "number": 3605,
+    "title": "new awesome list for tornado & social media presence",
+    "createdAt": "2026-04-03T20:16:21Z",
+    "is_bug": false,
+    "labels": [],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/tornadoweb/tornado/issues/3605"
+  },
+  {
+    "repo": "tornadoweb/tornado",
+    "number": 3583,
+    "title": "Support for __html__ method and marking variables as safe to use in templates to avoid escaping",
+    "createdAt": "2026-03-08T09:36:05Z",
+    "is_bug": false,
+    "labels": [],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/tornadoweb/tornado/issues/3583"
+  },
+  {
+    "repo": "tornadoweb/tornado",
+    "number": 3565,
+    "title": "WebSocketClosedError",
+    "createdAt": "2025-12-16T19:24:45Z",
+    "is_bug": false,
+    "labels": [],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/tornadoweb/tornado/issues/3565"
+  },
+  {
+    "repo": "tornadoweb/tornado",
+    "number": 3561,
+    "title": "x-forwarded-for doesn't work",
+    "createdAt": "2025-12-12T21:09:47Z",
+    "is_bug": false,
+    "labels": [],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/tornadoweb/tornado/issues/3561"
+  },
+  {
+    "repo": "encode/httpx",
+    "number": 3781,
+    "title": "ADD PROXY _DICT SUPPORT into this latest HTTPX",
+    "createdAt": "2026-02-25T23:44:31Z",
+    "is_bug": false,
+    "labels": [],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/encode/httpx/issues/3781"
+  },
+  {
+    "repo": "encode/httpx",
+    "number": 3728,
+    "title": "RuntimeError: Attempted to exit a cancel scope that isn't the current tasks's current cancel scope",
+    "createdAt": "2025-12-15T02:33:12Z",
+    "is_bug": false,
+    "labels": [],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/encode/httpx/issues/3728"
+  },
+  {
+    "repo": "encode/httpx",
+    "number": 3704,
+    "title": "Asyncio Task Creation Delay in Python 3.12.8 Compared to Python 3.10",
+    "createdAt": "2025-11-06T17:44:31Z",
+    "is_bug": false,
+    "labels": [],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/encode/httpx/issues/3704"
+  },
+  {
+    "repo": "Kludex/uvicorn",
+    "number": 1972,
+    "title": "Ctrl+C in terminal broken on windows",
+    "createdAt": "2023-05-08T12:43:25Z",
+    "is_bug": false,
+    "labels": [
+      "need confirmation",
+      "windows"
+    ],
+    "pr_unknown": true,
+    "cmt_unknown": false,
+    "url": "https://github.com/Kludex/uvicorn/issues/1972"
+  },
+  {
+    "repo": "sqlalchemy/sqlalchemy",
+    "number": 13677,
+    "title": "Table.to_metadata() drops ForeignKeyConstraint dialect options (e.g. postgresql_not_valid)",
+    "createdAt": "2026-10-13T21:16:35Z",
+    "is_bug": true,
+    "labels": [
+      "bug",
+      "schema"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/sqlalchemy/sqlalchemy/issues/13677"
+  },
+  {
+    "repo": "sqlalchemy/sqlalchemy",
+    "number": 13675,
+    "title": "Bulk UPDATE expires server_onupdate/postfetch columns on only one matched object",
+    "createdAt": "2026-10-13T17:04:08Z",
+    "is_bug": true,
+    "labels": [
+      "bug",
+      "orm",
+      "regression",
+      "dml"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/sqlalchemy/sqlalchemy/issues/13675"
+  },
+  {
+    "repo": "sqlalchemy/sqlalchemy",
+    "number": 13667,
+    "title": "Free-threaded CPython 3.14.7+/3.15: memo.__name__/__doc__ assignments in memoized_instancemethod stop the world, making multi-threaded statement execution far slower",
+    "createdAt": "2026-10-10T17:38:22Z",
+    "is_bug": false,
+    "labels": [
+      "external library/application issues"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/sqlalchemy/sqlalchemy/issues/13667"
+  },
+  {
+    "repo": "sqlalchemy/sqlalchemy",
+    "number": 13654,
+    "title": "Improve sa.Column automatic typing",
+    "createdAt": "2026-10-06T07:55:55Z",
+    "is_bug": true,
+    "labels": [
+      "bug",
+      "typing"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/sqlalchemy/sqlalchemy/issues/13654"
+  },
+  {
+    "repo": "sqlalchemy/sqlalchemy",
+    "number": 13636,
+    "title": "asyncpg dialect raises DBAPIError, not DataError, for SQLSTATE class 22 errors",
+    "createdAt": "2026-10-02T15:28:11Z",
+    "is_bug": true,
+    "labels": [
+      "bug",
+      "dialects"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/sqlalchemy/sqlalchemy/issues/13636"
+  },
+  {
+    "repo": "tortoise/tortoise-orm",
+    "number": 2265,
+    "title": "Database Inspection?",
+    "createdAt": "2026-08-24T19:16:39Z",
+    "is_bug": false,
+    "labels": [],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/tortoise/tortoise-orm/issues/2265"
+  },
+  {
+    "repo": "vllm-project/vllm",
+    "number": 61631,
+    "title": "[Feature]: Improve triage visibility for gated contributor PRs and unowned CODEOWNERS paths (e.g. model_executor/offloader)",
+    "createdAt": "2026-10-14T13:16:24Z",
+    "is_bug": false,
+    "labels": [
+      "tool-calling"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/vllm-project/vllm/issues/61631"
+  },
+  {
+    "repo": "vllm-project/vllm",
+    "number": 61629,
+    "title": "[Feature]: Support logprobs / top_logprobs for gpt-oss (Harmony) models in /v1/responses",
+    "createdAt": "2026-10-14T12:53:40Z",
+    "is_bug": false,
+    "labels": [
+      "feature request",
+      "tool-calling",
+      "gpt-oss"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/vllm-project/vllm/issues/61629"
+  },
+  {
+    "repo": "vllm-project/vllm",
+    "number": 61626,
+    "title": "[RFC]: Porting Sequence Parallelism & Async TP to manual fusion",
+    "createdAt": "2026-10-14T12:33:02Z",
+    "is_bug": false,
+    "labels": [
+      "rfc"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/vllm-project/vllm/issues/61626"
+  },
+  {
+    "repo": "vllm-project/vllm",
+    "number": 61608,
+    "title": "[Bug]: enable_tower_connector_lora: get_mm_lora_token_counts() under-sizes punica wrappers in 8 models (startup/runtime token_lora_mapping asserts)",
+    "createdAt": "2026-10-14T10:23:52Z",
+    "is_bug": false,
+    "labels": [],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/vllm-project/vllm/issues/61608"
+  },
+  {
+    "repo": "vllm-project/vllm",
+    "number": 61604,
+    "title": "[Performance]: Waiting requests re-walk their whole prefix-cache hit on every scheduling step",
+    "createdAt": "2026-10-14T09:56:49Z",
+    "is_bug": false,
+    "labels": [],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/vllm-project/vllm/issues/61604"
+  },
+  {
+    "repo": "vllm-project/vllm",
+    "number": 61603,
+    "title": "[Bug]: NemotronH/Mamba2: _chunk_scan_fwd_kernel nondeterministically emits NaN rows on sm90 (H20) for 8 of 23 autotune configs (warps=4, stages>=2, M/N>=64)",
+    "createdAt": "2026-10-14T09:22:50Z",
+    "is_bug": true,
+    "labels": [
+      "bug"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/vllm-project/vllm/issues/61603"
+  },
+  {
+    "repo": "vllm-project/vllm",
+    "number": 61597,
+    "title": "test",
+    "createdAt": "2026-10-14T08:49:59Z",
+    "is_bug": false,
+    "labels": [],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/vllm-project/vllm/issues/61597"
+  },
+  {
+    "repo": "run-llama/llama_index",
+    "number": 23480,
+    "title": "List llama-index-tools-econdash on LlamaHub",
+    "createdAt": "2026-10-13T08:01:20Z",
+    "is_bug": false,
+    "labels": [],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/run-llama/llama_index/issues/23480"
+  },
+  {
+    "repo": "guidance-ai/guidance",
+    "number": 1513,
+    "title": "Latest 0.3.2 version not on PyPi",
+    "createdAt": "2026-08-28T15:11:39Z",
+    "is_bug": false,
+    "labels": [],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/guidance-ai/guidance/issues/1513"
+  },
+  {
+    "repo": "guidance-ai/guidance",
+    "number": 1512,
+    "title": "OpenAI-compat host: models.OpenAI(..., base_url=/v1); regex constraints unsupported",
+    "createdAt": "2026-08-28T06:57:20Z",
+    "is_bug": false,
+    "labels": [],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/guidance-ai/guidance/issues/1512"
+  },
+  {
+    "repo": "crewAIInc/crewAI",
+    "number": 8141,
+    "title": "[FEATURE] Implement deterministic comparison of historical Flow state JSON",
+    "createdAt": "2026-10-13T22:35:44Z",
+    "is_bug": false,
+    "labels": [
+      "feature-request",
+      "llm-generated",
+      "difficulty:medium",
+      "cohort:stanford"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/crewAIInc/crewAI/issues/8141"
+  },
+  {
+    "repo": "crewAIInc/crewAI",
+    "number": 8140,
+    "title": "[FEATURE] Add read-only CLI listing and inspection for persisted Flow states",
+    "createdAt": "2026-10-13T22:35:41Z",
+    "is_bug": false,
+    "labels": [
+      "feature-request",
+      "llm-generated",
+      "difficulty:medium",
+      "cohort:stanford"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/crewAIInc/crewAI/issues/8140"
+  },
+  {
+    "repo": "crewAIInc/crewAI",
+    "number": 8139,
+    "title": "[FEATURE] Add exact historical Flow state lookup scoped to its UUID",
+    "createdAt": "2026-10-13T22:35:39Z",
+    "is_bug": false,
+    "labels": [
+      "feature-request",
+      "llm-generated",
+      "difficulty:easy",
+      "cohort:stanford"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/crewAIInc/crewAI/issues/8139"
+  },
+  {
+    "repo": "crewAIInc/crewAI",
+    "number": 8138,
+    "title": "[FEATURE] Add paginated read-only SQLite Flow state history",
+    "createdAt": "2026-10-13T22:35:36Z",
+    "is_bug": false,
+    "labels": [
+      "feature-request",
+      "llm-generated",
+      "difficulty:medium",
+      "cohort:stanford"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/crewAIInc/crewAI/issues/8138"
+  },
+  {
+    "repo": "crewAIInc/crewAI",
+    "number": 8137,
+    "title": "[FEATURE] Add memory backend async parity and restart-persistence contracts",
+    "createdAt": "2026-10-13T22:35:34Z",
+    "is_bug": false,
+    "labels": [
+      "feature-request",
+      "llm-generated",
+      "difficulty:medium",
+      "cohort:stanford"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/crewAIInc/crewAI/issues/8137"
+  },
+  {
+    "repo": "crewAIInc/crewAI",
+    "number": 8136,
+    "title": "[FEATURE] Add shared memory backend scoped-search and deletion-filter contracts",
+    "createdAt": "2026-10-13T22:35:31Z",
+    "is_bug": false,
+    "labels": [
+      "feature-request",
+      "llm-generated",
+      "difficulty:medium",
+      "cohort:stanford"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/crewAIInc/crewAI/issues/8136"
+  },
+  {
+    "repo": "microsoft/semantic-kernel",
+    "number": 14573,
+    "title": "Python: New Feature:",
+    "createdAt": "2026-10-09T11:50:36Z",
+    "is_bug": false,
+    "labels": [
+      "python",
+      "triage"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/microsoft/semantic-kernel/issues/14573"
+  },
+  {
+    "repo": "vibrantlabsai/ragas",
+    "number": 3053,
+    "title": "This project is not maintained anymore",
+    "createdAt": "2026-10-09T10:07:04Z",
+    "is_bug": false,
+    "labels": [
+      "question"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/vibrantlabsai/ragas/issues/3053"
+  },
+  {
+    "repo": "vibrantlabsai/ragas",
+    "number": 3045,
+    "title": "New metric: structural filter-correctness for metadata-filtered retrieval",
+    "createdAt": "2026-09-30T20:40:15Z",
+    "is_bug": false,
+    "labels": [
+      "enhancement"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/vibrantlabsai/ragas/issues/3045"
+  },
+  {
+    "repo": "Arize-ai/phoenix",
+    "number": 16978,
+    "title": "[BUG]: OAuth2 authorize loops back to /login after IdP sign-in when the IdP shows a page",
+    "createdAt": "2026-10-14T12:51:40Z",
+    "is_bug": false,
+    "labels": [
+      "triage"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/Arize-ai/phoenix/issues/16978"
+  },
+  {
+    "repo": "Arize-ai/phoenix",
+    "number": 16975,
+    "title": "Add plugin to harbor docs",
+    "createdAt": "2026-10-14T05:16:25Z",
+    "is_bug": false,
+    "labels": [],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/Arize-ai/phoenix/issues/16975"
+  },
+  {
+    "repo": "Arize-ai/phoenix",
+    "number": 16966,
+    "title": "[phoenix-evals] Rename the llm package and wrapper.py now that decision models live there",
+    "createdAt": "2026-10-13T18:08:35Z",
+    "is_bug": false,
+    "labels": [
+      "enhancement",
+      "c/evals"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/Arize-ai/phoenix/issues/16966"
+  },
+  {
+    "repo": "Arize-ai/phoenix",
+    "number": 16956,
+    "title": "[ENHANCEMENT]: [experiments] Paired delta, confidence interval and regression tolerance on the experiment compare page",
+    "createdAt": "2026-10-13T15:11:07Z",
+    "is_bug": false,
+    "labels": [
+      "enhancement",
+      "triage"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/Arize-ai/phoenix/issues/16956"
+  },
+  {
+    "repo": "jupyter/notebook",
+    "number": 8075,
+    "title": "File browser refresh button appears to update contents but not the \"Last Modified\" column",
+    "createdAt": "2026-09-30T04:08:10Z",
+    "is_bug": false,
+    "labels": [
+      "enhancement",
+      "status:needs triage"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/jupyter/notebook/issues/8075"
+  },
+  {
+    "repo": "jupyter/notebook",
+    "number": 8065,
+    "title": "Launching jupyter notebook launches element communicator!!",
+    "createdAt": "2026-09-21T08:27:11Z",
+    "is_bug": true,
+    "labels": [
+      "bug",
+      "status:needs triage"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/jupyter/notebook/issues/8065"
+  },
+  {
+    "repo": "jupyter/notebook",
+    "number": 8061,
+    "title": "Which projects will continue using Sphinx or migrate to another SSG?",
+    "createdAt": "2026-09-16T06:39:17Z",
+    "is_bug": false,
+    "labels": [
+      "enhancement",
+      "status:needs triage"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/jupyter/notebook/issues/8061"
+  },
+  {
+    "repo": "jupyter/notebook",
+    "number": 7867,
+    "title": "Chinese IME composition deletes preceding text in code cells on Google Chrome",
+    "createdAt": "2026-03-23T07:46:52Z",
+    "is_bug": true,
+    "labels": [
+      "bug",
+      "status:blocked"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/jupyter/notebook/issues/7867"
+  },
+  {
+    "repo": "jupyter/nbconvert",
+    "number": 2329,
+    "title": "Long-term solution for depending on notebook's style.min.css",
+    "createdAt": "2026-10-12T09:03:56Z",
+    "is_bug": false,
+    "labels": [],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/jupyter/nbconvert/issues/2329"
+  },
+  {
+    "repo": "jupyter/nbconvert",
+    "number": 2298,
+    "title": "Greek Letters",
+    "createdAt": "2026-07-31T13:36:21Z",
+    "is_bug": false,
+    "labels": [],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/jupyter/nbconvert/issues/2298"
+  },
+  {
+    "repo": "jupyter/nbconvert",
+    "number": 2284,
+    "title": "[Feature request] Option to set document locale",
+    "createdAt": "2026-05-18T11:05:14Z",
+    "is_bug": false,
+    "labels": [],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/jupyter/nbconvert/issues/2284"
+  },
+  {
+    "repo": "jupyter/nbconvert",
+    "number": 2278,
+    "title": "Slides: mermaid only renders after pressing \"F5\"",
+    "createdAt": "2026-04-09T09:13:32Z",
+    "is_bug": false,
+    "labels": [],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/jupyter/nbconvert/issues/2278"
+  },
+  {
+    "repo": "pallets/click",
+    "number": 3156,
+    "title": "Remove deprecated code for 9.0",
+    "createdAt": "2025-11-22T19:08:51Z",
+    "is_bug": false,
+    "labels": [
+      "parsing"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/pallets/click/issues/3156"
+  },
+  {
+    "repo": "pallets/click",
+    "number": 3154,
+    "title": "Click 9.0",
+    "createdAt": "2025-11-22T18:57:01Z",
+    "is_bug": false,
+    "labels": [
+      "parsing"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/pallets/click/issues/3154"
+  },
+  {
+    "repo": "pallets/click",
+    "number": 3097,
+    "title": "WIP: Help page customization low level api",
+    "createdAt": "2025-09-28T20:35:35Z",
+    "is_bug": false,
+    "labels": [
+      "help output"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/pallets/click/issues/3097"
+  },
+  {
+    "repo": "hydra-ecosystem/hydra",
+    "number": 3534,
+    "title": "Support package destinations inside list items",
+    "createdAt": "2026-10-10T15:43:55Z",
+    "is_bug": false,
+    "labels": [
+      "enhancement",
+      "list composition"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/hydra-ecosystem/hydra/issues/3534"
+  },
+  {
+    "repo": "hydra-ecosystem/hydra",
+    "number": 3498,
+    "title": "Evaluate promoting callbacks out of experimental after Hydra 1.4",
+    "createdAt": "2026-10-01T07:22:13Z",
+    "is_bug": false,
+    "labels": [
+      "maintenance",
+      "callbacks"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/hydra-ecosystem/hydra/issues/3498"
+  },
+  {
+    "repo": "hydra-ecosystem/hydra",
+    "number": 3461,
+    "title": "Post-1.4: drop Python 3.10",
+    "createdAt": "2026-09-23T20:57:54Z",
+    "is_bug": false,
+    "labels": [],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/hydra-ecosystem/hydra/issues/3461"
+  },
+  {
+    "repo": "hydra-ecosystem/hydra",
+    "number": 3445,
+    "title": "Reach and enforce 100% public type coverage",
+    "createdAt": "2026-09-10T21:56:48Z",
+    "is_bug": false,
+    "labels": [],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/hydra-ecosystem/hydra/issues/3445"
+  },
+  {
+    "repo": "hydra-ecosystem/hydra",
+    "number": 3438,
+    "title": "Improve type safety of Hydra logging configurations",
+    "createdAt": "2026-09-05T17:17:46Z",
+    "is_bug": false,
+    "labels": [
+      "enhancement"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/hydra-ecosystem/hydra/issues/3438"
+  },
+  {
+    "repo": "hydra-ecosystem/hydra",
+    "number": 3328,
+    "title": "[Feature Request] First-class resume support for Hydra sweeps",
+    "createdAt": "2026-07-31T06:05:18Z",
+    "is_bug": false,
+    "labels": [
+      "enhancement",
+      "sweep",
+      "needs decision"
+    ],
+    "pr_unknown": false,
+    "cmt_unknown": false,
+    "url": "https://github.com/hydra-ecosystem/hydra/issues/3328"
+  }
+]

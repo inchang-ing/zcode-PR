@@ -1,0 +1,131 @@
+{
+  "BerriAI/litellm#46216": {
+    "status": "needs_repro",
+    "ts": 1791906115.4757707,
+    "reason": "\u65e0\u6ce8\u518c REPRO/FIXER, \u5f85 agent \u63d0\u4f9b; \u4e0d\u514b\u9686\u4e0d\u6d88\u8017\u540d\u989d"
+  },
+  "BerriAI/litellm#46212": {
+    "status": "needs_repro",
+    "ts": 1791906115.4782457,
+    "reason": "\u65e0\u6ce8\u518c REPRO/FIXER, \u5f85 agent \u63d0\u4f9b; \u4e0d\u514b\u9686\u4e0d\u6d88\u8017\u540d\u989d"
+  },
+  "BerriAI/litellm#46209": {
+    "status": "pr_opened",
+    "pr_url": "https://github.com/BerriAI/litellm/pull/46262",
+    "branch": "litellm_fix_stream_delta_content_list",
+    "ts": 1791918183.558084
+  },
+  "huggingface/transformers#49540": {
+    "status": "needs_repro",
+    "ts": 1791906115.4993484,
+    "reason": "\u65e0\u6ce8\u518c REPRO/FIXER, \u5f85 agent \u63d0\u4f9b; \u4e0d\u514b\u9686\u4e0d\u6d88\u8017\u540d\u989d"
+  },
+  "huggingface/diffusers#15020": {
+    "status": "needs_repro",
+    "ts": 1791906115.5007265,
+    "reason": "\u65e0\u6ce8\u518c REPRO/FIXER, \u5f85 agent \u63d0\u4f9b; \u4e0d\u514b\u9686\u4e0d\u6d88\u8017\u540d\u989d"
+  },
+  "stanfordnlp/dspy#10639": {
+    "status": "dropped",
+    "reason": "\u5173\u8054 PR #10642",
+    "ts": 1791918183.558084
+  },
+  "optuna/optuna#6898": {
+    "status": "dropped",
+    "reason": "\u6b63\u6587\u81ea\u5360",
+    "ts": 1791918183.558084
+  },
+  "mlflow/mlflow#26611": {
+    "status": "needs_repro",
+    "ts": 1791906115.504707,
+    "reason": "\u65e0\u6ce8\u518c REPRO/FIXER, \u5f85 agent \u63d0\u4f9b; \u4e0d\u514b\u9686\u4e0d\u6d88\u8017\u540d\u989d"
+  },
+  "mlflow/mlflow#26605": {
+    "status": "dropped",
+    "reason": "\u6b63\u6587\u81ea\u5360+\u5df2\u6709\u5206\u652f",
+    "ts": 1791918183.558084
+  },
+  "dask/dask#12632": {
+    "status": "needs_repro",
+    "ts": 1791906115.5071504,
+    "reason": "\u65e0\u6ce8\u518c REPRO/FIXER, \u5f85 agent \u63d0\u4f9b; \u4e0d\u514b\u9686\u4e0d\u6d88\u8017\u540d\u989d"
+  },
+  "explosion/spaCy#14011": {
+    "status": "dropped",
+    "reason": "\u975e\u4ee3\u7801 bug",
+    "ts": 1791918183.558084
+  },
+  "huggingface/peft#3962": {
+    "status": "needs_repro",
+    "ts": 1791906115.5101,
+    "reason": "\u65e0\u6ce8\u518c REPRO/FIXER, \u5f85 agent \u63d0\u4f9b; \u4e0d\u514b\u9686\u4e0d\u6d88\u8017\u540d\u989d"
+  },
+  "scikit-learn/scikit-learn#35139": {
+    "status": "dropped",
+    "reason": "\u6b63\u6587\u81ea\u5360+\u5b98\u65b9\u6a2a\u5e45",
+    "ts": 1791918183.558084
+  },
+  "pola-rs/polars#29910": {
+    "status": "needs_repro",
+    "ts": 1791906115.5129359,
+    "reason": "\u65e0\u6ce8\u518c REPRO/FIXER, \u5f85 agent \u63d0\u4f9b; \u4e0d\u514b\u9686\u4e0d\u6d88\u8017\u540d\u989d"
+  },
+  "pola-rs/polars#29904": {
+    "status": "needs_repro",
+    "ts": 1791906115.5143166,
+    "reason": "\u65e0\u6ce8\u518c REPRO/FIXER, \u5f85 agent \u63d0\u4f9b; \u4e0d\u514b\u9686\u4e0d\u6d88\u8017\u540d\u989d"
+  },
+  "pola-rs/polars#29903": {
+    "status": "needs_repro",
+    "ts": 1791906115.5160477,
+    "reason": "\u65e0\u6ce8\u518c REPRO/FIXER, \u5f85 agent \u63d0\u4f9b; \u4e0d\u514b\u9686\u4e0d\u6d88\u8017\u540d\u989d"
+  },
+  "crewAIInc/crewAI#8111": {
+    "status": "dropped",
+    "reason": "\u6b63\u6587\u81ea\u5360",
+    "ts": 1791918183.558084
+  },
+  "microsoft/semantic-kernel#14583": {
+    "status": "needs_repro",
+    "ts": 1791906115.5189826,
+    "reason": "\u65e0\u6ce8\u518c REPRO/FIXER, \u5f85 agent \u63d0\u4f9b; \u4e0d\u514b\u9686\u4e0d\u6d88\u8017\u540d\u989d"
+  },
+  "microsoft/semantic-kernel#14582": {
+    "status": "pr_opened",
+    "ts": 1791907965.3525126,
+    "pr_url": "https://github.com/microsoft/semantic-kernel/pull/14586",
+    "note": "PR 14586 \u5df2\u5f00"
+  },
+  "microsoft/semantic-kernel#14581": {
+    "status": "needs_repro",
+    "ts": 1791906115.521669,
+    "reason": "\u65e0\u6ce8\u518c REPRO/FIXER, \u5f85 agent \u63d0\u4f9b; \u4e0d\u514b\u9686\u4e0d\u6d88\u8017\u540d\u989d"
+  },
+  "Arize-ai/phoenix#16934": {
+    "status": "needs_repro",
+    "ts": 1791906115.5231612,
+    "reason": "\u65e0\u6ce8\u518c REPRO/FIXER, \u5f85 agent \u63d0\u4f9b; \u4e0d\u514b\u9686\u4e0d\u6d88\u8017\u540d\u989d"
+  },
+  "jupyter/notebook#8065": {
+    "status": "needs_repro",
+    "ts": 1791906115.5248523,
+    "reason": "\u65e0\u6ce8\u518c REPRO/FIXER, \u5f85 agent \u63d0\u4f9b; \u4e0d\u514b\u9686\u4e0d\u6d88\u8017\u540d\u989d"
+  },
+  "jupyter/notebook#7867": {
+    "status": "needs_repro",
+    "ts": 1791906115.5261185,
+    "reason": "\u65e0\u6ce8\u518c REPRO/FIXER, \u5f85 agent \u63d0\u4f9b; \u4e0d\u514b\u9686\u4e0d\u6d88\u8017\u540d\u989d"
+  },
+  "jupyter/nbconvert#2330": {
+    "status": "pr_opened",
+    "pr_url": "https://github.com/jupyter/nbconvert/pull/2332",
+    "branch": "fix/preserve-safe-subdirs-in-output-filenames",
+    "ts": 1791918183.558084
+  },
+  "hydra-ecosystem/hydra#3542": {
+    "status": "pr_opened",
+    "pr_url": "https://github.com/hydra-ecosystem/hydra/pull/3543",
+    "branch": "fix-missing-structured-config-root-override",
+    "ts": 1791921146.5198956
+  }
+}

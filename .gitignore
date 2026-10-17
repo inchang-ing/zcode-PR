@@ -1,0 +1,42 @@
+# ── 流水线仓库 .gitignore ──────────────────────────────────────────
+# 只跟踪「代码 + 文档 + 小体积状态」；一切可重建的大件都不入库。
+# 这样 git 成为 STATE.md / 脚本 / 台账的安全网，而不是仓库体积的负担。
+
+# 仓库克隆 / 工作区（可重建）
+/workspaces/
+/work/
+/.trash/
+
+# 各仓库源码克隆（顶层 xxx-src）与虚拟环境（xxx-venv / .venv*）
+/*-src/
+/*-sources/
+/*-venv/
+/.venv*/
+
+# 包管理 / 构建缓存（可无损重建）
+/.uv-cache/
+/.uvcache/
+/.uvcache2/
+/wheelcache/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.hypothesis/
+
+# 其他大件/临时
+/.tmp/
+/.local/
+/deps/
+/probe_dir/
+/tmp/
+/hydra_pkg/
+/crew-harness/
+/crew-lint/
+/code-security-workbench/
+
+# 垃圾/误产物
+/nul
+/=2026-*
+*.bak
+*.log
