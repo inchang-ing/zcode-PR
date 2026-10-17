@@ -1,0 +1,561 @@
+{
+  "567-labs/instructor#2717": {
+    "state": "OPEN",
+    "reviewDecision": "REVIEW_REQUIRED",
+    "mergeable": "MERGEABLE",
+    "updatedAt": "2026-10-11T10:41:56Z",
+    "url": "https://github.com/567-labs/instructor/pull/2717",
+    "ci": "no-checks",
+    "title": "fix(gemini): do not mutate caller-owned messages in MD_JSON mode",
+    "checked_at": "2026-10-17T12:25:18+00:00"
+  },
+  "567-labs/instructor#2736": {
+    "state": "CLOSED",
+    "reviewDecision": "REVIEW_REQUIRED",
+    "mergeable": "MERGEABLE",
+    "updatedAt": "2026-10-16T10:22:53Z",
+    "url": "https://github.com/567-labs/instructor/pull/2736",
+    "ci": "no-checks",
+    "title": "fix: replace deprecated gpt-3.5-turbo defaults with gpt-4.1-mini",
+    "checked_at": "2026-10-17T12:25:19+00:00"
+  },
+  "DataDog/dd-trace-py#20769": {
+    "state": "CLOSED",
+    "reviewDecision": "REVIEW_REQUIRED",
+    "mergeable": "CONFLICTING",
+    "updatedAt": "2026-10-16T05:04:54Z",
+    "url": "https://github.com/DataDog/dd-trace-py/pull/20769",
+    "ci": "1✓/0✗/1…/0ERR",
+    "title": "fix(vllm): guard num_cached_tokens access for vLLM >= 0.20.0",
+    "checked_at": "2026-10-17T12:25:24+00:00"
+  },
+  "OpenBMB/ChatDev#682": {
+    "state": "CLOSED",
+    "reviewDecision": "REVIEW_REQUIRED",
+    "mergeable": "MERGEABLE",
+    "updatedAt": "2026-10-16T10:22:39Z",
+    "url": "https://github.com/OpenBMB/ChatDev/pull/682",
+    "ci": "no-checks",
+    "title": "fix(utils): register dynamic tool modules in sys.modules before exec",
+    "checked_at": "2026-10-17T12:25:27+00:00"
+  },
+  "QwenLM/Qwen-Agent#986": {
+    "state": "OPEN",
+    "reviewDecision": "-",
+    "mergeable": "MERGEABLE",
+    "updatedAt": "2026-10-10T05:11:13Z",
+    "url": "https://github.com/QwenLM/Qwen-Agent/pull/986",
+    "ci": "no-checks",
+    "title": "fix(agents): uniquify dialogue history filenames per run",
+    "checked_at": "2026-10-17T12:25:28+00:00"
+  },
+  "bokeh/bokeh#15476": {
+    "state": "MERGED",
+    "reviewDecision": "APPROVED",
+    "mergeable": "UNKNOWN",
+    "updatedAt": "2026-10-13T20:08:14Z",
+    "url": "https://github.com/bokeh/bokeh/pull/15476",
+    "ci": "31✓/3✗/0…/0ERR",
+    "title": "Group legend_group columns whose values cannot be ordered",
+    "checked_at": "2026-10-17T12:25:29+00:00"
+  },
+  "crewAIInc/crewAI#7795": {
+    "state": "OPEN",
+    "reviewDecision": "REVIEW_REQUIRED",
+    "mergeable": "MERGEABLE",
+    "updatedAt": "2026-10-10T05:10:54Z",
+    "url": "https://github.com/crewAIInc/crewAI/pull/7795",
+    "ci": "3✓/0✗/0…/0ERR",
+    "title": "fix(openai): allow multimodal file inputs for GPT-6 Astra",
+    "checked_at": "2026-10-17T12:25:31+00:00"
+  },
+  "deepset-ai/haystack#13094": {
+    "state": "CLOSED",
+    "reviewDecision": "REVIEW_REQUIRED",
+    "mergeable": "MERGEABLE",
+    "updatedAt": "2026-10-09T11:20:35Z",
+    "url": "https://github.com/deepset-ai/haystack/pull/13094",
+    "ci": "6✓/0✗/0…/0ERR",
+    "title": "fix: preserve dict subclass types in _deepcopy_with_exceptions",
+    "checked_at": "2026-10-17T12:25:34+00:00"
+  },
+  "docling-project/docling#4439": {
+    "state": "OPEN",
+    "reviewDecision": "-",
+    "mergeable": "MERGEABLE",
+    "updatedAt": "2026-10-14T09:12:15Z",
+    "url": "https://github.com/docling-project/docling/pull/4439",
+    "ci": "18✓/4✗/0…/0ERR",
+    "title": "fix(xb): don't dereference memberQname on typed dimensions",
+    "checked_at": "2026-10-17T12:25:36+00:00"
+  },
+  "executablebooks/markdown-it-py#442": {
+    "state": "OPEN",
+    "reviewDecision": "-",
+    "mergeable": "MERGEABLE",
+    "updatedAt": "2026-10-16T08:35:34Z",
+    "url": "https://github.com/executablebooks/markdown-it-py/pull/442",
+    "ci": "0✓/0✗/0…/0ERR",
+    "title": "fix(block): HTML block start outside a list item closes the list",
+    "checked_at": "2026-10-17T12:25:37+00:00"
+  },
+  "executablebooks/markdown-it-py#443": {
+    "state": "OPEN",
+    "reviewDecision": "-",
+    "mergeable": "MERGEABLE",
+    "updatedAt": "2026-10-10T05:11:42Z",
+    "url": "https://github.com/executablebooks/markdown-it-py/pull/443",
+    "ci": "0✓/0✗/0…/0ERR",
+    "title": "fix(parser): fail fast on rules that don't advance state (infinite loop guard)",
+    "checked_at": "2026-10-17T12:25:38+00:00"
+  },
+  "inchang-ing/code-security-workbench#153": {
+    "state": "OPEN",
+    "reviewDecision": "-",
+    "mergeable": "MERGEABLE",
+    "updatedAt": "2026-10-07T09:15:08Z",
+    "url": "https://github.com/inchang-ing/code-security-workbench/pull/153",
+    "ci": "1✓/2✗/0…/0ERR",
+    "title": "D6-11：SQL/YAML 真实资格基线与未完成网页验收",
+    "checked_at": "2026-10-17T12:25:40+00:00"
+  },
+  "inchang-ing/code-security-workbench#161": {
+    "state": "OPEN",
+    "reviewDecision": "-",
+    "mergeable": "MERGEABLE",
+    "updatedAt": "2026-10-07T05:45:46Z",
+    "url": "https://github.com/inchang-ing/code-security-workbench/pull/161",
+    "ci": "1✓/4✗/0…/0ERR",
+    "title": "D6-25：公网 HTTPS 评审入口与实际代理边界验证",
+    "checked_at": "2026-10-17T12:25:42+00:00"
+  },
+  "inchang-ing/code-security-workbench#162": {
+    "state": "OPEN",
+    "reviewDecision": "-",
+    "mergeable": "MERGEABLE",
+    "updatedAt": "2026-10-07T08:08:06Z",
+    "url": "https://github.com/inchang-ing/code-security-workbench/pull/162",
+    "ci": "no-checks",
+    "title": "fix(ui): 正常读取通用静态检查失败记录",
+    "checked_at": "2026-10-17T12:25:43+00:00"
+  },
+  "inchang-ing/commerce-ops-xianyu#1": {
+    "state": "OPEN",
+    "reviewDecision": "-",
+    "mergeable": "MERGEABLE",
+    "updatedAt": "2026-09-06T16:12:51Z",
+    "url": "https://github.com/inchang-ing/commerce-ops-xianyu/pull/1",
+    "ci": "no-checks",
+    "title": "feat: 商品素材优化中心与项目整理 v0.8.1（含此前未合并升级）",
+    "checked_at": "2026-10-17T12:25:45+00:00"
+  },
+  "inchang-ing/commerce-ops-xianyu#10": {
+    "state": "OPEN",
+    "reviewDecision": "-",
+    "mergeable": "MERGEABLE",
+    "updatedAt": "2026-09-08T08:48:49Z",
+    "url": "https://github.com/inchang-ing/commerce-ops-xianyu/pull/10",
+    "ci": "no-checks",
+    "title": "docs: Paddle OCR 同样本对照与模型登记",
+    "checked_at": "2026-10-17T12:25:46+00:00"
+  },
+  "inchang-ing/commerce-ops-xianyu#11": {
+    "state": "OPEN",
+    "reviewDecision": "-",
+    "mergeable": "MERGEABLE",
+    "updatedAt": "2026-09-08T08:58:13Z",
+    "url": "https://github.com/inchang-ing/commerce-ops-xianyu/pull/11",
+    "ci": "no-checks",
+    "title": "docs: v6 medium OCR 精度与资源实测",
+    "checked_at": "2026-10-17T12:25:48+00:00"
+  },
+  "inchang-ing/commerce-ops-xianyu#12": {
+    "state": "OPEN",
+    "reviewDecision": "-",
+    "mergeable": "MERGEABLE",
+    "updatedAt": "2026-09-08T09:47:36Z",
+    "url": "https://github.com/inchang-ing/commerce-ops-xianyu/pull/12",
+    "ci": "no-checks",
+    "title": "feat: 详情 OCR 受限增强与人工核验接入 v0.12.0",
+    "checked_at": "2026-10-17T12:25:49+00:00"
+  },
+  "inchang-ing/commerce-ops-xianyu#13": {
+    "state": "OPEN",
+    "reviewDecision": "-",
+    "mergeable": "MERGEABLE",
+    "updatedAt": "2026-09-08T14:14:57Z",
+    "url": "https://github.com/inchang-ing/commerce-ops-xianyu/pull/13",
+    "ci": "no-checks",
+    "title": "feat: multi-shop readiness and source error classification (partial workflow)",
+    "checked_at": "2026-10-17T12:25:51+00:00"
+  },
+  "inchang-ing/commerce-ops-xianyu#14": {
+    "state": "OPEN",
+    "reviewDecision": "-",
+    "mergeable": "MERGEABLE",
+    "updatedAt": "2026-09-08T14:47:44Z",
+    "url": "https://github.com/inchang-ing/commerce-ops-xianyu/pull/14",
+    "ci": "no-checks",
+    "title": "feat: 多账号上架准备检查接入控制台 v0.14.0",
+    "checked_at": "2026-10-17T12:25:52+00:00"
+  },
+  "inchang-ing/commerce-ops-xianyu#15": {
+    "state": "OPEN",
+    "reviewDecision": "-",
+    "mergeable": "MERGEABLE",
+    "updatedAt": "2026-09-09T06:23:34Z",
+    "url": "https://github.com/inchang-ing/commerce-ops-xianyu/pull/15",
+    "ci": "no-checks",
+    "title": "fix: 读取中心反馈、店铺确认与可靠回执恢复",
+    "checked_at": "2026-10-17T12:25:53+00:00"
+  },
+  "inchang-ing/commerce-ops-xianyu#16": {
+    "state": "OPEN",
+    "reviewDecision": "-",
+    "mergeable": "MERGEABLE",
+    "updatedAt": "2026-09-09T14:53:01Z",
+    "url": "https://github.com/inchang-ing/commerce-ops-xianyu/pull/16",
+    "ci": "no-checks",
+    "title": "feat: Edge 任推邦持久只读会话 v0.15.0",
+    "checked_at": "2026-10-17T12:25:54+00:00"
+  },
+  "inchang-ing/commerce-ops-xianyu#17": {
+    "state": "OPEN",
+    "reviewDecision": "-",
+    "mergeable": "MERGEABLE",
+    "updatedAt": "2026-09-11T16:15:56Z",
+    "url": "https://github.com/inchang-ing/commerce-ops-xianyu/pull/17",
+    "ci": "no-checks",
+    "title": "feat: AI 任务工作台 G0 验证与 Cloudflare Pages 入口",
+    "checked_at": "2026-10-17T12:25:56+00:00"
+  },
+  "inchang-ing/commerce-ops-xianyu#18": {
+    "state": "OPEN",
+    "reviewDecision": "-",
+    "mergeable": "MERGEABLE",
+    "updatedAt": "2026-09-21T04:20:03Z",
+    "url": "https://github.com/inchang-ing/commerce-ops-xianyu/pull/18",
+    "ci": "no-checks",
+    "title": "docs: 9月21日多 SKU 周审计受阻记录",
+    "checked_at": "2026-10-17T12:25:57+00:00"
+  },
+  "inchang-ing/commerce-ops-xianyu#2": {
+    "state": "OPEN",
+    "reviewDecision": "-",
+    "mergeable": "MERGEABLE",
+    "updatedAt": "2026-09-07T02:06:31Z",
+    "url": "https://github.com/inchang-ing/commerce-ops-xianyu/pull/2",
+    "ci": "no-checks",
+    "title": "docs: 2026-09-07 多SKU每周阻塞审计",
+    "checked_at": "2026-10-17T12:25:58+00:00"
+  },
+  "inchang-ing/commerce-ops-xianyu#3": {
+    "state": "OPEN",
+    "reviewDecision": "-",
+    "mergeable": "MERGEABLE",
+    "updatedAt": "2026-09-07T14:11:15Z",
+    "url": "https://github.com/inchang-ing/commerce-ops-xianyu/pull/3",
+    "ci": "no-checks",
+    "title": "fix: 仅修改标题正文并保留原图",
+    "checked_at": "2026-10-17T12:25:59+00:00"
+  },
+  "inchang-ing/commerce-ops-xianyu#4": {
+    "state": "OPEN",
+    "reviewDecision": "-",
+    "mergeable": "MERGEABLE",
+    "updatedAt": "2026-09-07T16:02:25Z",
+    "url": "https://github.com/inchang-ing/commerce-ops-xianyu/pull/4",
+    "ci": "no-checks",
+    "title": "fix: 单规格文案保护、编号排版及本机审核提交修复",
+    "checked_at": "2026-10-17T12:26:00+00:00"
+  },
+  "inchang-ing/commerce-ops-xianyu#5": {
+    "state": "OPEN",
+    "reviewDecision": "-",
+    "mergeable": "MERGEABLE",
+    "updatedAt": "2026-09-08T04:22:54Z",
+    "url": "https://github.com/inchang-ing/commerce-ops-xianyu/pull/5",
+    "ci": "no-checks",
+    "title": "feat: isolate quality tools and establish tool reuse catalog",
+    "checked_at": "2026-10-17T12:26:02+00:00"
+  },
+  "inchang-ing/commerce-ops-xianyu#6": {
+    "state": "OPEN",
+    "reviewDecision": "-",
+    "mergeable": "MERGEABLE",
+    "updatedAt": "2026-09-08T05:13:34Z",
+    "url": "https://github.com/inchang-ing/commerce-ops-xianyu/pull/6",
+    "ci": "no-checks",
+    "title": "feat: Chrome 只读长连接 MVP v0.10.0",
+    "checked_at": "2026-10-17T12:26:03+00:00"
+  },
+  "inchang-ing/commerce-ops-xianyu#7": {
+    "state": "OPEN",
+    "reviewDecision": "-",
+    "mergeable": "MERGEABLE",
+    "updatedAt": "2026-09-08T06:22:15Z",
+    "url": "https://github.com/inchang-ing/commerce-ops-xianyu/pull/7",
+    "ci": "no-checks",
+    "title": "feat: 第二轮 uv 管理与 Trafilatura 离线试验 v0.11.0",
+    "checked_at": "2026-10-17T12:26:04+00:00"
+  },
+  "inchang-ing/commerce-ops-xianyu#8": {
+    "state": "OPEN",
+    "reviewDecision": "-",
+    "mergeable": "MERGEABLE",
+    "updatedAt": "2026-09-08T06:35:53Z",
+    "url": "https://github.com/inchang-ing/commerce-ops-xianyu/pull/8",
+    "ci": "no-checks",
+    "title": "docs: Trafilatura 边界验证与真实对照阻塞",
+    "checked_at": "2026-10-17T12:26:05+00:00"
+  },
+  "inchang-ing/commerce-ops-xianyu#9": {
+    "state": "OPEN",
+    "reviewDecision": "-",
+    "mergeable": "MERGEABLE",
+    "updatedAt": "2026-09-08T08:42:09Z",
+    "url": "https://github.com/inchang-ing/commerce-ops-xianyu/pull/9",
+    "ci": "no-checks",
+    "title": "docs: 详情图片 OCR 实验与核验缺口",
+    "checked_at": "2026-10-17T12:26:06+00:00"
+  },
+  "open-telemetry/opentelemetry-python#5717": {
+    "state": "OPEN",
+    "reviewDecision": "-",
+    "mergeable": "MERGEABLE",
+    "updatedAt": "2026-10-17T07:53:29Z",
+    "url": "https://github.com/open-telemetry/opentelemetry-python/pull/5717",
+    "ci": "0✓/0✗/0…/0ERR",
+    "title": "fix(metrics): reset the exponent mapping between DELTA collections",
+    "checked_at": "2026-10-17T12:26:10+00:00"
+  },
+  "pydicom/pydicom#2385": {
+    "state": "MERGED",
+    "reviewDecision": "APPROVED",
+    "mergeable": "UNKNOWN",
+    "updatedAt": "2026-10-14T13:33:38Z",
+    "url": "https://github.com/pydicom/pydicom/pull/2385",
+    "ci": "0✓/0✗/0…/0ERR",
+    "title": "fix(charset): handle ISO 2022 IR 58 (GB2312) escape sequence (GH#2383)",
+    "checked_at": "2026-10-17T12:26:13+00:00"
+  },
+  "pypa/setuptools#5337": {
+    "state": "OPEN",
+    "reviewDecision": "-",
+    "mergeable": "MERGEABLE",
+    "updatedAt": "2026-10-10T05:11:04Z",
+    "url": "https://github.com/pypa/setuptools/pull/5337",
+    "ci": "1✓/0✗/0…/0ERR",
+    "title": "Extract tar members through the tarfile data filter",
+    "checked_at": "2026-10-17T12:26:14+00:00"
+  },
+  "pytest-dev/execnet#431": {
+    "state": "OPEN",
+    "reviewDecision": "CHANGES_REQUESTED",
+    "mergeable": "MERGEABLE",
+    "updatedAt": "2026-10-07T23:53:02Z",
+    "url": "https://github.com/pytest-dev/execnet/pull/431",
+    "ci": "1✓/0✗/0…/0ERR",
+    "title": "fix: observe terminated workers and report safe_terminate outcome"
+  },
+  "snowflakedb/snowflake-connector-python#3046": {
+    "state": "OPEN",
+    "reviewDecision": "REVIEW_REQUIRED",
+    "mergeable": "MERGEABLE",
+    "updatedAt": "2026-10-10T05:12:19Z",
+    "url": "https://github.com/snowflakedb/snowflake-connector-python/pull/3046",
+    "ci": "2✓/0✗/0…/0ERR",
+    "title": "fix: honor external_browser_timeout in the externalbrowser flow",
+    "checked_at": "2026-10-17T12:26:19+00:00"
+  },
+  "weaviate/weaviate-python-client#2180": {
+    "state": "OPEN",
+    "reviewDecision": "-",
+    "mergeable": "MERGEABLE",
+    "updatedAt": "2026-10-10T07:19:48Z",
+    "url": "https://github.com/weaviate/weaviate-python-client/pull/2180",
+    "ci": "5✓/0✗/0…/0ERR",
+    "title": "fix(batch): filter re-added errors by uuid and avoid the deprecated all_responses read",
+    "checked_at": "2026-10-17T12:26:22+00:00"
+  },
+  "yaml/pyyaml#967": {
+    "state": "CLOSED",
+    "reviewDecision": "-",
+    "mergeable": "MERGEABLE",
+    "updatedAt": "2026-10-16T10:22:46Z",
+    "url": "https://github.com/yaml/pyyaml/pull/967",
+    "ci": "no-checks",
+    "title": "Quote leading-zero digit strings when dumping",
+    "checked_at": "2026-10-17T12:26:23+00:00"
+  },
+  "Arize-ai/openinference#3981": {
+    "state": "OPEN",
+    "mergeable": "MERGEABLE",
+    "reviewDecision": "REVIEW_REQUIRED",
+    "ci": "1✓/0✗/0…/0ERR",
+    "title": "Fix #3803: record attributes for tuple-valued and unsupported message content parts"
+  },
+  "Arize-ai/openinference#3982": {
+    "state": "OPEN",
+    "mergeable": "MERGEABLE",
+    "reviewDecision": "REVIEW_REQUIRED",
+    "ci": "18✓/1✗/0…/0ERR",
+    "title": "Fix #3904: do not record the SDK placeholder tool arguments on early stream exit"
+  },
+  "DataDog/dd-trace-py#20873": {
+    "state": "OPEN",
+    "mergeable": "MERGEABLE",
+    "reviewDecision": "REVIEW_REQUIRED",
+    "ci": "1✓/0✗/1…/0ERR",
+    "title": "Fix #20782: map Anthropic 1h cache creation tokens to the correct span attribute"
+  },
+  "DataDog/dd-trace-py#20877": {
+    "state": "OPEN",
+    "mergeable": "MERGEABLE",
+    "reviewDecision": "REVIEW_REQUIRED",
+    "ci": "1✓/0✗/1…/0ERR",
+    "title": "Fix #20858: reset ASGI ExecutionContext between keep-alive requests",
+    "updatedAt": "2026-10-16T09:30:15Z",
+    "url": "https://github.com/DataDog/dd-trace-py/pull/20877",
+    "checked_at": "2026-10-17T12:25:26+00:00"
+  },
+  "DataDog/dd-trace-py#20883": {
+    "state": "OPEN",
+    "mergeable": "MERGEABLE",
+    "reviewDecision": "REVIEW_REQUIRED",
+    "ci": "1✓/0✗/1…/0ERR",
+    "title": "Fix #20783: include tool_use_prompt_token_count in google_genai LLM span tokens"
+  },
+  "DataDog/dd-trace-py#20886": {
+    "state": "OPEN",
+    "mergeable": "MERGEABLE",
+    "reviewDecision": "APPROVED",
+    "ci": "12✓/2✗/0…/0ERR",
+    "title": "fix(bootstrap): keep logging.captureWarnings working under ddtrace-run with gevent"
+  },
+  "Delgan/loguru#1526": {
+    "state": "OPEN",
+    "mergeable": "MERGEABLE",
+    "reviewDecision": "-",
+    "ci": "21✓/0✗/0…/0ERR",
+    "title": "Fix #1525: neutralise C0/C1 control characters in log messages"
+  },
+  "snowflakedb/snowflake-connector-python#3050": {
+    "state": "OPEN",
+    "mergeable": "MERGEABLE",
+    "reviewDecision": "REVIEW_REQUIRED",
+    "ci": "2✓/0✗/0…/0ERR",
+    "title": "Fix #3049: apply force_microsecond_precision to TIMESTAMP_NTZ/LTZ(7)"
+  },
+  "statsmodels/statsmodels#10472": {
+    "state": "OPEN",
+    "mergeable": "MERGEABLE",
+    "reviewDecision": "-",
+    "ci": "12✓/1✗/0…/0ERR",
+    "title": "Fix #9237: index 0-d array as a scalar"
+  },
+  "Arize-ai/openinference#3995": {
+    "state": "OPEN",
+    "reviewDecision": "REVIEW_REQUIRED",
+    "mergeable": "MERGEABLE",
+    "updatedAt": "2026-10-12T16:09:03Z",
+    "url": "https://github.com/Arize-ai/openinference/pull/3995",
+    "checked_at": "2026-10-17T12:25:20+00:00"
+  },
+  "Arize-ai/openinference#3998": {
+    "state": "OPEN",
+    "reviewDecision": "REVIEW_REQUIRED",
+    "mergeable": "UNKNOWN",
+    "updatedAt": "2026-10-11T15:45:50Z",
+    "url": "https://github.com/Arize-ai/openinference/pull/3998",
+    "checked_at": "2026-10-17T12:25:22+00:00"
+  },
+  "BerriAI/litellm#46262": {
+    "state": "OPEN",
+    "reviewDecision": "REVIEW_REQUIRED",
+    "mergeable": "MERGEABLE",
+    "updatedAt": "2026-10-17T10:10:30Z",
+    "url": "https://github.com/BerriAI/litellm/pull/46262",
+    "checked_at": "2026-10-17T12:25:23+00:00"
+  },
+  "crewAIInc/crewAI#7981": {
+    "state": "OPEN",
+    "reviewDecision": "-",
+    "mergeable": "MERGEABLE",
+    "updatedAt": "2026-10-16T10:26:45Z",
+    "url": "https://github.com/crewAIInc/crewAI/pull/7981",
+    "checked_at": "2026-10-17T12:25:32+00:00"
+  },
+  "dask/dask#12636": {
+    "state": "OPEN",
+    "reviewDecision": "-",
+    "mergeable": "MERGEABLE",
+    "updatedAt": "2026-10-16T07:59:45Z",
+    "url": "https://github.com/dask/dask/pull/12636",
+    "checked_at": "2026-10-17T12:25:33+00:00"
+  },
+  "huggingface/diffusers#15023": {
+    "state": "OPEN",
+    "reviewDecision": "REVIEW_REQUIRED",
+    "mergeable": "MERGEABLE",
+    "updatedAt": "2026-10-14T04:05:58Z",
+    "url": "https://github.com/huggingface/diffusers/pull/15023",
+    "checked_at": "2026-10-17T12:25:39+00:00"
+  },
+  "mala-project/mala#682": {
+    "state": "OPEN",
+    "reviewDecision": "-",
+    "mergeable": "MERGEABLE",
+    "updatedAt": "2026-10-09T11:39:39Z",
+    "url": "https://github.com/mala-project/mala/pull/682",
+    "checked_at": "2026-10-17T12:26:07+00:00"
+  },
+  "microsoft/PyRIT#3053": {
+    "state": "MERGED",
+    "reviewDecision": "APPROVED",
+    "mergeable": "UNKNOWN",
+    "updatedAt": "2026-10-11T05:49:44Z",
+    "url": "https://github.com/microsoft/PyRIT/pull/3053",
+    "checked_at": "2026-10-17T12:26:09+00:00"
+  },
+  "pola-rs/polars#29928": {
+    "state": "OPEN",
+    "reviewDecision": "REVIEW_REQUIRED",
+    "mergeable": "UNKNOWN",
+    "updatedAt": "2026-10-16T11:42:45Z",
+    "url": "https://github.com/pola-rs/polars/pull/29928",
+    "checked_at": "2026-10-17T12:26:11+00:00"
+  },
+  "repowise-dev/repowise#3170": {
+    "state": "MERGED",
+    "reviewDecision": "APPROVED",
+    "mergeable": "UNKNOWN",
+    "updatedAt": "2026-10-11T04:58:04Z",
+    "url": "https://github.com/repowise-dev/repowise/pull/3170",
+    "checked_at": "2026-10-17T12:26:15+00:00"
+  },
+  "repowise-dev/repowise#3187": {
+    "state": "OPEN",
+    "reviewDecision": "REVIEW_REQUIRED",
+    "mergeable": "UNKNOWN",
+    "updatedAt": "2026-10-16T10:10:29Z",
+    "url": "https://github.com/repowise-dev/repowise/pull/3187",
+    "checked_at": "2026-10-17T12:26:17+00:00"
+  },
+  "repowise-dev/repowise#3188": {
+    "state": "CLOSED",
+    "reviewDecision": "REVIEW_REQUIRED",
+    "mergeable": "UNKNOWN",
+    "updatedAt": "2026-10-11T05:01:51Z",
+    "url": "https://github.com/repowise-dev/repowise/pull/3188",
+    "checked_at": "2026-10-17T12:26:18+00:00"
+  },
+  "tortoise/tortoise-orm#2307": {
+    "state": "OPEN",
+    "reviewDecision": "REVIEW_REQUIRED",
+    "mergeable": "UNKNOWN",
+    "updatedAt": "2026-10-16T06:10:27Z",
+    "url": "https://github.com/tortoise/tortoise-orm/pull/2307",
+    "checked_at": "2026-10-17T12:26:21+00:00"
+  }
+}

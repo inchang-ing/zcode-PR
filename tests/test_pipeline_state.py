@@ -12,7 +12,7 @@ sys.path.insert(0, str(ROOT / "tools"))
 from auto_run import Candidate, DispatchedStore, is_clean
 from pipeline_state import atomic_write_json, file_lock
 
-spec = importlib.util.spec_from_file_location("filter_cands", ROOT / "work/filter_cands.py")
+spec = importlib.util.spec_from_file_location("filter_cands", ROOT / "tools/filter_cands.py")
 filter_cands = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(filter_cands)
 
