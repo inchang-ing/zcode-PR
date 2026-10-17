@@ -2,7 +2,7 @@
 """Fresh-issue monitor: incremental diff over ALL pipeline repo pools.
 
 Fired every ~15 min by the cron automation. Prints only issues CREATED
-since the previous check (state in .trash/monitor_state.json).
+since the previous check (state in tools/monitor_state.json).
 
 Tiering (rate-limit aware):
   T1  scan_agent.CORE (agent core, ~51)        — every fire
@@ -28,7 +28,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from pipeline_state import atomic_write_json, file_lock, read_json_object
 
 GH = r"C:\Program Files\GitHub CLI\gh.exe"
-STATE_PATH = r"E:\zcode-PR\.trash\monitor_state.json"
+STATE_PATH = str(Path(__file__).resolve().parent / "monitor_state.json")
 PER_PAGE = 15
 PRUNE_DAYS = 7
 T3_SLICES = 3

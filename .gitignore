@@ -41,5 +41,12 @@ __pycache__/
 *.bak
 *.log
 
+# 顶层瞬态输出与锁文件
+/*.txt
+/*.b64
+/*.out
+/*.err
+*.lock
+
 # 编辑器/工具
 /.vscode/

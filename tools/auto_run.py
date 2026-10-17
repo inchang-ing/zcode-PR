@@ -29,7 +29,7 @@ from pipeline_state import atomic_write_json, file_lock, read_json_object
 # 提交作者邮箱(须绑 GitHub, 否则 CLA-bot 认不出)
 EMAIL = "197932532+inchang-ing@users.noreply.github.com"
 
-BASE = os.path.dirname(os.path.abspath(__file__))
+BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # 仓库根(本文件在 tools/)
 CANDIDATES = os.path.join(BASE, "round_candidates.json")   # monitor_round.py 的产物
 DISPATCHED = os.path.join(BASE, "dispatched.json")          # 去重状态库
 WORKDIR = os.path.join(BASE, "work")                        # 仓库克隆目录

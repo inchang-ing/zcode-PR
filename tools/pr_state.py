@@ -6,7 +6,7 @@ import re
 
 from pipeline_state import atomic_write_json, atomic_write_text, read_json_object
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parents[1]  # 仓库根(本文件在 tools/)
 PR_STATE_PATH = ROOT / "pr_state.json"
 PR_STATUS_PATH = ROOT / "PR_STATUS.md"
 LEGACY_PATHS = (ROOT / ".trash" / "scope_baseline.json",

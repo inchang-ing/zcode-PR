@@ -8,7 +8,7 @@ import unittest
 from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT))
+sys.path.insert(0, str(ROOT / "tools"))
 from auto_run import Candidate, DispatchedStore, is_clean
 from pipeline_state import atomic_write_json, file_lock
 
@@ -82,7 +82,7 @@ class StateTests(unittest.TestCase):
                 " print('locked', flush=True)\n"
                 " sys.stdin.readline()\n")
         process = subprocess.Popen([sys.executable, "-S", "-B", "-c", code, str(self.path)],
-                                   cwd=ROOT, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+                                   cwd=str(ROOT / "tools"), stdin=subprocess.PIPE, stdout=subprocess.PIPE,
                                    stderr=subprocess.PIPE, text=True)
         try:
             self.assertEqual(process.stdout.readline().strip(), "locked")

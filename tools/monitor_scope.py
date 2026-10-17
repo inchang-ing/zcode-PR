@@ -22,7 +22,7 @@ from pr_state import (PR_STATE_PATH, PR_STATUS_PATH, LEGACY_PATHS,
                       load_pr_state, save_observations, utc_now)
 
 GH = "C:/Program Files/GitHub CLI/gh.exe"
-STATE = "E:/zcode-PR/STATE.md"
+STATE = str(pathlib.Path(__file__).resolve().parents[1] / "STATE.md")
 CANONICAL = PR_STATE_PATH
 REPORT = PR_STATUS_PATH
 CWD = "C:/Users/ROG"  # 避免 gh 在 zcode-PR 下找 .git 报错

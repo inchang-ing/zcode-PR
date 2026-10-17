@@ -157,7 +157,7 @@ def scan(repos, out_path):
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--out", default=os.path.join(
-        os.path.dirname(os.path.abspath(__file__)), "round_candidates.json"))
+        os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "round_candidates.json"))
     parser.add_argument("repos", nargs="*")
     args = parser.parse_args(argv)
     with file_lock(args.out):

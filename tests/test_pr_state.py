@@ -6,7 +6,7 @@ import tempfile
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT))
+sys.path.insert(0, str(ROOT / "tools"))
 from pr_state import load_pr_state, merge_observations, render_pr_status, save_observations, write_pr_status
 
 

@@ -2,7 +2,7 @@
 
 ## 在飞(2026-10-14 同步)
 - jupyter/nbconvert#2332 — fix/preserve-safe-subdirs-in-output-filenames — OPEN, MERGEABLE, UNSTABLE(**enforce-label 缺 bug 标签, 我无加标签权限, 已在 PR 留言求 maintainer 补**); 其余 CI 全绿。issue #2330
-- BerriAI/litellm#46262 — litellm_fix_stream_delta_content_list — OPEN, MERGEABLE, BLOCKED(CI 全 pending + **CLA 待签: cla-assistant.io/BerriAI/litellm 须账号持有者网页签**)。issue #46209
+- BerriAI/litellm#46262 — litellm_fix_stream_delta_content_list — OPEN, MERGEABLE(2026-10-17: rebase 到 main ef1cb19 后压回单干净提交 `b19363b7`); **五大门禁全过**(type-discipline/test-quality/ruff format+lint+strict/basedpyright/循环 import/import safety), 82 项检查全绿(仅 mcp-elicitation pending); PR body 已按模板重写, 已回复 VANDRANKI。issue #46209
 
 - hydra-ecosystem/hydra#3543 — fix-missing-structured-config-root-override — OPEN, MERGEABLE, BLOCKED(等 CI/CLA: hydra 走 CLA Assistant); 已加 `news/3542.bugfix`。issue #3542
 
