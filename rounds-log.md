@@ -1892,3 +1892,21 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
   - [redshift] LATERAL VIEW EXPLODE 直接丢表达式产生非法 SQL——同上,不支持构造的转译边界。
 - **结论**:本轮无高价值 bug(良性 3 + 二阶 3 + 归一化 1)。**审计 lane 下一轮扩语料**:新语句类(窗口 frame 细分、嵌套 CTE、DCL/GRANT、JSON 路径、存储过程调用),或换库(duckdb/clickhouse 方言深度审计)。
 - 空手(审计结果记录于本条)。
+## 2026-10-18 ~12:40 UTC(轮:全量扫描 470 issue + 自发现审计 6 库 —— 0 新建;新鲜窗口结构性关闭再次实证)
+
+- **在飞核对(51 open)**:`monitor_oss` 显示 0 个 `CHANGES_REQUESTED`、0 个合并冲突;16 个 `REVIEW_REQUIRED` 在等维护者,其余 `-`。CI 红全部非我方:Dask#12636 `nightly`(pandas4 弃用告警导致一堆无关用例失败)、docling#4439 Mergify 合并保护 bot、statsmodels#10472 Azure 0s 失败(基础设施)、个人 fork `code-security-workbench#153/#161`(该项目自身 receipt WIP)。**现有 PR 侧无可动手项。**
+- **新鲜候选**:`monitor_round` 扫描 53 仓 → 470 issue → 109 候选;本地过滤 15 clean;`vet` 终检 7 CLEAN / 4 WARN / 3 DROP / 1 UNKNOWN。7 个 CLEAN **全部出局**:
+  - langchain#41280(报告者已备本地补丁+同步异步回归测试并申请指派,另一贡献者已来问)→ 礼让
+  - llama_index#23515(已有开放修复 PR run-llama/llama-agents#808,多人参与)→ 让
+  - transformers#49630(有贡献者实测复现不了,`gemma4_unified` 确在 CONFIG_MAPPING)→ 非 bug
+  - pandas#71188(报告者自称"可能是有意为之,如是请关闭")→ 低置信度/WONTFIX
+  - litellm#47062(机理描述与实际代码不符;且 litellm 需过 5 道 lint 闸 + 真实付费 API proof-of-fix)→ 不可达
+  - diffusers#15027(需 CUDA torch,本机为 `2.4.0+cpu`,且需下载 Qwen-Image-2.1)→ 环境不成立
+  - langgraph#9342(需真实 server + Postgres/SQLite 三后端复现)→ 成本过高
+  - jupyter/notebook#8065(用户环境默认浏览器问题,`Needs Triage`)→ 非 bug
+- **自发现审计 lane(6 库往返/自洽不变量,零竞争)**:
+  - dateutil `isoparse(isoformat)` 20000 例 → 0 失配
+  - boltons `URL.to_text()` 幂等 857 例 → 0
+  - starlette `URL`/`QueryParams` 往返、networkx edgelist/adjacency 往返、dateutil `rrule`↔`rrulestr` → 全干净
+  - **agno 命中真 bug**:`Message.to_dict()` 丢 `image_output`/`video_output`/`file_output`(`from_dict` 却写了两条重建分支 → 死代码,实证 `from_dict(to_dict(m))` 三者全丢)——**但** #9879 已是开放 issue 且**已指派给维护者 sannya-singal**,#9878 是**同文件**的开放 PR(devYRPauli 推进中)覆盖 image/video。`file_output` 虽为 #9878 未覆盖的独立缺口,仍触发撞车 v4「同文件 open PR」→ 让。
+- **结论(与 #64/#66 判据一致)**:新鲜候选窗口结构性关闭;自发现审计可命中,但高价值 bug 亦已被 AI 工作流自带 issue+PR 抢先占位。本轮 0 新建。**不凑数。**
