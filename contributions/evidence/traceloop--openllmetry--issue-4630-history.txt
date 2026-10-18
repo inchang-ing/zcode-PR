@@ -1,0 +1,9 @@
+历史陈述摘录；不是原始执行日志，也不是本次联网核验。
+来源：rounds-log.md 第 1940–1943 行
+导入时源文件 SHA256：02a33ce4ea333a09f9137012f3e6aa32c85bc576d98f7de67c39fcc4e18deb0f
+导入时间：2026-10-18T14:23:53+00:00
+
+- **✅ 新建 PR #4633**:`traceloop/openllmetry#4630`(零评论、无人认领)——`HTTPClient.delete()` 失败返回 `False`,而 `Column.delete()`/`Row.delete()` 判 `result is None`(`False is None` 为假),导致 DELETE 失败后仍删掉本地列/行与值、置 `deleted=True`,且不抛错。修复:`if not result:` 与 `Datasets.delete_by_slug()` 的 `if not success` 一致。
+  - 验证:新增 `tests/datasets/test_delete_failure.py`(mock 503),修复前 2 failed、修复后 2 passed;`tests/datasets/` 其余 16 个失败为 cassette/网络环境问题,干净检出同样失败;`ruff check` 通过。
+  - PR: https://github.com/traceloop/openllmetry/pull/4633
+  - ⚠️ **CLA 门槛**:该仓库由 cla-assistant 强制 CLA,当前 `license/cla` 为 `pending`("Contributor License Agreement is not signed yet")。需用户本人签署:https://cla-assistant.io/traceloop/openllmetry?pullRequest=4633 ;agent 不代签。

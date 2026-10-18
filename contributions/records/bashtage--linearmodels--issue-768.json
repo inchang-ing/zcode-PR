@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "id": "bashtage--linearmodels--issue-768",
+  "repo": "bashtage/linearmodels",
+  "issue": 768,
+  "pr": 849,
+  "title": "预测接口静默忽略输出选项",
+  "problem_type": "argument-validation",
+  "approach": "explicit-error",
+  "created_at": "2026-10-18T14:23:53+00:00",
+  "policy": {
+    "status": "unverified",
+    "checked_at": null,
+    "summary": "尚未核验当时的仓库政策原文；历史日志不能替代政策来源。",
+    "sources": []
+  },
+  "collision": {
+    "status": "unverified",
+    "checked_at": null,
+    "summary": "历史日志记录了无人认领等判断；缺少当时完整查询结果和精确核验时间。",
+    "sources": [
+      {
+        "kind": "local",
+        "ref": "contributions/evidence/bashtage--linearmodels--issue-768-history.txt",
+        "sha256": "71054ae5131bc49012f21f6fb7fa53881c649924d3dc62dee704920eb15f46e8"
+      }
+    ]
+  },
+  "verification": {
+    "status": "unverified",
+    "case": "",
+    "summary": "历史日志记载 panel 套件 7061 passed / 73 skipped / 47 xfailed；没有导入原始执行日志、完整提交号和环境，未核验 fail→pass。",
+    "before": null,
+    "after": null
+  },
+  "feedback": {
+    "checked_at": null,
+    "items": []
+  },
+  "outcome": {
+    "reason_category": "unknown",
+    "summary": "",
+    "sources": []
+  },
+  "next_actions": [
+    "核验当前 PR 状态和维护者反馈并保存来源。",
+    "补齐政策来源、撞车证据与修复前后测试日志；找不到的证据保持未核验。"
+  ],
+  "provenance": [
+    {
+      "kind": "local",
+      "ref": "contributions/evidence/bashtage--linearmodels--issue-768-history.txt",
+      "sha256": "71054ae5131bc49012f21f6fb7fa53881c649924d3dc62dee704920eb15f46e8"
+    }
+  ]
+}

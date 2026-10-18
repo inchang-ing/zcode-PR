@@ -1,0 +1,8 @@
+历史陈述摘录；不是原始执行日志，也不是本次联网核验。
+来源：rounds-log.md 第 1931–1933 行
+导入时源文件 SHA256：02a33ce4ea333a09f9137012f3e6aa32c85bc576d98f7de67c39fcc4e18deb0f
+导入时间：2026-10-18T14:23:53+00:00
+
+- **✅ 新建 PR #849**:`bashtage/linearmodels#768`(维护者本人 2026-10-12 亲提、0 评论、无 assignee、无 PR、无 CLA)——`PanelResults.predict` 在传 `exog`/`data` 时静默忽略 `fitted`/`effects`/`idiosyncratic`。修复:请求 effects/idiosyncratic 时抛 `ValueError`;`fitted=False` 且无其他输出时抛 "At least one output must be selected";补回归测试。
+  - 验证:`linearmodels/tests/panel/` 7061 passed / 73 skipped / 47 xfailed;`ruff check`、`ruff format --check`、`numpydoc lint` 全绿。
+  - PR: https://github.com/bashtage/linearmodels/pull/849

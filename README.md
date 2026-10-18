@@ -47,6 +47,17 @@ python -S tools/vet.py --candidates round_candidates.json      # 开 PR 前终�
 
 > `auto_run.py` 的自动修复钩子(FIXERS)目前**未接入**,`run` 语义仅为占位;实际修复仍由 agent 手动完成。不要把它当成已闭环的自动化。
 
+## 可验证贡献记录
+
+每项贡献保存在 `contributions/records/`，证据保存在 `contributions/evidence/`。格式和录入方法见 [贡献记录说明](contributions/README.md)。
+
+```powershell
+python -S tools/contributions.py check
+python -S tools/contributions.py render
+```
+
+生成的 [贡献台账](CONTRIBUTIONS.md) 包含政策、撞车、测试证据、反馈、建议待办，以及按仓库/问题类型/修复方式的样本统计。历史陈述与已核验事实分开，PR 状态只读取现有缓存。首版不替换 `STATE.md` 的监控范围。
+
 ## 状态与监控
 
 ```powershell
@@ -76,7 +87,7 @@ python -S -B -m unittest discover -s repo-monitor/tests -v
 
 ## 环境 / 换机
 
-- 真正需要保留的只有两类:**GitHub 云端**(PR/fork/评审,跟随账号)+ **`STATE.md` / `RULES.md`**;clone、venv 等皆可重建。
+- 需要保留 **GitHub 云端记录**、**代码和规则/台账**，以及 **`contributions/` 的记录与证据**；clone、venv 等可重建，原始核验日志不能当作可重建缓存丢弃。
 - 新机器:装 git 与 GitHub CLI → `gh auth login` → SSH 走 443(`~/.ssh/config` 指向 `ssh.github.com:443`)→ 拷规则与脚本 → 按需 `git clone` + `python -m venv <repo>-venv` + `pip install -e .`。
 - 装完必验:`python -c "import <包名>; print(<包名>.__file__)"` 必须指向克隆目录(防 site-packages 遮蔽)。
 

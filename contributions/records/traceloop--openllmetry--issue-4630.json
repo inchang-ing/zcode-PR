@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "id": "traceloop--openllmetry--issue-4630",
+  "repo": "traceloop/openllmetry",
+  "issue": 4630,
+  "pr": 4633,
+  "title": "远程删除失败仍修改本地数据",
+  "problem_type": "error-handling",
+  "approach": "check-return-value",
+  "created_at": "2026-10-18T14:23:53+00:00",
+  "policy": {
+    "status": "unverified",
+    "checked_at": null,
+    "summary": "尚未核验当时的仓库政策原文；历史日志不能替代政策来源。",
+    "sources": []
+  },
+  "collision": {
+    "status": "unverified",
+    "checked_at": null,
+    "summary": "历史日志记录了无人认领等判断；缺少当时完整查询结果和精确核验时间。",
+    "sources": [
+      {
+        "kind": "local",
+        "ref": "contributions/evidence/traceloop--openllmetry--issue-4630-history.txt",
+        "sha256": "2955b130f419a5ff43e0b3435e4e0ac740dc5eb3c0e520134bae804a5663a2ba"
+      }
+    ]
+  },
+  "verification": {
+    "status": "unverified",
+    "case": "",
+    "summary": "历史日志声称新增删除失败用例修复前 2 failed、修复后 2 passed；没有导入原始日志、完整提交号和环境，不能据此标为证据齐全。",
+    "before": null,
+    "after": null
+  },
+  "feedback": {
+    "checked_at": null,
+    "items": []
+  },
+  "outcome": {
+    "reason_category": "unknown",
+    "summary": "",
+    "sources": []
+  },
+  "next_actions": [
+    "核验当前 PR 状态和维护者反馈并保存来源。",
+    "补齐政策来源、撞车证据与修复前后测试日志；找不到的证据保持未核验。",
+    "历史日志提到 CLA 待签，需重新核验；不能由 agent 代签。"
+  ],
+  "provenance": [
+    {
+      "kind": "local",
+      "ref": "contributions/evidence/traceloop--openllmetry--issue-4630-history.txt",
+      "sha256": "2955b130f419a5ff43e0b3435e4e0ac740dc5eb3c0e520134bae804a5663a2ba"
+    }
+  ]
+}

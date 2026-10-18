@@ -1,0 +1,8 @@
+历史陈述摘录；不是原始执行日志，也不是本次联网核验。
+来源：rounds-log.md 第 1934–1936 行
+导入时源文件 SHA256：02a33ce4ea333a09f9137012f3e6aa32c85bc576d98f7de67c39fcc4e18deb0f
+导入时间：2026-10-18T14:23:53+00:00
+
+- **✅ 新建 PR #850**:`bashtage/linearmodels#823` **case 3**(维护者亲提、零评论、无认领)——`_validate_inputs` 直接对未归一化的 `x`/`z` 做 `matrix_rank`,工具变量量纲差 1e13 时误判秩亏。修复:秩检验前把列归一化(零列保持为零)。case 1/2(LIML kappa)不动,维护者已在 `test_liml_kappa_singular.py` 中有意固定。
+  - 验证:全 IV 套件 9522 passed / 2400 skipped;`ruff check`、`numpydoc lint` 通过。
+  - PR: https://github.com/bashtage/linearmodels/pull/850
