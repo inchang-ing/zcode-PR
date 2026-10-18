@@ -27,8 +27,8 @@ E:\zcode-PR\
 │   ├── feishu_push.py       # 飞书通知(自愈式)
 │   ├── scan_agent*.py / scan_recon*.py   # 池定义(被 monitor_fresh 引用)
 │   └── pipeline_state.py / pr_state.py / gh_checks.py
-├── tests/               # 47 条离线回归测试
-├── repo-monitor/        # 独立 Git 仓库:GitHub Actions 每 30 分钟推飞书
+├── tests/               # 离线回归测试
+├── repo-monitor/        # Git 子模块:GitHub Actions 每 10 分钟轮询
 ├── work/                # 活跃工作台:克隆 / 复现 / 临时产物(gitignore)
 ├── workspaces/          # 各仓库克隆 + venv(gitignore,可重建)
 └── archive/             # 归档的早期一次性脚本
@@ -57,12 +57,13 @@ python -S tools/pr_status.py <owner/repo> <pr_num>  # 查单个 PR
 ```
 
 - **权威源 = GitHub**。`pr_state.json` 是机器可读状态;`PR_STATUS.md` 是自动生成的只读视图(勿手改);`STATE.md` 只声明跟踪范围(两张 `OPEN(...)` 表)。
-- `repo-monitor/` 是独立仓库,其 GitHub Actions 每 30 分钟轮询 391 仓新 issue 与在飞 PR 变化,只推飞书通知、不动手。
+- `repo-monitor/` 是独立仓库,其 GitHub Actions 每 10 分钟轮询新 issue 与在飞 PR 变化,只推飞书通知、不动手。
 
 ## 离线验证
 
 ```powershell
 python -S -B -m unittest discover -s tests -v
+python -S -B -m unittest discover -s repo-monitor/tests -v
 ```
 
 测试使用假 API 与临时状态,不扫描真实仓库、不发送通知。
@@ -83,3 +84,5 @@ python -S -B -m unittest discover -s tests -v
 
 - 本目录已是 git 仓库;`workspaces/`、`work/`、`.trash/`、`*-src`、`*-venv`、各类缓存均被 `.gitignore` 忽略,只跟踪代码 / 文档 / 小状态。
 - 回滚:`git checkout -- <file>` 或 `git revert <sha>`;查看历史:`git log --oneline`。
+- `repo-monitor/` 由 `.gitmodules` 声明；新克隆使用 `git clone --recurse-submodules <根仓库地址>`，已有克隆运行 `git submodule update --init --recursive`。
+- 子模块修改须先在 `repo-monitor/` 提交，再在根仓库提交子模块指针。发布时先推送子仓库提交，再推送根仓库；仅有本地子仓库提交时，其他机器不能从远端恢复该版本。

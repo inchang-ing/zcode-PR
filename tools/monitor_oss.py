@@ -38,19 +38,38 @@ def load_keys():
 
 
 def ci_summary(roll):
-    if not roll:
+    if roll == []:
         return "no-checks"
-    ok = sum(1 for c in roll if c.get("status") == "COMPLETED" and c.get("conclusion") == "SUCCESS")
-    fail = sum(1 for c in roll if c.get("status") == "COMPLETED" and c.get("conclusion") == "FAILURE")
-    err = sum(1 for c in roll if c.get("status") == "COMPLETED" and c.get("conclusion") in ("ERROR", "TIMED_OUT", "CANCELLED"))
-    pend = sum(1 for c in roll if c.get("status") in ("IN_PROGRESS", "QUEUED", "PENDING", "EXPECTED"))
-    return f"{ok}✓/{fail}✗/{pend}…/{err}ERR"
+    if not isinstance(roll, list):
+        return "1UNKNOWN"
+    counts = dict(ok=0, fail=0, pending=0, error=0, skip=0, unknown=0)
+    for check in roll:
+        value = None
+        if isinstance(check, dict):
+            if "status" in check:
+                value = check.get("conclusion") if check["status"] == "COMPLETED" else check["status"]
+            else:
+                value = check.get("state")  # Legacy StatusContext, not CheckRun.
+        if value == "SUCCESS":
+            kind = "ok"
+        elif value == "FAILURE":
+            kind = "fail"
+        elif value in ("ERROR", "TIMED_OUT", "CANCELLED", "ACTION_REQUIRED", "STARTUP_FAILURE", "STALE"):
+            kind = "error"
+        elif value in ("IN_PROGRESS", "QUEUED", "PENDING", "EXPECTED", "WAITING", "REQUESTED"):
+            kind = "pending"
+        elif value in ("SKIPPED", "NEUTRAL"):
+            kind = "skip"
+        else:
+            kind = "unknown"
+        counts[kind] += 1
+    return (f"{counts['ok']}✓/{counts['fail']}✗/{counts['pending']}…/{counts['error']}ERR"
+            f"/{counts['skip']}SKIP/{counts['unknown']}UNKNOWN")
 
 
 def ci_failed(ci):
-    m = re.search(r"(\d+)✗", ci)
-    e = re.search(r"(\d+)ERR", ci)
-    return (m and int(m.group(1)) > 0) or (e and int(e.group(1)) > 0)
+    # Unknown results need attention too; never silently count them as healthy.
+    return any(int(n) > 0 for n in re.findall(r"(\d+)(?:✗|ERR|UNKNOWN)", ci))
 
 
 def fetch(key):
@@ -82,7 +101,7 @@ def run_round():
     open_n = sum(1 for v in cur.values() if v["state"] == "OPEN")
     bad_ci = [(k, v["ci"]) for k, v in cur.items() if v["state"] == "OPEN" and ci_failed(v["ci"])]
     print(f"在飞 scope: {len(cur)} 个 key, {open_n} OPEN"
-          + (f" | ⚠️ {len(bad_ci)} 个 OPEN 的 CI 有失败/错误" if bad_ci else ""))
+          + (f" | ⚠️ {len(bad_ci)} 个 OPEN 的 CI 有失败/需处理/未知结果" if bad_ci else ""))
     order = {"CLOSED": 0, "MERGED": 1, "OPEN": 2, "QUERY_ERROR": 3}
     for k in sorted(cur, key=lambda x: (order.get(cur[x]["state"], 9), x)):
         v = cur[k]

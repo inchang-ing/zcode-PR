@@ -25,6 +25,7 @@ import math
 from dataclasses import dataclass, field
 from datetime import datetime
 from pipeline_state import atomic_write_json, file_lock, read_json_object
+from repository_policy import policy_reason
 
 # 提交作者邮箱(须绑 GitHub, 否则 CLA-bot 认不出)
 EMAIL = "197932532+inchang-ing@users.noreply.github.com"
@@ -38,24 +39,6 @@ CLAIM_QUEUE = os.path.join(WORKDIR, "claim-queue.md")       # 「先领再写」
 # ──────────────────────────────────────────────────────────────
 # 1) 候选 / 干净的判定标准
 # ──────────────────────────────────────────────────────────────
-
-# 受限/封禁池: 历史实测建 PR 被封, 自动轮只扫不投(见 MEMORY §一)
-CONSTRAINED = {
-    "sqlalchemy/sqlalchemy", "encode/httpx", "pallets/flask", "pallets/click",
-    "gradio-app/gradio",
-}
-
-# assign 门禁仓: 政策要求 issue 先被 assign 给我才能开 PR, 未 assign 的不能自动投
-# (peft: CONTRIBUTING 规定有人 working/intent/open PR 就不应另开;
-#  pydantic-ai: issue 已 assign 他人则外 PR 被关)
-ASSIGN_GATED = {"huggingface/peft", "pydantic/pydantic-ai"}
-
-# issue-readiness 门禁仓: issue 未经维护者标特定标签(mlflow=ready)就开 PR 会被机器人自动关
-READY_GATED = {"mlflow/mlflow"}
-
-# 非可测仓: 重构建/重依赖, 本地跑不起测试 → 自动轮不投
-# (apache/arrow C++ 全量构建极重; vllm-project/vllm 需 GPU)
-NON_TESTABLE = {"apache/arrow", "vllm-project/vllm"}
 
 # 人工裁定不投: 复核发现正文/评论已自占或维护者明示暂不接受 PR,
 # 但扫描时的 SOFT 正则未覆盖到 → 在此固化判据, 避免每轮重复误判。
@@ -102,6 +85,7 @@ class Candidate:
     check_errors: list = field(default_factory=list)
     clean: bool = False
     clean_reason: str = ""
+    assignees: list = field(default_factory=list)  # login names; old snapshots have no evidence
 
     @property
     def key(self) -> str:
@@ -123,21 +107,16 @@ def _is_real_bug(c: Candidate) -> bool:
 
 def is_clean(c: Candidate, store: "DispatchedStore"):
     """干净判定(全部满足才算 clean):
-       ① 非受限/封禁池        ② 可本地测试(repo 不在 NON_TESTABLE)
+       ① 满足共享仓库限制      ② 可本地测试
        ③ 真 bug(非 feature 等) ④ timeline/评论检测均已确认(pr_unknown/cmt_unknown 均为 False)
        ⑤ 尚未派发(dedup)
     返回 (bool, reason)。
     """
     if c.key in MANUAL_DROP:
         return False, f"人工裁定不投: {MANUAL_DROP[c.key]}"
-    if c.repo in CONSTRAINED:
-        return False, f"受限/封禁池: {c.repo}"
-    if c.repo in ASSIGN_GATED:
-        return False, f"assign 门禁仓(须先被 assign 才能投): {c.repo}"
-    if c.repo in READY_GATED:
-        return False, f"issue-readiness 门禁仓(issue 须先被标标签, 否则 PR 被自动关): {c.repo}"
-    if c.repo in NON_TESTABLE:
-        return False, f"非可测仓(重构建/重依赖): {c.repo}"
+    reason = policy_reason(c.repo, c.labels, c.assignees)
+    if reason:
+        return False, reason
     if not _is_real_bug(c):
         return False, "非 bug(feature/perf/docs/rfc 等)"
     if c.issue_unknown or c.pr_unknown or c.cmt_unknown:

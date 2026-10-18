@@ -4,34 +4,15 @@
 强软认领正则 + "not ready for PR" 检测 + assignee/关联PR/state 复核。
 输出 CLEAN / WARN / DROP / UNKNOWN，未知检查必须复核，不能视为通过。
 """
-import argparse, json, os, re, subprocess, sys
+import argparse, json, os, subprocess, sys
 from dataclasses import replace
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from auto_run import load_candidates, is_clean, DispatchedStore  # noqa: E402
 from gh_checks import issue_errors, linked_prs, comment_bodies  # noqa: E402
 
-# 强版软认领正则(补 2026-10-13 两个漏判实例:
-#   optuna#6898 "I would like to implement it as Ra1nhy / I will wait for the preferred scope"
-#   sklearn#35139 "I will be pleased to help fix this bug, which will be my first commit")
-SOFT_EXT = re.compile(
-    r"(i'?d\s*like\s*to\s*(take|implement|fix|work|submit)|"
-    r"happy\s*to\s*(open|prepare|submit|work|help)|"
-    r"i'?m\s*(planning|going)\s*to\s*(contribute|fix|implement)|"
-    r"would\s*love\s*to\s*(work|fix|implement)|"
-    r"can\s*i\s*take\s*this|i'?ll\s*submit\s*a\s*pr|i\s*will\s*submit\s*a\s*pr|"
-    r"working\s*on\s*(a|this)\s*(fix|pr)|i'?m\s*on\s*it|taking\s*this|claiming\s*this|"
-    r"i\s*can\s*take\s*(this|it)|assign\s*(this|it)\s*to\s*me|already\s*(on\s*it|working)|"
-    r"i\s*have\s*a\s*(fix|pr)\s*ready|local\s*fix\s*ready|"
-    r"would\s*like\s*to\s*implement|i\s*would\s*like\s*to\s*(implement|fix|work|take)|"
-    r"i\s*will\s*wait\s*for|waiting\s*for\s*(the\s*)?(preferred|maintainer|green)|"
-    r"(be\s*)?pleased\s*to\s*help\s*(to\s*)?(fix)?|help\s*(to\s*)?fix\s*this\s*bug|"
-    r"my\s*first\s*(commit|contribution|pr)|interest\s*in\s*fixing|"
-    r"i\s*would\s*(be\s*)?(happy|glad)\s*to|let\s*me\s*(take|fix|try)\s*(this|it)?)", re.I)
-
-NOT_READY = re.compile(
-    r"not\s*yet\s*ready\s*for\s*a\s*pr|do\s*not\s*(open|submit)\s*a\s*pr|"
-    r"wait\s*(for|until)\s*(triage|maintainer)", re.I)
+from claim_rules import SOFT as SOFT_EXT, NOT_READY
+from repository_policy import policy_reason
 
 BLOCKING_LABELS = {"needs triage", "needs investigation", "status:blocked",
                    "blocked", "needs discussion", "wontfix", "invalid"}
@@ -60,10 +41,11 @@ def vet(c):
         return "UNKNOWN", "issue: " + "; ".join(errors)
     if d["state"] != "OPEN":
         return "DROP", f"issue 非 open({d['state']})"
-    if d["assignees"]:
-        return "DROP", "已被 assign"
     body = d["body"]
     labels = [l["name"] for l in d["labels"]]
+    reason = policy_reason(c.repo, labels, [a["login"] for a in d["assignees"]])
+    if reason:
+        return "DROP", reason
 
     tl = gh(["api", f"repos/{c.repo}/issues/{c.number}/timeline?per_page=100",
              "--paginate", "--slurp"])

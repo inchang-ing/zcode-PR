@@ -10,6 +10,9 @@ def issue_errors(issue):
         errors.append("state 缺失或无效")
     if not isinstance(issue.get("assignees"), list):
         errors.append("assignees 缺失或无效")
+    elif any(not isinstance(a, dict) or not isinstance(a.get("login"), str)
+             or not a["login"] for a in issue["assignees"]):
+        errors.append("assignees login 缺失或无效")
     labels = issue.get("labels")
     if not isinstance(labels, list) or any(
         not isinstance(label, dict) or not isinstance(label.get("name"), str)

@@ -15,7 +15,7 @@
 
 - `gh search` 404 的仓库(agentscope 等)用 `gh pr list` 全量手工比对。
 - agentscope 的 `/assign` 评论 = bot 正式认领,**必须读 issue 评论**。
-- 软认领正则(见 `tools/monitor_round.py` 的 `SOFT`、`tools/vet.py` 的 `SOFT_EXT`)命中即让。
+- 软认领与暂不接受 PR 的规则统一在 `tools/claim_rules.py`；扫描和终检共用，正文及全部评论命中即让。
 - 候选终检用 `tools/vet.py`,输出 `CLEAN / WARN / DROP / UNKNOWN`;**`UNKNOWN` 必须复核,不等于无人认领**。
 
 ## 三、礼让
@@ -23,6 +23,9 @@
 报告者正文/评论含以下意图一律让:`I will / I can open a PR / I will add tests / I have a patch / I would like to implement / my first contribution / Codex is assisting` 等。
 
 ## 四、AI 披露(如实,绝不作假)
+
+仓库禁投、分配人和必需标签的可执行配置统一在 `tools/repository_policy.py`，扫描、本地过滤、联网终检共用。修改下列限制时同步更新该配置和回归测试；DCO 等提交步骤仍按本文执行。
+分配门禁要求当前账号 `inchang-ing` 已被分配，且没有其他分配人；旧候选快照没有分配人字段时须重扫。终检重新读取 GitHub 的标签和分配人，不能仅凭旧快照放行。
 
 - 如实披露 AI 协助(工具名以当前实际使用的为准),**绝不写 "No AI use" 虚假声明**。
 - 仓库级政策(提 PR 前必读 devel/contributing 的 AI 段):

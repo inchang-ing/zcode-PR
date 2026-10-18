@@ -1,0 +1,3 @@
+[submodule "repo-monitor"]
+	path = repo-monitor
+	url = https://github.com/inchang-ing/repo-monitor.git

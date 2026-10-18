@@ -1,0 +1,157 @@
+"""Offline examples that must not become clean candidates or healthy CI."""
+import io
+import json
+from pathlib import Path
+import sys
+import tempfile
+import unittest
+from contextlib import redirect_stdout
+from unittest.mock import patch
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools"))
+from auto_run import Candidate, DispatchedStore, is_clean
+import monitor_round
+import monitor_oss
+import vet
+from repository_policy import policy_reason
+
+
+ISSUE = dict(number=1, title="Bug: crash", state="OPEN", labels=[{"name": "bug"}],
+             assignees=[], body="Reproducible crash")
+CLAIMS = ["I can open a PR", "I have a patch", "I will add tests", "/assign",
+          "Codex is assisting", "not ready for a PR", "not yet ready for PR",
+          "I would like to implement this", "I’ll submit a PR", "Happy to send a PR"]
+
+
+class ScreeningRegressions(unittest.TestCase):
+    def setUp(self):
+        tmp = self.enterContext(tempfile.TemporaryDirectory())
+        self.store = DispatchedStore(str(Path(tmp) / "state.json"))
+        self.enterContext(redirect_stdout(io.StringIO()))
+        self.enterContext(patch.object(monitor_round.time, "sleep"))
+
+    def candidate(self, repo="example/project", **kwargs):
+        return Candidate(repo, 1, "Bug: crash", "", is_bug=True, **kwargs)
+
+    def live(self, repo, issue):
+        with patch.object(vet, "gh", side_effect=[json.dumps(issue), "[[]]", "[[]]"]):
+            return vet.vet(self.candidate(repo))[0]
+
+    def test_claims_block_in_body_and_comments_in_both_entry_points(self):
+        for phrase in CLAIMS:
+            for in_body in (True, False):
+                with self.subTest(phrase=phrase, in_body=in_body):
+                    issue = {**ISSUE, "body": phrase if in_body else ISSUE["body"]}
+                    comments = [] if in_body else [phrase]
+                    with patch.object(vet, "gh", side_effect=[json.dumps(issue), "[[]]",
+                            json.dumps([[], [{"body": c} for c in comments]])]):
+                        self.assertEqual(vet.vet(self.candidate())[0], "DROP")
+                    with patch.object(monitor_round, "get_issues", return_value=[issue]), \
+                         patch.object(monitor_round, "has_linked_pr", return_value=False), \
+                         patch.object(monitor_round, "get_comments", return_value=comments), \
+                         patch.object(monitor_round, "atomic_write_json") as save:
+                        monitor_round.scan(["example/project"], "unused.json")
+                    self.assertEqual(save.call_args.args[1], [])
+
+    def test_ordinary_text_stays_clean(self):
+        for body in ["Please add tests", "I cannot open a PR", "I do not have a patch",
+                     "See https://example.org/assign for documentation", "Crash in assignment"]:
+            with self.subTest(body=body):
+                self.assertEqual(self.live("example/project", {**ISSUE, "body": body}), "CLEAN")
+
+    def test_repository_policy_blocks_local_and_live_checks(self):
+        for repo in ["stanfordnlp/dspy", "StanfordNLP/DSPy", "mem0ai/mem0",
+                     "langchain-ai/langchain", "langchain-ai/langgraph",
+                     "pallets/werkzeug", "matplotlib/matplotlib", "UKGovernmentBEIS/inspect_ai"]:
+            with self.subTest(repo=repo):
+                self.assertFalse(is_clean(self.candidate(repo), self.store)[0])
+                self.assertEqual(self.live(repo, ISSUE), "DROP")
+
+    def test_label_gate_accepts_eligible_issue_and_rechecks_live_labels(self):
+        repo = "mem0ai/mem0"
+        self.assertTrue(is_clean(self.candidate(repo, labels=["bug", "Accepted"]), self.store)[0])
+        self.assertEqual(self.live(repo, {**ISSUE, "labels": [{"name": "accepted"}]}), "CLEAN")
+        self.assertEqual(self.live(repo, ISSUE), "DROP")
+
+    def test_assignment_requires_self_and_rejects_other_assignees(self):
+        for names, allowed in [([], False), (["inchang-ing"], True), (["someone"], False),
+                               (["inchang-ing", "someone"], False)]:
+            with self.subTest(names=names):
+                c = self.candidate("langchain-ai/langchain", assignees=names)
+                self.assertEqual(is_clean(c, self.store)[0], allowed)
+                issue = {**ISSUE, "assignees": [{"login": n} for n in names]}
+                self.assertEqual(self.live(c.repo, issue), "CLEAN" if allowed else "DROP")
+
+    def test_scanner_keeps_self_assignment_for_policy_and_snapshot(self):
+        issue = {**ISSUE, "assignees": [{"login": "inchang-ing"}]}
+        with patch.object(monitor_round, "get_issues", return_value=[issue]), \
+             patch.object(monitor_round, "has_linked_pr", return_value=False), \
+             patch.object(monitor_round, "get_comments", return_value=[]), \
+             patch.object(monitor_round, "atomic_write_json") as save:
+            monitor_round.scan(["langchain-ai/langchain"], "unused.json")
+        saved = save.call_args.args[1]
+        self.assertEqual(len(saved), 1)
+        self.assertEqual(saved[0]["assignees"], ["inchang-ing"])
+        self.assertTrue(is_clean(Candidate(**saved[0]), self.store)[0])
+
+    def test_scanner_applies_repository_gate(self):
+        for repo in ("stanfordnlp/dspy", "mem0ai/mem0", "langchain-ai/langchain"):
+            with self.subTest(repo=repo), \
+                 patch.object(monitor_round, "get_issues", return_value=[ISSUE]), \
+                 patch.object(monitor_round, "has_linked_pr", return_value=False), \
+                 patch.object(monitor_round, "get_comments", return_value=[]), \
+                 patch.object(monitor_round, "atomic_write_json") as save:
+                monitor_round.scan([repo], "unused.json")
+                self.assertEqual(save.call_args.args[1], [])
+
+    def test_existing_gates_and_malformed_assignment_remain_conservative(self):
+        for repo in ("apache/arrow", "vllm-project/vllm", "huggingface/peft",
+                     "pydantic/pydantic-ai", "mlflow/mlflow", "camel-ai/camel",
+                     "HypothesisWorks/hypothesis", "useblocks/sphinx-needs",
+                     "pre-commit/pre-commit", "python-jsonschema/jsonschema", "Textualize/textual"):
+            with self.subTest(repo=repo):
+                self.assertTrue(policy_reason(repo))
+        self.assertFalse(policy_reason("mlflow/mlflow", ["ready"]))
+        self.assertFalse(policy_reason("UKGovernmentBEIS/inspect_ai", ["accepted"]))
+        self.assertFalse(policy_reason("huggingface/peft", [], ["inchang-ing"]))
+        for assignees in (None, [None], [""]):
+            self.assertTrue(policy_reason("example/project", [], assignees))
+        for assignees in ([{}], [{"login": None}], [None]):
+            self.assertEqual(self.live("example/project", {**ISSUE, "assignees": assignees}), "UNKNOWN")
+
+
+class CIRegressions(unittest.TestCase):
+    def test_known_success_pending_and_neutral_do_not_alert(self):
+        for roll in ([], [{"state": "SUCCESS"}], [{"state": "PENDING"}],
+                     [{"status": "COMPLETED", "conclusion": "NEUTRAL"}],
+                     [{"status": "REQUESTED"}]):
+            self.assertFalse(monitor_oss.ci_failed(monitor_oss.ci_summary(roll)))
+
+    def test_failure_and_action_required_alert(self):
+        for check in [{"state": "FAILURE"}, {"state": "ERROR"},
+                      {"status": "COMPLETED", "conclusion": "ACTION_REQUIRED"},
+                      {"status": "COMPLETED", "conclusion": "STARTUP_FAILURE"}]:
+            with self.subTest(check=check):
+                self.assertTrue(monitor_oss.ci_failed(monitor_oss.ci_summary([check])))
+
+    def test_mixed_checks_count_every_result_and_preserve_unknown(self):
+        summary = monitor_oss.ci_summary([
+            {"state": "SUCCESS"}, {"state": "PENDING"},
+            {"status": "COMPLETED", "conclusion": "SUCCESS"},
+            {"status": "WAITING"}, {"status": "COMPLETED", "conclusion": "SKIPPED"},
+            {"status": "COMPLETED", "conclusion": "NEW_STATE"}])
+        self.assertIn("2✓/0✗/2…/0ERR", summary)
+        self.assertIn("1SKIP", summary)
+        self.assertIn("1UNKNOWN", summary)
+        self.assertTrue(monitor_oss.ci_failed(summary))
+
+    def test_empty_and_malformed_rollups_are_distinct(self):
+        self.assertEqual(monitor_oss.ci_summary([]), "no-checks")
+        for roll in (None, {}, [None], [{}]):
+            with self.subTest(roll=roll):
+                self.assertIn("UNKNOWN", monitor_oss.ci_summary(roll))
+                self.assertTrue(monitor_oss.ci_failed(monitor_oss.ci_summary(roll)))
+
+
+if __name__ == "__main__":
+    unittest.main()
