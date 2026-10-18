@@ -11,7 +11,7 @@
 > | 项目说明 / 目录 / 流程 / 飞书 / 换机 | **`README.md`** |
 > | 历史轮次 / 已合并 PR 验证记录 | **`rounds-log.md`**、**`STATE-archive.md`** |
 
-## OSS 贡献在飞（30）
+## OSS 贡献在飞（33）
 
 | PR | 仓库 | 状态 | 摘要 |
 | --- | --- | --- | --- |
@@ -20,6 +20,9 @@
 | [#3982](https://github.com/Arize-ai/openinference/pull/3982) | Arize-ai/openinference | OPEN(2026-10-17) | Fix #3904: do not record the SDK placeholder tool arguments on early stream exit |
 | [#3995](https://github.com/Arize-ai/openinference/pull/3995) | Arize-ai/openinference | OPEN(2026-10-17) |  |
 | [#3998](https://github.com/Arize-ai/openinference/pull/3998) | Arize-ai/openinference | OPEN(2026-10-17) |  |
+| [#849](https://github.com/bashtage/linearmodels/pull/849) | bashtage/linearmodels | OPEN(2026-10-18) | BUG: Raise for ignored flags in out-of-sample panel predictions |
+| [#850](https://github.com/bashtage/linearmodels/pull/850) | bashtage/linearmodels | OPEN(2026-10-18) | BUG: Test the rank of the IV inputs after scaling the columns |
+| [#4633](https://github.com/traceloop/openllmetry/pull/4633) | traceloop/openllmetry | OPEN(2026-10-18) | fix(sdk): keep local dataset state when a delete request fails |
 | [#46262](https://github.com/BerriAI/litellm/pull/46262) | BerriAI/litellm | OPEN(2026-10-17) |  |
 | [#7795](https://github.com/crewAIInc/crewAI/pull/7795) | crewAIInc/crewAI | OPEN(2026-10-17) | fix(openai): allow multimodal file inputs for GPT-6 Astra |
 | [#7981](https://github.com/crewAIInc/crewAI/pull/7981) | crewAIInc/crewAI | OPEN(2026-10-17) |  |

@@ -1910,3 +1910,36 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
   - starlette `URL`/`QueryParams` 往返、networkx edgelist/adjacency 往返、dateutil `rrule`↔`rrulestr` → 全干净
   - **agno 命中真 bug**:`Message.to_dict()` 丢 `image_output`/`video_output`/`file_output`(`from_dict` 却写了两条重建分支 → 死代码,实证 `from_dict(to_dict(m))` 三者全丢)——**但** #9879 已是开放 issue 且**已指派给维护者 sannya-singal**,#9878 是**同文件**的开放 PR(devYRPauli 推进中)覆盖 image/video。`file_output` 虽为 #9878 未覆盖的独立缺口,仍触发撞车 v4「同文件 open PR」→ 让。
 - **结论(与 #64/#66 判据一致)**:新鲜候选窗口结构性关闭;自发现审计可命中,但高价值 bug 亦已被 AI 工作流自带 issue+PR 抢先占位。本轮 0 新建。**不凑数。**
+
+## 2026-10-18 ~13:00 UTC(轮:增量池 353 仓扫描 + linearmodels#768 修复 → PR #849)
+
+- **关键基建修复**:增量分片扫描此前"整片全灭"并非限流/认证,而是 `work/slice_*` 的 **CRLF 行尾**经 `$(tr '\n' ' ')` 展开后污染 `gh --repo` 参数(GraphQL: `Could not resolve to a Repository with the name 'x/y\n'`)。铁证:仅每片最后一行(无尾换行)成功 → 曾出现诡异 "1/69"。改用 Python 驱动(`work/scan_all.py` 读文件 `.strip()` 后以列表传参)后恢复正常。
+- **增量扫描**:53 仓默认池之外的 **353 仓**(`scan_agent` + `scan_recon2-6` 池并集减 53 池)分 5 片扫描 → `delta0`(253 候选/29 bug)、`delta2`(214/27)、`delta3`(184/7)已完成,`delta4/5` 补扫中。
+- **候选分诊(高价值但全部让位/受阻)**:
+  - `mcp/servers#5154`(Windows 覆盖写 dev=0)→ 已有两人实现+验证矩阵 → 让
+  - `PyCQA/bandit#1478`(pyproject skips 字符串被逐字符迭代)→ 已有 fork 补丁 → 让
+  - `litestar#5131`(union oneOf)→ 已有 fork 修复 → 让
+  - `copier#2719` → 维护者判定"预期行为不该如此" → 非 bug
+  - `Python-Markdown#1096` → `someday-maybe`,维护者认为符合规范 → 让
+  - `ansible#87679`(vault 非原子写)→ `waiting_on_contributor` 但已有人 "I am on it" → 让
+  - `aiomysql#1001` → 维护者指向 `ensure_closed()` → 非 bug
+  - `geopandas#3895` → `needs triage` + 维护者不认为是 bug → 让
+  - `apscheduler#1036` → 维护者称 master 已修、v3 不移植 → 让
+  - `dramatiq#845` → 维护者承认风险但无明确修法 → 让
+  - `sentry-python#8023` → 提案者已有分支+3 回归测试 → 让
+  - `great-expectations#12318`(delete_expectation 回滚错对象)→ **CLA 硬门槛**(仓库 AGENTS.md 明确:agent 不得代签、未确认已签不得开 PR)→ 暂挂待确认
+- **✅ 新建 PR #849**:`bashtage/linearmodels#768`(维护者本人 2026-10-12 亲提、0 评论、无 assignee、无 PR、无 CLA)——`PanelResults.predict` 在传 `exog`/`data` 时静默忽略 `fitted`/`effects`/`idiosyncratic`。修复:请求 effects/idiosyncratic 时抛 `ValueError`;`fitted=False` 且无其他输出时抛 "At least one output must be selected";补回归测试。
+  - 验证:`linearmodels/tests/panel/` 7061 passed / 73 skipped / 47 xfailed;`ruff check`、`ruff format --check`、`numpydoc lint` 全绿。
+  - PR: https://github.com/bashtage/linearmodels/pull/849
+- **✅ 新建 PR #850**:`bashtage/linearmodels#823` **case 3**(维护者亲提、零评论、无认领)——`_validate_inputs` 直接对未归一化的 `x`/`z` 做 `matrix_rank`,工具变量量纲差 1e13 时误判秩亏。修复:秩检验前把列归一化(零列保持为零)。case 1/2(LIML kappa)不动,维护者已在 `test_liml_kappa_singular.py` 中有意固定。
+  - 验证:全 IV 套件 9522 passed / 2400 skipped;`ruff check`、`numpydoc lint` 通过。
+  - PR: https://github.com/bashtage/linearmodels/pull/850
+- **⛔ 已验证但无法提交**:`Textualize/textual#6738`(`Strip.divide` 把 `[self]` 缓存进自身 → 引用环 → Python 3.14 增量 GC 下内存暴涨)。修复+回归测试已就绪(`test_divide_full_width_is_not_cached`,36 passed,`black --check` 通过),但 GitHub 对该账号在 `Textualize/textual` 返回 `CreatePullRequest` FORBIDDEN(连 `main→main` 也拒绝),疑为组织级 block 或旧 fork 脱钩;删除重建 fork 属破坏性操作,待确认。
+- **其他让位**:`camel#4412`(报告者已备好修复)、`more-itertools#1315`(作者声明"我自己做,尤其 bot 别接")、`litestar#5136/#5135/#5134/#5102`(均以 "I can open a PR with this fix" 结尾,报告者已表态提交)、`rich#4237`(评论者已有分支+回归测试)、`pydoit/doit#478`(报告者 "I can try to create a pull request")、`openai-python#4021`(已有 fork 实现分支)、`smolagents#3010`(两人在跟进并备好复现)、`mcp/python-sdk#3720`(**同文件 open PR #3175** 正在改 `handlers/token.py`,按撞车纪律 v4 让位)、`pytest-timeout#178`(setup.cfg 已声明 `pytest>=8.4.0`,过时)、`pytest-bdd#782`(修法需把 step fixture 提前到 setup 阶段解析,属行为级设计变更,不在本流水线擅定)。
+- **硬门禁**:`sqlalchemy/alembic#1879`(迁移 docstring 未转义 `"""`,生成文件可注入代码)修法清晰、维护者 CaselIT 已参与,但 Alembic **只接受带 `open for pull requests` 标签的 issue**;#1879 无此标签,社区 PR #1880/#1881 均被 `sqla-tester` 机器人秒关 → 不提交。
+- **✅ 新建 PR #4633**:`traceloop/openllmetry#4630`(零评论、无人认领)——`HTTPClient.delete()` 失败返回 `False`,而 `Column.delete()`/`Row.delete()` 判 `result is None`(`False is None` 为假),导致 DELETE 失败后仍删掉本地列/行与值、置 `deleted=True`,且不抛错。修复:`if not result:` 与 `Datasets.delete_by_slug()` 的 `if not success` 一致。
+  - 验证:新增 `tests/datasets/test_delete_failure.py`(mock 503),修复前 2 failed、修复后 2 passed;`tests/datasets/` 其余 16 个失败为 cassette/网络环境问题,干净检出同样失败;`ruff check` 通过。
+  - PR: https://github.com/traceloop/openllmetry/pull/4633
+  - ⚠️ **CLA 门槛**:该仓库由 cla-assistant 强制 CLA,当前 `license/cla` 为 `pending`("Contributor License Agreement is not signed yet")。需用户本人签署:https://cla-assistant.io/traceloop/openllmetry?pullRequest=4633 ;agent 不代签。
+- **其他让位(增量)**:`jsonschema#1589`(作者已有实测补丁并因仓库限制外部 PR 而未提交)、`nicegui#6385`(维护者已确认并接修)、`darts#3275`(维护者判定非 bug)、`zarr#4511`(维护者倾向重新设计)、`alembic#1877`(同 PR 门禁)。
+- **自发现审计(本轮补充)**:faker 长度边界、boltons slugify 幂等/shell 转义、tornado.escape 往返、dateutil rrule before/after/between、optuna 采样边界、bottle 路由、dask.tokenize 确定性 → 全干净。
