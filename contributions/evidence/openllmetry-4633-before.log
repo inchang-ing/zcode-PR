@@ -1,0 +1,53 @@
+補做验证 / Reverification, not the original PR execution
+started_at=2026-10-18T14:39:35.927864+00:00
+cwd=E:\zcode-PR\.tmp\verify-openllmetry-snapshot-20261018T143741Z\before\packages\traceloop-sdk
+verification_commit=9bf151cc60017bfef7bd3dc047db3035c7dc2831
+original_base=94d3f04bd9a7eec0804562fe8126c01a4f342b18
+original_head=92925a7345b856a914b77b843c646e91a370d8f6
+environment_sha256=6b61dc0eaccda6a85e49a0991eaaf1d1747056bd0ea3faf2692081a4c0788a82
+command=E:\zcode-PR\.venv312\Scripts\python.exe -B -c "from pathlib import Path; import traceloop.sdk.datasets.column as col; import traceloop.sdk.datasets.row as row; import pytest; print('COLUMN_SOURCE='+str(Path(col.__file__).resolve()),flush=True); print('ROW_SOURCE='+str(Path(row.__file__).resolve()),flush=True); assert Path(col.__file__).resolve()==Path('traceloop/sdk/datasets/column.py').resolve(); assert Path(row.__file__).resolve()==Path('traceloop/sdk/datasets/row.py').resolve(); raise SystemExit(pytest.main(['tests/datasets/test_delete_failure.py','-q','-p','no:cacheprovider']))"
+exit_code=1
+
+STDOUT
+COLUMN_SOURCE=E:\zcode-PR\.tmp\verify-openllmetry-snapshot-20261018T143741Z\before\packages\traceloop-sdk\traceloop\sdk\datasets\column.py
+ROW_SOURCE=E:\zcode-PR\.tmp\verify-openllmetry-snapshot-20261018T143741Z\before\packages\traceloop-sdk\traceloop\sdk\datasets\row.py
+FF                                                                       [100%]
+================================== FAILURES ===================================
+________________ test_column_delete_failure_keeps_local_state _________________
+
+dataset = <traceloop.sdk.datasets.dataset.Dataset object at 0x00000214CC3F9580>
+
+    def test_column_delete_failure_keeps_local_state(dataset: Dataset) -> None:
+        column = dataset.columns[0]
+    
+        with patch("requests.delete", return_value=_failed_response()):
+>           with pytest.raises(Exception, match="Failed to delete column question"):
+E           Failed: DID NOT RAISE Exception
+
+tests\datasets\test_delete_failure.py:36: Failed
+---------------------------- Captured stdout setup ----------------------------
+[33mTracing is disabled[39m
+---------------------------- Captured stdout call -----------------------------
+[31mError making request to datasets/evaluation/columns/question: 503 Server Error: None for url: None
+Server response: {}[39m
+__________________ test_row_delete_failure_keeps_local_state __________________
+
+dataset = <traceloop.sdk.datasets.dataset.Dataset object at 0x00000214CC3FBFB0>
+
+    def test_row_delete_failure_keeps_local_state(dataset: Dataset) -> None:
+        row = dataset.rows[0]
+    
+        with patch("requests.delete", return_value=_failed_response()):
+>           with pytest.raises(Exception, match="Failed to delete row row-1"):
+E           Failed: DID NOT RAISE Exception
+
+tests\datasets\test_delete_failure.py:48: Failed
+---------------------------- Captured stdout call -----------------------------
+[31mError making request to datasets/evaluation/rows/row-1: 503 Server Error: None for url: None
+Server response: {}[39m
+=========================== short test summary info ===========================
+FAILED tests/datasets/test_delete_failure.py::test_column_delete_failure_keeps_local_state
+FAILED tests/datasets/test_delete_failure.py::test_row_delete_failure_keeps_local_state
+2 failed in 0.36s
+
+STDERR

@@ -1,0 +1,26 @@
+diff --git a/packages/traceloop-sdk/traceloop/sdk/datasets/column.py b/packages/traceloop-sdk/traceloop/sdk/datasets/column.py
+index 0139ee5..c8ba64d 100644
+--- a/packages/traceloop-sdk/traceloop/sdk/datasets/column.py
++++ b/packages/traceloop-sdk/traceloop/sdk/datasets/column.py
+@@ -38,7 +38,7 @@ class Column(BaseDatasetEntity):
+             raise ValueError("Column must be associated with a dataset to delete")
+ 
+         result = self._http.delete(f"datasets/{self._dataset.slug}/columns/{self.slug}")
+-        if result is None:
++        if not result:
+             raise Exception(f"Failed to delete column {self.slug}")
+ 
+         self._dataset.columns.remove(self)
+diff --git a/packages/traceloop-sdk/traceloop/sdk/datasets/row.py b/packages/traceloop-sdk/traceloop/sdk/datasets/row.py
+index 6e3fda0..fda1202 100644
+--- a/packages/traceloop-sdk/traceloop/sdk/datasets/row.py
++++ b/packages/traceloop-sdk/traceloop/sdk/datasets/row.py
+@@ -31,7 +31,7 @@ class Row(BaseDatasetEntity):
+             raise Exception(f"Row {self.id} already deleted")
+ 
+         result = self._http.delete(f"datasets/{self._dataset.slug}/rows/{self.id}")
+-        if result is None:
++        if not result:
+             raise Exception(f"Failed to delete row {self.id}")
+         if self._dataset.rows and self in self._dataset.rows:
+             self._dataset.rows.remove(self)

@@ -1,0 +1,12 @@
+{
+  "source_head": "92925a7345b856a914b77b843c646e91a370d8f6",
+  "source_base": "94d3f04bd9a7eec0804562fe8126c01a4f342b18",
+  "before": "9bf151cc60017bfef7bd3dc047db3035c7dc2831",
+  "after": "d035ea8bb22ef54d4fec01516df0e131a6500b08",
+  "compared_files": 165,
+  "normalization": "CRLF -> LF only; local Windows checkout has CRLF while original blobs use LF",
+  "after_matches_original_PR_SDK_normalized": true,
+  "before_matches_original_base_plus_PR_test_normalized": true,
+  "after_byte_exact": false,
+  "before_byte_exact": false
+}

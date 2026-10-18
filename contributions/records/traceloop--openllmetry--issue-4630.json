@@ -27,15 +27,74 @@
     ]
   },
   "verification": {
-    "status": "unverified",
-    "case": "",
-    "summary": "历史日志声称新增删除失败用例修复前 2 failed、修复后 2 passed；没有导入原始日志、完整提交号和环境，不能据此标为证据齐全。",
-    "before": null,
-    "after": null
+    "status": "recorded",
+    "case": "tests/datasets/test_delete_failure.py (column and row delete failure)",
+    "summary": "2026-10-18 补做验证：原 PR 的同一份两条用例在原 base 加测试的隔离 SDK 快照上 2 failed（DID NOT RAISE），加入原修复后 2 passed。原仓为浅克隆，使用独立验证提交而非线上提交；165 个 SDK 文件与原版本在统一 CRLF/LF 后一致。环境 CPython 3.12.4；仅验证目标用例，未跑完整套件。详见补做说明、源码核对及 bundle。",
+    "before": {
+      "commit": "9bf151cc60017bfef7bd3dc047db3035c7dc2831",
+      "command": "E:\\zcode-PR\\.venv312\\Scripts\\python.exe -B -c \"from pathlib import Path; import traceloop.sdk.datasets.column as col; import traceloop.sdk.datasets.row as row; import pytest; print('COLUMN_SOURCE='+str(Path(col.__file__).resolve()),flush=True); print('ROW_SOURCE='+str(Path(row.__file__).resolve()),flush=True); assert Path(col.__file__).resolve()==Path('traceloop/sdk/datasets/column.py').resolve(); assert Path(row.__file__).resolve()==Path('traceloop/sdk/datasets/row.py').resolve(); raise SystemExit(pytest.main(['tests/datasets/test_delete_failure.py','-q','-p','no:cacheprovider']))\"",
+      "environment": "CPython 3.12.4 Windows; contributions/evidence/openllmetry-4633-environment.json SHA256=6b61dc0eaccda6a85e49a0991eaaf1d1747056bd0ea3faf2692081a4c0788a82",
+      "test_case": "tests/datasets/test_delete_failure.py (column and row delete failure)",
+      "ran_at": "2026-10-18T14:39:35.927864+00:00",
+      "exit_code": 1,
+      "result": "regression_failed",
+      "log": {
+        "kind": "local",
+        "ref": "contributions/evidence/openllmetry-4633-before.log",
+        "sha256": "6f3de5113e713176c9924c1ddb0b9a99ef38e592cae289fc25f3daf0a1b81cc1"
+      }
+    },
+    "after": {
+      "commit": "d035ea8bb22ef54d4fec01516df0e131a6500b08",
+      "command": "E:\\zcode-PR\\.venv312\\Scripts\\python.exe -B -c \"from pathlib import Path; import traceloop.sdk.datasets.column as col; import traceloop.sdk.datasets.row as row; import pytest; print('COLUMN_SOURCE='+str(Path(col.__file__).resolve()),flush=True); print('ROW_SOURCE='+str(Path(row.__file__).resolve()),flush=True); assert Path(col.__file__).resolve()==Path('traceloop/sdk/datasets/column.py').resolve(); assert Path(row.__file__).resolve()==Path('traceloop/sdk/datasets/row.py').resolve(); raise SystemExit(pytest.main(['tests/datasets/test_delete_failure.py','-q','-p','no:cacheprovider']))\"",
+      "environment": "CPython 3.12.4 Windows; contributions/evidence/openllmetry-4633-environment.json SHA256=6b61dc0eaccda6a85e49a0991eaaf1d1747056bd0ea3faf2692081a4c0788a82",
+      "test_case": "tests/datasets/test_delete_failure.py (column and row delete failure)",
+      "ran_at": "2026-10-18T14:39:41.273526+00:00",
+      "exit_code": 0,
+      "result": "passed",
+      "log": {
+        "kind": "local",
+        "ref": "contributions/evidence/openllmetry-4633-after.log",
+        "sha256": "c4fc03aafe06d16c11f6c23498d7e14870ac6169055637fada108a0168efe1ad"
+      }
+    }
   },
   "feedback": {
-    "checked_at": null,
-    "items": []
+    "checked_at": "2026-10-18T14:36:25.669274+00:00",
+    "items": [
+      {
+        "kind": "fact",
+        "summary": "CLAassistant（机器人）确认所有提交者已签署 CLA；当前提交的 license/cla 状态为 success，历史待签记录已过时。",
+        "observed_at": "2026-10-18T07:54:08Z",
+        "sources": [
+          {
+            "kind": "url",
+            "ref": "https://github.com/traceloop/openllmetry/pull/4633#issuecomment-6246212617"
+          },
+          {
+            "kind": "local",
+            "ref": "contributions/evidence/traceloop--openllmetry--pr-4633--github-20261018T143619Z.json",
+            "sha256": "79de8d6ece8a0510869b00673759bbddd9f97b93eee1896b71fda021e2e03089"
+          }
+        ]
+      },
+      {
+        "kind": "fact",
+        "summary": "CodeRabbit（自动评审）没有生成可操作的代码评论；其报告另有 docstring coverage 33.33% 低于80%的警告，不代表人类维护者已批准。",
+        "observed_at": "2026-10-18T05:50:29Z",
+        "sources": [
+          {
+            "kind": "url",
+            "ref": "https://github.com/traceloop/openllmetry/pull/4633#issuecomment-6246214428"
+          },
+          {
+            "kind": "local",
+            "ref": "contributions/evidence/traceloop--openllmetry--pr-4633--github-20261018T143619Z.json",
+            "sha256": "79de8d6ece8a0510869b00673759bbddd9f97b93eee1896b71fda021e2e03089"
+          }
+        ]
+      }
+    ]
   },
   "outcome": {
     "reason_category": "unknown",
@@ -43,15 +102,65 @@
     "sources": []
   },
   "next_actions": [
-    "核验当前 PR 状态和维护者反馈并保存来源。",
-    "补齐政策来源、撞车证据与修复前后测试日志；找不到的证据保持未核验。",
-    "历史日志提到 CLA 待签，需重新核验；不能由 agent 代签。"
+    "等待人类维护者评审；CLA 已通过，无需再提醒签署。",
+    "CodeRabbit 提示文档字符串覆盖不足；先区分机器人建议与仓库硬门禁，再决定是否处理。",
+    "当时的政策与撞车原始证据仍缺失，保持未核验；补做测试不代替这些核验。"
   ],
   "provenance": [
     {
       "kind": "local",
       "ref": "contributions/evidence/traceloop--openllmetry--issue-4630-history.txt",
       "sha256": "2955b130f419a5ff43e0b3435e4e0ac740dc5eb3c0e520134bae804a5663a2ba"
+    },
+    {
+      "kind": "local",
+      "ref": "contributions/evidence/traceloop--openllmetry--pr-4633--github-20261018T143619Z.json",
+      "sha256": "79de8d6ece8a0510869b00673759bbddd9f97b93eee1896b71fda021e2e03089"
+    },
+    {
+      "kind": "local",
+      "ref": "contributions/evidence/openllmetry-4633-after.log",
+      "sha256": "c4fc03aafe06d16c11f6c23498d7e14870ac6169055637fada108a0168efe1ad"
+    },
+    {
+      "kind": "local",
+      "ref": "contributions/evidence/openllmetry-4633-before.log",
+      "sha256": "6f3de5113e713176c9924c1ddb0b9a99ef38e592cae289fc25f3daf0a1b81cc1"
+    },
+    {
+      "kind": "local",
+      "ref": "contributions/evidence/openllmetry-4633-environment.json",
+      "sha256": "6b61dc0eaccda6a85e49a0991eaaf1d1747056bd0ea3faf2692081a4c0788a82"
+    },
+    {
+      "kind": "local",
+      "ref": "contributions/evidence/openllmetry-4633-production-fix.patch",
+      "sha256": "a5755db1b9cf4a31fd55f714446e4da03ef0610fe62059deb7c1a8636e7d4c73"
+    },
+    {
+      "kind": "local",
+      "ref": "contributions/evidence/openllmetry-4633-reverification-setup.json",
+      "sha256": "1e7923f96ab94a9eb4f344a7a64df1bc4a67eeeb828ec4dd9c74a869ff161db5"
+    },
+    {
+      "kind": "local",
+      "ref": "contributions/evidence/openllmetry-4633-reverification.md",
+      "sha256": "8df91698a28194874fcdbbfbf8e1519b3aac25c43f0bb930f5e1eca768c53eed"
+    },
+    {
+      "kind": "local",
+      "ref": "contributions/evidence/openllmetry-4633-runs.json",
+      "sha256": "c115c146341da4c9bbe6d1f3e2a41dbacea63b0601fced2f16a9445e19d01b0d"
+    },
+    {
+      "kind": "local",
+      "ref": "contributions/evidence/openllmetry-4633-source-proof.json",
+      "sha256": "c4a0f2541bfa42e9527585d580970e7e180e9f4d0e3b12cc041fb42f22073685"
+    },
+    {
+      "kind": "local",
+      "ref": "contributions/evidence/openllmetry-4633-verification.bundle",
+      "sha256": "4b77618e0fdde0910bf088cb67c238ece2f500ad6a77da9d28bb87f89bc604a7"
     }
   ]
 }

@@ -34,23 +34,54 @@
     "after": null
   },
   "feedback": {
-    "checked_at": null,
-    "items": []
+    "checked_at": "2026-10-18T14:36:25.963790+00:00",
+    "items": [
+      {
+        "kind": "fact",
+        "summary": "维护者 bashtage 留言“Thanks. LGTM.”；PR 已合并。",
+        "observed_at": "2026-10-18T14:12:00Z",
+        "sources": [
+          {
+            "kind": "url",
+            "ref": "https://github.com/bashtage/linearmodels/pull/849#issuecomment-6250914406"
+          },
+          {
+            "kind": "local",
+            "ref": "contributions/evidence/bashtage--linearmodels--pr-849--github-20261018T143619Z.json",
+            "sha256": "4b2430b55a66c048ab7e90345c5e2cbf75800bbb51be8415de957a74908ee896"
+          }
+        ]
+      }
+    ]
   },
   "outcome": {
-    "reason_category": "unknown",
-    "summary": "",
-    "sources": []
+    "reason_category": "other",
+    "summary": "已合并，维护者明确表示 LGTM；只记录接受事实，不推断合并的因果因素。",
+    "sources": [
+      {
+        "kind": "url",
+        "ref": "https://github.com/bashtage/linearmodels/pull/849"
+      },
+      {
+        "kind": "local",
+        "ref": "contributions/evidence/bashtage--linearmodels--pr-849--github-20261018T143619Z.json",
+        "sha256": "4b2430b55a66c048ab7e90345c5e2cbf75800bbb51be8415de957a74908ee896"
+      }
+    ]
   },
   "next_actions": [
-    "核验当前 PR 状态和维护者反馈并保存来源。",
-    "补齐政策来源、撞车证据与修复前后测试日志；找不到的证据保持未核验。"
+    "归档为已接受样本；原始测试证据仍待补齐，不因合并自动标记已验证。"
   ],
   "provenance": [
     {
       "kind": "local",
       "ref": "contributions/evidence/bashtage--linearmodels--issue-768-history.txt",
       "sha256": "71054ae5131bc49012f21f6fb7fa53881c649924d3dc62dee704920eb15f46e8"
+    },
+    {
+      "kind": "local",
+      "ref": "contributions/evidence/bashtage--linearmodels--pr-849--github-20261018T143619Z.json",
+      "sha256": "4b2430b55a66c048ab7e90345c5e2cbf75800bbb51be8415de957a74908ee896"
     }
   ]
 }

@@ -188,7 +188,7 @@ def render(records, cache):
     lines = ["# 贡献记录", "", f"生成时间：{utc_now()}", "",
              "由 contributions/records/*.json 生成，请勿手改。仅覆盖已导入样本，不代表全部贡献。",
              "PR 状态只读取 pr_state.json 缓存，展示最后核验时间；未联网更新。",
-             "测试“证据齐全”指记录字段和本地日志摘要通过校验，不代表本次重新执行测试或审核日志语义。", "",
+             "生成器只校验测试证据字段和日志摘要；是否补做、何时执行，以任务说明和运行时间为准，不自动审核日志语义。", "",
              "| 贡献 | 问题类型 / 修复方式 | 缓存状态 / 核验时间 | 政策 / 撞车 | 测试证据 |",
              "| --- | --- | --- | --- | --- |"]
     for r in records:
@@ -223,7 +223,7 @@ def render(records, cache):
                       f"时间：{cell(section['checked_at'] or '未记录')}。{cell(section['summary'])} "
                       f"{source_links(section['sources'])}"]
         v = r['verification']
-        lines += ["", f"**测试**：{'未核验' if v['status'] == 'unverified' else 'fail→pass 证据齐全（未重跑）'}。{cell(v['summary'])}"]
+        lines += ["", f"**测试**：{'未核验' if v['status'] == 'unverified' else '已记录 fail→pass 证据'}。{cell(v['summary'])}"]
         for phase in ('before', 'after'):
             run = v[phase]
             if run:

@@ -1,0 +1,30 @@
+{
+  "before": {
+    "commit": "9bf151cc60017bfef7bd3dc047db3035c7dc2831",
+    "command": "E:\\zcode-PR\\.venv312\\Scripts\\python.exe -B -c \"from pathlib import Path; import traceloop.sdk.datasets.column as col; import traceloop.sdk.datasets.row as row; import pytest; print('COLUMN_SOURCE='+str(Path(col.__file__).resolve()),flush=True); print('ROW_SOURCE='+str(Path(row.__file__).resolve()),flush=True); assert Path(col.__file__).resolve()==Path('traceloop/sdk/datasets/column.py').resolve(); assert Path(row.__file__).resolve()==Path('traceloop/sdk/datasets/row.py').resolve(); raise SystemExit(pytest.main(['tests/datasets/test_delete_failure.py','-q','-p','no:cacheprovider']))\"",
+    "environment": "CPython 3.12.4 Windows; contributions/evidence/openllmetry-4633-environment.json SHA256=6b61dc0eaccda6a85e49a0991eaaf1d1747056bd0ea3faf2692081a4c0788a82",
+    "test_case": "tests/datasets/test_delete_failure.py (column and row delete failure)",
+    "ran_at": "2026-10-18T14:39:35.927864+00:00",
+    "exit_code": 1,
+    "result": "regression_failed",
+    "log": {
+      "kind": "local",
+      "ref": "contributions/evidence/openllmetry-4633-before.log",
+      "sha256": "6f3de5113e713176c9924c1ddb0b9a99ef38e592cae289fc25f3daf0a1b81cc1"
+    }
+  },
+  "after": {
+    "commit": "d035ea8bb22ef54d4fec01516df0e131a6500b08",
+    "command": "E:\\zcode-PR\\.venv312\\Scripts\\python.exe -B -c \"from pathlib import Path; import traceloop.sdk.datasets.column as col; import traceloop.sdk.datasets.row as row; import pytest; print('COLUMN_SOURCE='+str(Path(col.__file__).resolve()),flush=True); print('ROW_SOURCE='+str(Path(row.__file__).resolve()),flush=True); assert Path(col.__file__).resolve()==Path('traceloop/sdk/datasets/column.py').resolve(); assert Path(row.__file__).resolve()==Path('traceloop/sdk/datasets/row.py').resolve(); raise SystemExit(pytest.main(['tests/datasets/test_delete_failure.py','-q','-p','no:cacheprovider']))\"",
+    "environment": "CPython 3.12.4 Windows; contributions/evidence/openllmetry-4633-environment.json SHA256=6b61dc0eaccda6a85e49a0991eaaf1d1747056bd0ea3faf2692081a4c0788a82",
+    "test_case": "tests/datasets/test_delete_failure.py (column and row delete failure)",
+    "ran_at": "2026-10-18T14:39:41.273526+00:00",
+    "exit_code": 0,
+    "result": "passed",
+    "log": {
+      "kind": "local",
+      "ref": "contributions/evidence/openllmetry-4633-after.log",
+      "sha256": "c4fc03aafe06d16c11f6c23498d7e14870ac6169055637fada108a0168efe1ad"
+    }
+  }
+}

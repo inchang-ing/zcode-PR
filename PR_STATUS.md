@@ -1,6 +1,6 @@
 # PR 状态
 
-生成时间：2026-10-18T05:52:20+00:00
+生成时间：2026-10-18T14:38:57+00:00
 
 自动生成的只读展示，请勿手动编辑。权威数据：`pr_state.json`；跟踪范围仍由 `STATE.md` 选择。
 `checked_at` 是最后成功核验时间；查询失败时保留此前状态，错误和失败时间单独显示。旧基线没有核验时间时显示“未记录”。
@@ -23,8 +23,8 @@
 | [Delgan/loguru#1526](https://github.com/Delgan/loguru/pull/1526) | OPEN | - | MERGEABLE | 21✓/0✗/0…/0ERR | 2026-10-18T05:51:02+00:00 | - | Fix #1525: neutralise C0/C1 control characters in log messages |
 | [OpenBMB/ChatDev#682](https://github.com/OpenBMB/ChatDev/pull/682) | CLOSED | REVIEW_REQUIRED | MERGEABLE | no-checks | 2026-10-17T12:25:27+00:00 | - | fix(utils): register dynamic tool modules in sys.modules before exec |
 | [QwenLM/Qwen-Agent#986](https://github.com/QwenLM/Qwen-Agent/pull/986) | OPEN | - | MERGEABLE | no-checks | 2026-10-18T05:51:04+00:00 | - | fix(agents): uniquify dialogue history filenames per run |
-| [bashtage/linearmodels#849](https://github.com/bashtage/linearmodels/pull/849) | OPEN | - | MERGEABLE | 未查询 | 2026-10-18T05:51:05+00:00 | - | - |
-| [bashtage/linearmodels#850](https://github.com/bashtage/linearmodels/pull/850) | OPEN | - | MERGEABLE | 未查询 | 2026-10-18T05:51:06+00:00 | - | - |
+| [bashtage/linearmodels#849](https://github.com/bashtage/linearmodels/pull/849) | MERGED | 未获取汇总（REST） | UNKNOWN | 15✓/0✗/0…/0ERR/0SKIP/0UNKNOWN | 2026-10-18T14:36:25.963790+00:00 | - | BUG: Raise for ignored flags in out-of-sample panel predictions |
+| [bashtage/linearmodels#850](https://github.com/bashtage/linearmodels/pull/850) | OPEN | 未获取汇总（REST） | MERGEABLE | 15✓/0✗/0…/0ERR/0SKIP/0UNKNOWN | 2026-10-18T14:36:25.828076+00:00 | - | BUG: Test the rank of the IV inputs after scaling the columns |
 | [bokeh/bokeh#15476](https://github.com/bokeh/bokeh/pull/15476) | MERGED | APPROVED | UNKNOWN | 31✓/3✗/0…/0ERR | 2026-10-17T12:25:29+00:00 | - | Group legend_group columns whose values cannot be ordered |
 | [crewAIInc/crewAI#7795](https://github.com/crewAIInc/crewAI/pull/7795) | OPEN | REVIEW_REQUIRED | MERGEABLE | 3✓/0✗/0…/0ERR | 2026-10-18T05:51:07+00:00 | - | fix(openai): allow multimodal file inputs for GPT-6 Astra |
 | [crewAIInc/crewAI#7981](https://github.com/crewAIInc/crewAI/pull/7981) | OPEN | - | MERGEABLE | 4✓/0✗/0…/0ERR | 2026-10-18T05:51:09+00:00 | - | fix(crewai-tools): keep fenced and inline code intact in MDXLoader |
@@ -69,6 +69,6 @@
 | [snowflakedb/snowflake-connector-python#3050](https://github.com/snowflakedb/snowflake-connector-python/pull/3050) | OPEN | REVIEW_REQUIRED | MERGEABLE | 2✓/0✗/0…/0ERR | 2026-10-18T05:52:15+00:00 | - | Fix #3049: apply force_microsecond_precision to TIMESTAMP_NTZ/LTZ(7) |
 | [statsmodels/statsmodels#10472](https://github.com/statsmodels/statsmodels/pull/10472) | OPEN | - | MERGEABLE | 12✓/1✗/0…/0ERR | 2026-10-18T05:52:16+00:00 | - | Fix #9237: index 0-d array as a scalar |
 | [tortoise/tortoise-orm#2307](https://github.com/tortoise/tortoise-orm/pull/2307) | OPEN | REVIEW_REQUIRED | MERGEABLE | no-checks | 2026-10-18T05:52:17+00:00 | - | fix(migrations): scope leaf/root nodes to same-app edges |
-| [traceloop/openllmetry#4633](https://github.com/traceloop/openllmetry/pull/4633) | OPEN | REVIEW_REQUIRED | MERGEABLE | 未查询 | 2026-10-18T05:52:18+00:00 | - | - |
+| [traceloop/openllmetry#4633](https://github.com/traceloop/openllmetry/pull/4633) | OPEN | 未获取汇总（REST） | MERGEABLE | 3✓/0✗/0…/0ERR/0SKIP/0UNKNOWN | 2026-10-18T14:36:25.669274+00:00 | - | fix(sdk): keep local dataset state when a delete request fails |
 | [weaviate/weaviate-python-client#2180](https://github.com/weaviate/weaviate-python-client/pull/2180) | OPEN | - | MERGEABLE | 5✓/0✗/0…/0ERR | 2026-10-18T05:52:20+00:00 | - | fix(batch): filter re-added errors by uuid and avoid the deprecated all_responses read |
 | [yaml/pyyaml#967](https://github.com/yaml/pyyaml/pull/967) | CLOSED | - | MERGEABLE | no-checks | 2026-10-17T12:26:23+00:00 | - | Quote leading-zero digit strings when dumping |

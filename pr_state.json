@@ -604,27 +604,33 @@
     "title": "fix(migrations): scope leaf/root nodes to same-app edges"
   },
   "bashtage/linearmodels#849": {
-    "state": "OPEN",
-    "reviewDecision": "-",
-    "mergeable": "MERGEABLE",
-    "updatedAt": "2026-10-18T05:29:53Z",
+    "state": "MERGED",
+    "reviewDecision": "未获取汇总（REST）",
+    "mergeable": "UNKNOWN",
+    "updatedAt": "2026-10-18T14:12:06Z",
     "url": "https://github.com/bashtage/linearmodels/pull/849",
-    "checked_at": "2026-10-18T05:51:05+00:00"
+    "checked_at": "2026-10-18T14:36:25.963790+00:00",
+    "title": "BUG: Raise for ignored flags in out-of-sample panel predictions",
+    "ci": "15✓/0✗/0…/0ERR/0SKIP/0UNKNOWN"
   },
   "bashtage/linearmodels#850": {
     "state": "OPEN",
-    "reviewDecision": "-",
+    "reviewDecision": "未获取汇总（REST）",
     "mergeable": "MERGEABLE",
-    "updatedAt": "2026-10-18T05:49:57Z",
+    "updatedAt": "2026-10-18T14:08:33Z",
     "url": "https://github.com/bashtage/linearmodels/pull/850",
-    "checked_at": "2026-10-18T05:51:06+00:00"
+    "checked_at": "2026-10-18T14:36:25.828076+00:00",
+    "title": "BUG: Test the rank of the IV inputs after scaling the columns",
+    "ci": "15✓/0✗/0…/0ERR/0SKIP/0UNKNOWN"
   },
   "traceloop/openllmetry#4633": {
     "state": "OPEN",
-    "reviewDecision": "REVIEW_REQUIRED",
+    "reviewDecision": "未获取汇总（REST）",
     "mergeable": "MERGEABLE",
-    "updatedAt": "2026-10-18T05:50:29Z",
+    "updatedAt": "2026-10-18T07:54:08Z",
     "url": "https://github.com/traceloop/openllmetry/pull/4633",
-    "checked_at": "2026-10-18T05:52:18+00:00"
+    "checked_at": "2026-10-18T14:36:25.669274+00:00",
+    "title": "fix(sdk): keep local dataset state when a delete request fails",
+    "ci": "3✓/0✗/0…/0ERR/0SKIP/0UNKNOWN"
   }
 }

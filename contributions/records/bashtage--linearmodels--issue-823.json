@@ -34,23 +34,51 @@
     "after": null
   },
   "feedback": {
-    "checked_at": null,
-    "items": []
+    "checked_at": "2026-10-18T14:36:25.828076+00:00",
+    "items": [
+      {
+        "kind": "fact",
+        "summary": "维护者 bashtage 质疑归一化秩检查：回归仍使用原始列尺度，原尺度秩检查可能在保护用户免受数值问题影响；询问我们的看法。",
+        "observed_at": "2026-10-18T14:08:32Z",
+        "sources": [
+          {
+            "kind": "url",
+            "ref": "https://github.com/bashtage/linearmodels/pull/850#issuecomment-6250879385"
+          },
+          {
+            "kind": "local",
+            "ref": "contributions/evidence/bashtage--linearmodels--pr-850--github-20261018T143619Z.json",
+            "sha256": "58f5cf0b05dc82522e559c3c721612533cd801888ab8981547212a4aa9d29a84"
+          }
+        ]
+      }
+    ]
   },
   "outcome": {
     "reason_category": "unknown",
-    "summary": "",
-    "sources": []
+    "summary": "PR 仍开放；维护者提出设计疑问，尚不能记为拒绝或关闭。",
+    "sources": [
+      {
+        "kind": "local",
+        "ref": "contributions/evidence/bashtage--linearmodels--pr-850--github-20261018T143619Z.json",
+        "sha256": "58f5cf0b05dc82522e559c3c721612533cd801888ab8981547212a4aa9d29a84"
+      }
+    ]
   },
   "next_actions": [
-    "核验当前 PR 状态和维护者反馈并保存来源。",
-    "补齐政策来源、撞车证据与修复前后测试日志；找不到的证据保持未核验。"
+    "先分析维护者对原始尺度秩检查的疑问，形成数值稳定性依据和答复草稿；本次不发送评论或修改PR。",
+    "补齐当时政策核验、撞车及测试证据。"
   ],
   "provenance": [
     {
       "kind": "local",
       "ref": "contributions/evidence/bashtage--linearmodels--issue-823-history.txt",
       "sha256": "0fc94b9815477a412a3c6ba8ad3cfaab475faeaf391310b16cd607aee5936248"
+    },
+    {
+      "kind": "local",
+      "ref": "contributions/evidence/bashtage--linearmodels--pr-850--github-20261018T143619Z.json",
+      "sha256": "58f5cf0b05dc82522e559c3c721612533cd801888ab8981547212a4aa9d29a84"
     }
   ]
 }

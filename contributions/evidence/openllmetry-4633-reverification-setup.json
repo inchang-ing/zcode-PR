@@ -1,0 +1,11 @@
+{
+  "work": "E:\\zcode-PR\\.tmp\\verify-openllmetry-snapshot-20261018T143741Z",
+  "source_base": "94d3f04bd9a7eec0804562fe8126c01a4f342b18",
+  "source_head": "92925a7345b856a914b77b843c646e91a370d8f6",
+  "before": "9bf151cc60017bfef7bd3dc047db3035c7dc2831",
+  "after": "d035ea8bb22ef54d4fec01516df0e131a6500b08",
+  "source_scope": "packages/traceloop-sdk/",
+  "test": "packages/traceloop-sdk/tests/datasets/test_delete_failure.py",
+  "note": "Reconstructed SDK-only snapshots: baseline includes the original PR tests; after differs only by the two original production fixes. Original clone is shallow/promisor and cannot be cloned offline. These are verification commits, not PR commits.",
+  "created_at": "2026-10-18T14:37:52.186872+00:00"
+}
