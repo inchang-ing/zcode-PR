@@ -56,11 +56,50 @@ python -S tools/contributions.py render
   "ran_at": "2026-10-18T12:00:00+00:00",
   "exit_code": 1,
   "result": "regression_failed",
+  "scope": "project",
   "log": {"kind": "local", "ref": "contributions/evidence/task-before.log", "sha256": "日志摘要"}
 }
 ```
 
 修复前须是目标回归失败，修复后须退出码 0 且 `result=passed`；环境和用例标识须一致，提交号须不同。依赖安装失败等应记为 `environment_error`，不能凑成 fail→pass。修复前的测试提交应已经包含回归用例，但尚未包含修复。命令可以因工作目录不同而不同，须在日志中说明。
+
+## 提交前与返工检查
+
+`quality_check.py` 复用本记录与日志，离线检查准备提交的具体版本。首次提交和每次评审返工使用相同流程。先完成最终 Git 提交、真实入口测试、政策和撞车核验；已有 PR 还须刷新原始反馈并逐项录入事实。远端配置中应包含记录仓库（通常为 upstream），工作区须干净，包括未跟踪文件。
+
+```powershell
+python -S tools/quality_check.py prepare owner--repo--issue-123 --checkout E:/zcode-PR/work/repo --body E:/zcode-PR/work/pr-body.md
+# 编辑 contributions/records/owner--repo--issue-123.json 的 submission
+python -S tools/quality_check.py check owner--repo--issue-123 --checkout E:/zcode-PR/work/repo --body E:/zcode-PR/work/pr-body.md
+```
+
+`prepare` 保存正文的精确 UTF-8 字节与摘要，写入当前 HEAD，初始化尚未核验的字段；不更改政策、测试或反馈核验时间。重新 prepare 会把旧 submission 留在 submission_history，并清空本轮判断，避免沿用旧检查结果。正文文件放在目标 checkout 外；Windows 下保存为不带 BOM 的 UTF-8。正文或代码改变后重新准备，不手改摘要掩盖变化。
+
+在生成的 submission 中填写：
+
+```json
+{
+  "claims": [{"text": "Regression test passed.", "run": "after"}],
+  "limitations": ["Windows was not tested."],
+  "feedback": [{
+    "fingerprint": "保留 prepare 生成的原始反馈指纹",
+    "request": "保留原始反馈摘要，方便对照",
+    "status": "addressed",
+    "summary": "具体改了什么，以及如何验证该反馈要求的行为",
+    "test_case": "与 verification.case 一致的回归用例标识"
+  }]
+}
+```
+
+这只是需要编辑的字段，保留 prepare 已生成的 head 和 body。没有反馈时 feedback 为 `[]`。每条事实反馈都需分类：`addressed` 关联本轮回归验证；`not_actionable` 说明无需代码修改的理由；`unresolved` 写明未解决原因并阻止通过。指纹绑定来源、摘要和观察时间，插入或修改反馈不能继承旧的“已处理”。维护者建议的行为要求仍须阅读理解，工具不替代这一判断。
+
+before/after 的 `scope` 如实录入 `project`（真实项目入口及依赖）、`isolated`（抽取代码或独立脚本）、`stub`（替代依赖）；后两者只算局部证据，不能通过本检查。after.commit 必须等于当前 HEAD，before 提交必须能在本地 Git 中解析；测试时间不可在未来或前后倒置。工具不重新执行测试，不自动确认导入路径、平台和依赖是否真实，录入者须核验日志。
+
+policy、collision 需有 24 小时内的核验记录；标签/分配门禁仓还需在 policy 中记录 `labels`、`assignees` 字符串列表。共享禁投/暂缓规则照常执行，不能靠 verified 标记绕过。已有 PR 或已记录事实反馈时，feedback.checked_at 也须在 24 小时内；查看远端后如实更新，离线工具不会自动抓取新评论。
+
+每条 claims.text 必须出现在实际正文中，并关联当前提交成功的 after 运行；所有登记的 limitations 也必须写入正文。只登记具体测试结论，不能用一个局部测试支持“全部正确”。工具核对登记声明与证据的对应关系，不自动发现正文中遗漏登记的声明、不审阅文字语义；其余正文仍需审阅。未验证的范围应明确披露。
+
+退出码 0 输出 `EVIDENCE_OK`，仅表示证据一致性检查通过，不构成投稿授权、真人签字或 CI 全绿声明。缺失、过期或不一致退出码 1，显示需补齐事项。继续按 RULES.md 完成实时终检、政策和并发检查后，才进入实际提交步骤；此工具不推送、不发表评论。
 
 ## 统计口径
 

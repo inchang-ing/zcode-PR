@@ -61,16 +61,20 @@ def fetch(key):
     for attempt in range(2):  # 单次重试,规避 gh 瞬时限流抖动
         try:
             out = gh(["pr", "view", str(num), "--repo", repo,
-                      "--json", "state,reviewDecision,mergeable,updatedAt,url"])
+                      "--json", "state,reviewDecision,mergeable,updatedAt,url,createdAt,mergedAt,closedAt,headRefOid"])
             d = json.loads(out)
             if d.get("state") not in {"OPEN", "CLOSED", "MERGED"}:
                 raise ValueError("PR response has no valid state")
             return {
                 "state": (d.get("state") or "?").upper(),
                 "reviewDecision": d.get("reviewDecision") or "-",
+                    "headRefOid": d.get("headRefOid"),
                 "mergeable": d.get("mergeable") or "-",
                 "updatedAt": d.get("updatedAt") or "-",
                 "url": d.get("url") or "-",
+                "createdAt": d.get("createdAt"),
+                "mergedAt": d.get("mergedAt"),
+                "closedAt": d.get("closedAt"),
                 "checked_at": utc_now(),
             }
         except Exception as e:

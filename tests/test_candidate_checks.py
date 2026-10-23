@@ -218,7 +218,7 @@ class ScanTests(unittest.TestCase):
             self.assertEqual(monitor_round.scan(["example/project"], "existing.json"), 1)
         save.assert_not_called()
 
-    def test_confirmed_empty_list_replaces_old_candidates(self):
+    def test_confirmed_empty_list_saves_empty_snapshot_without_previous_candidates(self):
         with patch.object(monitor_round, "get_issues", return_value=[]), \
                 patch.object(monitor_round, "atomic_write_json") as save:
             self.assertEqual(monitor_round.scan(["example/project"], "snapshot.json"), 0)

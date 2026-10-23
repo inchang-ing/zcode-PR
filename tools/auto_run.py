@@ -7,9 +7,9 @@
   2. 一旦某候选处于 clean 状态, 在遍历到的"瞬间"立即触发 run()。
   3. 用持久化 dispatched.json 去重, 同一候选绝不二次触发。
 
-"run" 的语义 = 执行该候选的 PR 落地管线:
-  clone/fetch → 复现(reproduce) → 应用补丁(FIXERS 钩子) → 跑回归测试
-  → commit/push → gh pr create。
+"run" 的语义 = 准备本地修复:
+  clone/fetch → 复现(reproduce) → 应用补丁(FIXERS 钩子) → 等待最终提交与证据检查。
+  quality_check.py 检查完成前停止；此入口不自动推送或创建 PR。
 若无法本地复现, 或没有注册补丁, 一律不硬凑、不伪造 PR(标记 repro_failed / needs_fix 后停止)。
 
 用法:
@@ -86,6 +86,7 @@ class Candidate:
     clean: bool = False
     clean_reason: str = ""
     assignees: list = field(default_factory=list)  # login names; old snapshots have no evidence
+    checked_at: str = ""  # scan observation, not issue creation time
 
     @property
     def key(self) -> str:
@@ -137,28 +138,46 @@ class DispatchedStore:
     """
 
     # needs_repro 不在此集合: 只是"还没人写复现", 非终态, 下轮可重试
-    ACTIVE = {"running", "pr_opened", "needs_fix"}
+    ACTIVE = {"running", "pr_opened", "needs_fix", "needs_verification"}
     TERMINAL = {"dropped", "merged", "closed"}
     RETRYABLE = {"pending", "needs_repro", "repro_failed", "dry_run"}
 
     def __init__(self, path: str = DISPATCHED):
         self.path = path
-        self.data = read_json_object(path)
-        self._validate(self.data)
+        self.data = self._normalize(read_json_object(path))
 
     @staticmethod
     def _validate(data):
         if any(not isinstance(value, dict) for value in data.values()):
             raise ValueError("Invalid dispatched state: each candidate must be an object")
 
-    def is_active(self, key: str) -> bool:
-        entry = self.data.get(key)
+    @classmethod
+    def _normalize(cls, data):
+        cls._validate(data)
+        normalized, priorities = {}, {}
+        for key, entry in data.items():
+            key = key.lower()
+            status = entry.get("status")
+            # Legacy aliases must not revive finished work or hide an in-flight PR.
+            rank = (3 if status in cls.ACTIVE else
+                    2 if status not in cls.RETRYABLE | {"deferred"} else
+                    int(cls._entry_active(entry)))
+            stamp = entry.get("ts", 0)
+            if not isinstance(stamp, (int, float)) or not math.isfinite(stamp):
+                stamp = 0
+            priority = (rank, stamp)
+            if key not in normalized or priority > priorities[key]:
+                normalized[key], priorities[key] = entry, priority
+        return normalized
+
+    @classmethod
+    def _entry_active(cls, entry) -> bool:
         if entry is None:
             return False
         status = entry.get("status")
-        if status in self.ACTIVE or status in self.TERMINAL:
+        if status in cls.ACTIVE or status in cls.TERMINAL:
             return True
-        if status not in self.RETRYABLE | {"deferred"}:
+        if status not in cls.RETRYABLE | {"deferred"}:
             return True
         retry_after = entry.get("retry_after")
         if retry_after is not None:
@@ -172,15 +191,18 @@ class DispatchedStore:
                 return not math.isfinite(retry_after) or retry_after > time.time()
             except (TypeError, ValueError, OverflowError):
                 return True
-        return status not in self.RETRYABLE
+        return status not in cls.RETRYABLE
+
+    def is_active(self, key: str) -> bool:
+        return self._entry_active(self.data.get(key.lower()))
 
     def status_of(self, key: str) -> str:
-        return self.data.get(key, {}).get("status", "none")
+        return self.data.get(key.lower(), {}).get("status", "none")
 
     def repo_inflight(self, repo: str) -> bool:
         """该仓是否已有在飞(跨轮累计)。用于落实真实纪律「同仓在飞 ≤1」,
         而不是「一轮只能跑一个」——后者并无此硬约束。"""
-        pre = f"{repo}#"
+        pre = f"{repo.lower()}#"
         return any(k.startswith(pre) and v.get("status") in self.ACTIVE
                    for k, v in self.data.items())
 
@@ -188,9 +210,8 @@ class DispatchedStore:
         if status not in self.ACTIVE | self.TERMINAL | self.RETRYABLE | {"deferred"}:
             raise ValueError(f"Unknown candidate status: {status}")
         with file_lock(self.path):
-            data = read_json_object(self.path)
-            self._validate(data)
-            data[key] = {"status": status, "ts": time.time(), **extra}
+            data = self._normalize(read_json_object(self.path))
+            data[key.lower()] = {"status": status, "ts": time.time(), **extra}
             atomic_write_json(self.path, data)
             self.data = data
 
@@ -353,25 +374,10 @@ def run(c: Candidate, store: DispatchedStore, dry_run: bool = False):
             print(f"  [run] {c.key} fixer 无改动 → needs_fix")
             return
 
-        # (d) 推送(代理安全: gh api blob/tree/commit/ref 到 fork)
-        base = json.loads(subprocess.run(
-            ["gh", "api", f"repos/{c.repo}/git/ref/heads/main"],
-            capture_output=True, text=True).stdout)
-        base_commit = base["object"]["sha"]
-        base_tree = json.loads(subprocess.run(
-            ["gh", "api", f"repos/{c.repo}/git/commits/{base_commit}"],
-            capture_output=True, text=True).stdout)["tree"]["sha"]
-        branch = f"fix/issue-{c.number}"
-        _push_via_api(c.repo, branch, base_commit, base_tree, changed,
-                      f"fix: {c.title}\n\nfixes #{c.number}")
-        out = subprocess.run(
-            ["gh", "pr", "create", "--repo", c.repo,
-             "--head", f"inchang-ing:{branch}", "--base", "main",
-             "--title", f"fix: {c.title}", "--body", f"fixes #{c.number}"],
-            capture_output=True, text=True)
-        pr_url = (out.stdout or out.stderr).strip()
-        store.mark(c.key, "pr_opened", pr_url=pr_url)
-        print(f"  [run] {c.key} → PR 已开: {pr_url}")
+        # A changed tarball is not a tested final Git commit or submission evidence.
+        store.mark(c.key, "needs_verification", changed=changed,
+                   reason="将补丁落入目标 Git checkout，完成回归及 quality_check.py 后按规则提交")
+        print(f"  [run] {c.key} → needs_verification：完成最终提交与证据检查后再提交")
     except Exception as e:  # 任何步骤失败都不留半成品 PR
         store.mark(c.key, "repro_failed", reason=f"run 异常: {e}")
         print(f"  [run] {c.key} 异常 → {e}")
@@ -434,14 +440,15 @@ def main():
                 print(f"  [claim-first] {c.key} 未在 issue 留言(work/claim-queue.md 无记录) → 跳过, 请先留言再跑")
                 continue
             # 同仓限流(跨轮在飞 or 本轮已触发)——不是"一轮只能一个"的全局限制
-            if store.repo_inflight(c.repo) or repo_n.get(c.repo, 0) >= per_repo:
+            repo_key = c.repo.lower()
+            if store.repo_inflight(c.repo) or repo_n.get(repo_key, 0) >= per_repo:
                 print(f"  [per-repo] {c.key} 同仓已达上限 {per_repo}（{c.repo}）→ 留待下轮")
                 continue
             if max_n is not None and clean_n >= max_n:
                 print(f"  [max] 已达全局上限 {max_n}, 余下留待下轮")
                 continue
             clean_n += 1
-            repo_n[c.repo] = repo_n.get(c.repo, 0) + 1
+            repo_n[repo_key] = repo_n.get(repo_key, 0) + 1
             run(c, store, dry_run=dry)      # ← 满足条件的瞬间立即触发
         else:
             print(f"  skip {c.key}: {why}")

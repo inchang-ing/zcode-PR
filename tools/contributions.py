@@ -121,6 +121,8 @@ def validate(record, root=ROOT):
         timestamp(run.get("ran_at"))
         require(type(run.get("exit_code")) is int, "测试缺少退出码")
         require(run.get("result") in {"regression_failed", "passed", "environment_error"}, "缺少测试结果分类")
+        if 'scope' in run:
+            require(isinstance(run['scope'], str) and run['scope'] in {'project', 'isolated', 'stub'}, "无效测试范围")
         require(isinstance(run.get("log"), dict) and run["log"].get("kind") == "local", "须保存本地测试日志")
         validate_sources([run["log"]], root)
     if verification["status"] == "recorded":

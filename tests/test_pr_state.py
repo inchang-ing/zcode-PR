@@ -8,9 +8,25 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "tools"))
 from pr_state import load_pr_state, merge_observations, render_pr_status, save_observations, write_pr_status
+from monitor_oss import ci_fingerprint
 
 
 class PRStateTests(unittest.TestCase):
+    def test_new_head_preserves_ci_only_as_historical_evidence(self):
+        original = {'state': 'OPEN', 'headRefOid': 'a' * 40, 'ci_head_oid': 'a' * 40,
+                    'ci': 'no-checks', 'ci_fingerprint': ci_fingerprint([]),
+                    'ci_checked_at': '2026-10-23T01:00:00Z'}
+        for head in ('a' * 40, 'b' * 40):
+            with self.subTest(head=head):
+                merged = merge_observations({'a/b#1': original}, {'a/b#1': {
+                    'state': 'OPEN', 'headRefOid': head, 'checked_at': '2026-10-23T02:00:00Z'}})
+                self.assertEqual(merged['a/b#1']['ci_head_oid'], 'a' * 40)
+                self.assertEqual(merged['a/b#1']['ci_checked_at'], original['ci_checked_at'])
+                report = render_pr_status(merged)
+                self.assertEqual('当前版本 CI 未验证' in report, head != original['headRefOid'])
+                self.assertIn('CI 核验：2026-10-23T01:00:00Z', report)
+        self.assertEqual(original['headRefOid'], 'a' * 40)
+
     def test_legacy_sources_merge_in_memory_until_first_success(self):
         with tempfile.TemporaryDirectory() as tmp:
             directory = Path(tmp)

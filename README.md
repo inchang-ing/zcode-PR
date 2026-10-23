@@ -4,6 +4,8 @@
 
 > 工作模式:脚本辅助扫描,由对话中的 agent 完成复现、修复、回归验证与提交。
 
+当前重心为高质量贡献：先完成真实路径验证、影响范围审查和必要的评审返工，再按仓库政策提交。每次返工重验，准确披露 AI 协助和验证局限，减少没有新信息的评论与同步。具体执行见 [RULES.md 的当前重心](RULES.md#当前重心高质量贡献2026-10-23)。
+
 ## 目录结构
 
 ```
@@ -17,8 +19,10 @@ E:\zcode-PR\
 ├── STATE-archive.md     # 历史归档(已合并/关闭 PR 的验证记录)
 ├── tools/               # 全部可执行代码
 │   ├── monitor_round.py     # 权威仓库池扫描 → 候选
+│   ├── scan_candidates.py   # 精选仓库池初筛，配置为 tools/quality_repos.json
 │   ├── filter_cands.py      # 本地只读候选过滤(复用共享规则)
 │   ├── vet.py               # 开 PR 前终检 CLEAN/WARN/DROP/UNKNOWN
+│   ├── quality_check.py     # 首次提交/返工前检查版本、证据、正文和反馈对应关系
 │   ├── auto_run.py          # 候选 → PR 落地管线(修复钩子未接入,见下)
 │   ├── monitor_scope.py     # 在飞 PR 状态 → pr_state.json + PR_STATUS.md
 │   ├── monitor_oss.py       # 在飞 PR + CI 检查
@@ -29,7 +33,7 @@ E:\zcode-PR\
 │   └── pipeline_state.py / pr_state.py / gh_checks.py
 ├── tests/               # 离线回归测试
 ├── repo-monitor/        # Git 子模块:GitHub Actions 每 10 分钟轮询
-├── work/                # 活跃工作台:克隆 / 复现 / 临时产物(gitignore)
+├── work/                # 活跃工作台:克隆 / 复现 / 临时产物；仅保留扫描兼容入口
 ├── workspaces/          # 各仓库克隆 + venv(gitignore,可重建)
 └── archive/             # 归档的早期一次性脚本
 ```
@@ -45,7 +49,17 @@ python -S tools/vet.py --candidates round_candidates.json      # 开 PR 前终�
 `round_candidates.json`(仓库根)是**唯一权威候选文件**,`auto_run.py` 与 `vet.py` 都读它。
 只有终检为 `CLEAN` 的候选才能进入人工判断(`UNKNOWN` 必须复核)。之后:复现 → 修复 + 回归测试 → 覆盖率自检 → 提 PR,遵守 `RULES.md`。
 
-> `auto_run.py` 的自动修复钩子(FIXERS)目前**未接入**,`run` 语义仅为占位;实际修复仍由 agent 手动完成。不要把它当成已闭环的自动化。
+精选仓库池的初筛使用 `python -S tools/scan_candidates.py --days 4 --max 5`，仓库池维护在 `tools/quality_repos.json`。旧命令 `python -S work/scan_candidates.py` 保留为兼容入口，两者执行同一份代码。初筛报告仍输出到 `work/ledger/candidates.json`，与权威候选文件分开；查询失败记为 `UNKNOWN` 并返回非零，不能当作没有撞车或认领。首次迁移缺少旧在飞台账时读取 `pr_state.json` 缓存。
+
+常规扫描对最新十条之外的已有候选按编号复核；查询失败时保留并标为未知，确认关闭或不合格后才移除。
+
+> `auto_run.py` 的自动修复钩子(FIXERS)目前**未接入**。以后接入钩子也只准备本地补丁，停在 needs_verification；须落入目标 Git checkout，完成最终提交与证据检查后按规则提交。此入口不自动推送或创建 PR。
+
+## 合并产出工作队列
+
+默认扫描结束后自动生成 [工作队列](WORK_QUEUE.md)，将候选核验、复现和已有 PR 的修改请求放在一起排序。
+使用 `python -S tools/work_queue.py refresh` 可离线刷新队列和 [七天产出统计](WEEKLY_CONTRIBUTIONS.md)。
+阶段、退出原因、实际工时及反馈分类的操作见 [试运行说明](QUEUE_GUIDE.md)。缺少政策、撞车或维护者意图证据的候选只能先核验；高分不能绕过门禁。
 
 ## 可验证贡献记录
 
@@ -57,6 +71,8 @@ python -S tools/contributions.py render
 ```
 
 生成的 [贡献台账](CONTRIBUTIONS.md) 包含政策、撞车、测试证据、反馈、建议待办，以及按仓库/问题类型/修复方式的样本统计。历史陈述与已核验事实分开，PR 状态只读取现有缓存。首版不替换 `STATE.md` 的监控范围。
+
+首次提交和每次返工推送前，执行 `tools/quality_check.py prepare/check`，核验最终提交、测试日志、实际 PR 正文和反馈处理是否对应。具体命令见 [提交前与返工检查](contributions/README.md#提交前与返工检查)。旧记录可以继续读取，但缺少新版证据字段时不会通过提交检查。
 
 ## 状态与监控
 
@@ -93,7 +109,7 @@ python -S -B -m unittest discover -s repo-monitor/tests -v
 
 ## git 安全网
 
-- 本目录已是 git 仓库;`workspaces/`、`work/`、`.trash/`、`*-src`、`*-venv`、各类缓存均被 `.gitignore` 忽略,只跟踪代码 / 文档 / 小状态。
+- 本目录已是 git 仓库；`workspaces/`、`work/`、`.trash/`、`*-src`、`*-venv`、各类缓存均被 `.gitignore` 忽略，`work/scan_candidates.py` 兼容入口除外。长期扫描代码和仓库池位于 `tools/`，应随代码一起保存。
 - 回滚:`git checkout -- <file>` 或 `git revert <sha>`;查看历史:`git log --oneline`。
 - `repo-monitor/` 由 `.gitmodules` 声明；新克隆使用 `git clone --recurse-submodules <根仓库地址>`，已有克隆运行 `git submodule update --init --recursive`。
 - 子模块修改须先在 `repo-monitor/` 提交，再在根仓库提交子模块指针。发布时先推送子仓库提交，再推送根仓库；仅有本地子仓库提交时，其他机器不能从远端恢复该版本。

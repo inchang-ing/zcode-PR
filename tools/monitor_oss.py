@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """OSS PR 体检: 只扫 STATE.md 的 OSS 段, 拉 state/mergeable/reviewDecision/CI 检查, 报 diff."""
 import re, subprocess, json, pathlib, time, sys
+import hashlib
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 from pipeline_state import file_lock
@@ -69,7 +70,42 @@ def ci_summary(roll):
 
 def ci_failed(ci):
     # Unknown results need attention too; never silently count them as healthy.
-    return any(int(n) > 0 for n in re.findall(r"(\d+)(?:✗|ERR|UNKNOWN)", ci))
+    return not isinstance(ci, str) or any(int(n) > 0 for n in re.findall(r"(\d+)(?:✗|ERR|UNKNOWN)", ci))
+
+
+def ci_fingerprint(roll):
+    """Identify the actual check observations, independent of API result order.
+
+    Counts cannot distinguish swapped failures or reruns. Unknown/malformed check
+    data has no acknowledgeable fingerprint, even when its summary looks healthy.
+    """
+    if not isinstance(roll, list):
+        return None
+    checks = []
+    for check in roll:
+        if not isinstance(check, dict) or "1UNKNOWN" in ci_summary([check]):
+            return None
+        if "status" in check:
+            if check.get("status") not in {"COMPLETED", "IN_PROGRESS", "QUEUED", "PENDING", "WAITING", "REQUESTED"}:
+                return None
+            kind, name = "CheckRun", check.get("name")
+            identity = (check.get("id"), check.get("detailsUrl"), check.get("startedAt"))
+            fields = ("id", "name", "workflowName", "detailsUrl", "status", "conclusion", "startedAt", "completedAt")
+        else:
+            if check.get("state") not in {"SUCCESS", "FAILURE", "ERROR", "PENDING", "EXPECTED"}:
+                return None
+            kind, name = "StatusContext", check.get("context")
+            identity = (check.get("id"), check.get("targetUrl"), check.get("createdAt"))
+            fields = ("id", "context", "targetUrl", "state", "createdAt")
+        if (not isinstance(name, str) or not name.strip()
+                or check.get("__typename", kind) != kind
+                or not any(isinstance(value, str) and value.strip() for value in identity)
+                or any(check.get(field) is not None and not isinstance(check[field], str) for field in fields)):
+            return None
+        checks.append({"type": kind, **{field: check.get(field) for field in fields}})
+    serialized = sorted(json.dumps(check, sort_keys=True, ensure_ascii=False, separators=(",", ":"))
+                        for check in checks)
+    return hashlib.sha256(json.dumps(serialized, ensure_ascii=False, separators=(",", ":")).encode("utf-8")).hexdigest()
 
 
 def fetch(key):
@@ -77,13 +113,20 @@ def fetch(key):
     for _ in range(2):
         try:
             d = json.loads(gh(["pr", "view", str(num), "--repo", repo, "--json",
-                                "state,mergedAt,mergeable,reviewDecision,statusCheckRollup,title"]))
+                                "state,createdAt,closedAt,mergedAt,updatedAt,mergeable,reviewDecision,statusCheckRollup,title,headRefOid"]))
             if d.get("state") not in {"OPEN", "CLOSED", "MERGED"}:
                 raise ValueError("PR response has no valid state")
             st = "MERGED" if d.get("mergedAt") else d["state"]
             return {"state": st, "mergeable": d.get("mergeable") or "-",
                     "reviewDecision": d.get("reviewDecision") or "-",
+                    "headRefOid": d.get("headRefOid"),
+                    "updatedAt": d.get("updatedAt"),
                     "ci": ci_summary(d.get("statusCheckRollup")),
+                    "ci_head_oid": d.get("headRefOid"),
+                    "ci_fingerprint": ci_fingerprint(d.get("statusCheckRollup")),
+                    "ci_checked_at": utc_now(),
+                    "createdAt": d.get("createdAt"), "mergedAt": d.get("mergedAt"),
+                    "closedAt": d.get("closedAt"),
                     "title": d.get("title", ""), "checked_at": utc_now()}
         except Exception as e:
             time.sleep(2); last = str(e)
@@ -126,8 +169,9 @@ def run_round():
                     ch.append(f"[评审] {k}: {b.get('reviewDecision','-')} -> {v['reviewDecision']}")
                 if v["mergeable"] != b.get("mergeable"):
                     ch.append(f"[mergeable] {k}: {b.get('mergeable','-')} -> {v['mergeable']}")
-                if v["ci"] != b.get("ci"):
-                    ch.append(f"[CI] {k}: {b.get('ci')} -> {v['ci']}")
+                if v["ci"] != b.get("ci") or v.get("ci_fingerprint") != b.get("ci_fingerprint"):
+                    detail = "（检查或运行已变化）" if v["ci"] == b.get("ci") else ""
+                    ch.append(f"[CI] {k}: {b.get('ci')} -> {v['ci']}{detail}")
         print("-" * 90)
         print("本轮变化:" + ("\n  ".join([""] + ch) if ch else " 无(仅时间戳)"))
     else:

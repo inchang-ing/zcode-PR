@@ -18,6 +18,27 @@ def utc_now():
     return datetime.now(timezone.utc).isoformat(timespec="seconds")
 
 
+def ci_binding_error(record):
+    """CI from an older/unknown head is historical evidence, never current success."""
+    ci = record.get("ci")
+    if ci is None:
+        return "尚未查询 CI"
+    if not isinstance(ci, str) or (ci != "no-checks" and not re.fullmatch(
+            r"\d+✓/\d+✗/\d+…/\d+ERR/\d+SKIP/\d+UNKNOWN", ci)):
+        return "CI 结果缺少完整结构，需重新查询"
+    if any(int(n) for n in re.findall(r"(\d+)UNKNOWN", ci)):
+        return "CI 含未知结果，需核验"
+    head, ci_head = record.get("headRefOid"), record.get("ci_head_oid")
+    if not all(isinstance(value, str) and re.fullmatch(r"[0-9a-f]{40}", value) for value in (head, ci_head)):
+        return "CI 未绑定有效提交，当前版本未验证"
+    if head != ci_head:
+        return "提交已变化，当前版本 CI 未验证"
+    fingerprint = record.get("ci_fingerprint")
+    if not isinstance(fingerprint, str) or not re.fullmatch(r"[0-9a-f]{64}", fingerprint):
+        return "CI 检查明细缺失或无效，需重新查询"
+    return ""
+
+
 def _validate_records(records, path):
     for key, value in records.items():
         if not isinstance(value, dict):
@@ -72,7 +93,7 @@ def render_pr_status(records, generated_at=None):
     lines = ["# PR 状态", "", f"生成时间：{generated_at}", "",
              "自动生成的只读展示，请勿手动编辑。权威数据：`pr_state.json`；跟踪范围仍由 `STATE.md` 选择。",
              "`checked_at` 是最后成功核验时间；查询失败时保留此前状态，错误和失败时间单独显示。旧基线没有核验时间时显示“未记录”。",
-             "保留的 CI / 标题可能来自另一入口的较早成功观测；当前入口未查询的字段不会被清空。", "",
+             "保留的 CI / 标题可能来自另一入口的较早成功观测；CI 必须与当前提交相符，CI 核验时间单独显示。", "",
              "| PR | 状态 | 评审 | 合并状态 | CI | 最后成功核验 | 查询错误（时间） | 标题 |",
              "| --- | --- | --- | --- | --- | --- | --- | --- |"]
     for key in sorted(records):
@@ -83,8 +104,13 @@ def render_pr_status(records, generated_at=None):
         error = record.get("query_error")
         if error:
             error = f"{error} ({record.get('query_error_at', '未记录')})"
+        ci = record.get("ci", "未查询")
+        binding_error = ci_binding_error(record)
+        if binding_error:
+            ci = f"未验证：{binding_error}（历史结果：{ci}）"
+        ci = f"{ci}；CI 核验：{record.get('ci_checked_at', '未记录')}"
         cells = [record.get("state", "未核验"), record.get("reviewDecision", "-"),
-                 record.get("mergeable", "-"), record.get("ci", "未查询"),
+                 record.get("mergeable", "-"), ci,
                  record.get("checked_at", "未记录"), error or "-", record.get("title", "-")]
         lines.append("| " + label + " | " + " | ".join(_cell(v) for v in cells) + " |")
     if not records:

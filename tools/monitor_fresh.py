@@ -167,6 +167,20 @@ def fetch_newest(repo: str, last_check: datetime) -> list[dict] | None:
         page += 1
 
 
+def persist_discoveries(items):
+    path = Path(STATE_PATH).with_name("fresh_candidates.json")
+    with file_lock(path):
+        inbox = read_json_object(path)
+        for item in items:
+            key = f"{item['repo'].lower()}#{item['num']}"
+            inbox.setdefault(key, {"repo": item['repo'], "number": item['num'],
+                "title": item['title'], "url": f"https://github.com/{item['repo']}/issues/{item['num']}",
+                "labels": item['labels'].split(',') if item['labels'] else [],
+                "issue_unknown": True, "pr_unknown": True, "cmt_unknown": True,
+                "check_errors": ["新发现，尚未执行共享核验"]})
+        atomic_write_json(path, inbox)
+
+
 def run_round() -> None:
     init = "--init" in sys.argv
     state = load_state()
@@ -214,6 +228,8 @@ def run_round() -> None:
         )
         return
 
+    # Persist before advancing seen/watermarks: a failed write can be safely replayed.
+    persist_discoveries(new_items)
     cutoff = (now - timedelta(days=PRUNE_DAYS)).isoformat()
     seen = {k: v for k, v in seen.items() if v > cutoff}
 
@@ -247,6 +263,8 @@ def run_round() -> None:
 def main() -> None:
     with file_lock(STATE_PATH):
         run_round()
+    from work_queue import refresh
+    refresh()
 
 
 if __name__ == "__main__":

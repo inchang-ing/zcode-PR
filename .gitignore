@@ -4,7 +4,8 @@
 
 # 仓库克隆 / 工作区（可重建）
 /workspaces/
-/work/
+/work/*
+!/work/scan_candidates.py
 /.trash/
 
 # 各仓库源码克隆（顶层 xxx-src）与虚拟环境（xxx-venv / .venv*）

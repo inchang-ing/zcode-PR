@@ -1,0 +1,183 @@
+{
+ "_comment": "高质量可投仓池。脚本会动态排除：①已有在飞 PR 的仓（同仓<=1）②blocked 名单。新增候选仓直接加到 watch。",
+ "watch": [
+  {
+   "repo": "prefecthq/prefect",
+   "note": "纯Python，bug流活跃"
+  },
+  {
+   "repo": "getmoto/moto",
+   "note": "AWS mock，纯Python好测"
+  },
+  {
+   "repo": "dagster-io/dagster",
+   "note": "数据编排"
+  },
+  {
+   "repo": "apache/airflow",
+   "note": "大厂/Apache"
+  },
+  {
+   "repo": "sympy/sympy",
+   "note": "纯Python符号计算"
+  },
+  {
+   "repo": "iterative/dvc",
+   "note": "纯Python"
+  },
+  {
+   "repo": "qdrant/qdrant-client",
+   "note": "Python客户端"
+  },
+  {
+   "repo": "langchain-ai/langchain",
+   "note": "热门，抢注快，优先扫当天"
+  },
+  {
+   "repo": "run-llama/llama_index",
+   "note": "热门，抢注快"
+  },
+  {
+   "repo": "elastic/elasticsearch-py",
+   "note": "大厂客户端"
+  },
+  {
+   "repo": "mongodb/mongo-python-driver",
+   "note": "大厂客户端",
+   "heavy": true
+  },
+  {
+   "repo": "google/python-fire",
+   "note": "Google，纯Python"
+  },
+  {
+   "repo": "googleapis/google-auth-library-python",
+   "note": "Google"
+  },
+  {
+   "repo": "wandb/wandb",
+   "note": "ML工具"
+  },
+  {
+   "repo": "zenml-io/zenml",
+   "note": "MLOps"
+  },
+  {
+   "repo": "deepset-ai/haystack",
+   "note": "LLM框架"
+  },
+  {
+   "repo": "aio-libs/yarl",
+   "note": "纯Python"
+  },
+  {
+   "repo": "aio-libs/multidict",
+   "note": "纯Python"
+  },
+  {
+   "repo": "microsoft/markitdown",
+   "note": "MS，纯Python"
+  },
+  {
+   "repo": "microsoft/autogen",
+   "note": "MS Agent框架"
+  },
+  {
+   "repo": "huggingface/huggingface_hub",
+   "note": "HF纯Python客户端"
+  },
+  {
+   "repo": "huggingface/datasets",
+   "note": "HF"
+  },
+  {
+   "repo": "chroma-core/chroma",
+   "note": "注意Rust层issue不可修",
+   "heavy": true
+  },
+  {
+   "repo": "ray-project/ray",
+   "note": "大，重",
+   "heavy": true
+  },
+  {
+   "repo": "python-attrs/attrs",
+   "note": "纯Python"
+  },
+  {
+   "repo": "pydata/pandas",
+   "note": "大，重",
+   "heavy": true
+  },
+  {
+   "repo": "numpy/numpy",
+   "note": "大，重",
+   "heavy": true
+  },
+  {
+   "repo": "pypa/setuptools",
+   "note": "已投但可再投"
+  },
+  {
+   "repo": "python-jsonschema/jsonschema",
+   "note": "PR创建受限，勿投"
+  },
+  {
+   "repo": "psutil/psutil",
+   "note": "C为主，慎选"
+  }
+ ],
+ "blocked": {
+  "_comment": "禁止投的仓（门禁/政策/权限），命中即弃",
+  "repos": [
+   "langchain-ai/langgraph",
+   "mlflow/mlflow",
+   "openai/openai-python",
+   "pydantic/pydantic",
+   "sqlalchemy/sqlalchemy",
+   "encode/httpx",
+   "pallets/flask",
+   "pallets/click",
+   "pallets/jinja",
+   "pytest-dev/pytest",
+   "pre-commit/pre-commit",
+   "matplotlib/matplotlib",
+   "hypothesisworks/hypothesis",
+   "scipy/scipy",
+   "sphinx-needs/*",
+   "pyparsing/pyparsing",
+   "psf/requests",
+   "evidentlyai/evidently",
+   "ibis-project/ibis",
+   "mem0ai/mem0",
+   "agno-agi/agno",
+   "encode/uvicorn",
+   "python-babel/babel",
+   "ipython/ipython",
+   "scikit-learn/scikit-learn",
+   "stanfordnlp/dspy",
+   "celery/celery",
+   "networkx/networkx",
+   "tobymao/sqlglot",
+   "geopandas/geopandas",
+   "frappe/frappe",
+   "PyCQA/bandit",
+   "PyCQA/isort",
+   "litestar-org/litestar",
+   "python-jsonschema/jsonschema",
+   "stripe/stripe-python",
+   "pypa/packaging",
+   "jupyter/nbconvert",
+   "jupyterlab/jupyterlab",
+   "google/jax"
+  ],
+  "reasons": {
+   "python-jsonschema/jsonschema": "仓主限制仅协作者可开PR",
+   "stripe/stripe-python": "org级静默限制，网页无PR表单",
+   "PyCQA/bandit": "org禁API开PR",
+   "litestar-org/litestar": "org禁token跨组织开PR",
+   "pypa/packaging": "维护者明令勿再开PR(#934)",
+   "google/jax": "CONTRIBUTING AI Agents条款: 禁AI agent自主开PR(2026-10-22查证), #41846/#41847弃"
+  }
+ }
+}

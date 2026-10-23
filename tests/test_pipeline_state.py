@@ -10,6 +10,7 @@ from unittest.mock import patch
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "tools"))
 from auto_run import Candidate, DispatchedStore, is_clean
+import auto_run
 from pipeline_state import atomic_write_json, file_lock
 
 spec = importlib.util.spec_from_file_location("filter_cands", ROOT / "tools/filter_cands.py")
@@ -42,6 +43,58 @@ class StateTests(unittest.TestCase):
         first.mark("owner/repo#1", "needs_repro")
         second.mark("owner/repo#2", "dropped", reason="already claimed")
         self.assertEqual(set(DispatchedStore(self.path).data), {"owner/repo#1", "owner/repo#2"})
+
+    def test_dispatched_keys_are_case_insensitive_without_read_side_effects(self):
+        atomic_write_json(self.path, {"Owner/Repo#1": {"status": "pr_opened"},
+                                      "Other/Repo#2": {"status": "dropped"}})
+        original = self.path.read_bytes()
+        store = DispatchedStore(self.path)
+        self.assertEqual(self.path.read_bytes(), original)
+        self.assertEqual(set(store.data), {"owner/repo#1", "other/repo#2"})
+        self.assertTrue(store.is_active("OWNER/REPO#1"))
+        self.assertEqual(store.status_of("owner/REPO#1"), "pr_opened")
+        self.assertTrue(store.repo_inflight("OWNER/repo"))
+        candidate = Candidate("owner/repo", 1, "Crash", "url", is_bug=True)
+        self.assertFalse(is_clean(candidate, store)[0])
+        store.mark("OWNER/REPO#1", "merged")
+        saved = json.loads(self.path.read_text(encoding="utf-8"))
+        self.assertEqual(set(saved), {"owner/repo#1", "other/repo#2"})
+        self.assertEqual(saved["owner/repo#1"]["status"], "merged")
+        self.assertFalse(store.repo_inflight("Owner/Repo"))
+
+    def test_case_collisions_keep_terminal_and_inflight_records_blocked(self):
+        for blocked, other in [("dropped", "needs_repro"), ("merged", "pending"),
+                               ("closed", "repro_failed"), ("running", "dropped"),
+                               ("pr_opened", "repro_failed"), ("unrecognized", "pending")]:
+            for reverse in (False, True):
+                with self.subTest(blocked=blocked, other=other, reverse=reverse):
+                    entries = [("Owner/Repo#1", {"status": blocked, "ts": 1}),
+                               ("owner/repo#1", {"status": other, "ts": 2})]
+                    atomic_write_json(self.path, dict(reversed(entries) if reverse else entries))
+                    store = DispatchedStore(self.path)
+                    self.assertTrue(store.is_active("OWNER/REPO#1"))
+                    self.assertEqual(store.status_of("owner/repo#1"), blocked)
+                    self.assertEqual(store.repo_inflight("Owner/Repo"), blocked in store.ACTIVE)
+                    store.mark("unrelated/repo#2", "pending")
+                    self.assertTrue(DispatchedStore(self.path).is_active("Owner/Repo#1"))
+
+    def test_case_collision_keeps_unexpired_deferral(self):
+        atomic_write_json(self.path, {
+            "Owner/Repo#1": {"status": "deferred", "retry_after": "2999-01-01T00:00:00Z"},
+            "owner/repo#1": {"status": "deferred", "retry_after": "2000-01-01T00:00:00Z"},
+        })
+        self.assertTrue(DispatchedStore(self.path).is_active("owner/repo#1"))
+
+    def test_round_repo_limit_is_case_insensitive(self):
+        candidates = [Candidate(repo, number, "Crash", "url", is_bug=True)
+                      for repo, number in [("Owner/Repo", 1), ("owner/repo", 2)]]
+        with patch.object(auto_run, "load_candidates", return_value=candidates), \
+             patch.object(auto_run, "DispatchedStore", return_value=DispatchedStore(self.path)), \
+             patch.object(auto_run, "_claimed", return_value=True), \
+             patch.object(auto_run, "run") as run, \
+             patch.object(sys, "argv", ["auto_run.py", "--dry-run", "--per-repo=1"]):
+            auto_run.main()
+        self.assertEqual(run.call_count, 1)
 
     def test_terminal_and_retryable_states_have_same_filter_semantics(self):
         store = DispatchedStore(self.path)
