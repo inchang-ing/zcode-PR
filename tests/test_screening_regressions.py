@@ -60,6 +60,16 @@ class ScreeningRegressions(unittest.TestCase):
             with self.subTest(body=body):
                 self.assertEqual(self.live("example/project", {**ISSUE, "body": body}), "CLEAN")
 
+    def test_manual_exclusions_apply_to_every_repository_case(self):
+        for repo, number in (("optuna/optuna", 6898), ("crewAIInc/crewAI", 8111)):
+            for spelling in (repo, repo.lower(), repo.upper()):
+                with self.subTest(repo=spelling):
+                    candidate = Candidate(spelling, number, "Bug: crash", "", is_bug=True)
+                    self.assertFalse(is_clean(candidate, self.store)[0])
+                    self.assertEqual(filter_cands.fresh_candidates([candidate], self.store), [])
+        self.assertTrue(is_clean(Candidate("OPTUNA/OPTUNA", 6899, "Bug: crash", "", is_bug=True),
+                                 self.store)[0])
+
     def test_repository_policy_blocks_local_and_live_checks(self):
         for repo in ["stanfordnlp/dspy", "StanfordNLP/DSPy", "mem0ai/mem0",
                      "langchain-ai/langchain", "langchain-ai/langgraph",

@@ -187,11 +187,23 @@ class StateTests(unittest.TestCase):
                       for repo, number in [("Owner/Repo", 1), ("owner/repo", 2)]]
         with patch.object(auto_run, "load_candidates", return_value=candidates), \
              patch.object(auto_run, "DispatchedStore", return_value=DispatchedStore(self.path)), \
-             patch.object(auto_run, "_claimed", return_value=True), \
              patch.object(auto_run, "run") as run, \
              patch.object(sys, "argv", ["auto_run.py", "--dry-run", "--per-repo=1"]):
             auto_run.main()
         self.assertEqual(run.call_count, 1)
+
+    def test_local_preparation_needs_no_comment_but_keeps_repository_gates(self):
+        candidates = [Candidate(repo, 1, "Crash", "url", is_bug=True, assignees=assignees)
+                      for repo, assignees in (("example/repo", []), ("pypa/packaging", []),
+                                             ("langchain-ai/langchain", []),
+                                             ("langchain-ai/langgraph", ["inchang-ing"]))]
+        with patch.object(auto_run, "load_candidates", return_value=candidates), \
+             patch.object(auto_run, "DispatchedStore", return_value=DispatchedStore(self.path)), \
+             patch.object(auto_run, "run") as run, \
+             patch.object(sys, "argv", ["auto_run.py", "--dry-run"]):
+            auto_run.main()
+        self.assertEqual([call.args[0].repo for call in run.call_args_list],
+                         ["example/repo", "langchain-ai/langgraph"])
 
     def test_terminal_and_retryable_states_have_same_filter_semantics(self):
         store = DispatchedStore(self.path)

@@ -10,6 +10,7 @@
 "run" 的语义 = 准备本地修复:
   clone/fetch → 复现(reproduce) → 应用补丁(FIXERS 钩子) → 等待最终提交与证据检查。
   quality_check.py 检查完成前停止；此入口不自动推送或创建 PR。
+本地准备不强制占位留言；讨论和分配要求按目标仓库政策执行。
 若无法本地复现, 或没有注册补丁, 一律不硬凑、不伪造 PR(标记 repro_failed / needs_fix 后停止)。
 
 用法:
@@ -34,7 +35,6 @@ BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # 仓库根(
 CANDIDATES = os.path.join(BASE, "round_candidates.json")   # monitor_round.py 的产物
 DISPATCHED = os.path.join(BASE, "dispatched.json")          # 去重状态库
 WORKDIR = os.path.join(BASE, "work")                        # 仓库克隆目录
-CLAIM_QUEUE = os.path.join(WORKDIR, "claim-queue.md")       # 「先领再写」台账(留言证据)
 
 # ──────────────────────────────────────────────────────────────
 # 1) 候选 / 干净的判定标准
@@ -45,14 +45,14 @@ CLAIM_QUEUE = os.path.join(WORKDIR, "claim-queue.md")       # 「先领再写」
 # (例: optuna#6898 正文 "I would like to implement it as Ra1nhy";
 #      sklearn#35139 正文 "I will be pleased to help fix this bug, which will be my first commit"
 #      + 官方 "not yet ready for a PR" 横幅)
-MANUAL_DROP = {
+MANUAL_DROP = {key.lower(): reason for key, reason in {
     "optuna/optuna#6898": "正文自占(I would like to implement it as Ra1nhy)",
     "scikit-learn/scikit-learn#35139": "正文自占 + 官方 not yet ready for a PR 横幅",
     "mlflow/mlflow#26605": "正文自占(已有 fix + 分支, 只等 triage)",
     "crewAIInc/crewAI#8111": "正文自占(I can submit a focused fix)",
     "stanfordnlp/dspy#10639": "timeline 有关联 PR #10642",
     "explosion/spaCy#14011": "站点/机器人故障, 非本仓代码 bug",
-}
+}.items()}
 
 # 非 bug 标签: 命中即视为 feature/perf/docs/rfc, 不算"干净"候选
 NON_BUG_LABELS = {
@@ -113,8 +113,8 @@ def is_clean(c: Candidate, store: "DispatchedStore"):
        ⑤ 尚未派发(dedup)
     返回 (bool, reason)。
     """
-    if c.key in MANUAL_DROP:
-        return False, f"人工裁定不投: {MANUAL_DROP[c.key]}"
+    if c.key.lower() in MANUAL_DROP:
+        return False, f"人工裁定不投: {MANUAL_DROP[c.key.lower()]}"
     reason = policy_reason(c.repo, c.labels, c.assignees)
     if reason:
         return False, reason
@@ -405,24 +405,6 @@ def run(c: Candidate, store: DispatchedStore, dry_run: bool = False):
 # 4) 主循环: 遍历候选, clean 的瞬间触发 run()
 # ──────────────────────────────────────────────────────────────
 
-def _claimed(repo: str, issue: int, queue: str = CLAIM_QUEUE) -> bool:
-    """「先领再写」硬检查: 该 issue 必须在 claim-queue.md 里有「写码前留言」记录。
-
-    台账是 markdown 表格, 行首形如 '| owner/name | 123 | ...'。
-    历史教训: 91 个关联 issue 里只有 16 个留过言, 82% 是 drive-by PR,
-    而 pytest CONTRIBUTING 明确把 'drive-by PR against an issue the author
-    never engaged with' 列为封号签名。故此处做兜底拦截。
-    """
-    if not os.path.exists(queue):
-        return False
-    pat = re.compile(r"^\|\s*" + re.escape(repo) + r"\s*\|\s*" + str(issue) + r"\s*\|", re.M)
-    try:
-        with open(queue, encoding="utf-8") as f:
-            return bool(pat.search(f.read()))
-    except OSError:
-        return False
-
-
 def load_candidates(path: str = CANDIDATES) -> list:
     if not os.path.exists(path):
         return []
@@ -453,10 +435,6 @@ def main():
         ok, why = is_clean(c, store)
         c.clean, c.clean_reason = ok, why
         if ok:
-            # 「先领再写」兜底: 台账里没有留言记录的候选一律不投, 防止旧逻辑绕过留言直接出 PR
-            if not _claimed(c.repo, c.number):
-                print(f"  [claim-first] {c.key} 未在 issue 留言(work/claim-queue.md 无记录) → 跳过, 请先留言再跑")
-                continue
             # 同仓限流(跨轮在飞 or 本轮已触发)——不是"一轮只能一个"的全局限制
             repo_key = c.repo.lower()
             if store.repo_inflight(c.repo) or repo_n.get(repo_key, 0) >= per_repo:

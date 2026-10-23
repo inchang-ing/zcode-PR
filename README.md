@@ -55,6 +55,8 @@ python -S tools/vet.py --candidates round_candidates.json      # 开 PR 前终�
 
 > `auto_run.py` 的自动修复钩子(FIXERS)目前**未接入**。以后接入钩子也只准备本地补丁，停在 needs_verification；须落入目标 Git checkout，完成最终提交与证据检查后按规则提交。此入口不自动推送或创建 PR。
 
+本地准备不要求所有候选先发占位留言；讨论和分配按目标仓库政策执行，已有仓库限制、分配门禁和并发限制继续生效。
+
 ## 合并产出工作队列
 
 默认扫描结束后自动生成 [工作队列](WORK_QUEUE.md)，将候选核验、复现和已有 PR 的修改请求放在一起排序。
@@ -84,6 +86,7 @@ python -S tools/pr_status.py <owner/repo> <pr_num>  # 查单个 PR
 ```
 
 - **权威源 = GitHub**。`pr_state.json` 是机器可读状态;`PR_STATUS.md` 是自动生成的只读视图(勿手改);`STATE.md` 只声明跟踪范围(两张 `OPEN(...)` 表)。
+- `pr_status.py` 完整分页读取评审、普通评论、行内评论和 CI 检查，再显示最近反馈及检查汇总。任一读取失败标记 `UNKNOWN`，仍继续检查其余 PR，最后返回非零退出码。
 - `repo-monitor/` 是独立仓库,其 GitHub Actions 定时轮询新 issue 与在飞 PR 变化,只推飞书通知、不动手。频率以子仓库的 [工作流配置](https://github.com/inchang-ing/repo-monitor/blob/main/.github/workflows/monitor.yml) 为准；修改调度时间只需更新该配置。
 
 ## 离线验证
