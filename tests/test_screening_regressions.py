@@ -12,6 +12,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools"))
 from auto_run import Candidate, DispatchedStore, is_clean
 import monitor_round
 import monitor_oss
+import filter_cands
 import vet
 from repository_policy import policy_reason
 
@@ -66,6 +67,27 @@ class ScreeningRegressions(unittest.TestCase):
             with self.subTest(repo=repo):
                 self.assertFalse(is_clean(self.candidate(repo), self.store)[0])
                 self.assertEqual(self.live(repo, ISSUE), "DROP")
+
+    def test_recorded_submission_bans_block_scan_filter_and_live_vet(self):
+        for repo in ("pypa/packaging", "PyPA/Packaging", "google/jax", "jax-ml/jax"):
+            with self.subTest(repo=repo), \
+                 patch.object(monitor_round, "get_issues", return_value=[ISSUE]), \
+                 patch.object(monitor_round, "has_linked_pr", return_value=False), \
+                 patch.object(monitor_round, "get_comments", return_value=[]), \
+                 patch.object(monitor_round, "atomic_write_json") as save:
+                monitor_round.scan([repo], Path(self.store.path).with_name("candidates.json"))
+                self.assertEqual(save.call_args.args[1], [])
+                self.assertEqual(filter_cands.fresh_candidates([self.candidate(repo)], self.store), [])
+                self.assertEqual(self.live(repo, ISSUE), "DROP")
+
+    def test_focused_pool_exclusions_do_not_become_global_or_owner_bans(self):
+        cases = [("pypa/build", [], []), ("google/python-fire", [], []),
+                 ("networkx/networkx", [], []), ("pydantic/pydantic", [], []),
+                 ("mem0ai/mem0", ["accepted"], []),
+                 ("langchain-ai/langgraph", [], ["inchang-ing"])]
+        for repo, labels, assignees in cases:
+            with self.subTest(repo=repo):
+                self.assertEqual(policy_reason(repo, labels, assignees), "")
 
     def test_label_gate_accepts_eligible_issue_and_rechecks_live_labels(self):
         repo = "mem0ai/mem0"

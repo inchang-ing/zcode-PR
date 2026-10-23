@@ -1,4 +1,5 @@
 import json
+from copy import deepcopy
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
 import sys
@@ -11,6 +12,7 @@ import work_queue as q
 from monitor_oss import ci_fingerprint, ci_summary
 from auto_run import Candidate, DispatchedStore
 from pr_state import merge_observations
+from contributions import new_record
 
 
 class QueueTests(unittest.TestCase):
@@ -141,6 +143,66 @@ class QueueTests(unittest.TestCase):
         self.assertEqual(q.pr_tasks(cache, self.state, [], self.now), [])
         cache[key]['updatedAt'] = (self.now + timedelta(seconds=1)).isoformat()
         self.assertEqual(len(q.pr_tasks(cache, self.state, [], self.now)), 1)
+
+    def test_local_feedback_changes_reopen_wait_and_done(self):
+        key, pr = 'a/b#1', self.pr()
+        record = new_record('a/b', 2, 'Regression', 1)
+        item = dict(kind='fact', summary='Add a boundary test', observed_at=self.stamp,
+                    sources=[dict(kind='url', ref='https://github.com/a/b/pull/1#issuecomment-2')])
+        for action in ('wait', 'done'):
+            for previous_items, current_items in (([], [item]), ([item], [dict(item, summary='Fix cleanup too')])):
+                with self.subTest(action=action, previous_items=previous_items):
+                    record['feedback']['items'] = deepcopy(previous_items)
+                    with patch.object(q, 'ROOT', self.root), patch.object(q, 'refresh', return_value=[]), \
+                         patch.object(q, 'load_records', return_value=[record]), \
+                         patch.object(q, 'load_pr_state', return_value={key: pr}):
+                        q.main(['pr-action', key, action, '--source', 'https://example.com/review',
+                                '--note', 'Reviewed current feedback'])
+                    state = q.load_queue(self.root / 'work_queue.json')
+                    self.assertEqual(q.pr_tasks({key: pr}, state, [record], self.now), [])
+                    record['feedback']['items'] = deepcopy(current_items)
+                    rows = q.pr_tasks({key: pr}, state, [record], self.now)
+                    self.assertEqual([(row['key'], row['score']) for row in rows], [(key, 15)])
+
+    def test_feedback_reordering_and_check_time_do_not_reopen_action(self):
+        key, pr = 'a/b#1', self.pr()
+        record = new_record('a/b', 2, 'Regression', 1)
+        sources = [dict(kind='url', ref='https://example.com/one'),
+                   dict(kind='url', ref='https://example.com/two')]
+        record['feedback']['items'] = [dict(kind='fact', summary=summary, observed_at=self.stamp,
+                                          sources=deepcopy(sources)) for summary in ('One', 'Two')]
+        with patch.object(q, 'ROOT', self.root), patch.object(q, 'refresh', return_value=[]), \
+             patch.object(q, 'load_records', return_value=[record]), \
+             patch.object(q, 'load_pr_state', return_value={key: pr}):
+            q.main(['pr-action', key, 'done', '--source', 'https://example.com/review', '--note', 'Reviewed'])
+        state = q.load_queue(self.root / 'work_queue.json')
+        record['feedback']['checked_at'] = (self.now + timedelta(minutes=1)).isoformat()
+        record['feedback']['items'].reverse()
+        for item in record['feedback']['items']:
+            item['sources'].reverse()
+        self.assertEqual(q.pr_tasks({key: pr}, state, [record], self.now), [])
+
+    def test_old_ack_without_feedback_binding_requires_reconfirmation(self):
+        key, pr = 'a/b#1', self.pr()
+        old_ack = {'version': 2, **{name: pr.get(name) for name in
+                   ('updatedAt', 'reviewDecision', 'headRefOid', 'ci', 'ci_head_oid', 'ci_fingerprint')}}
+        self.state['prs'][key] = {'action': 'done', 'ack': old_ack}
+        rows = q.pr_tasks({key: pr}, self.state, [], self.now)
+        self.assertEqual([(row['key'], row['score']) for row in rows], [(key, 15)])
+
+    def test_unsafe_evidence_is_rejected_before_queue_write(self):
+        for source in ('https://:DEMO_PASSWORD@example.com/proof',
+                       'https://user:DEMO_PASSWORD@example.com/proof', 'https://@example.com/proof',
+                       'https:///missing-host', 'https://example.com:DEMO_PASSWORD/proof',
+                       'https://[broken/proof'):
+            for command in (['pr-action', 'a/b#1', 'done'], ['assess', 'a/b#1', 'policy', 'yes']):
+                with self.subTest(source=source, command=command), \
+                     patch.object(q, 'ROOT', self.root), patch.object(q, 'refresh', return_value=[]) as refresh:
+                    with self.assertRaises(ValueError) as error:
+                        q.main(command + ['--source', source, '--note', 'Checked'])
+                    self.assertNotIn('DEMO_PASSWORD', str(error.exception))
+                    self.assertFalse((self.root / 'work_queue.json').exists())
+                    refresh.assert_not_called()
 
     def test_green_ci_is_not_current_without_fresh_matching_commit(self):
         for change in ({'headRefOid': 'b' * 40}, {'ci_checked_at': (self.now - timedelta(days=2)).isoformat()},

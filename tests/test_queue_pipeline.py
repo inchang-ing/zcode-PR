@@ -162,6 +162,19 @@ class PipelineTests(unittest.TestCase):
         self.assertTrue(rows[0]['ready'])
         self.assertNotIn('人工评审', rows[0]['next'])
 
+    def test_recorded_submission_bans_keep_existing_prs_visible_but_pause_writes(self):
+        now = datetime.now(timezone.utc)
+        for repo in ('pypa/packaging', 'google/jax', 'jax-ml/jax'):
+            key = repo + '#1'
+            with self.subTest(repo=repo):
+                rows = queue.pr_tasks({key: self.pr_observation(now, reviewDecision='CHANGES_REQUESTED')},
+                                      {'prs': {}}, [], now)
+                self.assertEqual(len(rows), 1)
+                self.assertFalse(rows[0]['hidden'])
+                self.assertFalse(rows[0]['ready'])
+                self.assertEqual(rows[0]['stage'], 'policy_hold')
+                self.assertIn('只读', rows[0]['next'])
+
     def test_cheap_gates_skip_timeline_and_comments(self):
         base = dict(number=1, title='bug: crash', state='OPEN', body='', labels=[], assignees=[])
         cases = [('stanfordnlp/dspy', base), ('mem0ai/mem0', base),

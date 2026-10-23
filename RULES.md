@@ -74,3 +74,5 @@
 ## 本地门禁补充（2026-10-21 同步）
 
 依据 2026-10-18 本地门禁台账，PyCQA、sqlalchemy 组织暂缓；modelcontextprotocol/python-sdk 要求分配给当前账号；frappe/frappe 的 vouched 资格及 geopandas/geopandas 的方案共识需专项核验。执行配置、来源及解除条件见 tools/repository_policy.py。以上是本地操作限制，本次未重新核实远端政策；不能把短期权限失败解释为永久政策。
+
+2026-10-23 补齐已有禁投记录：`pypa/packaging` 的维护者在 #934 要求勿再开 PR（本地记录 `.workbuddy/memory/2026-10-19.md`）；`google/jax` 的贡献指南被记录为禁止 agent 自主开 PR（`.workbuddy/memory/2026-10-22.md`），同样适用于规范名称 `jax-ml/jax`（名称依据 `.workbuddy/memory/2026-09-30.md`）。共享门禁阻止这些仓库的新候选；现有 PR 保留只读观察，自动跟进写入在复核允许的沟通范围前暂缓。这是本地保守限制，已有记录仅明确禁止开 PR，本次未联网核实，也不据此宣称上游禁止所有评论。专用仓库池的其他排除项仍按各自依据处理。

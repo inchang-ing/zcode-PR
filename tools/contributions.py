@@ -52,6 +52,20 @@ def new_record(repo, issue, title, pr=None, problem_type="unknown", approach="un
     }
 
 
+def validate_https_url(value):
+    message = "证据链接必须是无凭据的有效 HTTPS URL"
+    require(isinstance(value, str) and value and not any(
+        c.isspace() or ord(c) < 32 or ord(c) == 127 for c in value), message)
+    try:
+        url = urlsplit(value)
+        url.port  # Accessing the port also validates its syntax and range.
+        valid = (url.scheme == "https" and bool(url.hostname) and "\\" not in url.netloc
+                 and url.username is None and url.password is None)
+    except ValueError:
+        valid = False
+    require(valid, message)
+
+
 def validate_sources(sources, root):
     require(isinstance(sources, list), "sources 必须是列表")
     for source in sources:
@@ -59,9 +73,7 @@ def validate_sources(sources, root):
         ref = source.get("ref")
         require(isinstance(ref, str) and ref, "证据缺少 ref")
         if source.get("kind") == "url":
-            url = urlsplit(ref)
-            require(url.scheme == "https" and url.hostname and not url.username
-                    and not any(c.isspace() for c in ref), "证据链接必须是有效 HTTPS URL")
+            validate_https_url(ref)
         else:
             require(source.get("kind") == "local", "未知证据类型")
             require(ref.startswith("contributions/evidence/"), "证据路径必须是仓库相对路径")

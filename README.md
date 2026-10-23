@@ -32,7 +32,7 @@ E:\zcode-PR\
 │   ├── scan_agent*.py / scan_recon*.py   # 池定义(被 monitor_fresh 引用)
 │   └── pipeline_state.py / pr_state.py / gh_checks.py
 ├── tests/               # 离线回归测试
-├── repo-monitor/        # Git 子模块:GitHub Actions 每 10 分钟轮询
+├── repo-monitor/        # Git 子模块:GitHub Actions 按工作流配置定时轮询
 ├── work/                # 活跃工作台:克隆 / 复现 / 临时产物；仅保留扫描兼容入口
 ├── workspaces/          # 各仓库克隆 + venv(gitignore,可重建)
 └── archive/             # 归档的早期一次性脚本
@@ -84,7 +84,7 @@ python -S tools/pr_status.py <owner/repo> <pr_num>  # 查单个 PR
 ```
 
 - **权威源 = GitHub**。`pr_state.json` 是机器可读状态;`PR_STATUS.md` 是自动生成的只读视图(勿手改);`STATE.md` 只声明跟踪范围(两张 `OPEN(...)` 表)。
-- `repo-monitor/` 是独立仓库,其 GitHub Actions 每 10 分钟轮询新 issue 与在飞 PR 变化,只推飞书通知、不动手。
+- `repo-monitor/` 是独立仓库,其 GitHub Actions 定时轮询新 issue 与在飞 PR 变化,只推飞书通知、不动手。频率以子仓库的 [工作流配置](https://github.com/inchang-ing/repo-monitor/blob/main/.github/workflows/monitor.yml) 为准；修改调度时间只需更新该配置。
 
 ## 离线验证
 

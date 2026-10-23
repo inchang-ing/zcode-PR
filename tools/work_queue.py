@@ -3,12 +3,13 @@ import argparse
 from dataclasses import replace
 from collections import Counter
 from datetime import datetime, timedelta, timezone
+import hashlib
 import json
 from pathlib import Path
 import re
 
 from auto_run import Candidate, DispatchedStore, is_clean, load_candidates
-from contributions import cell, load_records, require
+from contributions import cell, load_records, require, validate_https_url as evidence
 from pipeline_state import atomic_write_json, atomic_write_text, file_lock, read_json_object
 from pr_state import ci_binding_error, load_pr_state, utc_now
 from repository_policy import ACCOUNT, INTERACTION_HOLDS
@@ -38,10 +39,6 @@ def fresh(value, now, hours=24):
 def valid_key(key):
     require(isinstance(key, str) and re.fullmatch(r"[\w.-]+/[\w.-]+#[1-9]\d*", key, re.ASCII), "无效 owner/repo#编号")
     require(all(p not in {'.', '..'} for p in key.split('#')[0].split('/')), "无效仓库")
-
-
-def evidence(url):
-    require(isinstance(url, str) and re.fullmatch(r"https://[^\s]+", url), "核验须附 HTTPS 来源")
 
 
 def load_queue(path):
@@ -137,7 +134,14 @@ def rank_candidates(candidates, state, store, cache, now):
     return rows
 
 
-def observation_ack(pr, now=None):
+def feedback_fingerprint(items):
+    def encoded(value):
+        return json.dumps(value, sort_keys=True, ensure_ascii=False, separators=(',', ':'))
+    canonical = [encoded(dict(item, sources=sorted(item['sources'], key=encoded))) for item in items]
+    return hashlib.sha256(encoded(sorted(canonical)).encode('utf-8')).hexdigest()
+
+
+def observation_ack(pr, now=None, feedback_items=()):
     """A judgement covers a complete, fresh observation, not an aggregate count."""
     now = now or datetime.now(timezone.utc)
     if (pr.get("state") != "OPEN" or pr.get("query_error") or ci_binding_error(pr)
@@ -145,7 +149,8 @@ def observation_ack(pr, now=None):
             or not date(pr.get("updatedAt"))
             or pr.get("reviewDecision") not in REVIEW_STATES):
         return None
-    return {"version": 2, **{key: pr.get(key) for key in
+    return {"version": 3, "feedback_fingerprint": feedback_fingerprint(feedback_items),
+            **{key: pr.get(key) for key in
             ("updatedAt", "reviewDecision", "headRefOid", "ci", "ci_head_oid", "ci_fingerprint")}}
 
 
@@ -156,7 +161,8 @@ def pr_tasks(cache, state, records, now):
         if pr.get("state") != "OPEN" and not (pr.get("state") is None and pr.get("query_error")):
             continue
         saved_action = state['prs'].get(key, {})
-        current_ack = observation_ack(pr, now)
+        feedback_items = known[key]['feedback']['items'] if key in known else []
+        current_ack = observation_ack(pr, now, feedback_items)
         # All manual categories expire on new observations, including discussion.
         action = saved_action if current_ack is not None and saved_action.get("ack") == current_ack else {}
         reason, score = action.get("note", ""), ACTIONS.get(action.get("action"), 0)
@@ -178,7 +184,7 @@ def pr_tasks(cache, state, records, now):
                 score, reason = 85, "评审状态要求修改；先读原文确认作者与范围"
             elif ci_failed(pr.get("ci", "")):
                 score, reason = 70, "CI 有失败/错误/未知，先判断是否由本 PR 引入"
-            elif key in known and known[key]['feedback']['items']:
+            elif feedback_items:
                 score, reason = 15, "贡献记录有反馈，需区分人工意见与机器人提示"
             elif saved_action:
                 score, reason = 15, "观测已变化或旧分类缺少有效依据，重新确认 PR 待办"
@@ -293,7 +299,10 @@ def main(argv=None):
                 entry = state['prs'].setdefault(key, {'events': []})
                 entry.update(action=args.action, source=args.source, at=now, note=args.note)
                 cache = {k.lower(): v for k, v in load_pr_state(ROOT / 'pr_state.json', ()).items()}
-                entry['ack'] = observation_ack(cache.get(key, {}))
+                record = next((r for r in load_records(ROOT)
+                               if f"{r['repo']}#{r['pr']}".lower() == key), None)
+                items = record['feedback']['items'] if record else []
+                entry['ack'] = observation_ack(cache.get(key, {}), feedback_items=items)
                 event.update(action=args.action, source=args.source)
             else:
                 entry = state['issues'].setdefault(key, {'stage': 'new', 'signals': {}, 'events': [], 'first_seen': now})

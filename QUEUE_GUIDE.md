@@ -53,7 +53,9 @@ python -S tools/work_queue.py pr-action owner/repo#457 discussion --source https
 python -S tools/work_queue.py pr-action owner/repo#458 wait --source https://github.com/owner/repo/pull/458 --note "暂无人工修改请求，继续等待"
 ```
 
-分类支持 small_fix、ci、discussion、wait、done。自动发现使用 CHANGES_REQUESTED 状态、当前提交的具体 CI 结果和已有贡献反馈；评审者身份须读原文确认，不推断为真人。所有分类绑定具体观测结果，变化后重新分类；相同观测保留已经录入的判断。没有明确分类的自然语言反馈需读原文。小修改完成并验证后记 done，避免重复推荐。policy_hold 表示已知对外沟通限制：可准备本地材料和只读观察，不自动发表评论或推送跟进。
+分类支持 small_fix、ci、discussion、wait、done。自动发现使用 CHANGES_REQUESTED 状态、当前提交的具体 CI 结果和已有贡献反馈；评审者身份须读原文确认，不推断为真人。所有分类绑定具体观测结果及本地贡献反馈内容，新增或修改反馈后重新分类；仅刷新核验时间或调整反馈顺序不改变已有判断。没有明确分类的自然语言反馈需读原文。小修改完成并验证后记 done，避免重复推荐。policy_hold 表示已知对外沟通限制：可准备本地材料和只读观察，不自动发表评论或推送跟进。
+
+旧版确认没有绑定本地反馈内容，升级后需重新分类一次，已有判断及操作历史仍保留。
 
 ## 一周后复盘
 

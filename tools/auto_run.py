@@ -206,14 +206,24 @@ class DispatchedStore:
         return any(k.startswith(pre) and v.get("status") in self.ACTIVE
                    for k, v in self.data.items())
 
-    def mark(self, key: str, status: str, **extra):
+    def mark(self, key: str, status: str, *, only_if_inactive=False, expected=None, **extra):
+        """Write under lock; dispatch and completion can guard the latest record."""
         if status not in self.ACTIVE | self.TERMINAL | self.RETRYABLE | {"deferred"}:
             raise ValueError(f"Unknown candidate status: {status}")
         with file_lock(self.path):
             data = self._normalize(read_json_object(self.path))
-            data[key.lower()] = {"status": status, "ts": time.time(), **extra}
+            current = data.get(key.lower())
+            if ((only_if_inactive and self._entry_active(current))
+                    or (expected is not None and current != expected)):
+                self.data = data
+                return False
+            entry = {**(current or {}), "status": status, "ts": time.time(), **extra}
+            if "retry_after" not in extra:
+                entry.pop("retry_after", None)
+            data[key.lower()] = entry
             atomic_write_json(self.path, data)
             self.data = data
+            return True
 
 
 # ──────────────────────────────────────────────────────────────
@@ -327,23 +337,32 @@ def _push_via_api(repo: str, branch: str, base_commit: str, base_tree: str,
 
 def run(c: Candidate, store: DispatchedStore, dry_run: bool = False):
     """触发运行。dry_run 仅打印决策, 不克隆/不提 PR/不写 dispatched。
-    全链路代理安全: tarball 拉源码 + gh api 推送, 不依赖 git https。"""
-    # 触发瞬间再校验一次 dedup, 杜绝重复触发
-    if store.is_active(c.key):
-        print(f"  [dedup] SKIP {c.key} 已派发({store.status_of(c.key)})")
-        return
+    真实运行先原子领取；后续写入只接受本次领取未被他人更新的记录。"""
     if dry_run:
-        print(f"  [dry-run] WOULD RUN {c.key}: {c.title}")
+        if store.is_active(c.key):
+            print(f"  [dedup] SKIP {c.key} 已派发({store.status_of(c.key)})")
+        else:
+            print(f"  [dry-run] WOULD RUN {c.key}: {c.title}")
         return
 
-    # (0) 前置检查: 没有注册复现/修复函数就不克隆、不误标 repro_failed
-    if c.key not in REPROS and c.key not in FIXERS:
-        store.mark(c.key, "needs_repro",
-                   reason="无注册 REPRO/FIXER, 待 agent 提供; 不克隆不消耗名额")
+    no_hooks = c.key not in REPROS and c.key not in FIXERS
+    initial = "needs_repro" if no_hooks else "running"
+    extra = {"reason": "无注册 REPRO/FIXER, 待 agent 提供; 不克隆不消耗名额"} if no_hooks else {}
+    if not store.mark(c.key, initial, only_if_inactive=True, **extra):
+        print(f"  [dedup] SKIP {c.key} 已派发({store.status_of(c.key)})")
+        return
+    if no_hooks:
         print(f"  [run] {c.key} 无注册 REPRO/FIXER → needs_repro(不克隆, 下轮可重试)")
         return
 
-    store.mark(c.key, "running")
+    claimed = dict(store.data[c.key.lower()])
+
+    def finish(status, **fields):
+        if store.mark(c.key, status, expected=claimed, **fields):
+            return True
+        print(f"  [run] {c.key} 状态已被其他操作更新，保留最新记录")
+        return False
+
     print(f"  [run] >> {c.key}: {c.title}")
     repo_path = os.path.join(WORKDIR, c.repo.split("/")[1])
 
@@ -353,16 +372,15 @@ def run(c: Candidate, store: DispatchedStore, dry_run: bool = False):
 
         # (b) 复现(判别力硬门槛: 撤修复→fail / 恢复→pass; 这里先要有 fail)
         if not _reproduce(c, repo_path):
-            store.mark(c.key, "repro_failed", reason="无法本地复现, 不硬凑")
-            print(f"  [run] {c.key} 复现失败 → repro_failed(不提 PR)")
+            if finish("repro_failed", reason="无法本地复现, 不硬凑"):
+                print(f"  [run] {c.key} 复现失败 → repro_failed(不提 PR)")
             return
 
         # (c) 应用补丁(钩子)
         fixer = FIXERS.get(c.key)
         if fixer is None:
-            store.mark(c.key, "needs_fix",
-                       reason="已复现但无注册修复逻辑, 待 agent 实现补丁")
-            print(f"  [run] {c.key} 已复现但无 FIXER → needs_fix(不伪造 PR)")
+            if finish("needs_fix", reason="已复现但无注册修复逻辑, 待 agent 实现补丁"):
+                print(f"  [run] {c.key} 已复现但无 FIXER → needs_fix(不伪造 PR)")
             return
 
         before = _snapshot_hashes(repo_path)
@@ -370,17 +388,17 @@ def run(c: Candidate, store: DispatchedStore, dry_run: bool = False):
         after = _snapshot_hashes(repo_path)
         changed = [p for p in after if before.get(p) != after.get(p)]
         if not changed:
-            store.mark(c.key, "needs_fix", reason="fixer 未改动任何文件, 不提 PR")
-            print(f"  [run] {c.key} fixer 无改动 → needs_fix")
+            if finish("needs_fix", reason="fixer 未改动任何文件, 不提 PR"):
+                print(f"  [run] {c.key} fixer 无改动 → needs_fix")
             return
 
         # A changed tarball is not a tested final Git commit or submission evidence.
-        store.mark(c.key, "needs_verification", changed=changed,
-                   reason="将补丁落入目标 Git checkout，完成回归及 quality_check.py 后按规则提交")
-        print(f"  [run] {c.key} → needs_verification：完成最终提交与证据检查后再提交")
+        if finish("needs_verification", changed=changed,
+                  reason="将补丁落入目标 Git checkout，完成回归及 quality_check.py 后按规则提交"):
+            print(f"  [run] {c.key} → needs_verification：完成最终提交与证据检查后再提交")
     except Exception as e:  # 任何步骤失败都不留半成品 PR
-        store.mark(c.key, "repro_failed", reason=f"run 异常: {e}")
-        print(f"  [run] {c.key} 异常 → {e}")
+        if finish("repro_failed", reason=f"run 异常: {e}"):
+            print(f"  [run] {c.key} 异常 → {e}")
 
 
 # ──────────────────────────────────────────────────────────────

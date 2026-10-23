@@ -99,6 +99,32 @@ class ContributionTests(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     c.validate_sources([ref], self.root)
 
+    def test_https_sources_reject_credentials_and_invalid_authorities(self):
+        for ref in ('https://:DEMO_PASSWORD@example.org/proof',
+                    'https://user:DEMO_PASSWORD@example.org/proof', 'https://@example.org/proof',
+                    'https:///missing-host', 'https://:443/proof', 'https://example.org:bad/proof',
+                    'https://example.org:65536/proof', 'https://[broken/proof',
+                    'https://example.org\\evil/proof', 'https://example.org/\x00proof',
+                    'https://example.org/\nproof', 'http://example.org/proof'):
+            with self.subTest(ref=ref):
+                with self.assertRaises(ValueError) as error:
+                    c.validate_sources([dict(kind='url', ref=ref)], self.root)
+                self.assertNotIn('DEMO_PASSWORD', str(error.exception))
+        for ref in ('https://github.com/a/b/pull/1#issuecomment-2',
+                    'https://example.org:8443/proof?lang=zh&item=1',
+                    'https://[2001:db8::1]:443/proof'):
+            with self.subTest(ref=ref):
+                c.validate_sources([dict(kind='url', ref=ref)], self.root)
+
+    def test_credential_source_cannot_replace_existing_report(self):
+        report = self.root / 'CONTRIBUTIONS.md'
+        report.write_text('previous report', encoding='utf-8')
+        self.record['provenance'] = [dict(kind='url', ref='https://:DEMO_PASSWORD@example.org/proof')]
+        self.save()
+        with self.assertRaises(ValueError):
+            c.generate(self.root)
+        self.assertEqual(report.read_text(encoding='utf-8'), 'previous report')
+
     def test_feedback_and_attribution_need_original_links(self):
         self.record['feedback']['items'] = [dict(kind='fact', summary='Needs tests',
             observed_at='2026-10-18T12:00:00Z', sources=[self.evidence()])]

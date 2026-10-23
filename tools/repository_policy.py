@@ -6,7 +6,7 @@ BLOCKED_REPOS = {
     "sqlalchemy/sqlalchemy", "encode/httpx", "gradio-app/gradio", "psf/requests",
     "stanfordnlp/dspy", "camel-ai/camel", "matplotlib/matplotlib",
     "useblocks/sphinx-needs", "hypothesisworks/hypothesis",
-    "ansible/ansible",
+    "ansible/ansible", "pypa/packaging", "google/jax", "jax-ml/jax",
 }
 ASSIGN_OWNERS = {"langchain-ai"}
 ASSIGN_REPOS = {"huggingface/peft", "pydantic/pydantic-ai", "modelcontextprotocol/python-sdk"}
@@ -19,6 +19,9 @@ REQUIRED_LABELS = {
 POLICY_EVIDENCE = {
     "ansible/ansible": {"scope": "repo", "observed_at": "2026-10-23", "source": "https://github.com/ansible/ansible/pull/87712#issuecomment-6349441213", "review": "当前账号贡献被以自主投稿关闭；停止本项目自动投稿和跟进写入，待维护者明确允许后复核"},
     "python-markdown/markdown": {"scope": "repo", "observed_at": "2026-10-23", "source": "https://python-markdown.github.io/contributing/#ai-contributions", "review": "禁止 agent 自主提交 issue、PR、评论；只准备本地材料，作者须自行理解并参与"},
+    "pypa/packaging": {"scope": "repo", "observed_at": "2026-10-19", "source": "tools/quality_repos.json", "review": "blocked.reasons 记录 #934 维护者要求勿再开 PR；本地补充见 .workbuddy/memory/2026-10-19.md；待明确允许后复核，未重新调查上游政策"},
+    "google/jax": {"scope": "repo", "observed_at": "2026-10-22", "source": "tools/quality_repos.json", "review": "blocked.reasons 记录 CONTRIBUTING 禁止 agent 自主开 PR，#41846/#41847 已弃；本地补充见 .workbuddy/memory/2026-10-22.md；其他写入范围待复核"},
+    "jax-ml/jax": {"scope": "repo", "observed_at": "2026-10-22", "source": "tools/quality_repos.json", "review": "与 blocked.reasons.google/jax 使用同一禁投记录（本地补充 .workbuddy/memory/2026-10-22.md）；规范名称及重定向依据 .workbuddy/memory/2026-09-30.md；未重新调查上游政策"},
     "pycqa": {"scope": "owner", "observed_at": "2026-10-18", "source": ".workbuddy/memory/blocked-repos.md", "review": "重新确认账号投稿权限后解除"},
     "sqlalchemy": {"scope": "owner", "observed_at": "2026-10-18", "source": ".workbuddy/memory/blocked-repos.md", "review": "重新确认账号访问权限后解除"},
     "modelcontextprotocol/python-sdk": {"scope": "repo", "observed_at": "2026-10-18", "source": ".workbuddy/memory/blocked-repos.md", "review": "每次核验当前账号分配状态"},
@@ -28,10 +31,13 @@ POLICY_EVIDENCE = {
 MANUAL_GATES = {"frappe/frappe": "vouched 资格未核验", "geopandas/geopandas": "方案共识须专项核验",
                 "python-markdown/markdown": "禁止 agent 自主提交/评论，须由作者本人理解并参与"}
 
-# These are communication restrictions, not a ban on read-only observation.
+# Local pauses on automated follow-up; read-only observation remains allowed.
 INTERACTION_HOLDS = {
     "ansible/ansible": "该账号投稿已被明确拒绝；停止自动跟进写入，保留只读观察",
     "python-markdown/markdown": "只准备本地修复和答复材料；作者须按仓库政策亲自参与沟通",
+    "pypa/packaging": "维护者已要求勿再开 PR；本地暂缓自动跟进写入，沟通范围待复核，保留只读观察",
+    "google/jax": "本地记录禁止 agent 自主开 PR；只准备本地材料，其他写入范围待复核，保留只读观察",
+    "jax-ml/jax": "本地记录禁止 agent 自主开 PR；只准备本地材料，其他写入范围待复核，保留只读观察",
 }
 NON_TESTABLE = {"apache/arrow", "vllm-project/vllm"}
 
