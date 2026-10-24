@@ -22,6 +22,11 @@ ROOT = Path(__file__).resolve().parents[1]
 POOL = ROOT / "tools/quality_repos.json"
 LEDGER = ROOT / "work/ledger/pr_states.json"
 OUT = ROOT / "work/ledger/candidates.json"
+FIXED_IN_PR = re.compile(
+    "|".join(re.escape(p) for p in (
+        "fixed by pr", "fixed by #", "resolved by pr", "resolved by #",
+        "fixed in pr", "fix reference", "already fixed", "pr that fixes"))
+    + r"|(?:pr|pull request) #\d+ fixes\b|(?<![\w/#])#\d+ fixes\b", re.IGNORECASE)
 
 
 def gh(*args):
@@ -107,9 +112,7 @@ def scan(days, maxc):
             if SOFT.search(body) or NOT_READY.search(body):
                 skipped.append((f"{repo}#{issue['number']}", "claimed/not ready"))
                 continue
-            if any(phrase in body.lower() for phrase in (
-                    "fixed by pr", "fixed by #", "resolved by pr", "resolved by #",
-                    "fixed in pr", "fix reference", "already fixed", "pr that fixes")):
+            if FIXED_IN_PR.search(body):
                 continue
             candidates.append(issue)
         if not candidates:

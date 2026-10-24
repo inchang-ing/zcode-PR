@@ -139,6 +139,15 @@ class OperationalScanTests(unittest.TestCase):
                 report, _ = self.scan_repo("example/repo", responses={"/comments": [[{"body": body}]]})
                 self.assertEqual(report["candidates"], [])
 
+    def test_numbered_pr_fix_claims_in_body_are_skipped(self):
+        for body in ("A reproducible error. I see that PR #22407 fixes this, "
+                     "could a maintainer approve it?",
+                     "A reproducible error. #123 fixes this upstream.",
+                     "A reproducible error. The pull request #45 fixes the issue."):
+            with self.subTest(body=body):
+                report, _ = self.scan_repo("example/repo", changes={"body": body})
+                self.assertEqual(report["candidates"], [])
+
     def test_complete_paginated_checks_allow_candidate(self):
         report, calls = self.scan_repo("example/repo", responses={
             "/pulls?": [[], [{"title": "Unrelated fix #2", "body": None}]],
