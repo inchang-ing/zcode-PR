@@ -1995,3 +1995,10 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - 评审扫描:10:00Z 后全部在飞 PR 零人工动态,无待响应。
 - 侦察:fresh 增量实际回收了 17 天盲区(8-527h 全量入 seen);**下一轮优先候选 aio-libs/multidict#1824(8.88h,"7.2.0: CIMultiDictProxy subclasses converting their argument in __init__ now raise TypeError",回归类,aio-libs ALLOWED,同仓 0 在飞)**——API 速率触顶未能核验,已被 fresh state 消费,记入日志防丢。maintainer_sweep 因限速只扫了 75/361(10 候选均先前已核验有主)。
 - **速率预算教训(记录给用户/下一轮)**:自动化当前配置每轮 ~800 次调用(oss 30+fresh 391+sweep 361),30 分钟一轮 = 1600+/hr,超出 5000/hr 主限额 → 建议每轮只跑一条重赛道轮换(fresh/sweep 交替),或接受 sweep 部分失败;自动化 prompt 按其自身禁令不改,待用户裁决。
+
+
+## 2026-10-24 19:07 UTC(自动化首轮续:multidict#1824 维护者 9 小时修复,让位)
+
+- fresh 捕获的 8.88h 热候选 aio-libs/multidict#1824(7.2.0 回归:代理子类在 __init__ 内转换参数被 __new__ 拒绝,Litestar 实网受影响)→ 核验时发现 **asvetlov 本人 9 小时内完成 #1825 修复并 MERGED(18:56Z),issue 已关,7.2.1 发布中** → 让位。
+- 结论:fresh 赛道实战验证有效(能在亚 12h 窗口捕获回归),但对"维护者自己的回归"无效(作者修得比谁都快);持续价值在非回归类 issue 与评审响应。
+- 速率限制已过(新窗口 5000/5000);本轮全部记录已推送(afa13ea 及本条)。
