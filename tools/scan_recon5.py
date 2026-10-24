@@ -27,7 +27,7 @@ POOL_D = [
     # testing / quality
     "nedbat/coveragepy", "behave/behave", "robotframework/robotframework",
     "locustio/locust", "pytest-dev/pytest-cov", "pytest-dev/pytest-timeout",
-    "pytest-dev/pytest-benchmark", "pytest-dev/pytest-rerunfailures",
+    "ionelmc/pytest-benchmark", "pytest-dev/pytest-rerunfailures",
     # packaging / tooling
     "pypa/pipx", "pypa/virtualenv", "pypa/packaging", "pypa/wheel",
     "python-lsp/python-lsp-server", "PyJWT/jwt", "python-attrs/cattrs",

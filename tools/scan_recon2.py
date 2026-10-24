@@ -27,7 +27,7 @@ NEW_POOL = [
     "wagtail/wagtail", "frappe/frappe", "apache/superset", "getmoto/moto",
     "pytest-dev/pytest-xdist", "pytest-dev/pytest-mock", "pytest-dev/pytest-asyncio",
     "aio-libs/aiosignal", "aio-libs/aiohttp-cors", "aio-libs/janus",
-    "aio-libs/aiosqlite", "aio-libs/aiomysql", "aio-libs/aioredis-py",
+    "omnilib/aiosqlite", "aio-libs/aiomysql", "aio-libs/aioredis-py",
 ]
 
 MAIN_POOL = [

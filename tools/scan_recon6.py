@@ -15,11 +15,11 @@ POOL_E = [
     # jaraco ecosystem (maintained, low traffic)
     "jaraco/skeleton", "jaraco/inflect", "jaraco/jaraco.context",
     "jaraco/jaraco.functools", "jaraco/jaraco.text", "jaraco/jaraco.classes",
-    "jaraco/jaraco.logging", "jaraco/jaraco.itertools", "jaraco/backports",
+    "jaraco/jaraco.logging", "jaraco/jaraco.itertools",
     "jaraco/keyring", "jaraco/zipp", "jaraco/tempora", "jaraco/portend",
     # PyCQA / psf linters & tooling
     "PyCQA/pydocstyle", "PyCQA/flake8", "PyCQA/bandit", "PyCQA/isort",
-    "psf/pycodestyle", "psf/pyflakes", "psf/requests-html", "psf/cachecontrol",
+    "psf/pycodestyle", "PyCQA/pyflakes", "psf/requests-html", "psf/cachecontrol",
     # pypa
     "pypa/build", "pypa/distutils", "pypa/pipenv", "pypa/installer",
     "pypa/cibuildwheel", "pypa/pyproject-hooks", "pypa/readme_renderer",
