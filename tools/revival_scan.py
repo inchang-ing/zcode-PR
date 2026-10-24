@@ -25,11 +25,18 @@ CANDIDATES = ROOT / "work/ledger/maintainer_candidates.json"
 DEFAULT_STALE_DAYS = 10
 
 
+def pr_author_association(repo: str, num: int) -> str:
+    r = subprocess.run([GH, "api", f"repos/{repo}/pulls/{num}", "--jq",
+                        ".author_association"], capture_output=True, text=True, timeout=60)
+    return r.stdout.strip() or "UNKNOWN"
+
+
 def claimant_prs(repo: str, num: int) -> list[dict]:
     r = subprocess.run(
         [GH, "api", f"repos/{repo}/issues/{num}/timeline", "--paginate", "--jq",
          '[.[] | select(.event=="cross-referenced") | .source.issue | '
-         'select(.pull_request != null) | {n:.number, updated:.updated_at, state:.state}]'],
+         'select(.pull_request != null) | {n:.number, updated:.updated_at, '
+         'state:.state, author:(.user.login // "?")}]'],
         capture_output=True, text=True, timeout=90)
     try:
         return json.loads(r.stdout) if r.stdout.strip() else []
@@ -58,14 +65,22 @@ def main() -> None:
             updated = datetime.fromisoformat(pr["updated"].replace("Z", "+00:00"))
             stale_days = (now - updated).days
             if stale_days >= args.stale_days:
+                assoc = pr_author_association(c["repo"], pr["n"])
                 revival.append({"issue": c["key"], "pr": pr["n"],
                                 "stale_days": stale_days, "title": c["title"],
+                                "pr_author": pr.get("author", "?"),
+                                "pr_author_association": assoc,
+                                "maintainer_owned": assoc in ("MEMBER", "OWNER", "COLLABORATOR"),
                                 "url": c.get("url", "")})
 
     print(f"revival scan: {len(candidates)} candidates, {len(revival)} with "
           f"a claiming PR stale >= {args.stale_days}d")
     for x in sorted(revival, key=lambda x: -x["stale_days"]):
-        print(f"REVIVAL {x['issue']} <- PR #{x['pr']} stale {x['stale_days']}d  {x['title'][:70]}")
+        marker = (" [MAINTAINER-OWNED - do not revive]"
+                  if x.get("maintainer_owned") else "")
+        print(f"REVIVAL {x['issue']} <- PR #{x['pr']} stale {x['stale_days']}d "
+              f"@{x['pr_author']}({x.get('pr_author_association', '?')}){marker}  "
+              f"{x['title'][:60]}")
     if args.json:
         out = ROOT / "work/ledger/revival_candidates.json"
         atomic_write_json(out, {"scanned_at": now.isoformat(),

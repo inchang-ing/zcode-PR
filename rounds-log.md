@@ -2029,3 +2029,11 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - **fresh 赛道捕获 0.13h 龄 litellm#48226**(completion_cost 对 groq 回显名 openai/gpt-oss-120b 误报 ModelNotMappedError;时间线零竞品;同仓 1 空位)→ 深挖:合成对象、hidden_params 变体、PyPI 1.106.3、mock 真实路径(连 provider_response_model 回显字段都在)——**当前 main 与最新发行版均正确处理,报告者未写版本号** → 按红线不出无复现 PR,留分诊评论(请求版本号+附最新版复现状态)。
 - 本轮 0 新 PR(无复现不出手);fresh 赛道捕获能力再次验证(0.13h 命中)。
 - 预算执行:本轮 ~530 调用(oss 35+review 4+fresh 391+核验 100),在 500 预算内超一点,fresh 轮属预期。
+
+
+## 2026-10-24 20:11 UTC(自动化第四轮:sweep 切片 0/3 + 复活候选全核验 → 全让位,工具再进化)
+
+- sweep 切片 0/3(117 仓,25 候选,rotator→1);revival_scan 工具版首跑:2 命中。
+- **复活候选逐个归属核验,全让位**:twisted#12734(占位 PR 是维护者 adiroiban 本人的安全修复 → 绝不接管);myst-parser#1165(看似金矿,实为 **issue 作者 chrisjsewell 自己的 #1169 覆盖 #1165+#1167**,设计判断点待他自己解决 → 让位);chainlit#2993(四个外部人 PR 全死=维护者不评审信号,第五个无意义);pip#14193(维护者讨论活跃,方法可能已转向);pymc#8372(macOS segfault 本机无法验证 → 质量红线)。
+- **工具再进化**:revival_scan 加占位 PR 作者 author_association 查询,MAINTAINER-OWNED(母语者/OWNER/COLLABORATOR)标记"do not revive"——twisted#12734 教训固化,下轮自动过滤。
+- 本轮 0 新 PR;在飞 29 稳定。
