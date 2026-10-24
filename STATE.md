@@ -11,7 +11,7 @@
 > | 项目说明 / 目录 / 流程 / 飞书 / 换机 | **`README.md`** |
 > | 历史轮次 / 已合并 PR 验证记录 | **`rounds-log.md`**、**`STATE-archive.md`** |
 
-## OSS 贡献在飞（33）
+## OSS 贡献在飞（28）
 
 | PR | 仓库 | 状态 | 摘要 |
 | --- | --- | --- | --- |
@@ -20,7 +20,6 @@
 | [#3982](https://github.com/Arize-ai/openinference/pull/3982) | Arize-ai/openinference | OPEN(2026-10-17) | Fix #3904: do not record the SDK placeholder tool arguments on early stream exit |
 | [#3995](https://github.com/Arize-ai/openinference/pull/3995) | Arize-ai/openinference | OPEN(2026-10-17) |  |
 | [#3998](https://github.com/Arize-ai/openinference/pull/3998) | Arize-ai/openinference | OPEN(2026-10-17) |  |
-| [#849](https://github.com/bashtage/linearmodels/pull/849) | bashtage/linearmodels | OPEN(2026-10-18) | BUG: Raise for ignored flags in out-of-sample panel predictions |
 | [#850](https://github.com/bashtage/linearmodels/pull/850) | bashtage/linearmodels | OPEN(2026-10-18) | BUG: Test the rank of the IV inputs after scaling the columns |
 | [#4633](https://github.com/traceloop/openllmetry/pull/4633) | traceloop/openllmetry | OPEN(2026-10-18) | fix(sdk): keep local dataset state when a delete request fails |
 | [#46262](https://github.com/BerriAI/litellm/pull/46262) | BerriAI/litellm | OPEN(2026-10-17) |  |
@@ -29,8 +28,7 @@
 | [#12636](https://github.com/dask/dask/pull/12636) | dask/dask | OPEN(2026-10-17) |  |
 | [#20873](https://github.com/DataDog/dd-trace-py/pull/20873) | DataDog/dd-trace-py | OPEN(2026-10-17) | Fix #20782: map Anthropic 1h cache creation tokens to the correct span attribute |
 | [#20877](https://github.com/DataDog/dd-trace-py/pull/20877) | DataDog/dd-trace-py | OPEN(2026-10-17) | Fix #20858: reset ASGI ExecutionContext between keep-alive requests |
-| [#20883](https://github.com/DataDog/dd-trace-py/pull/20883) | DataDog/dd-trace-py | OPEN(2026-10-17) | Fix #20783: include tool_use_prompt_token_count in google_genai LLM span tokens |
-| [#20886](https://github.com/DataDog/dd-trace-py/pull/20886) | DataDog/dd-trace-py | OPEN(2026-10-17) | fix(bootstrap): keep logging.captureWarnings working under ddtrace-run with gevent |
+| [#20935](https://github.com/DataDog/dd-trace-py/pull/20935) | DataDog/dd-trace-py | OPEN(2026-10-24 入账) | fix(tracing): keep dd= member within W3C 256-char limit; emmettbutler 已 APPROVED(10-12), 待 apm-idm-python spec 审查 |
 | [#1526](https://github.com/Delgan/loguru/pull/1526) | Delgan/loguru | OPEN(2026-10-17) | Fix #1525: neutralise C0/C1 control characters in log messages |
 | [#4439](https://github.com/docling-project/docling/pull/4439) | docling-project/docling | OPEN(2026-10-17) | fix(xb): don't dereference memberQname on typed dimensions |
 | [#442](https://github.com/executablebooks/markdown-it-py/pull/442) | executablebooks/markdown-it-py | OPEN(2026-10-17) | fix(block): HTML block start outside a list item closes the list |
@@ -38,14 +36,11 @@
 | [#15023](https://github.com/huggingface/diffusers/pull/15023) | huggingface/diffusers | OPEN(2026-10-17) |  |
 | [#682](https://github.com/mala-project/mala/pull/682) | mala-project/mala | OPEN(2026-10-17) |  |
 | [#5717](https://github.com/open-telemetry/opentelemetry-python/pull/5717) | open-telemetry/opentelemetry-python | OPEN(2026-10-17) | fix(metrics): reset the exponent mapping between DELTA collections |
-| [#29928](https://github.com/pola-rs/polars/pull/29928) | pola-rs/polars | OPEN(2026-10-17) |  |
 | [#5337](https://github.com/pypa/setuptools/pull/5337) | pypa/setuptools | OPEN(2026-10-17) | Extract tar members through the tarfile data filter |
-| [#431](https://github.com/pytest-dev/execnet/pull/431) | pytest-dev/execnet | OPEN(2026-10-17) | fix: observe terminated workers and report safe_terminate outcome |
 | [#986](https://github.com/QwenLM/Qwen-Agent/pull/986) | QwenLM/Qwen-Agent | OPEN(2026-10-17) | fix(agents): uniquify dialogue history filenames per run |
 | [#3187](https://github.com/repowise-dev/repowise/pull/3187) | repowise-dev/repowise | OPEN(2026-10-17) |  |
 | [#3046](https://github.com/snowflakedb/snowflake-connector-python/pull/3046) | snowflakedb/snowflake-connector-python | OPEN(2026-10-17) | fix: honor external_browser_timeout in the externalbrowser flow |
 | [#3050](https://github.com/snowflakedb/snowflake-connector-python/pull/3050) | snowflakedb/snowflake-connector-python | OPEN(2026-10-17) | Fix #3049: apply force_microsecond_precision to TIMESTAMP_NTZ/LTZ(7) |
-| [#10472](https://github.com/statsmodels/statsmodels/pull/10472) | statsmodels/statsmodels | OPEN(2026-10-17) | Fix #9237: index 0-d array as a scalar |
 | [#2307](https://github.com/tortoise/tortoise-orm/pull/2307) | tortoise/tortoise-orm | OPEN(2026-10-17) |  |
 | [#2180](https://github.com/weaviate/weaviate-python-client/pull/2180) | weaviate/weaviate-python-client | OPEN(2026-10-17) | fix(batch): filter re-added errors by uuid and avoid the deprecated all_responses read |
 

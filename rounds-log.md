@@ -1943,3 +1943,55 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
   - ⚠️ **CLA 门槛**:该仓库由 cla-assistant 强制 CLA,当前 `license/cla` 为 `pending`("Contributor License Agreement is not signed yet")。需用户本人签署:https://cla-assistant.io/traceloop/openllmetry?pullRequest=4633 ;agent 不代签。
 - **其他让位(增量)**:`jsonschema#1589`(作者已有实测补丁并因仓库限制外部 PR 而未提交)、`nicegui#6385`(维护者已确认并接修)、`darts#3275`(维护者判定非 bug)、`zarr#4511`(维护者倾向重新设计)、`alembic#1877`(同 PR 门禁)。
 - **自发现审计(本轮补充)**:faker 长度边界、boltons slugify 幂等/shell 转义、tornado.escape 往返、dateutil rrule before/after/between、optuna 采样边界、bottle 路由、dask.tokenize 确定性 → 全干净。
+
+## 2026-10-24 ~05:54 UTC(轮:在飞同步巡检 —— statsmodels#10472 合并 ✅、dd-trace#20883 经 cherry-pick 合并 ✅、polars#29928 无合并关闭)
+
+- `monitor_oss.py` 全量刷新(上游 51 + 自有 24),PR_STATUS.md/pr_state.json 已更新至 2026-10-24T05:34Z。
+- **✅ statsmodels#10472 已合并**(2026-10-20T09:05Z):Fix #9237 index 0-d array as a scalar。台账移除。
+- **✅ DataDog/dd-trace-py#20883 关闭但贡献存活**:维护者 Yun-Kim 2026-10-20T15:19Z 关闭,说明提交已 cherry-pick 进其 PR #21123 走内部 CI;**#21123 已 MERGED**(fix(llmobs): include tool_use_prompt_token_count in google_genai and vertexai input tokens)→ 按合并成果计。台账移除。
+- **⛔ pola-rs/polars#29928 无合并关闭**(2026-10-21T11:16Z,维护者 orlp 留言仅指向首次贡献指南 docs.pola.rs/development/contributing/#first-time-contributions,无技术理由;ruff format 修正已按要求 force-push)。复盘:后续对 polars 投稿前先核对首次贡献者额外流程。台账移除。
+- 其余在飞亮点:dd-trace#20873 **APPROVED**(首个评审通过);litellm#46262 MERGEABLE 86✓ 全绿;tortoise#2307 CI 首次绑定 25✓ 全绿;linearmodels#850 26✓。
+- STATE.md 在飞 33→30。
+
+## 2026-10-24 ~06:07 UTC(轮:同步巡检推进 —— 台账 33→27,tortoise 再解冲突,crewAI 双 update-branch)
+
+- 全量 mergeable_state 扫描发现: crewAI#7795/#7981 BEHIND、tortoise#2307 DIRTY;另有 3 条更早已离场但台账未删。
+- **✅ 离场确认(补记)**:linearmodels#849 已 MERGED(2026-10-18)、execnet#431 已 MERGED(2026-10-09)、dd-trace#20886 无合并关闭但维护者重开为 #21065 并已 MERGED(2026-10-19)→ 贡献存活。连同本日早前确认的 statsmodels#10472(MERGED)与 dd-trace#20883(cherry-pick 进 #21123 已 MERGED),台账 33→27。
+- **⛔ polars#29928 无合并关闭**:维护者 orlp 仅留首次贡献指南链接;复盘:对 polars 投稿前先核对 first-time-contributions 流程。
+- crewAI#7795/#7981 update-branch 完成;**tortoise#2307** union 解 CHANGELOG.rst 冲突(develop 4 行在前)→ 合并提交 398f114,PR 恢复 MERGEABLE,净 diff 仅 PR 本体。**新踩坑记录:Windows 下 Python write_text 会把 LF 仓文件转 CRLF,冲突解决必须 write_bytes 保持原行尾**。
+
+
+## 2026-10-24 18:08 UTC(轮:持续出 PR 指令落地 —— 自动化重建 + 全赛道清剿,空手)
+
+- **持续机制重建**:`automation-b6c5946d`(每30分钟,评审响应优先+三赛道侦察+质量门禁+如实记录)——此前 4 次会话边界自动化全灭,CronList 曾为空;本次重建并在 agent.md/记忆中留恢复指引。自动化消亡时按本条记录重建即可。
+- 新候选分诊(全部让位,有据):
+  - mypy#21948(MEMBER 亲提,新解析器函数类型注释假阴性):维护者明示修复主体在 mypy/ast_serialize(Rust 仓,本地无 cargo)且"需要深入理解 mypy 架构" → 与轮 #63 mypy#22085 同款,让位。
+  - redis-py OCSP 加固系列(#4493+#4461,两天两连):同作者 Vidya-m78 亲自清扫中,插手即抢作者系列 → 让位。
+  - urllib3 Retry-After 系列(#5330+#5310):维护者发布冲刺模式(两天 5 修) → 让位。
+  - gradio#13923(报告者已验证的暂停期候选):issue 已关闭,候选消失;外部 PR 通道仍近乎停滞。
+- 结论:新鲜/亲提/复活/系列/审计五赛道本轮全部见底;持续性交给 30 分钟自动化,其每轮独立重跑同一套赛道并响应评审。
+
+
+## 2026-10-24 18:15 UTC(轮:全面维护巡检 + 全域猎场复扫 —— hydra#3548 合并计第 29 个成果,新 PR 空手)
+
+- **维护巡检(含锚定盲区)**:mypy#22288 CLEAN 无新评审;otel#5717 20:34 更新仅为 dashboard bot;openinference#3982 07:42 更新为 bot;**semantic-kernel#14586 BEHIND → update-branch 完成**;docling#4849 复核:10-21 已按 dolfim-ibm 方案重做(f5ceec5),正常等复审,不催。
+- **🎉 hydra#3543 → #3548 移植合并**:维护者 omry 10-14 验证("fix looks correct, 1,436 tests passed")后 10-15 自开 #3548 取代,**#3548 已 MERGED** → 按移植合并计,贡献成果 28→29。锚定文件同步清理。
+- **猎场全域复扫(六条新线,全让位)**:typeshed 新 issue(#16548/#16542 均数小时内被 #16560/#16611 抢开,老 issue 全是设计冻结);boltons 已被 AI-PR 潮淹没(30+ open PR 扫遍老 issue,#600→#601、#581 双竞品 #591/#582,我们的 #578 也在其中等评审);repowise 是 PR 农场(20+ open、九个轮换账号、今日 #4613 已有 #4614/#4617 两竞品)。
+- 结论:全域确认 AI 抢注饱和;维护价值集中在评审响应(自动化持续);合并成果今天 26→29(10472、2×dd-trace 移植、849、431、3548 移植)。
+
+
+## 2026-10-24 18:47 UTC(轮:范围修复 —— 猎场从 19 仓扩到全池 391 仓,86 候选全核验)
+
+- **用户指出猎场范围过小,完全正确**:今日此前的扫描只覆盖 19-30 仓,而流水线原始基建是 391 仓分层池(T1+T2=96 常扫,T3=295 轮转)。
+- **修复**:①monitor_fresh.py 复活并重新基线化(--init;17 天盲区数据被基线吞掉,旧 issue 已过波峰,诚实损失);②maintainer_sweep.py 重写为全池版(361 仓,复用 build_tiers,12 线程并发,政策过滤+同仓在飞上限过滤,~7 分钟/轮);③自动化 prompt 更新纳入两者(CronUpdate)。
+- **全池扫描结果:86 候选,逐个核验后 0 干净** —— 饱和是全池性事实:twisted 9 个 MEMBER 亲提(12680 实证已被 07-17 重构修复=假开放,已留核验评论,初版反引号被 shell 吞掉后 PATCH 修复;12734 有 PR+安全公告;其余 flaky/CI 类)、iceberg-python 7 连(每个都有竞品 PR)、pytest-mock#636/otel#5627/#5629/pip#14355/mcp/repowise/boltons/jupyterlab 全有主。
+- **维护收获**:semantic-kernel#14586 update-branch 完成;hydra#3543→omry 自开 #3548 已 MERGED(移植计第 29 个成果);锚定文件清理 hydra 行。
+- **教训入库**:①挂 100+ 天的开放 issue 可能已被 main 静默修复——动手前先跑 PoC 对 main(twisted#12680/pip-tools#2473 双先例);②gh 双引号参数里的反引号会被 shell 执行(评论必须走 Python + --input -);③范围修大不改变结论但改变置信度——"全域饱和"现在是 361 仓证据支撑的判断。
+
+
+## 2026-10-24 19:05 UTC(自动化首轮:myy#22288 静默关闭复盘 + 速率限制触顶)
+
+- **⛔ python/mypy#22288 被 ilevkivskyi 静默关闭**(16:27Z,未合并,无评论)——同一 issue(#22159)第二次静默关闭外部修复(#22170 先例)。复盘归因:维护者自有的 native-parser 工作流处理中,不欢迎外部 PR 碰 build.py/graph 内部;**非代码质量问题**(myy_primer 全绿、CI 无失败、无负面评审)。处置:不申诉不追问,#22159 全面收手;台账自动清理首轮实战生效(离场行当轮移除)。
+- 评审扫描:10:00Z 后全部在飞 PR 零人工动态,无待响应。
+- 侦察:fresh 增量实际回收了 17 天盲区(8-527h 全量入 seen);**下一轮优先候选 aio-libs/multidict#1824(8.88h,"7.2.0: CIMultiDictProxy subclasses converting their argument in __init__ now raise TypeError",回归类,aio-libs ALLOWED,同仓 0 在飞)**——API 速率触顶未能核验,已被 fresh state 消费,记入日志防丢。maintainer_sweep 因限速只扫了 75/361(10 候选均先前已核验有主)。
+- **速率预算教训(记录给用户/下一轮)**:自动化当前配置每轮 ~800 次调用(oss 30+fresh 391+sweep 361),30 分钟一轮 = 1600+/hr,超出 5000/hr 主限额 → 建议每轮只跑一条重赛道轮换(fresh/sweep 交替),或接受 sweep 部分失败;自动化 prompt 按其自身禁令不改,待用户裁决。
