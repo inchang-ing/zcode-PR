@@ -23,6 +23,7 @@ POLICY_EVIDENCE = {
     "google/jax": {"scope": "repo", "observed_at": "2026-10-22", "source": "tools/quality_repos.json", "review": "blocked.reasons 记录 CONTRIBUTING 禁止 agent 自主开 PR，#41846/#41847 已弃；本地补充见 .workbuddy/memory/2026-10-22.md；其他写入范围待复核"},
     "jax-ml/jax": {"scope": "repo", "observed_at": "2026-10-22", "source": "tools/quality_repos.json", "review": "与 blocked.reasons.google/jax 使用同一禁投记录（本地补充 .workbuddy/memory/2026-10-22.md）；规范名称及重定向依据 .workbuddy/memory/2026-09-30.md；未重新调查上游政策"},
     "pycqa": {"scope": "owner", "observed_at": "2026-10-18", "source": ".workbuddy/memory/blocked-repos.md", "review": "重新确认账号投稿权限后解除"},
+    "textualize": {"scope": "owner", "observed_at": "2026-10-24", "source": ".workbuddy/memory/2026-10-24.md", "review": "PR 创建对本账号双通道封锁（API CreatePullRequest FORBIDDEN + 网页 compare 表单不渲染，2FA 配置后仍如此）；外部账号 2026-05 仍可正常开 PR，判定为账号特定限制；残余测试仅剩 GitHub 完全重登。handoff-only：修复推 fork 后在 issue 留 compare 链接请维护者代开（rich#4233 先例）；禁止重试 API 创建以免加固封锁标记"},
     "sqlalchemy": {"scope": "owner", "observed_at": "2026-10-18", "source": ".workbuddy/memory/blocked-repos.md", "review": "重新确认账号访问权限后解除"},
     "modelcontextprotocol/python-sdk": {"scope": "repo", "observed_at": "2026-10-18", "source": ".workbuddy/memory/blocked-repos.md", "review": "每次核验当前账号分配状态"},
     "frappe/frappe": {"scope": "repo", "observed_at": "2026-10-18", "source": ".workbuddy/memory/blocked-repos.md", "review": "须确认当前账号已获 vouched"},

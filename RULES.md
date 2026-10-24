@@ -68,7 +68,7 @@
 
 ## 七、org 开 PR 权限实测(2026-10-08 `tools/probe_perm.py`)
 
-- **BLOCKED**(CreatePullRequest 拒):Textualize(rich/textual)、psf(requests)、pallets(jinja2/click/flask/werkzeug)、python-jsonschema、encode/httpx。
+- **BLOCKED**(CreatePullRequest 拒):Textualize(rich/textual)、psf(requests)、pallets(jinja2/click/flask/werkzeug)、python-jsonschema、encode/httpx。**Textualize 2026-10-24 终局判定**:API 与网页双通道封锁(2FA 配置后仍未解;外部账号同期可正常开 PR,属账号特定限制)→ **handoff-only**:修复推 fork + issue 留 compare 链接请维护者代开,禁止重试创建。
 - **ALLOWED**:dd-trace-py、openinference、snowflake、statsmodels、langchain、docling、sqlglot、pydantic、fastapi、typer、celery、networkx、attrs、anyio、pluggy、keyring、psycopg、alembic、poetry、redis-py、aiohttp、urllib3、graphene、strawberry、mypy、PyGithub、build。
 
 ## 本地门禁补充（2026-10-21 同步）
@@ -76,3 +76,12 @@
 依据 2026-10-18 本地门禁台账，PyCQA、sqlalchemy 组织暂缓；modelcontextprotocol/python-sdk 要求分配给当前账号；frappe/frappe 的 vouched 资格及 geopandas/geopandas 的方案共识需专项核验。执行配置、来源及解除条件见 tools/repository_policy.py。以上是本地操作限制，本次未重新核实远端政策；不能把短期权限失败解释为永久政策。
 
 2026-10-23 补齐已有禁投记录：`pypa/packaging` 的维护者在 #934 要求勿再开 PR（本地记录 `.workbuddy/memory/2026-10-19.md`）；`google/jax` 的贡献指南被记录为禁止 agent 自主开 PR（`.workbuddy/memory/2026-10-22.md`），同样适用于规范名称 `jax-ml/jax`（名称依据 `.workbuddy/memory/2026-09-30.md`）。共享门禁阻止这些仓库的新候选；现有 PR 保留只读观察，自动跟进写入在复核允许的沟通范围前暂缓。这是本地保守限制，已有记录仅明确禁止开 PR，本次未联网核实，也不据此宣称上游禁止所有评论。专用仓库池的其他排除项仍按各自依据处理。
+
+## 八、Windows/Git Bash 环境坑（2026-10-24 实测汇总,动手前过一遍）
+
+1. **MSYS 路径转换**：Git Bash 里 `gh api --jq` 的表达式含 `/`（如 `.state+"/"+.mergeable_state`）会被转换成 Git 安装路径,查询静默变空 → jq 表达式一律避免 `/` 字面量（用空格连接）,或整个查询走 Python 脚本。
+2. **Python 写文件 CRLF**：Windows 下 `Path.write_text()` 把 LF 仓文件整体转 CRLF → `git diff` 整文件级别假变化。修冲突/改仓库文件必须 `write_bytes()` 并保持原行尾；克隆工作树本身可能已是 CRLF（autocrlf=false 也不保证），**提交前必查 `git diff --stat`**。
+3. **bash heredoc**：`<< EOF`（未加引号）会执行 `$()`/反引号,`<< 'EOF'` 也可能吃掉一层反斜杠（含转义断言的测试文件被写坏过）→ 含转义/插值的内容一律走 Edit/Write 工具,不经 heredoc。
+4. **`git checkout -- <file>` 会清掉未提交修复**（本次 mypy 修好被误清重做一次）→ 有未提交修复时先 `git stash push <file>` 或确认 diff 里没有它；探针调试后清场用精确 replace,清完 `grep` 验证。
+5. **pytest 参数冲突**：mypy 等仓库 pyproject 里 `addopts=-nauto` 时,`-p no:xdist` 会报 unrecognized arguments → 用 `-n0` 关并发;`--update-data` 必须与 `-n0` 同用才真正生效。
+6. **数据驱动测试表达不了的环境语义**：PYTHONPATH/PEP420 命名空间包等宿主环境行为,`.test` 数据文件造不出等价触发器（base 上同样绿）→ 及时止损,PR 描述附 repro 步骤替代,不硬凑。

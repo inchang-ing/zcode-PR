@@ -78,6 +78,17 @@ class ScreeningRegressions(unittest.TestCase):
                 self.assertFalse(is_clean(self.candidate(repo), self.store)[0])
                 self.assertEqual(self.live(repo, ISSUE), "DROP")
 
+    def test_textualize_owner_is_handoff_only_after_verified_block(self):
+        # 2026-10-24: API CreatePullRequest FORBIDDEN and the web compare form does
+        # not render for this account, even after 2FA; external accounts opened fork
+        # PRs the same month. Fix flow is fork-branch + issue comment with a compare
+        # link for a maintainer — never a retry of PR creation.
+        from repository_policy import POLICY_EVIDENCE
+        self.assertEqual(policy_reason("Textualize/rich"), "受限/禁投仓库: textualize/rich")
+        self.assertEqual(policy_reason("Textualize/textual"), "受限/禁投仓库: textualize/textual")
+        self.assertEqual(POLICY_EVIDENCE["textualize"]["scope"], "owner")
+        self.assertIn("handoff-only", POLICY_EVIDENCE["textualize"]["review"])
+
     def test_recorded_submission_bans_block_scan_filter_and_live_vet(self):
         for repo in ("pypa/packaging", "PyPA/Packaging", "google/jax", "jax-ml/jax"):
             with self.subTest(repo=repo), \
