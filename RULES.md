@@ -83,5 +83,6 @@
 2. **Python 写文件 CRLF**：Windows 下 `Path.write_text()` 把 LF 仓文件整体转 CRLF → `git diff` 整文件级别假变化。修冲突/改仓库文件必须 `write_bytes()` 并保持原行尾；克隆工作树本身可能已是 CRLF（autocrlf=false 也不保证），**提交前必查 `git diff --stat`**。
 3. **bash heredoc**：`<< EOF`（未加引号）会执行 `$()`/反引号,`<< 'EOF'` 也可能吃掉一层反斜杠（含转义断言的测试文件被写坏过）→ 含转义/插值的内容一律走 Edit/Write 工具,不经 heredoc。
 4. **`git checkout -- <file>` 会清掉未提交修复**（本次 mypy 修好被误清重做一次）→ 有未提交修复时先 `git stash push <file>` 或确认 diff 里没有它；探针调试后清场用精确 replace,清完 `grep` 验证。
-5. **pytest 参数冲突**：mypy 等仓库 pyproject 里 `addopts=-nauto` 时,`-p no:xdist` 会报 unrecognized arguments → 用 `-n0` 关并发;`--update-data` 必须与 `-n0` 同用才真正生效。
-6. **数据驱动测试表达不了的环境语义**：PYTHONPATH/PEP420 命名空间包等宿主环境行为,`.test` 数据文件造不出等价触发器（base 上同样绿）→ 及时止损,PR 描述附 repro 步骤替代,不硬凑。
+5. **git HTTPS 被代理选择性掐断**：github.com:443 连接失败而 api.github.com/ssh.github.com 正常时,推送改走 SSH:`git push git@github.com:<owner>/<repo>.git <branch>`(~/.ssh/config 已配 ssh.github.com:443);克隆同理。重试 3 次×30 秒仍失败即切换,不干等。
+6. **pytest 参数冲突**：mypy 等仓库 pyproject 里 `addopts=-nauto` 时,`-p no:xdist` 会报 unrecognized arguments → 用 `-n0` 关并发;`--update-data` 必须与 `-n0` 同用才真正生效。
+7. **数据驱动测试表达不了的环境语义**：PYTHONPATH/PEP420 命名空间包等宿主环境行为,`.test` 数据文件造不出等价触发器（base 上同样绿）→ 及时止损,PR 描述附 repro 步骤替代,不硬凑。
