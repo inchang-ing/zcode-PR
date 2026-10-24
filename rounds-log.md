@@ -2061,3 +2061,11 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - fresh:phoenix#17240/#17241(0.14h!)与 astropy#20710(1.23h)——**三个候选全部是报告者自己数分钟内自开 PR**(#17242/#17243/#20711),让位;ansible/frappe/conda-bot/特性类跳过。
 - revival_scan 工具版首次实战:**maintainer-owned 标记正确过滤** chainlit#3021(dokterbob COLLABORATOR)与 pip#14343(notatallshaw MEMBER);剩余非维护者候选(chainlit#2993 四竞品、pymc 平台不可验)沿用前轮让位判定。
 - 本轮 0 新 PR;五轮实战数据点:亚小时 issue 的主导结局是"报告者自修"(phoenix/astropy/apscheduler/multidict 四连),维护者亲提 issue 的主导结局是"竞品分钟级抢注"——两者都压死了外部出手窗口,持续价值收敛到评审响应与移植/handoff。
+
+
+## 2026-10-24 22:08 UTC(自动化第八轮:sweep 2/3 收官全覆盖周期,anyio#1239 设计进行时让位)
+
+- 同步/评审面安静;无离场。
+- sweep 切片 2/3(114 仓,32 候选,rotator 归 0)——**三切片 90 分钟全覆盖周期首度完整闭环**,候选集与全量跑一致。
+- revival 扫描:maintainer-owned 过滤正确排除 delta-rs#4775(rtyler MEMBER);新增处置 **anyio#1239 → 让位**(OWNER agronholm 7 月起深度介入的跨平台设计讨论,graingert 扩展 Linux/asyncio 语义,PR #1243 dirty 且多方 10-10 仍活跃 —— 设计进行时,非被弃);myst-parser#1165/#1167(维护者自有 #1169)、delta-rs(Rust 不可验)、strawberry(作者 MEMBER 知情)复确认让位。
+- 本轮 0 新 PR。覆盖率周期 + 复活处置闭环,流水线进入稳态运转。
