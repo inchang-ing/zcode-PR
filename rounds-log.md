@@ -2084,3 +2084,12 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - sweep 切片 0/3 新周期(117 仓 25 候选,rotator→1);revival 双命中:twisted#12734 maintainer-owned 自动过滤 ✓;**mypy#21968 深查**——PR #21970 stale 43d、外部作者、**零维护者表态**;PoC 对当前 master 实证 **bug 存活**(tuple[bool,bool] 穷举匹配两假错误仍在)。#21968 MEMBER 亲提,相关 #16722(长龄穷举缺口)。
 - **下一轮复活目标(已验证)**:mypy#21968 —— 需读 #21970 的尝试方向(43d 沉默原因)与 #16722 是否记录设计阻碍,再决定接管或另行实现;修复面在 matcher/exhaustiveness(mypy-venv 现成,REP=workspaces/mypy)。谨慎项:mypy 近期对外部 PR 有静默关闭先例(但均在 build.py/graph 内部,matcher 属不同子系统)。
 - 本轮 0 新 PR(深夜自动化轮不开大面修复半成品)。
+
+
+## 2026-10-24 23:46 UTC(自动化第十一轮:🎯 swarms#2861 修复 → PR #2866,kyegomez 亲提 12 分钟龄)
+
+- fresh 捕获 **swarms#2861+#2862(0.12h,kyegomez 本人亲提,[bug,ai-generated] 标签=期待修复)**,时间线零竞品,feat/routehub-only 分支不存在(404,正文所指修复未推) → GO。
+- 根因:Agent._handle_run_error 用 f-string + 关键字记日志,loguru 对已烘焙错误文本跑 str.format → 提供商错误含花括号(RouteHub JSON body)即 KeyError,掩盖原异常且跳过 fallback 模型;AutoSwarmBuilder 同型四处。
+- 修复:loguru 位置参数(agent 1 处 + builder 4 处);回归测试 2 例(时间 issue 的 repro)。验证闭环:修复前 KeyError 双败(20 处 traceback)、修复后 2 passed。
+- **PR #2866 已创建**(swarms=#2393 的 73 分钟合并仓,kyegomez 快速合并模式)。
+- adk-python#7716(k8s sandbox TypeError)记录待核(验证需 k8s 沙箱依赖,重)。
