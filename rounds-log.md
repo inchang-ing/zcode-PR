@@ -2011,3 +2011,12 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - fresh 窗口 6 新 issue 全部过不了门(frappe 封锁、sentry needs-PO、HA 未探测+超高速、qwen-agent 环境类)。
 - **全池补扫完成**(上轮限速欠账):347 ok/14 failed,86 候选与 1 小时前全量跑完全一致(唯一 diff 是一天年龄边界)——候选集稳定,全部已有主。复活池今日已核全灭;审计轮换 websockets 今日已做。
 - 本轮 0 新 PR(质量红线:全部候选让位有据)。litellm/dd-trace×2/repowise 四个 PR 回到 MERGEABLE。
+
+
+## 2026-10-24 19:31 UTC(轮:自我优化 —— 限速根治 + 工具固化 + 池清理,用户指令)
+
+- **限速根治**:自动化改为车道轮换(每轮 monitor_oss+review_sweep ~45 调用必做;奇数分钟 fresh 391、偶数分钟 sweep 切片 120,rotator 文件轮转)——单轮从 ~800 降到 ~180-450,重赛道 90 分钟全覆盖。
+- **工具固化(替代每轮临时脚本)**:`tools/review_sweep.py`(增量评审扫描,updatedAt diff+bot 过滤+Textualize 跳过);`tools/maintainer_sweep.py` 移入 tools/ 并加 --slice/--slices 轮换 + --json 候选输出(work/ledger/maintainer_candidates.json)+ SKIP 可见化;**`tools/revival_scan.py` 新增**(占位 PR 死活批量核查,>=10 天 stale = 复活对象,rich#4233 模式工具化)。tests/test_self_tools.py 6 个离线回归(全套 185 OK)。
+- **池清理**:4 个 404 死 slug 修复(aio-libs/aiosqlite→omnilib、pytest-dev/pytest-benchmark→ionelmc、psf/pyflakes→PyCQA、jaraco/backports 移除);repo-monitor bac96ed + tools 池同步。
+- **顺手发现**:revival 扫描首跑(86 候选手工版)已出 22 个占位 PR stale>=10d 的复活候选(myst-parser#1165 101d、chainlit#2993 四竞品全死、twisted#12734 87d、pip#14193 79d 等)——下轮按 tw 细核。
+- 推送:48a6945 根仓 + bac96ed 子仓(SSH 兜底再次生效)。
