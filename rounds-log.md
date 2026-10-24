@@ -2044,3 +2044,12 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - 同步无变化;review_sweep 0 人工动态(self 过滤生效)。
 - fresh 窗口:ansible 系(封锁)+特性类跳过;apscheduler#1154(16d 龄回补)核验 → 报告者 MokiMeow 的 PR #1155 **2.5 小时被 agronholm 合并**,已修,让位。专业报告者+作者自修路径,fresh 标记为回补噪声。
 - 本轮 0 新 PR;切片 1/3 下一轮(偶数分钟)执行。
+
+
+## 2026-10-24 21:17 UTC(自动化第六轮:🎯 mcp/servers#5182 复活修复落地 —— fork 分支 + handoff 留言)
+
+- sweep 切片 1/3(118 仓,30 候选,rotator→2);**新候选 mcp/servers#5182**(MEMBER 5 天前在 v2 上复现:time 服务器 Docker exec-form ENTRYPOINT 把 ${LOCAL_TIMEZONE} 按字面量传给 --local-timezone)。
+- **复活合法性核验**:唯一历史 PR #4620 被关只因"v2 重构后 diff 过期"而非 merit(维护者 cliffhall 明示);issue 在 v2 上仍开、无新占位者;仅 time 服务器有此模式(其余 5 个 Dockerfile 无变量插值);time 非 changeset 版本线(Python 服务器)。
+- **修复落地**:fork inchang-ing/servers 分支 fix/time-docker-env-entrypoint(7d7487a,API 建提交:sh -c + exec 包裹保信号处理);**PR 创建 404 两次复现 = modelcontextprotocol 组织对本账号的 PR 封锁**(与 python-sdk assign 门禁同族)→ 按政策 handoff:issue 留 compare 链接 + #4620 血统说明(评论成功,评论通道未封)。
+- 政策固化:repository_policy.py 加 modelcontextprotocol/servers handoff-only 证据。
+- 教训:①本会话 API 间歇 404 在连续调用中频发(bash 单发可靠)——重试+文件驱动 JSON 是解;②mcp/servers 加入 PR 封锁名单,与 Textualize 同类 handoff-only。
