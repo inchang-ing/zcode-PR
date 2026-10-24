@@ -14,6 +14,50 @@ CANONICAL = PR_STATE_PATH
 REPORT = PR_STATUS_PATH
 CWD = "C:/Users/ROG"
 
+_ROW_RE = re.compile(r"github\.com/([^/\s]+)/([^/\s)]+)/pull/(\d+)")
+
+
+def _row_key(line):
+    m = _ROW_RE.search(line)
+    return f"{m.group(1)}/{m.group(2)}#{int(m.group(3))}" if (m and "| [" in line) else None
+
+
+def _fix_row_count(line, kept, header):
+    if not line.startswith(header):
+        return line
+    n = sum(1 for l in kept if _row_key(l))
+    return re.sub(r"（\d+）", f"（{n}）", line, count=1)
+
+
+def reconcile_state_ledger(cur, state_path=STATE):
+    """Drop ledger rows whose PR is definitively MERGED/CLOSED and fix the counts.
+
+    Departures used to linger in STATE.md until someone removed them by hand
+    (execnet#431 sat merged for 15 days). Query errors and OPEN rows are never
+    touched; the file's line endings are preserved as-is.
+    Returns the removed ledger lines (stripped), [] when nothing to remove.
+    """
+    gone = {k for k, v in cur.items() if v.get("state") in ("MERGED", "CLOSED")}
+    if not gone or not pathlib.Path(state_path).exists():
+        return []
+    raw = pathlib.Path(state_path).read_bytes()
+    newline = "\r\n" if b"\r\n" in raw else "\n"
+    text = raw.decode("utf-8")
+    head, sep, tail = text.partition("## 个人 fork")
+    removed, rebuilt = [], []
+    for section, header in ((head, "## OSS 贡献在飞"), (sep + tail, "## 个人 fork 在飞")):
+        lines = section.split(newline)
+        kept = [l for l in lines if not (_row_key(l) and _row_key(l) in gone)]
+        removed.extend(l.strip() for l in lines
+                       if _row_key(l) and _row_key(l) in gone)
+        if removed:
+            kept = [_fix_row_count(l, kept, header) for l in kept]
+        rebuilt.append(newline.join(kept))
+    if not removed:
+        return []
+    pathlib.Path(state_path).write_bytes((rebuilt[0] + rebuilt[1]).encode("utf-8"))
+    return removed
+
 
 def gh(args):
     r = subprocess.run([GH] + args, capture_output=True, text=True, timeout=60, cwd=CWD)
@@ -180,6 +224,12 @@ def run_round():
 
     if not save_observations(CANONICAL, base, cur, REPORT):
         print("本轮无成功查询，未初始化 pr_state.json；旧基线保留")
+
+    removed = reconcile_state_ledger(cur)
+    if removed:
+        print(f"台账自动清理: 从 STATE.md 移除 {len(removed)} 条已合/已关行")
+        for line in removed:
+            print(f"  - {line[:100]}")
 
 
 def main():

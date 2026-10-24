@@ -82,6 +82,7 @@ class PRMonitorTests(unittest.TestCase):
                                         {old: snapshot(), new: snapshot()})
                 self.assertIn(f"[新增在飞] {new}", output)
 
+
     def test_empty_ledger_and_invalid_json_do_not_erase_baseline(self):
         for module in (scope, oss):
             with self.subTest(module=module.__name__), tempfile.TemporaryDirectory() as tmp:
@@ -233,3 +234,68 @@ class RoundLockTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+LEDGER = """# STATE.md — 跟踪范围 + 指针
+
+## OSS 贡献在飞（3）
+
+| PR | 仓库 | 状态 | 摘要 |
+| --- | --- | --- | --- |
+| [#1](https://github.com/owner/repo/pull/1) | owner/repo | OPEN(2026-10-01) | stays |
+| [#2](https://github.com/owner/repo/pull/2) | owner/repo | OPEN(2026-10-02) | merged away |
+| [#3](https://github.com/owner/other/pull/3) | owner/other | OPEN(2026-10-03) | closed away |
+
+## 个人 fork 在飞（2）
+
+| PR | 仓库 | 状态 | 摘要 |
+| --- | --- | --- | --- |
+| [#7](https://github.com/me/mine/pull/7) | me/mine | OPEN(2026-10-04) | stays |
+| [#8](https://github.com/me/mine/pull/8) | me/mine | OPEN(2026-10-05) | merged away |
+"""
+
+
+class LedgerReconcileTests(unittest.TestCase):
+    def cur(self, *states):
+        names = ["owner/repo#1", "owner/repo#2", "owner/other#3",
+                 "me/mine#7", "me/mine#8"]
+        return {k: {"state": s} for k, s in zip(names, states)}
+
+    def test_merged_and_closed_rows_are_removed_and_counts_fixed(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "STATE.md"
+            path.write_text(LEDGER, encoding="utf-8")
+            removed = oss.reconcile_state_ledger(
+                self.cur("OPEN", "MERGED", "CLOSED", "OPEN", "MERGED"), state_path=str(path))
+            self.assertEqual(len(removed), 3)
+            text = path.read_text(encoding="utf-8")
+            self.assertIn("| [#1]", text)
+            self.assertIn("| [#7]", text)
+            self.assertNotIn("#2", text)
+            self.assertNotIn("owner/other", text)
+            self.assertNotIn("#8", text)
+            self.assertIn("## OSS 贡献在飞（1）", text)
+            self.assertIn("## 个人 fork 在飞（1）", text)
+
+    def test_query_errors_and_open_rows_never_touch_the_ledger(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "STATE.md"
+            path.write_text(LEDGER, encoding="utf-8")
+            self.assertEqual(oss.reconcile_state_ledger(
+                self.cur("QUERY_ERROR", "QUERY_ERROR", "OPEN", "OPEN", "QUERY_ERROR"),
+                state_path=str(path)), [])
+            self.assertEqual(path.read_text(encoding="utf-8"), LEDGER)
+
+    def test_line_endings_are_preserved(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "STATE.md"
+            path.write_bytes(LEDGER.replace("\n", "\r\n").encode("utf-8"))
+            oss.reconcile_state_ledger(
+                self.cur("OPEN", "MERGED", "OPEN", "OPEN", "OPEN"), state_path=str(path))
+            raw = path.read_bytes()
+            self.assertIn(b"\r\n", raw)
+            self.assertNotIn(b"\n", raw.replace(b"\r\n", b""))
+
+    def test_missing_state_file_is_a_noop(self):
+        self.assertEqual(oss.reconcile_state_ledger(
+            self.cur("MERGED"), state_path="Z:/definitely/missing/STATE.md"), [])
