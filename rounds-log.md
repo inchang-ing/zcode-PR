@@ -2053,3 +2053,11 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - **修复落地**:fork inchang-ing/servers 分支 fix/time-docker-env-entrypoint(7d7487a,API 建提交:sh -c + exec 包裹保信号处理);**PR 创建 404 两次复现 = modelcontextprotocol 组织对本账号的 PR 封锁**(与 python-sdk assign 门禁同族)→ 按政策 handoff:issue 留 compare 链接 + #4620 血统说明(评论成功,评论通道未封)。
 - 政策固化:repository_policy.py 加 modelcontextprotocol/servers handoff-only 证据。
 - 教训:①本会话 API 间歇 404 在连续调用中频发(bash 单发可靠)——重试+文件驱动 JSON 是解;②mcp/servers 加入 PR 封锁名单,与 Textualize 同类 handoff-only。
+
+
+## 2026-10-24 21:39 UTC(自动化第七轮:fresh 双子 + astropy 全是报告者自修;maintainer-owned 标记首战生效)
+
+- 同步/评审面安静(litellm 暂态 UNKNOWN 复归)。
+- fresh:phoenix#17240/#17241(0.14h!)与 astropy#20710(1.23h)——**三个候选全部是报告者自己数分钟内自开 PR**(#17242/#17243/#20711),让位;ansible/frappe/conda-bot/特性类跳过。
+- revival_scan 工具版首次实战:**maintainer-owned 标记正确过滤** chainlit#3021(dokterbob COLLABORATOR)与 pip#14343(notatallshaw MEMBER);剩余非维护者候选(chainlit#2993 四竞品、pymc 平台不可验)沿用前轮让位判定。
+- 本轮 0 新 PR;五轮实战数据点:亚小时 issue 的主导结局是"报告者自修"(phoenix/astropy/apscheduler/multidict 四连),维护者亲提 issue 的主导结局是"竞品分钟级抢注"——两者都压死了外部出手窗口,持续价值收敛到评审响应与移植/handoff。
