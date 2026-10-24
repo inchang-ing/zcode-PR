@@ -2076,3 +2076,11 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - 同步/评审面安静(litellm 暂态)。
 - fresh:haystack#13425(0.95h,comparative_detailed_report 按位置配对错位+行长不齐+同名覆盖三连 bug)——报告者 CONTRIBUTOR 自带完整回归史并已自开 PR #13426 → 让位;mcp/servers 发布跟踪、auto-gpt bot 基建类跳过。
 - 本轮 0 新 PR。稳态轮。
+
+
+## 2026-10-24 23:08 UTC(自动化第十轮:sweep 0/3 新周期,mypy#21968 复活候选 PoC 实证存活)
+
+- 同步/评审面安静。
+- sweep 切片 0/3 新周期(117 仓 25 候选,rotator→1);revival 双命中:twisted#12734 maintainer-owned 自动过滤 ✓;**mypy#21968 深查**——PR #21970 stale 43d、外部作者、**零维护者表态**;PoC 对当前 master 实证 **bug 存活**(tuple[bool,bool] 穷举匹配两假错误仍在)。#21968 MEMBER 亲提,相关 #16722(长龄穷举缺口)。
+- **下一轮复活目标(已验证)**:mypy#21968 —— 需读 #21970 的尝试方向(43d 沉默原因)与 #16722 是否记录设计阻碍,再决定接管或另行实现;修复面在 matcher/exhaustiveness(mypy-venv 现成,REP=workspaces/mypy)。谨慎项:mypy 近期对外部 PR 有静默关闭先例(但均在 build.py/graph 内部,matcher 属不同子系统)。
+- 本轮 0 新 PR(深夜自动化轮不开大面修复半成品)。
