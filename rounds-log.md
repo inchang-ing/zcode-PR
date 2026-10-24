@@ -2020,3 +2020,12 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - **池清理**:4 个 404 死 slug 修复(aio-libs/aiosqlite→omnilib、pytest-dev/pytest-benchmark→ionelmc、psf/pyflakes→PyCQA、jaraco/backports 移除);repo-monitor bac96ed + tools 池同步。
 - **顺手发现**:revival 扫描首跑(86 候选手工版)已出 22 个占位 PR stale>=10d 的复活候选(myst-parser#1165 101d、chainlit#2993 四竞品全死、twisted#12734 87d、pip#14193 79d 等)——下轮按 tw 细核。
 - 推送:48a6945 根仓 + bac96ed 子仓(SSH 兜底再次生效)。
+
+
+## 2026-10-24 19:56 UTC(自动化第三轮:fresh 捕获 0.13h litellm#48226 → 深挖后不可复现,留分诊评论)
+
+- review_sweep 首跑即抓到一个误报:**ACTION 命中自己的评论**(07:42 求批留言) → 当轮修复:jq 加 `.user.login != ACCOUNT` 自过滤 + 测试断言,重跑归零。工具进化闭环 <10 分钟。
+- tortoise#2307 本轮确认 MERGEABLE(df983cc 生效)。
+- **fresh 赛道捕获 0.13h 龄 litellm#48226**(completion_cost 对 groq 回显名 openai/gpt-oss-120b 误报 ModelNotMappedError;时间线零竞品;同仓 1 空位)→ 深挖:合成对象、hidden_params 变体、PyPI 1.106.3、mock 真实路径(连 provider_response_model 回显字段都在)——**当前 main 与最新发行版均正确处理,报告者未写版本号** → 按红线不出无复现 PR,留分诊评论(请求版本号+附最新版复现状态)。
+- 本轮 0 新 PR(无复现不出手);fresh 赛道捕获能力再次验证(0.13h 命中)。
+- 预算执行:本轮 ~530 调用(oss 35+review 4+fresh 391+核验 100),在 500 预算内超一点,fresh 轮属预期。

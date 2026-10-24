@@ -19,6 +19,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "tools"))
 from pipeline_state import read_json_object  # noqa: E402
+from repository_policy import ACCOUNT  # noqa: E402
 
 GH = r"C:\Program Files\GitHub CLI\gh.exe"
 STATE = ROOT / "pr_state.json"
@@ -40,7 +41,8 @@ def human_count(repo: str, num: str, kind: str, since: str) -> int:
         path = f"repos/{repo}/pulls/{num}/reviews"
         key = "submitted_at"
     out = gh_jq(path, f'[.[] | select(.{key} >= "{since}" and '
-                      f'(.user.login | test("{BOT_RE.pattern}") | not))] | length')
+                      f'(.user.login | test("{BOT_RE.pattern}") | not) and '
+                      f'.user.login != "{ACCOUNT}")] | length')
     try:
         return int(out)
     except ValueError:

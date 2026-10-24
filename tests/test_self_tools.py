@@ -21,7 +21,7 @@ revival_scan = load("revival_scan")
 
 
 class ReviewSweepTests(unittest.TestCase):
-    def test_human_activity_filters_bots_and_skips_textualize(self):
+    def test_human_activity_filters_bots_self_and_skips_textualize(self):
         state = {
             "a/b#1": {"state": "OPEN", "updatedAt": "2026-10-24T18:00:00Z"},
             "a/b#2": {"state": "OPEN", "updatedAt": "2026-10-24T18:00:00Z",
@@ -34,6 +34,7 @@ class ReviewSweepTests(unittest.TestCase):
 
         def fake_jq(path, jq):
             calls.append(path)
+            assert "inchang-ing" in jq, "self filter missing from jq"
             return "1" if "/issues/1/" in path or "/pulls/1/" in path else "0"
 
         with patch.object(review_sweep, "STATE", Path("unused.json")), \
