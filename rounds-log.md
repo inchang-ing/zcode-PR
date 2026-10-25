@@ -2153,3 +2153,11 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - **PR explosion/preshed#56 已创建**(SSH 推送兜底)。
 - 资产:preshed 工作区+venv(spacy-repro-venv 含完整复现环境);PG18 容器仍留。
 - 本轮 1 新 PR(第 5 个实质 PR)。
+
+
+## 2026-10-25 03:42 UTC(自动化第十九轮:preshed#56 重基线到 v4.0.1 master —— 上游已连跳两个大版本)
+
+- 发现 preshed#56 dirty 的真因:上游 master 已从 v3.0.14 线跃迁到 **v4.0.1**(cibuildwheel+distutils→setuptools+maps 重构 std::vector/unique_ptr),我的分支基于旧发布线。
+- 重放单提交到新 master:冲突 6 块(imports/helper 并集)+ 入口点手工适配(新代码形态:unique_ptr .get()、无 critical_section;**cdef get/set 签名不动保 ABI**——spacy 二进制按旧 pxd 编译,只修 def 边界即覆盖报告的 del 崩溃路径)。
+- 验证:v4-master 内联构建 + 全域键测试(BIG/负键)ALL PASS;PR 分支 force-push 完成。
+- 待观察:PR 转绿后等 explosion 评审。
