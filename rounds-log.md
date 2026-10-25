@@ -2301,3 +2301,11 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - **digest 获取**:registry-1.docker.io 与 hub.docker.com 均被代理掐 → 改 GitHub code search 找近期已 bump 项目(Wire、GOV.UK One Login)引用的同一 digest,双源交叉确认 06d7adf3...(同 tag 全网一致)。API 建提交(fork 分支 fix/ui-node-24.22.1)。
 - **PR BerriAI/litellm#48309 已创建**(含范围注记:runtime Wolfi nodejs 需 base-image 重建,本 PR 只覆盖 UI build stage)。
 - 今日第 8 个实质 PR。
+
+
+## 2026-10-25 13:22 UTC(自动化第四十一轮:docling#5007 重基线到新 main,13 errors 环境缺口补齐)
+
+- docling#5007 dirty → 重基线到新 main(main 前进了 6 提交,pptx/asciidoc/ods 修复);冲突 2 处(imports qn+InvalidXmlError 并集、tests 尾部双方新增用例 union)。
+- **rebase 后新 main 导入链新增 asr_transformers → 需 torch**:安装 CPU torch(download.pytorch.org 可达)后 79 passed + tblgrid/undeclared 双用例 pass。
+- **三轮编辑事故自查**:union 脚本断言三次失败(======= 撞上文件内合法序列/标记残留)根因是 Edit 工具外脚本化编辑的脆弱性 → 改用 Edit 工具精确处理解决;force-push 63d134b,PR 状态复查中。
+- 其余:fresh 静默;litellm#48309 等 CI;mypy#22291 CLEAN 等审。
