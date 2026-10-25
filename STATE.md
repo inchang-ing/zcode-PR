@@ -11,7 +11,7 @@
 > | 项目说明 / 目录 / 流程 / 飞书 / 换机 | **`README.md`** |
 > | 历史轮次 / 已合并 PR 验证记录 | **`rounds-log.md`**、**`STATE-archive.md`** |
 
-## OSS 贡献在飞（59）
+## OSS 贡献在飞（58）
 
 | PR | 仓库 | 状态 | 摘要 |
 | --- | --- | --- | --- |
@@ -68,7 +68,6 @@
 | [#2866](https://github.com/kyegomez/swarms/pull/2866) | kyegomez/swarms | OPEN(2026-10-24) | fix(agent): stop loguru from formatting provider error text |
 | [#48309](https://github.com/BerriAI/litellm/pull/48309) | BerriAI/litellm | OPEN(2026-10-25) | fix(docker): bump UI_BUILD_IMAGE to node 24.22.1 (Oct 2026 s |
 | [#4459](https://github.com/EleutherAI/lm-evaluation-harness/pull/4459) | EleutherAI/lm-evaluation-harness | OPEN(2026-10-25) | fix: only strip the thinking prefix when the token is presen |
-| [#22291](https://github.com/python/mypy/pull/22291) | python/mypy | OPEN(2026-10-25) | plugins: tolerate synthesized methods when reprocessing attr |
 | [#56](https://github.com/explosion/preshed/pull/56) | explosion/preshed | OPEN(2026-10-25) | Fix OverflowError for keys above 2**63 after the Cython 3 re |
 | [#3529](https://github.com/confident-ai/deepeval/pull/3529) | confident-ai/deepeval | OPEN(2026-10-25) | fix(benchmarks): score EquityMedQA without inverting BiasMet |
 | [#5007](https://github.com/docling-project/docling/pull/5007) | docling-project/docling | OPEN(2026-10-25) | fix(docx): keep tables whose w:tblGrid is missing or under-d |

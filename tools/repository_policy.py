@@ -29,8 +29,10 @@ POLICY_EVIDENCE = {
     "modelcontextprotocol/python-sdk": {"scope": "repo", "observed_at": "2026-10-18", "source": ".workbuddy/memory/blocked-repos.md", "review": "每次核验当前账号分配状态"},
     "frappe/frappe": {"scope": "repo", "observed_at": "2026-10-18", "source": ".workbuddy/memory/blocked-repos.md", "review": "须确认当前账号已获 vouched"},
     "geopandas/geopandas": {"scope": "repo", "observed_at": "2026-10-18", "source": ".workbuddy/memory/blocked-repos.md", "review": "须核验现有 issue 上的方案共识"},
+    "python/mypy": {"scope": "repo", "observed_at": "2026-10-26", "source": ".workbuddy/memory/2026-10-26.md", "review": "本地降级（非上游封锁）：外部修复 PR 三连无声离场（#22288、#22291 未合并关闭且零人工互动，#22056 被维护者自有 PR 取代；唯一合并 #22058 为文档区）。停止投递新的 mypy 修复 PR，纯文档类可例外；在飞为零，已关闭项不申诉"},
 }
 MANUAL_GATES = {"frappe/frappe": "vouched 资格未核验", "geopandas/geopandas": "方案共识须专项核验",
+                "modelcontextprotocol/servers": "handoff-only：修复推 fork 后请维护者代开 PR",
                 "python-markdown/markdown": "禁止 agent 自主提交/评论，须由作者本人理解并参与"}
 
 # Local pauses on automated follow-up; read-only observation remains allowed.
