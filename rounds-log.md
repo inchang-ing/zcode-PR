@@ -2185,3 +2185,10 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - **事故**:union 脚本正则没匹配(冲突标记尾是合并 commit SHA 非 FETCH_HEAD)→ 断言失败,但**换行分隔的 git 链不受 && 保护照跑**,把带冲突标记的 CHANGELOG 推上了 PR 分支(~2 分钟窗口)。**修复**:按实际标记格式重新 union 解(develop 2 行在前)+ amend + force-push(1e88310,CHANGELOG 干净 +2 行)。
 - **规程补强(写入 §八)**:①冲突标记尾是 merge 源的对象名,正则要按 SHA 兜底;②python 失败后 git 链必须整体 && 连接——本次事故根因就是链断。
 - 本轮 0 新 PR;在飞 29 稳定。
+
+
+## 2026-10-25 05:39 UTC(自动化第二十三轮:tortoise 修复获上游确认 MERGEABLE)
+
+- **tortoise#2307 CONFLICTING → MERGEABLE**(1e88310 修复被 GitHub 合并判定接受,事故完全闭环)。
+- 评审面安静(七连);sweep 切片 1/3(118 仓 30 候选稳定,rotator→2);revival 4 命中全沿用判定,chainlit#2993 出现第 5 个竞品 PR(#3058,10d,也 stale)——四连死+新死,让位判定再加固。
+- 本轮 0 新 PR。
