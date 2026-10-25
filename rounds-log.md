@@ -2283,3 +2283,12 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - PR #4459 上 CLA Assistant 标记 not_signed;签署链接 https://cla-assistant.io/EleutherAI/lm-evaluation-harness?pullRequest=4459 (需用户本人操作,agent 不代签)。
 - 签署后 bot 自动复查转绿 → 进入评审。该组织签署一次后续贡献永久有效。
 - 状态:PR 本体 CLEAN、等 CLA + 评审。
+
+
+## 2026-10-25 12:10 UTC(自动化第三十六+三十七轮合并执行:预算超支,双 GO 候选记录)
+
+- 双排队轮合并执行(避免双倍 API 消耗)。
+- lm-eval#4459 CLA 仍未签署(等用户);BLOCKED 正常。
+- fresh 分诊:litellm#48285/#48286 已被 #48288 占;**litellm#48304(0.99h,auth failure handler 对非对象 JSON body 500)与 haystack#13428(0.07h,max_workers<1 崩溃)五查窗口未核但形状干净 → 下轮 GO 优先**(本轮预算 ~600/500 已超支,按规程不开实现);celery#10954/#10955(aviadr1 同域系列,池内部件重验证)让位;其余 duckdb/mcp/langchain 文档类跳过。
+- sweep 切片 0/3(117 仓 23 候选,rotator→1);revival 2 命中沿用(twisted maintainer-owned 自动过滤;mypy#21968 已改判设计区)。
+- 下一轮队列:litellm#48304 → haystack#13428 → litellm#48299(按新鲜度)。
