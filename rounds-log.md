@@ -2421,3 +2421,13 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - review_sweep 0 人工活动;monitor_oss 无变化。
 - 切片 1/3(117 仓 51 候选)全部有据让位:mcp/servers 12 条 = handoff-only 政策整批排除;pytest-mock 三连报(#636/#637/#638,MEMBER 亲报)10-17 当天即被三个外部 PR(#646/#647/#648)认领,未到 10 天复活线;trulens 三条既有(#2964/#2966/#2972);sktime#11528 有认领+PR #11560 等审;pip MEMBER 亲报(#14342/#14355)为 pip 团队内部队列,hash 校验路径敏感不碰;pymc#8372(macOS segfault 不可验)/scrapy#7812(88d 设计讨论)/sktime#11525(macOS)/#11535(Moirai2 重依赖)按图出局。
 - 预算约 220/500。
+
+
+## 2026-10-26 20:49 UTC(自动化第五十五轮:🎯 swarms#2879 channel 种子丢失修复 → PR swarms#2881)
+
+- review_sweep 0 人工活动;monitor_oss 仅 mergeable 瞬时翻转。
+- fresh 捕 swarms 三连报(#2874/#2877/#2879,ai-generated 标签):#2874/#2877 报告者自修(#2875/#2878),**#2879 完全干净**(3 分钟新)——三结构 GroupChat/HierarchicalSwarm/PlannerWorkerSwarm 的 run() 开头 conversation.clear() 丢弃 channel 种子轮次(违反 #2826 契约,SequentialWorkflow 已是正确行为)。
+- 修复:Conversation.reseed_from_channel()(镜像构造器播种循环;**播种期间摘下 channel** 防 add_in_memory 反写文件——第一版踩了这个坑,回归测试当场抓到)加三个 run() 调用点。
+- 验证:新测试文件 6 用例(含 issue 离线复现的 GroupChat 端到端 + 两重型结构 seam 测试),**pre-fix 6 failed → post-fix 6 passed**;test_groupchat+test_conversation 130 passed;sequential_workflow 与 master 基线逐失败一致(6 个既有);ruff 违规与基线计数一致(193,我的改动零新增),测试文件 lint 干净。
+- **PR https://github.com/kyegomez/swarms/pull/2881 已创建**(SSH 推送 fork,API 建 PR);STATE.md 同轮登记(新门禁首次执行)。
+- 工作区坑:HTTPS fetch 被重置走 SSH;Conversation 无 .messages() 方法(测试改用 conversation_history);ruff SIM117/B017 两轮修正。

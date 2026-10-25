@@ -11,7 +11,7 @@
 > | 项目说明 / 目录 / 流程 / 飞书 / 换机 | **`README.md`** |
 > | 历史轮次 / 已合并 PR 验证记录 | **`rounds-log.md`**、**`STATE-archive.md`** |
 
-## OSS 贡献在飞（58）
+## OSS 贡献在飞（59）
 
 | PR | 仓库 | 状态 | 摘要 |
 | --- | --- | --- | --- |
@@ -73,6 +73,7 @@
 | [#3529](https://github.com/confident-ai/deepeval/pull/3529) | confident-ai/deepeval | OPEN(2026-10-25) | fix(benchmarks): score EquityMedQA without inverting BiasMet |
 | [#5007](https://github.com/docling-project/docling/pull/5007) | docling-project/docling | OPEN(2026-10-25) | fix(docx): keep tables whose w:tblGrid is missing or under-d |
 | [#2350](https://github.com/coveragepy/coveragepy/pull/2350) | coveragepy/coveragepy | OPEN(2026-10-25) | fix: hold the data lock only to snapshot, and make it re-ent |
+| [#2881](https://github.com/kyegomez/swarms/pull/2881) | kyegomez/swarms | OPEN(2026-10-26) | fix: reseed channel turns after clearing conversation at run start |
 
 ## 个人 fork 在飞（21）
 
