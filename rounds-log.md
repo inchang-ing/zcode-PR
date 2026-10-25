@@ -2125,3 +2125,13 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - 同步/评审面安静。
 - fresh 分诊:deer-flow#7464(报告者自开 #7465 让位);**deer-flow#7466 深挖**——LocalSandbox.write_file 确实把路径改写应用到文件内容(实证 _resolve_paths_in_content 调用+read 反向解析隐藏),但该行为是 **PR #1935 的故意特性**(专属 PR+注释)→ #7466 实质是请求撤销/收窄刻意设计,方向需维护者裁决 → 设计分歧让位;mypy#22290(crash,2h,零竞品)有意留作下轮候选(mypy 近期静默关闭风险需先评估)。
 - 本轮 0 新 PR。
+
+
+## 2026-10-25 02:14 UTC(自动化第十六轮:🎯 mypy#22290 crash 修复 → PR #22291,2h 龄 MEMBER 亲提)
+
+- fresh 复核 mypy#22290(attrs 插件 crash):仍零竞品 → GO(attrs 插件子系统,非静默关闭的 build.py/graph 区;crash 类是 mypy 高合并率品类)。
+- 根因:attrs 插件钩子每个装饰器跑一次,堆叠装饰器(@attrs.define on @attrs.frozen)使同一类被分析两次;第二次 _analyze_class 在符号表里看到第一遍合成的 __lt__ FuncDef,类体 __lt__: int 走到 assert isinstance(node, Var) 崩溃(attrs.py:461)。
+- 修复:重处理时跳过插件合成的 FuncDef(后续钩子会重新合成);+1 数据驱动回归用例(testAttrsStackedDecoratorsWithAnnotatedOrderMethod)。
+- 验证:repro crash → Success;新用例 pre-fix FAILED/post-fix PASSED;check-plugin-attrs 140 passed;self-check 无新错误(util.py 基线项)。
+- **PR #22291 已创建**(python/mypy,SSH 推送兜底再次生效)。
+- 更新:第 16 轮,MEMBER 亲提 crash = 出手决策正确(mypy crash 类合并记录:11474/11512/11515 三连)。
