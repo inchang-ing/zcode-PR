@@ -2267,3 +2267,12 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - 同步/评审面安静(十五连)。
 - fresh:phoenix#17244 报告者自开 #17246;#17245 特性类;litestar(封锁)/inspect_ai(accepted 门禁)/docs 类跳过。
 - 本轮 0 新 PR;#2866/#22291/#56/#5007 四 PR 等回音。
+
+
+## 2026-10-25 11:16 UTC(自动化第三十五轮:🎯 lm-eval#4458 修复 → PR #4459,0.0h 极速捕获)
+
+- fresh 捕获 **lm-eval#4458(0.0h 刚发布)**:postprocess_generated_text 在 think_end_token 配置时对每个生成跑 .lstrip(),token 缺失(预闭合 think 块/模型不思考)时剥掉代码续写任务的缩进(HumanEval gen_prefix 止于 docstring)。时间线零竞品。
+- 根因:`if think_end_token:` 只判配置未判存在 → split+lstrip 无条件跑。修复:`and think_end_token in generation` 后才 split+lstrip;token 在场行为不变。
+- 验证:真实函数源码复现(pre-fix 返回剥缩进版);token 缺失/在场双用例语义验证。
+- **PR EleutherAI/lm-evaluation-harness#4459 已创建**(API 建提交,git HTTPS 仍被掐)。
+- 本轮 1 新 PR(第 7 个实质 PR,本日最快捕获:0.0h→PR 全程 ~25 分钟)。
