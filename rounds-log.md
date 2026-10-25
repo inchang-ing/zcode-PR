@@ -2317,3 +2317,11 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - fresh:deer-flow(自修仓)/lancedb(Rust)/langfuse(未确认)/pandas(极速抢注区)/pydantic-ai(assign 门禁)/ray(重型)/pytest-asyncio(需细验 async 清理语义,记录观察)→ 全跳过。
 - 四 PR 快检:docling#5007 blocked(DCO/CI 正常)、mypy#22291 clean、swarms/preshed unstable(CI)——全部健康等回音。
 - 本轮 0 新 PR。
+
+
+## 2026-10-25 16:05 UTC(自动化第四十三轮:🎯 docling#5007 评审 blocker 修复 → force-push f8e73f6)
+
+- **docling#5007 收到 2 条 blocker 评审**(AI reviewer):宽度推导数 w:tc 个数而非网格列数 —— gridSpan>1 或 gridBefore 时 span 单元格仍被裁切。**有效技术反馈,当轮修复**。
+- 修复:宽度推导改为 grid_cols_before + Σ tc.grid_span(按网格列计);+gridSpan 回归用例(2 列跨度首格+第二行 2 格:tc 计数=2 错,span 计数=3 对;pre-fix failed/post-fix passed)。
+- 全套 80 passed;force-push f8e73f6 + 评审回复(注:PR 评论走 issues 端点,pulls/comments 是行内评审端点)。
+- 教训:AI reviewer 的 blocker 是真反馈 —— 修复质量经得起复查才是硬通货。
