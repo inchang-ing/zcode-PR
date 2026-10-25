@@ -23,7 +23,7 @@ from gh_checks import paginated_items  # noqa: E402
 
 GH = r"C:\Program Files\GitHub CLI\gh.exe"
 STATE = ROOT / "pr_state.json"
-BOT_RE = re.compile(r"bot|dashboard", re.IGNORECASE)
+BOT_RE = re.compile(r"bot|dashboard|assistant", re.IGNORECASE)
 SKIP_OWNERS = {"textualize"}  # handoff-only; no automated comments
 
 
