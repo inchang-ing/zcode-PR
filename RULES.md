@@ -77,6 +77,12 @@
 
 2026-10-23 补齐已有禁投记录：`pypa/packaging` 的维护者在 #934 要求勿再开 PR（本地记录 `.workbuddy/memory/2026-10-19.md`）；`google/jax` 的贡献指南被记录为禁止 agent 自主开 PR（`.workbuddy/memory/2026-10-22.md`），同样适用于规范名称 `jax-ml/jax`（名称依据 `.workbuddy/memory/2026-09-30.md`）。共享门禁阻止这些仓库的新候选；现有 PR 保留只读观察，自动跟进写入在复核允许的沟通范围前暂缓。这是本地保守限制，已有记录仅明确禁止开 PR，本次未联网核实，也不据此宣称上游禁止所有评论。专用仓库池的其他排除项仍按各自依据处理。
 
+## 台账登记门（2026-10-26 增补）
+
+**开 PR 当轮必须登记 STATE.md**（2026-10-26 第五十轮实证）：monitor_oss 的监控范围与 review_sweep 的增量基线都派生自 STATE.md/pr_state.json——新 PR 只写 rounds-log 不进 STATE.md 时两者对它双双失明（曾致 8 个在飞 PR 整体脱离自动评审扫描）。流程：PR 创建成功后同轮在 STATE.md「OSS 贡献在飞」表追加一行（`| [#N](url) | owner/repo | OPEN(日期) | 摘要 |`，计数同步更新），下一轮 monitor_oss 自动把观测写入 pr_state.json。全量核对基准：`search/issues?q=author:inchang-ing+type:pr+state:open`（1 调用得权威清单）。
+
+2026-10-23 补齐已有禁投记录：`pypa/packaging` 的维护者在 #934 要求勿再开 PR（本地记录 `.workbuddy/memory/2026-10-19.md`）；`google/jax` 的贡献指南被记录为禁止 agent 自主开 PR（`.workbuddy/memory/2026-10-22.md`），同样适用于规范名称 `jax-ml/jax`（名称依据 `.workbuddy/memory/2026-09-30.md`）。共享门禁阻止这些仓库的新候选；现有 PR 保留只读观察，自动跟进写入在复核允许的沟通范围前暂缓。这是本地保守限制，已有记录仅明确禁止开 PR，本次未联网核实，也不据此宣称上游禁止所有评论。专用仓库池的其他排除项仍按各自依据处理。
+
 ## 八、Windows/Git Bash 环境坑（2026-10-24 实测汇总,动手前过一遍）
 
 1. **MSYS 路径转换**：Git Bash 里 `gh api --jq` 的表达式含 `/`（如 `.state+"/"+.mergeable_state`）会被转换成 Git 安装路径,查询静默变空 → jq 表达式一律避免 `/` 字面量（用空格连接）,或整个查询走 Python 脚本。
