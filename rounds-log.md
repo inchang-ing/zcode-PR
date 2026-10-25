@@ -2454,3 +2454,15 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - **🎉 instructor#2717(最老在飞,09-28 era)评审突破**:chrikrah 撤回 10-11 变更请求并 **APPROVED**("From my perspective this can be merged")——其亲自验证 80e265f(10-22 的测试补提交)90 passed。mergeable=true,blocked=等维护者点合并(fork 分支无 CI checks,仓库保护在等 review 计数/维护者动作);按降低沟通负担原则不催,仅记录。
 - 切片 0/3(117 仓 52 候选):与 51 轮同集,mcp/servers 批新增 #5190/#5191(filesystem)同属 handoff-only 政策排除;其余(trulens 三连/pytest-mock 三连/pip/sktime/pymc/scrapy)按既有档。零新处置。
 - monitor_oss 仅 mergeable 瞬时翻转(swarms 两条回 MERGEABLE)。预算约 220/500。
+
+
+## 2026-10-26 22:45 UTC(自动化第五十九轮:fastmcp#6035 深挖 → 设计级让位 + 冲突证据评论)
+
+- review_sweep 的 ACTION 为上轮已处置的 instructor#2717(APPROVED 等合并)。
+- fresh 双候选:speolagents#3071 末尾认领("I'll open the PR once accepted and assigned")让位;**fastmcp#6035**(未配分页时畸形 cursor 被静默忽略)深挖:
+  - 复现成功(pre-fix 接受 "not-a-real-cursor" 返回首页);实施一致性修复(CursorState.decode + 同型 INVALID_PARAMS)后 issue 预期达成;
+  - **但打破 TestPaginationCycleDetection 8 项测试**:客户端自动分页循环检测依赖"非分页服务器宽容重发 cursor"——畸形 cursor("stuck")被拒后优雅终止变成 INVALID_PARAMS 中断。服务端从严 vs 客户端终止契约 = 设计决策,按 urllib3#5337/strawberry#4635 先例让位,不提交破坏套件的 PR;
+  - 工作存档本地分支 design-6035-cursor-vs-cycle-detection(不推);**冲突证据作为 triage 评论发到 issue**(防止他人提交同坏修复)。
+- **fastmcp 已迁移 jlowin → PrefectHQ**(POST 307,GET 重定向解析规范名;coveragepy 先例重演)。
+- 修 venv 坑:fastmcp-slim 需 [client,server] extras + opentelemetry-sdk + inline-snapshot(pyproject addopts --inline-snapshot=disable)。
+- 预算约 500/500(fresh 391 + 评论重试)。
