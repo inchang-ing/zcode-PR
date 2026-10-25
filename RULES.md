@@ -86,3 +86,10 @@
 5. **git HTTPS 被代理选择性掐断**：github.com:443 连接失败而 api.github.com/ssh.github.com 正常时,推送改走 SSH:`git push git@github.com:<owner>/<repo>.git <branch>`(~/.ssh/config 已配 ssh.github.com:443);克隆同理。重试 3 次×30 秒仍失败即切换,不干等。
 6. **pytest 参数冲突**：mypy 等仓库 pyproject 里 `addopts=-nauto` 时,`-p no:xdist` 会报 unrecognized arguments → 用 `-n0` 关并发;`--update-data` 必须与 `-n0` 同用才真正生效。
 7. **数据驱动测试表达不了的环境语义**：PYTHONPATH/PEP420 命名空间包等宿主环境行为,`.test` 数据文件造不出等价触发器（base 上同样绿）→ 及时止损,PR 描述附 repro 步骤替代,不硬凑。
+
+## 九、git 合并/推送事故规程（2026-10-25 tortoise 事故补录）
+
+1. **冲突标记尾是合并源的对象名**（commit SHA 或分支名），不是字面 "FETCH_HEAD"——正则按 `>>>>>>> [0-9a-f]{40}|<分支名>` 兜底匹配。
+2. **python 失败后，换行分隔的后续语句照跑**——`&&` 只保护同一行的链。处理冲突的多步脚本（解冲突→add→commit→push）必须**整体 && 串联**或分多次调用，每次校验上一步结果。
+3. **推前验证**：任何 union/自动解决后，push 前必须 `grep -c "<<<<<<<"` 断言零残留；推完抽查远端文件内容（gh api contents）。
+4. amend+force-push 是修复错推提交的既定通道（solo fork 分支安全）；推完用 gh api 复核远端内容与本地一致。
