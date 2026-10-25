@@ -2250,3 +2250,13 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - 同步/评审面安静(十四连);docling#4439 复归 MERGEABLE。
 - sweep 切片 2/3(114 仓,32 候选,rotator→0)——第四轮全覆盖周期完成;revival 3 命中全沿用判定。
 - 本轮 0 新 PR;litellm#48299 候选待下轮核验。
+
+
+## 2026-10-25 10:22 UTC(自动化第三十三轮:🎯 docling#5006 修复 → PR #5007,8 分钟龄捕获)
+
+- fresh 捕获 **docling#5006(0.08h,零竞品)**:MsWord 表格 tblGrid 缺失/少列丢内容。
+- 端到端:手工 OOXML 复现(no_grid 整表丢/narrow 第三列裁)+ 根因(len(table.columns) 抛 InvalidXmlError + grid_col>=num_cols 裁切)。
+- 修复:_handle_tables 捕获 InvalidXmlError 回退 0 并按最宽行 tc 数扩宽网格;+2 回归用例(原始 OOXML 构造)。
+- 验证:pre-fix 2 failed/post-fix 2 passed;单文件套件 263 passed(多文件跑的 docling_core 间歇丢失为 venv 解析漂移,与改动无关)。
+- **PR docling#5007 已创建**(DCO -s;docling=2 合并记录的福仓,#4439 同仓等审中)。
+- 今日第 6 个实质 PR。
