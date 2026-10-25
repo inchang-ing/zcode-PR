@@ -2379,3 +2379,15 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - 重建分支:rebase 到最新 main(61629cd,fetch 走 SSH;上游 collector.py 无变化无撞车),只保留 coverage/collector.py(+17/-3),`git commit -C` 复用原提交信息,force-push f914d4b。
 - **API 复核:PR files_count=1,仅 coverage/collector.py**。
 - 教训入 RULES §八 8:提交只 add 显式路径禁 `git add -A`;推前断言 diff 文件集。
+
+
+## 2026-10-26 19:03 UTC(自动化第五十轮:台账盲区根治 + 3 PR CI 修复 + 切片全处置)
+
+- **系统性盲区根治**:发现 monitor_oss/review_sweep 的查询范围来自 STATE.md,而当前 8 个在飞 PR(coveragepy#2350/mypy#22291/swarms#2866/preshed#56/deepeval#3529/litellm#48309/docling#5007/lm-eval#4459)+ 22 个 10-25 人工核验批 PR 均未登记 → **STATE.md 一次性补录 30 行**(author:inchang-ing search API 权威清单比对,58 外部 PR 全量入册,计数 28→58),重跑 monitor_oss 后 pr_state.json 96 条、8/8 覆盖,review_sweep 下轮起增量覆盖全部。
+- **CI 三修**(本轮评审响应优先级产物):
+  - docling#5007:ruff I001 import 排序 + Q000 引号(我们引入)→ ruff --fix + format,3 表格测试通过,推送 0d3ba46;
+  - deepeval#3529:black 格式(我们引入;另 6 个 would-reformat 是仓级既有)→ black + 2 测试通过,推送 d908ed2;
+  - swarms#2866:ruff-format 回归测试文件(我们引入;build×3/test/test-main-features 5 项是 master 本身同挂的仓级红灯)→ ruff format + 2 测试通过,推送 0d296d3(该工作区缺 fork remote,内联 SSH URL 推送)。
+  - litellm#48309 osv-scan 红:filelock 3.32.7 两个 GHSA(修复需 4.2.1 主版本,仓还支持 3.10)+ vscode 扩展 msal-node —— **OSV Scan 当前在 litellm 全分支(含竞品 PR)皆红,仓库级既有故障**,与我们的 Dockerfile bump 无关,不动。
+- **切片 2/3 处置(114 仓 32 候选,全部有据)**:strawberry#4635 复活否决——占位 PR#4636 并非被弃:维护者 bellini666 9-27 把不可哈希 callable 的设计问题升级给 patrick91,等维护者拍板(anyio#1239 先例);falcon#2756 已认领(待维护者行为决策)/#2767 维护者 vytas7 亲自实现;trulens#2963/#2965/#2967 全部有修复 PR 且协作者已审;geopandas#3885 活跃 PR#3891(按维护者方向,3 天前有更新);myst-parser 维护者自有;delta-rs Rust 不可验;great-expectations(Spark/Trino 方言需本地不可得引擎)/jupyterlab(前端重)/cibuildwheel(26.04 环境依赖)/pyvista(VTK 迁移重)均按不可验/重处置。
+- 本轮 API 消耗约 345/500。

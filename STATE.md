@@ -11,7 +11,7 @@
 > | 项目说明 / 目录 / 流程 / 飞书 / 换机 | **`README.md`** |
 > | 历史轮次 / 已合并 PR 验证记录 | **`rounds-log.md`**、**`STATE-archive.md`** |
 
-## OSS 贡献在飞（28）
+## OSS 贡献在飞（58）
 
 | PR | 仓库 | 状态 | 摘要 |
 | --- | --- | --- | --- |
@@ -43,6 +43,36 @@
 | [#3050](https://github.com/snowflakedb/snowflake-connector-python/pull/3050) | snowflakedb/snowflake-connector-python | OPEN(2026-10-17) | Fix #3049: apply force_microsecond_precision to TIMESTAMP_NTZ/LTZ(7) |
 | [#2307](https://github.com/tortoise/tortoise-orm/pull/2307) | tortoise/tortoise-orm | OPEN(2026-10-17) |  |
 | [#2180](https://github.com/weaviate/weaviate-python-client/pull/2180) | weaviate/weaviate-python-client | OPEN(2026-10-17) | fix(batch): filter re-added errors by uuid and avoid the deprecated all_responses read |
+| [#5349](https://github.com/pypa/setuptools/pull/5349) | pypa/setuptools | OPEN(2026-10-12) | Restore hashability of Extension via eq=False (fix #5303) |
+| [#1546](https://github.com/bottlepy/bottle/pull/1546) | bottlepy/bottle | OPEN(2026-10-12) | Fix mounted apps using the parent error handlers (#1205) |
+| [#3791](https://github.com/tornadoweb/tornado/pull/3791) | tornadoweb/tornado | OPEN(2026-10-12) | Fix Subprocess.wait_for_exit hanging when child already ran |
+| [#2826](https://github.com/deepchecks/deepchecks/pull/2826) | deepchecks/deepchecks | OPEN(2026-10-12) | Fix single dataset performance conditions for metrics with a |
+| [#14017](https://github.com/aio-libs/aiohttp/pull/14017) | aio-libs/aiohttp | OPEN(2026-10-12) | Fix RequestHandler crash after connection_lost() during keep |
+| [#578](https://github.com/mahmoud/boltons/pull/578) | mahmoud/boltons | OPEN(2026-10-12) | Fix urlutils parsing of unencoded ? and / in URL credentials |
+| [#5816](https://github.com/kedro-org/kedro/pull/5816) | kedro-org/kedro | OPEN(2026-10-12) | Skip parameters when resolving dataset factory patterns in t |
+| [#14586](https://github.com/microsoft/semantic-kernel/pull/14586) | microsoft/semantic-kernel | OPEN(2026-10-13) | Python: FIX: honor overwrite=False for default execution set |
+| [#2332](https://github.com/jupyter/nbconvert/pull/2332) | jupyter/nbconvert | OPEN(2026-10-13) | Preserve safe subdirectories in extracted output filenames |
+| [#4849](https://github.com/docling-project/docling/pull/4849) | docling-project/docling | OPEN(2026-10-15) | fix(utils): drop leading UTF-8 BOM for explicit encoding=utf-8 |
+| [#2993](https://github.com/huggingface/smolagents/pull/2993) | huggingface/smolagents | OPEN(2026-10-15) | Fix comprehension scoping to match CPython closure capture |
+| [#6913](https://github.com/optuna/optuna/pull/6913) | optuna/optuna | OPEN(2026-10-15) | fix(visualization): skip NaN targets in plot_rank instead of |
+| [#987](https://github.com/python-poetry/poetry-core/pull/987) | python-poetry/poetry-core | OPEN(2026-10-18) | fix: generate valid PEP 508 metadata for OR version constrai |
+| [#4526](https://github.com/zarr-developers/zarr-python/pull/4526) | zarr-developers/zarr-python | OPEN(2026-10-18) | fix: tolerate unencodable default_scalar in ShardingCodec.va |
+| [#11759](https://github.com/pydata/xarray/pull/11759) | pydata/xarray | OPEN(2026-10-19) | Fix rolling(center=True) splitting the rolling dimension int |
+| [#14752](https://github.com/sphinx-doc/sphinx/pull/14752) | sphinx-doc/sphinx | OPEN(2026-10-19) | autodoc: register alias targets for type aliases so runtime- |
+| [#1666](https://github.com/Python-Markdown/markdown/pull/1666) | Python-Markdown/markdown | OPEN(2026-10-20) | Fix HTML blocks nested in indented blocks |
+| [#2814](https://github.com/mhammond/pywin32/pull/2814) | mhammond/pywin32 | OPEN(2026-10-20) | Detect namespace packages in gencache._GetModule |
+| [#1161](https://github.com/FactoryBoy/factory_boy/pull/1161) | FactoryBoy/factory_boy | OPEN(2026-10-20) | Fix django_get_or_create for factories built through SubFact |
+| [#4023](https://github.com/mwaskom/seaborn/pull/4023) | mwaskom/seaborn | OPEN(2026-10-21) | Fix catplot crash when plotting an empty DataFrame |
+| [#600](https://github.com/XiaoMi/xiaomi-miloco/pull/600) | XiaoMi/xiaomi-miloco | OPEN(2026-10-21) | fix video mp4 container duration using capture window instea |
+| [#602](https://github.com/XiaoMi/xiaomi-miloco/pull/602) | XiaoMi/xiaomi-miloco | OPEN(2026-10-21) | fix(config): refuse to clobber unreadable config.json on mer |
+| [#2866](https://github.com/kyegomez/swarms/pull/2866) | kyegomez/swarms | OPEN(2026-10-24) | fix(agent): stop loguru from formatting provider error text |
+| [#48309](https://github.com/BerriAI/litellm/pull/48309) | BerriAI/litellm | OPEN(2026-10-25) | fix(docker): bump UI_BUILD_IMAGE to node 24.22.1 (Oct 2026 s |
+| [#4459](https://github.com/EleutherAI/lm-evaluation-harness/pull/4459) | EleutherAI/lm-evaluation-harness | OPEN(2026-10-25) | fix: only strip the thinking prefix when the token is presen |
+| [#22291](https://github.com/python/mypy/pull/22291) | python/mypy | OPEN(2026-10-25) | plugins: tolerate synthesized methods when reprocessing attr |
+| [#56](https://github.com/explosion/preshed/pull/56) | explosion/preshed | OPEN(2026-10-25) | Fix OverflowError for keys above 2**63 after the Cython 3 re |
+| [#3529](https://github.com/confident-ai/deepeval/pull/3529) | confident-ai/deepeval | OPEN(2026-10-25) | fix(benchmarks): score EquityMedQA without inverting BiasMet |
+| [#5007](https://github.com/docling-project/docling/pull/5007) | docling-project/docling | OPEN(2026-10-25) | fix(docx): keep tables whose w:tblGrid is missing or under-d |
+| [#2350](https://github.com/coveragepy/coveragepy/pull/2350) | coveragepy/coveragepy | OPEN(2026-10-25) | fix: hold the data lock only to snapshot, and make it re-ent |
 
 ## 个人 fork 在飞（21）
 
