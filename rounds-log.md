@@ -2221,3 +2221,10 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - fresh:crewAI#8550/#8554/#8556/#8558(Kiko0301 一小时四提,具体 bug 群)——**同仓在飞已满 2**(#7795/#7981 等评审)按上限跳过;deer-flow 双新(自修惯例)/duckdb C++/fastmcp flaky/mlflow 封锁/HA 跳过。
 - 备注:crewAI#7795/#7981 任一合龙后,这批候选即解锁(下轮自动重测)。
 - 本轮 0 新 PR。
+
+
+## 2026-10-25 08:09 UTC(自动化第二十九轮:候选 30→50,跳增全是 mcp/servers 封锁仓批量)
+
+- 同步/评审面安静(十一连);sweep 切片 1/3(118 仓,候选 30→50)。
+- 跳增解剖:mcp/servers 22 条(cliffhall v2 事务/安全后续批量)—— **handoff-only 仓,整批不可出手**;其余(iceberg 8/chainlit 3/pip 3/pytest-mock 3/psutil 3/sktime 3 等)全部沿用既有让位判定;revival 3 命中沿用。
+- 本轮 0 新 PR;在飞 29 稳定。
