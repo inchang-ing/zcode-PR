@@ -2135,3 +2135,11 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - 验证:repro crash → Success;新用例 pre-fix FAILED/post-fix PASSED;check-plugin-attrs 140 passed;self-check 无新错误(util.py 基线项)。
 - **PR #22291 已创建**(python/mypy,SSH 推送兜底再次生效)。
 - 更新:第 16 轮,MEMBER 亲提 crash = 出手决策正确(mypy crash 类合并记录:11474/11512/11515 三连)。
+
+
+## 2026-10-25 02:38 UTC(自动化第十七轮:预算收尾 —— 双 Windows 候选五查干净,下轮 GO)
+
+- 同步/评审面安静。
+- fresh 四候选五查:litellm#48285/#48286(DST 双子)已被 prassu017 的 #48288 一箭双雕 → 让位;**urllib3#5337(HTTPResponse.shutdown() 无法中断另一线程的阻塞读,Windows,1.98h)与 spacy#14058(tokenizer OverflowError,preshed 3.0.13→3.0.14 升级触发,Windows,1.72h)双双零竞品**。
+- 预算核销:本轮 ~450/500(fresh 391 大头),实现留下轮(urllib3 优先:本机平台+并发语义清晰;spacy 需先定位溢出在 preshed 还是 spacy)。
+- 在飞 29 稳定;#2866/#22291 首夜无动静。
