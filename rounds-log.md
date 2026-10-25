@@ -2292,3 +2292,12 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - fresh 分诊:litellm#48285/#48286 已被 #48288 占;**litellm#48304(0.99h,auth failure handler 对非对象 JSON body 500)与 haystack#13428(0.07h,max_workers<1 崩溃)五查窗口未核但形状干净 → 下轮 GO 优先**(本轮预算 ~600/500 已超支,按规程不开实现);celery#10954/#10955(aviadr1 同域系列,池内部件重验证)让位;其余 duckdb/mcp/langchain 文档类跳过。
 - sweep 切片 0/3(117 仓 23 候选,rotator→1);revival 2 命中沿用(twisted maintainer-owned 自动过滤;mypy#21968 已改判设计区)。
 - 下一轮队列:litellm#48304 → haystack#13428 → litellm#48299(按新鲜度)。
+
+
+## 2026-10-25 12:44 UTC(自动化第三十九轮:🎯 litellm#48299 修复 → PR #48309,digest 双源交叉确认)
+
+- 排队候选 litellm#48304 已被 #48306 占(让位);haystack#13428 被报告者自开 #13430 占(让位)——30 分钟间隔双双被占,抢注速度再证。
+- **litellm#48299 仍无主 → 出手**:UI_BUILD_IMAGE node:24.19-alpine3.24 → 24.22.1-alpine3.24(Oct 21 安全发布最低位)。
+- **digest 获取**:registry-1.docker.io 与 hub.docker.com 均被代理掐 → 改 GitHub code search 找近期已 bump 项目(Wire、GOV.UK One Login)引用的同一 digest,双源交叉确认 06d7adf3...(同 tag 全网一致)。API 建提交(fork 分支 fix/ui-node-24.22.1)。
+- **PR BerriAI/litellm#48309 已创建**(含范围注记:runtime Wolfi nodejs 需 base-image 重建,本 PR 只覆盖 UI build stage)。
+- 今日第 8 个实质 PR。
