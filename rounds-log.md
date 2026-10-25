@@ -2143,3 +2143,13 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - fresh 四候选五查:litellm#48285/#48286(DST 双子)已被 prassu017 的 #48288 一箭双雕 → 让位;**urllib3#5337(HTTPResponse.shutdown() 无法中断另一线程的阻塞读,Windows,1.98h)与 spacy#14058(tokenizer OverflowError,preshed 3.0.13→3.0.14 升级触发,Windows,1.72h)双双零竞品**。
 - 预算核销:本轮 ~450/500(fresh 391 大头),实现留下轮(urllib3 优先:本机平台+并发语义清晰;spacy 需先定位溢出在 preshed 还是 spacy)。
 - 在飞 29 稳定;#2866/#22291 首夜无动静。
+
+
+## 2026-10-25 03:27 UTC(自动化第十八轮:🎯 preshed Cython3 键空间回归修复 → PR explosion/preshed#56)
+
+- **urllib3#5337 深挖后让位**:修复空间涉及连接池语义设计权衡(closesocket 强杀/延迟 close/超时扰动),只有维护者能权衡;报告者数据已覆盖全域 → 设计未决不碰。
+- **spacy#14058 → 根因实锤 + 修复**:preshed 3.0.14 唯一实质变化 = cython>=0.28→3.1(无 .pyx 改动);Cython 3 对 Python int→uint64 走 ssize_t 转换,**键 >= 2^63 全部 OverflowError**(uint64 键空间上半区被封死);spacy tokenizer._flush_specials 的 del 命中。A/B 实证(3.0.13 ✓/3.0.14 ✗)+ 大键直测(set/get/del 三连崩)。
+- **修复**:maps.pyx Python 边界显式 PyLong_AsUnsignedLongLongMask 转换(PreshMap 5 个入口),恢复 0.28 全域回绕语义;MSVC 本地构建(E:s studio)+ 三重验证(BIG 键三连 OK/负键回绕 OK/spacy 模型加载恢复)。
+- **PR explosion/preshed#56 已创建**(SSH 推送兜底)。
+- 资产:preshed 工作区+venv(spacy-repro-venv 含完整复现环境);PG18 容器仍留。
+- 本轮 1 新 PR(第 5 个实质 PR)。
