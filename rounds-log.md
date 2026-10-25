@@ -2363,3 +2363,12 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - 同步/评审面安静。
 - fresh:pipx#2184(--include-deps extras 共享依赖命令缺失,报告者自开 #2185 → 让位);agno(封锁)/openhands/celery 池内部件/deepeval 特性/duckdb C++/mlflow 封锁/polars Rust → 跳过。
 - 本轮 0 新 PR。
+
+
+## 2026-10-26 18:33 UTC(自动化第四十九轮:🎯 coveragepy#2348 GC 死锁修复 → PR coveragepy/coveragepy#2350)
+
+- fresh 捕获 **coveragepy#2348(3.49h,零竞品)**:Collector._clear_data 持非重入 data_lock 期间 GC 触发 traced __del__ → lock_data 同线程自死锁;pytest-cov --cov-context=test 每测一次必撞窗口。
+- **实证链**:①原版死锁复现(报告者 minimal 脚本,dump 显示 lock_data ← GC on_gc ← _clear_data with 块)②报告者方案 1(copy-then-clear)**不修复** —— with 块内 list() 分配仍可触发 GC → 同点死锁(dump 实证)③RLock + 重试快照 → 1000 次迭代零死锁。
+- 修复:Lock→RLock + list() RuntimeError 重试(回应报告者对 RLock 的迭代突变 caveat);跨线程互斥不变。
+- **PR coveragepy/coveragepy#2350 已创建**(仓库已迁 coveragepy org,307 定位;SSH 推送)。
+- 今日第 10 个实质 PR;coveragepy = nedbat 亲维护高响应仓。
