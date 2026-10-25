@@ -2276,3 +2276,10 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - 验证:真实函数源码复现(pre-fix 返回剥缩进版);token 缺失/在场双用例语义验证。
 - **PR EleutherAI/lm-evaluation-harness#4459 已创建**(API 建提交,git HTTPS 仍被掐)。
 - 本轮 1 新 PR(第 7 个实质 PR,本日最快捕获:0.0h→PR 全程 ~25 分钟)。
+
+
+## 2026-10-25 11:21 UTC(lm-eval#4459 CLA 待用户签署)
+
+- PR #4459 上 CLA Assistant 标记 not_signed;签署链接 https://cla-assistant.io/EleutherAI/lm-evaluation-harness?pullRequest=4459 (需用户本人操作,agent 不代签)。
+- 签署后 bot 自动复查转绿 → 进入评审。该组织签署一次后续贡献永久有效。
+- 状态:PR 本体 CLEAN、等 CLA + 评审。
