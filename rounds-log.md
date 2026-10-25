@@ -2372,3 +2372,10 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - 修复:Lock→RLock + list() RuntimeError 重试(回应报告者对 RLock 的迭代突变 caveat);跨线程互斥不变。
 - **PR coveragepy/coveragepy#2350 已创建**(仓库已迁 coveragepy org,307 定位;SSH 推送)。
 - 今日第 10 个实质 PR;coveragepy = nedbat 亲维护高响应仓。
+
+
+### 同轮补记 18:42 UTC:PR #2350 脏 diff 清除
+- 复核发现首推提交混入 5 个无关文件(pre-commit ruff v0.17.2 bump + 4 个 requirements pin 改写,装依赖阶段被静默改写后被 `git add -A` 扫入)。
+- 重建分支:rebase 到最新 main(61629cd,fetch 走 SSH;上游 collector.py 无变化无撞车),只保留 coverage/collector.py(+17/-3),`git commit -C` 复用原提交信息,force-push f914d4b。
+- **API 复核:PR files_count=1,仅 coverage/collector.py**。
+- 教训入 RULES §八 8:提交只 add 显式路径禁 `git add -A`;推前断言 diff 文件集。

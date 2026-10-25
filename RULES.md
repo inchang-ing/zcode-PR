@@ -86,6 +86,7 @@
 5. **git HTTPS 被代理选择性掐断**：github.com:443 连接失败而 api.github.com/ssh.github.com 正常时,推送改走 SSH:`git push git@github.com:<owner>/<repo>.git <branch>`(~/.ssh/config 已配 ssh.github.com:443);克隆同理。重试 3 次×30 秒仍失败即切换,不干等。
 6. **pytest 参数冲突**：mypy 等仓库 pyproject 里 `addopts=-nauto` 时,`-p no:xdist` 会报 unrecognized arguments → 用 `-n0` 关并发;`--update-data` 必须与 `-n0` 同用才真正生效。
 7. **数据驱动测试表达不了的环境语义**：PYTHONPATH/PEP420 命名空间包等宿主环境行为,`.test` 数据文件造不出等价触发器（base 上同样绿）→ 及时止损,PR 描述附 repro 步骤替代,不硬凑。
+8. **提交只 add 显式路径,禁 `git add -A`/`commit -a`**（2026-10-26 coveragepy#2350 首推实证）：工作区装依赖/pip-compile/pre-commit 会静默改写 requirements 与 pin 文件,一把梭会把无关 bump 扫进修复提交稀释 diff → 只 `git add <修复文件>`;推前断言 `git diff --name-only <base> HEAD` 与预期文件集一致,多余文件按 §九 4 amend+force-push 清除。
 
 ## 九、git 合并/推送事故规程（2026-10-25 tortoise 事故补录）
 
