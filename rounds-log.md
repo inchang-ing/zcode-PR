@@ -2339,3 +2339,13 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - **lm-eval#4459 CLA 已签署**(badge signed,BLOCKED 仅剩评审)。
 - **盲区清查**:台账外 18 PR 批量核查。13 个零动态;3 个有动态但均已在我方最新回应状态(markdown#1666 AI 披露已补+致歉已回复;zarr#4526 d-v-b 指出方向错误后我方 10-22 已按其方向 rework 推送;miloco#600 三建议修复已回复)——全部等维护者。
 - 44 个在飞 PR 全量核验完毕。0 新 PR。
+
+
+## 2026-10-25 16:31 UTC(自动化第四十五轮:🎯 deepeval#3528 修复 → PR #3530... 实为 confident-ai/deepeval#3529)
+
+- **deepeval#3528(1.03h,零竞品)**双 bug 离线复现:①BiasMetric 翻转残留(#3102 后方向已标准,1=unbiased,旧翻转把 unbiased 判错)②[:10] 切片只打 10 条而除数用全量(accuracy 上限 0.5)。
+- 离线端到端复现(20 golden+全 unbiased mock):accuracy 0.0 + 90 行(切片+多任务)。
+- 修复:①去翻转用标准方向 ②[:10]→全量(与 MMLU/DROP 等兄弟 benchmark 一致);+2 离线回归用例(monkeypatch env key 使自包含)。
+- 验证:pre-fix 2 failed/post-fix 2 passed;现有 answer-scoring 13 passed 不变。
+- **PR confident-ai/deepeval#3529 已创建**(DCO -s;SSH 推送;deepeval 0 在飞)。
+- 今日第 9 个实质 PR。
