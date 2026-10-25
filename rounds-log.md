@@ -2349,3 +2349,10 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - 验证:pre-fix 2 failed/post-fix 2 passed;现有 answer-scoring 13 passed 不变。
 - **PR confident-ai/deepeval#3529 已创建**(DCO -s;SSH 推送;deepeval 0 在飞)。
 - 今日第 9 个实质 PR。
+
+
+## 2026-10-26 16:39 UTC(自动化第四十六+四十七轮合并执行:双 stale 评审甄别,静默收口)
+
+- docling#5007 的 2 条 rc 实为 **13:24 旧 push 的 stale 审查**(评论自带 sha=63d134b 标记)—— 当前 HEAD f8e73f6 的 span-aware 修复已覆盖两 blocker;等 bot 重审新 push。
+- sweep 切片 1/3(118 仓 50 候选,rotator→2);revival 2 命中沿用(pip#14343 maintainer-owned 自动过滤、chainlit#2993 第五竞品)。
+- 六 PR 状态:全 open 健康等回音。本轮 0 新 PR。
