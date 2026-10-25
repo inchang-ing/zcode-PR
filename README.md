@@ -49,6 +49,8 @@ python -S tools/vet.py --candidates round_candidates.json      # 开 PR 前终�
 `round_candidates.json`(仓库根)是**唯一权威候选文件**,`auto_run.py` 与 `vet.py` 都读它。
 只有终检为 `CLEAN` 的候选才能进入人工判断(`UNKNOWN` 必须复核)。之后:复现 → 修复 + 回归测试 → 覆盖率自检 → 提 PR,遵守 `RULES.md`。
 
+终检使用实时标题和标签重新判定 bug 资格；旧快照的 bug 标记不能覆盖维护者后续的分类调整。精选池撞车检查区分完整仓库引用，其他仓库的同号 issue 不会排除本仓候选。
+
 精选仓库池的初筛使用 `python -S tools/scan_candidates.py --days 4 --max 5`，仓库池维护在 `tools/quality_repos.json`。旧命令 `python -S work/scan_candidates.py` 保留为兼容入口，两者执行同一份代码。初筛报告仍输出到 `work/ledger/candidates.json`，与权威候选文件分开；查询失败记为 `UNKNOWN` 并返回非零，不能当作没有撞车或认领。首次迁移缺少旧在飞台账时读取 `pr_state.json` 缓存。
 
 常规扫描对最新十条之外的已有候选按编号复核；查询失败时保留并标为未知，确认关闭或不合格后才移除。
@@ -87,6 +89,7 @@ python -S tools/pr_status.py <owner/repo> <pr_num>  # 查单个 PR
 
 - **权威源 = GitHub**。`pr_state.json` 是机器可读状态;`PR_STATUS.md` 是自动生成的只读视图(勿手改);`STATE.md` 只声明跟踪范围(两张 `OPEN(...)` 表)。
 - `pr_status.py` 完整分页读取评审、普通评论、行内评论和 CI 检查，再显示最近反馈及检查汇总。任一读取失败标记 `UNKNOWN`，仍继续检查其余 PR，最后返回非零退出码。
+- `review_sweep.py` 完整读取评论、评审分页；`revival_scan.py` 完整读取时间线，并用来源仓库查询关联 PR。读取失败或作者身份不明会显示 `UNKNOWN` 并返回非零，继续检查其他条目；复查 JSON 的 `unknown` 列表记录未完成项。
 - `repo-monitor/` 是独立仓库,其 GitHub Actions 定时轮询新 issue 与在飞 PR 变化,只推通知、不动手。通知为 best-effort:飞书认证/发送失败不再使运行失败,状态照常落盘,未送达事件记入子仓 `undelivered.jsonl`(随 state 一起提交,保留最近 200 行)作兜底记录。频率以子仓库的 [工作流配置](https://github.com/inchang-ing/repo-monitor/blob/main/.github/workflows/monitor.yml) 为准；修改调度时间只需更新该配置。
 
 ## 离线验证

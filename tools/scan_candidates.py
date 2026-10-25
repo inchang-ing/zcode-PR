@@ -27,6 +27,26 @@ FIXED_IN_PR = re.compile(
         "fixed by pr", "fixed by #", "resolved by pr", "resolved by #",
         "fixed in pr", "fix reference", "already fixed", "pr that fixes"))
     + r"|(?:pr|pull request) #\d+ fixes\b|(?<![\w/#])#\d+ fixes\b", re.IGNORECASE)
+ISSUE_REFERENCE = re.compile(
+    r"(?P<url>https?://[^\s<>()\[\]]+)|"
+    r"(?<![\w/.-])(?:(?P<repo>[\w.-]+/[\w.-]+))?#(?P<number>\d+)\b", re.IGNORECASE)
+ISSUE_URL = re.compile(
+    r"https?://github\.com/(?P<repo>[\w.-]+/[\w.-]+)/issues/(?P<number>\d+)"
+    r"(?:[/?#].*)?", re.IGNORECASE)
+
+
+def issue_references(text, repo):
+    """Only references to this repository can collide with its candidates."""
+    numbers = set()
+    for match in ISSUE_REFERENCE.finditer(text):
+        if match["url"]:
+            # Consume complete URLs so their fragments cannot become bare #N refs.
+            match = ISSUE_URL.fullmatch(match["url"].rstrip(".,;:!`'\""))
+            if match is None:
+                continue
+        if match["repo"] is None or match["repo"].lower() == repo.lower():
+            numbers.add(int(match["number"]))
+    return numbers
 
 
 def gh(*args):
@@ -123,8 +143,8 @@ def scan(days, maxc):
             if any(not isinstance(pr.get("title"), str) or "body" not in pr
                    or (pr["body"] is not None and not isinstance(pr["body"], str)) for pr in pulls):
                 raise ValueError("invalid pull request fields")
-            recent_refs = {int(number) for pr in pulls
-                           for number in re.findall(r"(?:#|issues/)(\d+)", f"{pr['title']} {pr['body'] or ''}")}
+            recent_refs = {number for pr in pulls
+                           for number in issue_references(f"{pr['title']} {pr['body'] or ''}", repo)}
         except ValueError as exc:
             unknown.append((repo, f"pulls: {exc}"))
             continue

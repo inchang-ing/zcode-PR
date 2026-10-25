@@ -8,7 +8,7 @@ import argparse, json, os, subprocess, sys
 from dataclasses import replace
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from auto_run import load_candidates, is_clean, DispatchedStore  # noqa: E402
+from auto_run import load_candidates, is_clean, _is_real_bug, DispatchedStore  # noqa: E402
 from gh_checks import issue_errors, linked_prs, comment_bodies  # noqa: E402
 
 from claim_rules import SOFT as SOFT_EXT, NOT_READY
@@ -37,6 +37,8 @@ def vet(c):
     except (ValueError, TypeError):
         return "UNKNOWN", "issue 返回无效 JSON"
     errors = issue_errors(d)
+    if isinstance(d, dict) and (not isinstance(d.get("title"), str) or not d["title"].strip()):
+        errors.append("title 缺失或无效")
     if errors:
         return "UNKNOWN", "issue: " + "; ".join(errors)
     if d["state"] != "OPEN":
@@ -71,6 +73,11 @@ def vet(c):
         return "DROP", "仓内标注 not ready for PR"
     if errors:
         return "UNKNOWN", "; ".join(errors)
+    # Match monitor_round's label evidence; the snapshot's is_bug may be stale.
+    live_candidate = replace(c, title=d["title"], labels=labels,
+                             is_bug=any("bug" in label.lower() for label in labels))
+    if not _is_real_bug(live_candidate):
+        return "DROP", "实时标题/标签不再符合 bug 候选条件"
     hit = [l for l in labels if l.lower() in BLOCKING_LABELS]
     if hit:
         return "WARN", f"标签提示未 triage/受阻: {hit}"

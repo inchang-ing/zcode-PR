@@ -116,6 +116,44 @@ class ScreeningRegressions(unittest.TestCase):
         self.assertEqual(self.live(repo, {**ISSUE, "labels": [{"name": "accepted"}]}), "CLEAN")
         self.assertEqual(self.live(repo, ISSUE), "DROP")
 
+    def test_vet_rechecks_bug_eligibility_from_live_title_and_labels(self):
+        cases = [
+            ("Bug: crash", ["enhancement"], "DROP"),
+            ("Add a new option", [], "DROP"),
+            ("Regression after upgrade", [], "CLEAN"),
+            ("Unexpected result", ["type: bug"], "CLEAN"),
+            ("Add a new option", ["bug", "enhancement"], "CLEAN"),
+            ("Bug: crash", ["needs triage"], "WARN"),
+            ("Bug: crash", ["bug", "needs discussion"], "WARN"),
+        ]
+        for title, labels, expected in cases:
+            with self.subTest(title=title, labels=labels):
+                issue = {**ISSUE, "title": title,
+                         "labels": [{"name": label} for label in labels]}
+                self.assertEqual(self.live("example/project", issue), expected)
+
+    def test_vet_malformed_live_title_is_unknown(self):
+        for title in (None, 1, [], "", "   "):
+            with self.subTest(title=title):
+                self.assertEqual(self.live("example/project", {**ISSUE, "title": title}), "UNKNOWN")
+        issue = {key: value for key, value in ISSUE.items() if key != "title"}
+        self.assertEqual(self.live("example/project", issue), "UNKNOWN")
+
+    def test_vet_cli_drops_candidate_reclassified_after_snapshot(self):
+        candidate_path = Path(self.store.path).with_name("candidates.json")
+        candidate_path.write_text(json.dumps([{
+            "repo": "example/project", "number": 1, "title": "Bug: crash", "url": "",
+            "is_bug": True, "labels": ["bug"],
+        }]), encoding="utf-8")
+        live_issue = {**ISSUE, "labels": [{"name": "enhancement"}]}
+        output = io.StringIO()
+        with patch.object(vet, "DispatchedStore", return_value=self.store), \
+             patch.object(vet, "gh", side_effect=[json.dumps(live_issue), "[[]]", "[[]]"]), \
+             redirect_stdout(output):
+            self.assertEqual(vet.main(["--candidates", str(candidate_path)]), 0)
+        self.assertIn("DROP=1", output.getvalue())
+        self.assertNotIn("CLEAN_CAND|", output.getvalue())
+
     def test_assignment_requires_self_and_rejects_other_assignees(self):
         for names, allowed in [([], False), (["inchang-ing"], True), (["someone"], False),
                                (["inchang-ing", "someone"], False)]:

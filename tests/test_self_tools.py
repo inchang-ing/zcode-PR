@@ -1,7 +1,9 @@
 """Offline tests for the self-maintenance tools (review_sweep, maintainer_sweep, revival_scan)."""
 import importlib.util
 import json
+from datetime import datetime, timezone
 from pathlib import Path
+from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
 
@@ -20,7 +22,28 @@ maintainer_sweep = load("maintainer_sweep")
 revival_scan = load("revival_scan")
 
 
-class ReviewSweepTests(unittest.TestCase):
+class FixedDatetime(datetime):
+    @classmethod
+    def now(cls, tz=None):
+        return cls(2026, 10, 25, tzinfo=timezone.utc).astimezone(tz)
+
+
+class OfflineTests(unittest.TestCase):
+    def setUp(self):
+        for patcher in (
+            patch("subprocess.run", side_effect=AssertionError("real subprocess prohibited")),
+            patch.object(review_sweep, "datetime", FixedDatetime),
+            patch.object(revival_scan, "datetime", FixedDatetime),
+        ):
+            patcher.start()
+            self.addCleanup(patcher.stop)
+
+
+def response(data, returncode=0):
+    return SimpleNamespace(stdout=json.dumps(data), stderr="query failed", returncode=returncode)
+
+
+class ReviewSweepTests(OfflineTests):
     def test_human_activity_filters_bots_self_and_skips_textualize(self):
         state = {
             "a/b#1": {"state": "OPEN", "updatedAt": "2026-10-24T18:00:00Z"},
@@ -32,21 +55,24 @@ class ReviewSweepTests(unittest.TestCase):
         }
         calls = []
 
-        def fake_jq(path, jq):
-            calls.append(path)
-            assert "inchang-ing" in jq, "self filter missing from jq"
-            return "1" if "/issues/1/" in path or "/pulls/1/" in path else "0"
+        def fake_api(cmd, **kwargs):
+            calls.append(cmd)
+            items = [dict(user={"login": login}, created_at="2026-10-24T18:00:00Z",
+                          submitted_at="2026-10-24T18:00:00Z")
+                     for login in ("human", "inchang-ing", "automation[bot]", "dashboard")]
+            return response([items])
 
         with patch.object(review_sweep, "STATE", Path("unused.json")), \
              patch.object(review_sweep, "read_json_object", return_value=state), \
              patch.object(review_sweep.sys, "argv", ["x"]), \
-             patch.object(review_sweep, "gh_jq", side_effect=fake_jq):
+             patch("subprocess.run", side_effect=fake_api):
             import io, contextlib
             out = io.StringIO()
             with contextlib.redirect_stdout(out):
                 review_sweep.main()
         text = out.getvalue()
         self.assertIn("ACTION a/b#1", text)
+        self.assertIn("1 human comments, 1 human reviews", text)
         self.assertNotIn("a/b#2", text)
         self.assertNotIn("Textualize", text)
         self.assertNotIn("a/b#3", text)
@@ -54,20 +80,21 @@ class ReviewSweepTests(unittest.TestCase):
         # only the live, non-skipped PR was queried, comments + reviews
         self.assertEqual(len(calls), 2)
 
-    def test_rate_limit_output_is_counted_as_zero_not_crash(self):
+    def test_failed_query_is_unknown_not_zero(self):
         state = {"a/b#1": {"state": "OPEN", "updatedAt": "2026-10-24T18:00:00Z"}}
         with patch.object(review_sweep, "STATE", Path("unused.json")), \
              patch.object(review_sweep, "read_json_object", return_value=state), \
              patch.object(review_sweep.sys, "argv", ["x"]), \
-             patch.object(review_sweep, "gh_jq", return_value=""):
+             patch("subprocess.run", return_value=response([], returncode=1)):
             import io, contextlib
             out = io.StringIO()
             with contextlib.redirect_stdout(out):
-                review_sweep.main()
-        self.assertIn("0 with human activity", out.getvalue())
+                status = review_sweep.main()
+        self.assertEqual(status, 1)
+        self.assertIn("UNKNOWN a/b#1", out.getvalue())
 
 
-class MaintainerSweepTests(unittest.TestCase):
+class MaintainerSweepTests(OfflineTests):
     def test_slice_rotation_partitions_pool(self):
         pool = [f"o/r{i}" for i in range(10)]
         with patch.object(maintainer_sweep, "build_pool", return_value=list(pool)), \
@@ -105,17 +132,18 @@ class MaintainerSweepTests(unittest.TestCase):
         self.assertEqual(save.call_args.args[1]["candidates"][0]["key"], "o/r#1")
 
 
-class RevivalScanTests(unittest.TestCase):
+class RevivalScanTests(OfflineTests):
     def test_stale_claiming_pr_is_flagged_and_closed_ignored(self):
         candidates = {"candidates": [
             {"key": "o/r#5", "repo": "o/r", "num": 5, "title": "T", "url": "u"}]}
-        prs = [{"n": 10, "updated": "2026-09-01T00:00:00Z", "state": "open"},
-               {"n": 11, "updated": "2026-10-24T00:00:00Z", "state": "open"},
-               {"n": 12, "updated": "2026-08-01T00:00:00Z", "state": "closed"}]
+        prs = [{"n": 10, "repo": "o/r", "updated": "2026-09-01T00:00:00Z", "state": "open"},
+               {"n": 11, "repo": "o/r", "updated": "2026-10-24T00:00:00Z", "state": "open"},
+               {"n": 12, "repo": "o/r", "updated": "2026-08-01T00:00:00Z", "state": "closed"}]
         with patch.object(revival_scan, "CANDIDATES", Path("unused.json")), \
              patch.object(revival_scan, "read_json_object", return_value=candidates), \
              patch.object(revival_scan.sys, "argv", ["x", "--json"]), \
              patch.object(revival_scan, "claimant_prs", return_value=prs), \
+             patch.object(revival_scan, "pr_author_association", return_value="CONTRIBUTOR") as association, \
              patch.object(revival_scan, "atomic_write_json") as save:
             import io, contextlib
             out = io.StringIO()
@@ -126,6 +154,7 @@ class RevivalScanTests(unittest.TestCase):
         self.assertNotIn("#11", text)
         self.assertNotIn("#12", text)
         self.assertEqual(save.call_args.args[1]["revival"][0]["pr"], 10)
+        association.assert_called_once_with("o/r", 10)
 
     def test_missing_candidates_file_prints_guidance(self):
         with patch.object(revival_scan, "CANDIDATES", Path("unused.json")), \

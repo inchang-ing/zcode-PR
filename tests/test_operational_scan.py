@@ -100,6 +100,34 @@ class OperationalScanTests(unittest.TestCase):
         self.assertEqual(report["candidates"], [])
         self.assertFalse(any("/timeline?" in call for call in calls))
 
+    def test_cross_repository_references_do_not_hide_local_candidates(self):
+        for reference in ("other/project#1", "OTHER/PROJECT#1",
+                          "https://github.com/other/project/issues/1",
+                          "https://github.com/other/project/issues/1#1",
+                          "https://example.org/issues/1", "https://example.org/page#1"):
+            for field in ("title", "body"):
+                with self.subTest(reference=reference, field=field):
+                    pull = {"title": "Unrelated change", "body": ""}
+                    pull[field] = f"Follow up on {reference}"
+                    report, calls = self.scan_repo("example/repo", responses={"/pulls?": [[pull]]})
+                    self.assertEqual([c["number"] for c in report["candidates"]], [1])
+                    self.assertTrue(any("/timeline?" in call for call in calls))
+
+    def test_local_qualified_and_independent_references_still_block(self):
+        for reference in ("#1", "example/repo#1", "EXAMPLE/REPO#1",
+                          "https://github.com/EXAMPLE/REPO/issues/1",
+                          '`https://github.com/example/repo/issues/1`',
+                          '"https://github.com/example/repo/issues/1"',
+                          "https://github.com/example/repo/issues/1#issuecomment-9",
+                          "other/project#1 and #1",
+                          "https://github.com/other/project/issues/1 and #1"):
+            with self.subTest(reference=reference):
+                report, calls = self.scan_repo("example/repo", responses={
+                    "/pulls?": [[], [{"title": "Follow-up", "body": f"Fixes {reference}"}]],
+                })
+                self.assertEqual(report["candidates"], [])
+                self.assertFalse(any("/timeline?" in call for call in calls))
+
     def test_failed_collision_or_claim_check_is_unknown(self):
         for endpoint in ("/pulls?", "/timeline?", "/comments"):
             for response in ({"__error__": "HTTP 502"}, {"__ratelimit__": True}, None):
