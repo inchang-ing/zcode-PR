@@ -2101,3 +2101,12 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - fresh:swarms#2862(kyegomez 第二 bug)已被 PR #2867 占用 → 让位;openhands 特性类跳过。
 - sweep 切片 1/3(118 仓,30 候选,rotator→2);revival 4 命中:2 个 maintainer-owned 自动过滤(chainlit#3021/pip#14343),其余沿用让位判定。
 - 本轮 0 新 PR。
+
+
+## 2026-10-25 00:41 UTC(自动化第十三轮:asyncpg#1400 报告者在场认领等设计决策,让位)
+
+- 同步/评审面安静;mcp/servers 5 条 cliffhall 自建(GHSA 安全公告+发布事务,handoff-only 仓跳过)。
+- fresh:**asyncpg#1400(2.71h)** —— Transaction.commit() 静默吞服务器 ROLLBACK。本机 Docker 引擎已起(docker version 成功,PG 18 容器 54329),**端到端复现成功**(commit() 正常返回→rollback() 报"已提交"→rows=0 证明没提交);execute('COMMIT;') 实测返回 'ROLLBACK' 标签(修复点=transaction.py __commit 丢弃返回值)。
+- **让位判定**:报告者正文明确 "I'm happy to prepare a PR with tests",等维护者在 raise-vs-状态公开 之间决策(还指出 test_timeout_06 兼容顾虑 + psycopg#1453 同款)→ 在场认领 + 设计未决,双重红线。
+- 资产沉淀:PG18 容器 pg18-repro(54329)+ asyncpg-venv 保留(下轮可复用);Docker 引擎已由本轮拉起。
+- 本轮 0 新 PR(差点误出手:读了 Expected 段才发现认领声明 —— 处置规程"读全部评论"应扩展为"读 issue 全文")。
