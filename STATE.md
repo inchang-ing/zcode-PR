@@ -11,7 +11,7 @@
 > | 项目说明 / 目录 / 流程 / 飞书 / 换机 | **`README.md`** |
 > | 历史轮次 / 已合并 PR 验证记录 | **`rounds-log.md`**、**`STATE-archive.md`** |
 
-## OSS 贡献在飞（58）
+## OSS 贡献在飞（57）
 
 | PR | 仓库 | 状态 | 摘要 |
 | --- | --- | --- | --- |
@@ -48,7 +48,6 @@
 | [#3791](https://github.com/tornadoweb/tornado/pull/3791) | tornadoweb/tornado | OPEN(2026-10-12) | Fix Subprocess.wait_for_exit hanging when child already ran |
 | [#2826](https://github.com/deepchecks/deepchecks/pull/2826) | deepchecks/deepchecks | OPEN(2026-10-12) | Fix single dataset performance conditions for metrics with a |
 | [#14017](https://github.com/aio-libs/aiohttp/pull/14017) | aio-libs/aiohttp | OPEN(2026-10-12) | Fix RequestHandler crash after connection_lost() during keep |
-| [#578](https://github.com/mahmoud/boltons/pull/578) | mahmoud/boltons | OPEN(2026-10-12) | Fix urlutils parsing of unencoded ? and / in URL credentials |
 | [#5816](https://github.com/kedro-org/kedro/pull/5816) | kedro-org/kedro | OPEN(2026-10-12) | Skip parameters when resolving dataset factory patterns in t |
 | [#14586](https://github.com/microsoft/semantic-kernel/pull/14586) | microsoft/semantic-kernel | OPEN(2026-10-13) | Python: FIX: honor overwrite=False for default execution set |
 | [#2332](https://github.com/jupyter/nbconvert/pull/2332) | jupyter/nbconvert | OPEN(2026-10-13) | Preserve safe subdirectories in extracted output filenames |

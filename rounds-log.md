@@ -2473,3 +2473,10 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - review_sweep 的 ACTION 为 instructor#2717 既有 APPROVED(等合并,无新动作);monitor_oss 无变化。
 - 切片 1/3(114 仓 33 候选):与 54 轮同集;唯一新面孔 guardrails#1464(180d,CLI start 损坏)核查后被 boss477 认领求分配(10-11,"Could you please assign it")→ 让位;mcp/pytest-mock/trulens/falcon/geopandas/strawberry/mypy/jupyterlab/pip/pyvista/cibuildwheel 按既有档。零新处置。
 - 预算约 215/500。
+
+
+## 2026-10-26 23:38 UTC(自动化第六十一轮:boltons#578 设计否决离场;adk 双让位)
+
+- **boltons#578 离场定性**:维护者 mahmoud 亲自关闭(未合并),理由明确——"Userinfo must be percent-encoded per RFC 3986;heuristic recovery 增加第二条解析路径不愿维护(见 #309)"。设计否决,非质量拒绝;不申诉不复活。台账自动清理照常。
+- fresh 捕 8:adk-python 双 OAuth2 bug 让位(#7728 报告者自有 PR #7729;#7730 报告者列 3 方案等维护者拍板 = design-pending);pydantic-ai(assign-gate+is-working)/transformers(bot)/trio(提问)/openhands(low enhancement)按图出局。**sympy#30844(Upabjojr 核心成员,打印机 ~230 项系统审计)记为下轮候选**——本轮预算不足以完成五查+实现,需先读清单结构确认认领协议。
+- 预算约 485/500。
