@@ -77,6 +77,7 @@
   "pola-rs/polars#30205": {"date": "2026-10-29", "reason": "deltalake Rust 面"},
   "pola-rs/polars#30300": {"date": "2026-10-26", "reason": "Rust 增强"},
   "pola-rs/polars#30301": {"date": "2026-10-26", "reason": "Rust 增强"},
+  "pymc-devs/pymc#8372": {"date": "2026-10-26", "reason": "Apple Silicon segfault,本地不可验"},
   "pypa/cibuildwheel#2950": {"date": "2026-10-26", "reason": "Ubuntu 26.04 环境依赖,不可本地验证"},
   "pypa/pip#14193": {"date": "2026-10-24", "reason": "活跃维护者讨论(pip 团队内部队列)"},
   "pypa/pip#14342": {"date": "2026-10-29", "reason": "MEMBER 亲报 = pip 团队内部队列"},
