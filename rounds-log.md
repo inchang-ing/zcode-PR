@@ -2627,3 +2627,5 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 
 - review_sweep 0 ACTION / 2 resolved;monitor_oss 无变化。
 - 切片 1/3(117 仓 23 候选,0 failed):唯一未标注 = pymc#8372(既有档漏登,补登后 122 条);零新处置。
+
+- 补记 22:58:STATE.md 同轮登记 rf#5839(并行会话已重构台账,锚点改用 deepeval 行);session_claims --release 完成。
