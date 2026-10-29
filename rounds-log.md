@@ -2568,3 +2568,5 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - review_sweep 4 个 ACTION 均为已处置项(crewAI 回复已发/4849 获批/5007 并行会话/6913 已回复);monitor_oss 仅 crewAI#7795 CI 重跑(分支同步后)。
 - 切片 0/3(115 仓 24 候选):无新面孔(bokeh#15134 = 既有 BokehJS/TS 跳过项)。零处置。
 - 预算约 215/500。
+
+- 补记 16:49:revival_scan 复核——唯一 stale 占位为 twisted#12734(adiroiban MEMBER 自有,永久不碰);sympy#30844 仍 0 评论(分工协议未发布,维持 WATCH)。
