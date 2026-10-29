@@ -2488,3 +2488,40 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - review_sweep ACTION 仍为 instructor#2717 既有 APPROVED;monitor_oss 无变化。
 - 切片 2/3(114 仓 22 候选)全为 twisted 批等既有处置。零新处置。
 - 预算约 225/500。
+
+
+## 2026-10-26 09:56 UTC（用户手动推进现有 PR）
+
+- 实时核对 57 个外部 OPEN PR：无漏登记，无新增关闭/合并；保留独立 CI 时间戳，未把元数据查询当作 CI 通过。
+- tortoise/tortoise-orm#2307：确认真实 changelog 冲突，增量合并最新 develop 7b43710，保留 #2307/#2381。最终 8116caf 已推送原分支并回读，mergeable=true；before 1 failed/318 passed/6 skipped，after 319 passed/6 skipped；EVIDENCE_OK。新 ci/CodSpeed workflow action_required，等维护者批准。新版正文已备好但尚未保存。
+- markdown-it-py#443：发现正文误为本地 @E:/ 路径，4 个真实入口测试重验及 fail→pass 证据齐备，新正文 EVIDENCE_OK。连接器更新返回 403 Resource not accessible by integration，按 RULES 停止该写入；已询问用户能否改用同账号 gh，未换凭据重试。原 issue 认领及另一个开放 PR#444 已诚实登记。
+- docling#4849：原维护者要求已落实、无新反馈；本轮真实依赖 76 passed。完整 CI/Docs 工作流 action_required，不宣称完整 CI 全绿。
+- 重点分流：ddtrace#20935 真实阻塞为两个 unsigned commits（无既有签名配置）；Dask nightly 321/321 失败及原因与 main 同工作流完全一致；xarray RTD 失败在未改文档的 Timestamp 边界调用，存在环境漂移但同环境归因未闭环，保留待核验。其余已处理反馈、标签及基础设施问题已分类，未重复催评。
+- 监控小修：兼容 gh Legacy StatusContext 的 startedAt，真实 CodeRabbit 空 targetUrl 形状不再丢 CI 指纹；相关 78 个离线测试通过。刷新 openllmetry#4633（3绿）、miloco#600/#602（各21绿），指纹绑定有效。
+- 证据见 contributions/evidence/pr-advance-20261026-*.json 与两个完整 contribution records；状态/队列已刷新。未开新 PR，未合并上游 PR，未发送跟进评论。
+
+
+## 2026-10-28（用户手动推进现有 PR：合并确认、评审响应、CI 归因、冲突清理）
+
+- **合并确认 5 轮闭环**：linearmodels#849（10-18）、pytest-dev/execnet#431（10-09，仓库自 execnet/execnet 转移致旧 slug 404）、statsmodels#10472（10-20）、semantic-kernel#14586（10-27，eavanvalkenburg APPROVED）均 MERGED；dd-trace-py#20886 关闭但修复由维护者 signed-commits 版 **#21065（10-19）** 落地。STATE.md 移出 #14586 与关闭重复工 #2881（kyegomez 自并 #2880），OSS 在飞 57→55；STATE-archive 的 #20886 行改为 CLOSED-landed。
+- **linearmodels#850**：10-21 维护者要 benchmark → 10-22 已交付 `bench_rank_scale.py`+量纲-精度对照表；容差修复后 CI 26/26 绿、mergeable clean；今日温和催询（#issuecomment-6464490092）。
+- **openllmetry#4633**：远端 d400a36（10-22 等价 merge-main，树与本地一致）为 PR head，本地 reset 对齐不再 behind；3 检查全绿、blocked=等评审；首次催评审（#issuecomment-6464502122）。
+- **kedro#5816**（双 APPROVED）：按 merelcht 要求 RELEASE.md 贡献者名单加名（ffda7ca）+ 回复；推后 28 检查全绿，等合并。
+- **swarms#2866**：按 kyegomez 要求把 4 行注释压成单行（217154c）+ 回复；test/build 红 = master 基线同款 pre-existing（10-28 master run 同三红），lint 绿。
+- **docling#4849**：CHANGES_REQUESTED 修复（f5ceec5 全编码 BOM 去除）10-21 已回；复审请求 API 对 fork 作者 404（无 base repo 写权限），改为评论 @dolfim @PeterStaar 提醒复审（#issuecomment-6464501576），CI 9✓/2 skip。
+- **markdown#1666**：merge 最新 master 解 docs/changelog.md 冲突；发现并清理两处 CRLF 污染（changelog 整文件、treeprocessors.py 546 行，均为 10-22 解冲突时 Windows 写出）——有效 diff 恢复干净（8 文件全真实改动）；全量 unittest 1171 OK；0a391df 推送后 mergeable=true（blocked=等评审）。
+- **aiohttp#14017**：codecov/patch target=99.10%（auto=基线），缺 3 行全在我测试的轮询循环（1 missing=循环内 sleep 永不执行 + 2 partial=for/if 死分支）；重构为无分支 for+断言（dd07ac3），本地 `MULTIDICT_NO_EXTENSIONS=1`（CI 实为 multidict 纯 Python 路径，C 扩展缺 `_md` 属性）测试通过且函数 100% 覆盖 0 partial；等 codecov 重报。backport 标签与 nbconvert#2332 的 enforce-label 均无权限（AddLabelsToLabelable 403），归维护者。
+- **CI 红灯归因（均非我方代码）**：litellm#46262/#48309 osv-scan = 锁文件 pre-existing 漏洞（pillow12.3→13、pylint、npm）；dask#12636 nightly = bokeh `io.state` import 崩（10-14 起 nightly 漂移，非 required）；coveragepy#2350 = artifact 上传 ETIMEDOUT（infra，fork 作者无法 rerun）；deepeval#3529 = main 同款红（black 漂移 6 文件 + sqlite 文案断言）；dd-trace-py#20935 = 内部 devflow/mergegate（待 apm-idm-python spec 审查 + signed commits）；docling#4439 = 21✓ 仅 Mergify merge protections 挂 = 等评审。
+- **openinference#3982/#3995**：维护者 ialisaleh 已在分支上直接补修复（01397d7/43b97d7、2e5a1f8/569adff）并评 ready to merge → 无需我方动作，等合并。
+- **追记（同日 08:52Z）**：**kedro-org/kedro#5816 由 merelcht 合并** ✅（今日第 6 个落地 PR；加名提交 ffda7ca 推送后 20 分钟即合并，RELEASE.md 贡献者名单是其明确要求的最后一环）。STATE.md 移出，OSS 在飞 55→54。
+- monitor_scope 刷新：75 OPEN / 76 key；多条 MERGEABLE→UNKNOWN 为 GitHub 重算 mergeable 的瞬时态，非真实变化。
+- **追记（同日，SSH 提交签名上线）**：为解 dd-trace 签名墙，新建 ed25519 密钥 `~/.ssh/id_ed25519_signing`（无口令）+ 用户手动添加到 GitHub（Signing Key，token 缺 admin:public_key 无法 API 代加）；全局 git 配置 `gpg.format=ssh`/`commit.gpgsign=true`/signingkey/allowedSignersFile（Git for Windows 该版本签名路径也强制检查 allowedSignersFile，须配置），本地 `%G?=G`+verify-commit 通过。dd-trace#20935 两提交经 rebase --exec amend 重签后强制推送（6dd5558→67f44b2，中途遇 rebase 停在半途致分支引用未更新、直连 github.com 被重置——走系统代理 127.0.0.1:16780 推送成功）。GitHub 判定两提交 `signed=true/valid` ✅；**devflow/mergegate 由红转绿**（此前根因即 unsigned commits），emmettbutler APPROVED 仍在；5 个重型 GitHub Actions workflow 为 `action_required`（fork 推送需维护者批准，与 markdown#1666 同款，归维护者），已发 PR 评论同步签名解除+mergegate 绿+请求批准（#issuecomment-6466875407）。此后所有新提交自动带 Verified 签名。
+
+
+## 2026-10-29 15:44 UTC(第六十三轮合并处理:两个正常离场定性 + enterprise handoff + optuna/docling 评审响应)
+
+- **otel#5717 离场**:#5809 落地同一修复,"changes are now redundant"(herin049,CONTRIBUTOR)——被取代,正常结果。**swarms#2866 离场**:kyegomez 深度互动后关闭为重复(10-27 要求单行注释→我们 10-28 落实 217154c→10-29 告知 #2966 同修已合并并致谢"Thanks for the report and the fix")——获得维护者完整评审互动,输给合并竞速,非质量拒绝。在飞 8→6,合并数仍 29。
+- **OpenHands/enterprise PR 创建封锁**:POST /pulls 404×2(GET 正常、仓内 30 开放 PR)= mcp/servers 同款 → handoff 通道:fork 分支 fix/bootstrap-optional-scripts 已推(修复 All-Hands-AI/OpenHands#18953 的 bootstrap 对可选脚本无条件 chmod),compare 链接评论已发(注:OpenHands 主仓已 307 迁移至 OpenHands/OpenHands);政策条目已入 repository_policy;27 测试全绿。
+- **optuna#6913 评审响应**:gen740 的测试合并意见已由并行会话落实(fd75651);本会话补 c-bata 的意见——删除私有 helper 的 docstring(对齐模块私有函数惯例),62 测试通过,推送 a3ccfe7 + 回复。
+- **docling#5007 让位并行会话**:评审者 ceberam 确认"quite robust"仅剩 DCO/真实 docx ground-truth 两项;发现 PR head 6d71e1c(gridAfter 处理)由并行会话在 ceberam 评论 8 分钟后推送——本会话不碰该分支防撞车(多会话铁律)。
+- fresh 车道整批 yt-dlp(NO-AI 政策仓)跳过。

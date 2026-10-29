@@ -11,7 +11,7 @@
 > | 项目说明 / 目录 / 流程 / 飞书 / 换机 | **`README.md`** |
 > | 历史轮次 / 已合并 PR 验证记录 | **`rounds-log.md`**、**`STATE-archive.md`** |
 
-## OSS 贡献在飞（57）
+## OSS 贡献在飞（52）
 
 | PR | 仓库 | 状态 | 摘要 |
 | --- | --- | --- | --- |
@@ -35,7 +35,6 @@
 | [#443](https://github.com/executablebooks/markdown-it-py/pull/443) | executablebooks/markdown-it-py | OPEN(2026-10-17) | fix(parser): fail fast on rules that don't advance state (infinite loop guard) |
 | [#15023](https://github.com/huggingface/diffusers/pull/15023) | huggingface/diffusers | OPEN(2026-10-17) |  |
 | [#682](https://github.com/mala-project/mala/pull/682) | mala-project/mala | OPEN(2026-10-17) |  |
-| [#5717](https://github.com/open-telemetry/opentelemetry-python/pull/5717) | open-telemetry/opentelemetry-python | OPEN(2026-10-17) | fix(metrics): reset the exponent mapping between DELTA collections |
 | [#5337](https://github.com/pypa/setuptools/pull/5337) | pypa/setuptools | OPEN(2026-10-17) | Extract tar members through the tarfile data filter |
 | [#986](https://github.com/QwenLM/Qwen-Agent/pull/986) | QwenLM/Qwen-Agent | OPEN(2026-10-17) | fix(agents): uniquify dialogue history filenames per run |
 | [#3187](https://github.com/repowise-dev/repowise/pull/3187) | repowise-dev/repowise | OPEN(2026-10-17) |  |
@@ -48,8 +47,6 @@
 | [#3791](https://github.com/tornadoweb/tornado/pull/3791) | tornadoweb/tornado | OPEN(2026-10-12) | Fix Subprocess.wait_for_exit hanging when child already ran |
 | [#2826](https://github.com/deepchecks/deepchecks/pull/2826) | deepchecks/deepchecks | OPEN(2026-10-12) | Fix single dataset performance conditions for metrics with a |
 | [#14017](https://github.com/aio-libs/aiohttp/pull/14017) | aio-libs/aiohttp | OPEN(2026-10-12) | Fix RequestHandler crash after connection_lost() during keep |
-| [#5816](https://github.com/kedro-org/kedro/pull/5816) | kedro-org/kedro | OPEN(2026-10-12) | Skip parameters when resolving dataset factory patterns in t |
-| [#14586](https://github.com/microsoft/semantic-kernel/pull/14586) | microsoft/semantic-kernel | OPEN(2026-10-13) | Python: FIX: honor overwrite=False for default execution set |
 | [#2332](https://github.com/jupyter/nbconvert/pull/2332) | jupyter/nbconvert | OPEN(2026-10-13) | Preserve safe subdirectories in extracted output filenames |
 | [#4849](https://github.com/docling-project/docling/pull/4849) | docling-project/docling | OPEN(2026-10-15) | fix(utils): drop leading UTF-8 BOM for explicit encoding=utf-8 |
 | [#2993](https://github.com/huggingface/smolagents/pull/2993) | huggingface/smolagents | OPEN(2026-10-15) | Fix comprehension scoping to match CPython closure capture |
@@ -64,14 +61,12 @@
 | [#4023](https://github.com/mwaskom/seaborn/pull/4023) | mwaskom/seaborn | OPEN(2026-10-21) | Fix catplot crash when plotting an empty DataFrame |
 | [#600](https://github.com/XiaoMi/xiaomi-miloco/pull/600) | XiaoMi/xiaomi-miloco | OPEN(2026-10-21) | fix video mp4 container duration using capture window instea |
 | [#602](https://github.com/XiaoMi/xiaomi-miloco/pull/602) | XiaoMi/xiaomi-miloco | OPEN(2026-10-21) | fix(config): refuse to clobber unreadable config.json on mer |
-| [#2866](https://github.com/kyegomez/swarms/pull/2866) | kyegomez/swarms | OPEN(2026-10-24) | fix(agent): stop loguru from formatting provider error text |
 | [#48309](https://github.com/BerriAI/litellm/pull/48309) | BerriAI/litellm | OPEN(2026-10-25) | fix(docker): bump UI_BUILD_IMAGE to node 24.22.1 (Oct 2026 s |
 | [#4459](https://github.com/EleutherAI/lm-evaluation-harness/pull/4459) | EleutherAI/lm-evaluation-harness | OPEN(2026-10-25) | fix: only strip the thinking prefix when the token is presen |
 | [#56](https://github.com/explosion/preshed/pull/56) | explosion/preshed | OPEN(2026-10-25) | Fix OverflowError for keys above 2**63 after the Cython 3 re |
 | [#3529](https://github.com/confident-ai/deepeval/pull/3529) | confident-ai/deepeval | OPEN(2026-10-25) | fix(benchmarks): score EquityMedQA without inverting BiasMet |
 | [#5007](https://github.com/docling-project/docling/pull/5007) | docling-project/docling | OPEN(2026-10-25) | fix(docx): keep tables whose w:tblGrid is missing or under-d |
 | [#2350](https://github.com/coveragepy/coveragepy/pull/2350) | coveragepy/coveragepy | OPEN(2026-10-25) | fix: hold the data lock only to snapshot, and make it re-ent |
-| [#2881](https://github.com/kyegomez/swarms/pull/2881) | kyegomez/swarms | OPEN(2026-10-26) | fix: reseed channel turns after clearing conversation at run start |
 
 ## 个人 fork 在飞（21）
 
