@@ -2532,3 +2532,11 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - review_sweep 的 2 个 ACTION 均为上轮已处置(docling#5007=并行会话领地;optuna#6913=回复已发);monitor_oss 仅 mergeable 瞬时翻转回 MERGEABLE。
 - 切片 0/3(115 仓 24 候选):新面孔全部政策/不可验排除——python/mypy 五项(#22265/#22264/#22262/#22260/#22240,已降级政策)、polars#30205(scan_delta pickle 后读最新版本,fix 面在 deltalake Rust);其余 twisted 批既有档。零新处置。
 - 预算约 210/500。
+
+
+## 2026-10-29 15:52 UTC(第六十五轮:docling#4849 获 dolfim-ibm APPROVED;切片 1 全让位含并行会话认领)
+
+- **🎉 docling#4849(BOM 修复)获维护者 dolfim-ibm APPROVED**("lgtm"——此前合并过我们 #4449 的同一维护者);等合并,按降低沟通负担不回复。
+- review_sweep 另两个 ACTION 为既有处置项(docling#5007=并行会话/optuna#6913=回复已发)。
+- 切片 1/3(117 仓 26 候选)全让位:**psutil#3061 的认领评论是 inchang-ing 自己**(并行会话已带 NtQuerySystemInformationEx 方案认领,"PR to follow")——多会话撞车规则第二次生效,本会话不碰;psutil#2910 有占位 PR #2912;psutil#3062 AIX 不可验;iceberg-python 审计八连批(路径遏制/解压炸弹/auth 状态共享等)归 PMC 作者 sungwy triage;jupyter-server#1697 有交叉引用;msgspec#1095 需 3.15+PYTHON_LAZY_IMPORTS 本机不可验;sktime#11579 重依赖;lancedb Rust;mcp/servers 政策。
+- 预算约 230/500。
