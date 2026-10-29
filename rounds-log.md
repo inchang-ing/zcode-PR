@@ -2614,3 +2614,10 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 
 - review_sweep 0 ACTION / 3 resolved;monitor_oss 无变化。
 - 切片 0/3(117 仓 26 候选,0 failed):3 条未标注全定性补登——otel#5627/#5629(既有档漏登:报告者自有 PR #5630)、jupyter/notebook#8095(MEMBER 亲报,TS 前端 + 占位 PR #8096)。处置册 121 条。零新处置。
+
+
+## 2026-10-31 21:40 UTC(第七十五轮:langflow#16063 设计级让位;fresh 持续达标)
+
+- review_sweep 0 ACTION / 3 resolved;monitor_oss 无变化。
+- fresh 捕 12:pipecat#6471(映射表救活的 slug 首个捕获!秒级截断 bug)= 报告者自有 PR #6472;pipx#2375 = gaborbernat 自有 PR #2364;swarms 双 FEAT = kyegomez 自家路线票;langflow#16063(advanced 端点 cache miss 404)**读码后 NO-GO**:该路径布满近期安全加固(actor 作用域 + admin-only 策略重建,注释明言跨主体复用缓存 graph 的凭据泄漏风险),404 是设计一部分,改造 = 维护者决策(fastmcp#6035 同款);按红线不加评论(报告者已列两选项)。ray(GIL/重验证)、selenium(rb/rust)、peft(feature)、polars(Rust)按图出局。
+- 预算约 400/500。
