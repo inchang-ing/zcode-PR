@@ -2635,3 +2635,11 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 
 - review_sweep 0 ACTION / 2 resolved;monitor_oss:rf#5839 自动入册(登记门生效)。
 - 切片 2/3(115 仓 34 候选):**0 未标注**——处置册(122 条)首次完全覆盖池内候选,零新面孔;1 failed = boltons 已知抖动。零处置。
+
+
+## 2026-10-31 23:47 UTC(第七十九轮:🎯 phoenix#17420 → PR phoenix#17429)
+
+- review_sweep 0 ACTION / 2 resolved;monitor_oss 无变化。
+- fresh 捕 12:swarms 双条(sakshamchitkara-dotcom 自带 PR #2992/#2994)、docling#5100(同仓满员 #4849+#5007)、numpy(C 级)、delta-rs(Rust)、inspect_ai(gate 关)、pydantic-ai/pyvista/agentscope 按图出局。
+- **🎯 phoenix#17420(phoenix-otel 空 env 值压制 .env.phoenix,静默导出 localhost)→ PR https://github.com/Arize-ai/phoenix/pull/17429**:对齐 phoenix-client 成文规则("trim 后为空 = 未设置"),_load_process_env_values 丢空值 + _reject_invalid_env_value 同规则(空进程值不得触发 raise 分支);pre-fix 复现(endpoint=None)/post-fix file tier 恢复;3 新测试(pre-fix 2 失败 → post-fix 60 全过);ruff 全清。
+- session_claims 全流程第二次使用;STATE.md 同轮登记(53→54)。
