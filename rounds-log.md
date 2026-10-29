@@ -2570,3 +2570,14 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - 预算约 215/500。
 
 - 补记 16:49:revival_scan 复核——唯一 stale 占位为 twisted#12734(adiroiban MEMBER 自有,永久不碰);sympy#30844 仍 0 评论(分工协议未发布,维持 WATCH)。
+
+
+## 2026-10-30 17:20 UTC(自优化轮:体检七项全落地,299 测试全绿)
+
+- **P0-1 池卫生**:repository_policy 增 DEAD_OR_RENAMED 映射(8 个陈旧 slug 修复/丢弃:aiohttp→aio-libs、pyjwt→jpadilla、httpx-ws→frankie567、pipecat→pipecat-ai、opencv、nox 拼写错误 wnblm→wntrblm;promptic/portkey/lazy-fixture/pycodestyle 丢弃);_norm 统一应用映射+政策排除;gh_api 3 次重试。实测:每轮 8-11 行 ERROR 消失,切片 "0 failed"(此前 4-5)。
+- **P0-2 评审扫描自动消解**:human_activity 返回最新人工条目;我们最后发言或最新人工评审为 APPROVED → RESOLVED 不再重报。实测:4 条已知 ACTION 全部自动消解(crewAI/optuna/5007=已回复,4849=已批准)。省每轮 10-15 调用+分析。
+- **P0-3 多会话认领登记**:tools/session_claims.py(check/claim/release/list,48h 过期)+ CLI;RULES 增补:开工前 --check + 远端 head sha 核对,禁止 force-push。制度化 docling#5007/psutil#3061 两次撞车教训。
+- **P1-4 always 层切片轮换**(2 片,fresh 每轮省 ~100 调用给 triage);**P1-5 处置登记册** tools/dispositions.json(109 条种子),sweep 输出标注 [DISPOSITIONED date: reason],新面孔自然凸显。
+- **P2**:monitor_oss UNKNOWN 瞬时态不再刷变更行。
+- 测试:17 新增 + sweep_regressions/fresh_failures/local_monitors 契约更新(ALWAYS_SLICES 钉 1);**全套 299 passed / 666 subtests**。生产实测三连(review_sweep 4 resolved/maintainer_sweep 0 failed+标注生效)。work/ 目录 gitignore 故处置册放 tools/。共享测试文件含并行会话改动,提交信息已注明。
+- 提交 eb3f0d3。
