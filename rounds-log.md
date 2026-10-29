@@ -2554,3 +2554,10 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - review_sweep 3 个 ACTION 均为既有处置;**optuna#6913 CI 全绿(12✓/0✗)**,等复审。
 - 切片 2/3(114 仓 35 候选):**swarms 七连报(#2813-#2842,kyegomez [FIX] 票 + ayaangazali COLLABORATOR)** 查证全有活跃占位 PR(#2851/#2818/#2850,10-27/29 有更新)→ 让位;chainlit 三条按既有档(2993 = 4 个死外部 PR 先例);linearmodels#780/#823/#831(多年老统计议题)挂 revival-watch 不强攻;scipy#26471(gammainc 大参数,C 级重构建)不可验;strawberry#4635 维持设计让位(patrick91 未拍板)。
 - 预算约 215/500。
+
+
+## 2026-10-30 16:44 UTC(第六十八轮:crewAI#7795 获第三方实证 + 分支同步;fresh 双让位)
+
+- **crewAI#7795**:外部用户 Damaraland 独立验证 393d9cc(8 离线测试全过、真实 Responses API 调 PDF HTTP 200 并读出内容)——本会话将分支与 upstream main 同步(3f45157;发现 PR head 已被并行会话先同步过 393d9cc,按多会话规则以远端为准重建推送,工作区已还原 #7981 分支)+ 简短回复致谢。
+- fresh 捕 11:wandb#13274(29 分钟新,validate_labels stub + np.in1d 双 bug)尾带条件认领("send a PR for either one, depending on which you prefer")= 报告者等设计决策,按 asyncpg#1400 先例让位;zarr#4580 报告者自有 PR #4581;darts 四连报([ok]+good-first-issue,归作者 triage);nox#1213 monitor slug 解析失效跳过;pandera#2624 记观察。
+- 预算约 500/500(fresh 391 大头)。
