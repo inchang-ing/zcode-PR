@@ -1,4 +1,4 @@
-"""Offline tests for the self-maintenance tools (review_sweep, maintainer_sweep, revival_scan)."""
+"""Offline tests for the self-maintenance tools (review_sweep, maintainer_sweep, revival_scan, session_claims, monitor_fresh)."""
 import importlib.util
 import json
 from datetime import datetime, timezone
@@ -20,6 +20,8 @@ def load(name):
 review_sweep = load("review_sweep")
 maintainer_sweep = load("maintainer_sweep")
 revival_scan = load("revival_scan")
+session_claims = load("session_claims")
+monitor_fresh = load("monitor_fresh")
 
 
 class FixedDatetime(datetime):
@@ -63,7 +65,7 @@ class ReviewSweepTests(OfflineTests):
             return response([items])
 
         with patch.object(review_sweep, "STATE", Path("unused.json")), \
-             patch.object(review_sweep, "read_json_object", return_value=state), \
+             patch.object(review_sweep, "load_pr_state", return_value=state), \
              patch.object(review_sweep.sys, "argv", ["x"]), \
              patch("subprocess.run", side_effect=fake_api):
             import io, contextlib
@@ -83,7 +85,7 @@ class ReviewSweepTests(OfflineTests):
     def test_failed_query_is_unknown_not_zero(self):
         state = {"a/b#1": {"state": "OPEN", "updatedAt": "2026-10-24T18:00:00Z"}}
         with patch.object(review_sweep, "STATE", Path("unused.json")), \
-             patch.object(review_sweep, "read_json_object", return_value=state), \
+             patch.object(review_sweep, "load_pr_state", return_value=state), \
              patch.object(review_sweep.sys, "argv", ["x"]), \
              patch("subprocess.run", return_value=response([], returncode=1)):
             import io, contextlib
@@ -92,6 +94,97 @@ class ReviewSweepTests(OfflineTests):
                 status = review_sweep.main()
         self.assertEqual(status, 1)
         self.assertIn("UNKNOWN a/b#1", out.getvalue())
+
+    def test_our_reply_after_human_activity_resolves_without_action(self):
+        state = {"a/b#1": {"state": "OPEN", "updatedAt": "2026-10-24T18:00:00Z"}}
+        # comments: human at 09:00, our reply at 10:00 (both after --since);
+        # reviews: none. Latest human item is us -> resolved, not ACTION.
+        comments = [
+            dict(user={"login": "human"}, created_at="2026-10-24T13:00:00Z"),
+            dict(user={"login": "inchang-ing"}, created_at="2026-10-24T14:00:00Z"),
+        ]
+
+        def fake_api(cmd, **kwargs):
+            if any("/comments" in c for c in cmd):
+                return response([comments])
+            return response([[]])
+
+        with patch.object(review_sweep, "STATE", Path("unused.json")), \
+             patch.object(review_sweep, "load_pr_state", return_value=state), \
+             patch.object(review_sweep.sys, "argv", ["x"]), \
+             patch("subprocess.run", side_effect=fake_api):
+            import io, contextlib
+            out = io.StringIO()
+            with contextlib.redirect_stdout(out):
+                review_sweep.main()
+        text = out.getvalue()
+        self.assertNotIn("ACTION", text)
+        self.assertIn("1 resolved (we replied last)", text)
+
+    def test_human_reply_after_ours_stays_actionable(self):
+        state = {"a/b#1": {"state": "OPEN", "updatedAt": "2026-10-24T18:00:00Z"}}
+        comments = [
+            dict(user={"login": "inchang-ing"}, created_at="2026-10-24T13:00:00Z"),
+            dict(user={"login": "human"}, created_at="2026-10-24T14:00:00Z"),
+        ]
+
+        def fake_api(cmd, **kwargs):
+            if any("/comments" in c for c in cmd):
+                return response([comments])
+            return response([[]])
+
+        with patch.object(review_sweep, "STATE", Path("unused.json")), \
+             patch.object(review_sweep, "load_pr_state", return_value=state), \
+             patch.object(review_sweep.sys, "argv", ["x"]), \
+             patch("subprocess.run", side_effect=fake_api):
+            import io, contextlib
+            out = io.StringIO()
+            with contextlib.redirect_stdout(out):
+                review_sweep.main()
+        self.assertIn("ACTION a/b#1", out.getvalue())
+
+    def test_approved_review_resolves_without_action(self):
+        state = {"a/b#1": {"state": "OPEN", "updatedAt": "2026-10-24T18:00:00Z"}}
+        reviews = [dict(user={"login": "maintainer"},
+                        submitted_at="2026-10-24T15:00:00Z", state="APPROVED")]
+
+        def fake_api(cmd, **kwargs):
+            if any("/reviews" in c for c in cmd):
+                return response([reviews])
+            return response([[]])
+
+        with patch.object(review_sweep, "STATE", Path("unused.json")), \
+             patch.object(review_sweep, "load_pr_state", return_value=state), \
+             patch.object(review_sweep.sys, "argv", ["x"]), \
+             patch("subprocess.run", side_effect=fake_api):
+            import io, contextlib
+            out = io.StringIO()
+            with contextlib.redirect_stdout(out):
+                review_sweep.main()
+        text = out.getvalue()
+        self.assertNotIn("ACTION", text)
+        self.assertIn("1 resolved (we replied last)", text)
+
+    def test_changes_requested_review_stays_actionable(self):
+        state = {"a/b#1": {"state": "OPEN", "updatedAt": "2026-10-24T18:00:00Z"}}
+        reviews = [dict(user={"login": "maintainer"},
+                        submitted_at="2026-10-24T15:00:00Z",
+                        state="CHANGES_REQUESTED")]
+
+        def fake_api(cmd, **kwargs):
+            if any("/reviews" in c for c in cmd):
+                return response([reviews])
+            return response([[]])
+
+        with patch.object(review_sweep, "STATE", Path("unused.json")), \
+             patch.object(review_sweep, "load_pr_state", return_value=state), \
+             patch.object(review_sweep.sys, "argv", ["x"]), \
+             patch("subprocess.run", side_effect=fake_api):
+            import io, contextlib
+            out = io.StringIO()
+            with contextlib.redirect_stdout(out):
+                review_sweep.main()
+        self.assertIn("ACTION a/b#1", out.getvalue())
 
 
 class MaintainerSweepTests(OfflineTests):
@@ -165,6 +258,100 @@ class RevivalScanTests(OfflineTests):
             with contextlib.redirect_stdout(out):
                 revival_scan.main()
         self.assertIn("run maintainer_sweep.py --json", out.getvalue())
+
+    def test_dispositions_are_annotated_and_new_faces_are_not(self):
+        results = [{"ok": [
+            {"key": "python/mypy#22159", "repo": "python/mypy", "num": 22159,
+             "author_association": "COLLABORATOR", "age_days": 19,
+             "comments": 0, "title": "T", "url": "u"},
+            {"key": "new/repo#7", "repo": "new/repo", "num": 7,
+             "author_association": "MEMBER", "age_days": 1,
+             "comments": 0, "title": "Fresh", "url": "u"},
+        ]}]
+        with patch.object(maintainer_sweep, "build_pool", return_value=["a/b"]), \
+             patch.object(maintainer_sweep, "ThreadPoolExecutor") as ex, \
+             patch.object(maintainer_sweep, "atomic_write_json") as save, \
+             patch.object(maintainer_sweep.sys, "argv", ["x", "--json"]):
+            ex.return_value.__enter__.return_value.map.return_value = results
+            import io, contextlib
+            out = io.StringIO()
+            with contextlib.redirect_stdout(out):
+                maintainer_sweep.main()
+        text = out.getvalue()
+        self.assertIn("python/mypy#22159", text)
+        self.assertIn("[DISPOSITIONED", text)
+        self.assertIn("stand-down", text)
+        self.assertIn("new/repo#7", text)
+        self.assertNotIn("new/repo#7 [DISPOSITIONED", text)
+        saved = save.call_args.args[1]["candidates"]
+        dispositioned = [c for c in saved if c["key"] == "python/mypy#22159"]
+        self.assertIn("reason", dispositioned[0]["dispositioned"])
+
+
+class SessionClaimsTests(unittest.TestCase):
+    def setUp(self):
+        import tempfile
+        self.dir = tempfile.TemporaryDirectory()
+        self.addCleanup(self.dir.cleanup)
+        self.path = Path(self.dir.name) / "session_claims.json"
+        patcher = patch.object(session_claims, "CLAIMS_PATH", self.path)
+        patcher.start()
+        self.addCleanup(patcher.stop)
+
+    def test_claim_check_release_lifecycle(self):
+        self.assertTrue(session_claims.check("o/r#1"))
+        self.assertTrue(session_claims.claim("o/r#1"))
+        self.assertFalse(session_claims.check("o/r#1"))
+        self.assertFalse(session_claims.claim("o/r#1"))  # busy
+        self.assertTrue(session_claims.release("o/r#1"))
+        self.assertTrue(session_claims.check("o/r#1"))
+        self.assertFalse(session_claims.release("o/r#1"))
+
+    def test_expired_claim_is_pruned_on_check(self):
+        now = 1_000_000.0
+        self.assertTrue(session_claims.claim("o/r#2", now=now - 49 * 3600))
+        self.assertTrue(session_claims.check("o/r#2", now=now))
+        self.assertEqual(session_claims.list_claims(now=now), {})
+
+    def test_live_claim_blocks(self):
+        now = 1_000_000.0
+        self.assertTrue(session_claims.claim("o/r#3", now=now))
+        self.assertFalse(session_claims.check("o/r#3", now=now + 3600))
+        self.assertEqual(
+            list(session_claims.list_claims(now=now + 3600)), ["o/r#3"])
+
+
+class MonitorFreshPoolTests(unittest.TestCase):
+    def test_norm_maps_dead_slugs_and_drops_unresolvable_and_blocked(self):
+        from repository_policy import DEAD_OR_RENAMED  # noqa: E402
+        self.assertEqual(
+            monitor_fresh._norm("aiohttp-libs/aiohttp"), "aio-libs/aiohttp")
+        self.assertEqual(monitor_fresh._norm("wnblm/nox"), "wntrblm/nox")
+        self.assertEqual(monitor_fresh._norm("pyjwt/jwt"), "jpadilla/pyjwt")
+        self.assertIsNone(monitor_fresh._norm("hegel-ai/promptic"))
+        self.assertIsNone(monitor_fresh._norm("psf/pycodestyle"))
+        self.assertIsNone(monitor_fresh._norm("pallets/blinker"))  # blocked owner
+        self.assertIsNone(monitor_fresh._norm("vllm-project/vllm"))  # non-testable
+        self.assertEqual(monitor_fresh._norm("FastAPI/FastAPI"), "fastapi/fastapi")
+
+    def test_dead_slugs_are_gone_from_built_tiers(self):
+        always, rotating = monitor_fresh.build_tiers()
+        pool = set(always) | set(rotating)
+        for dead in ("aiohttp-libs/aiohttp", "hegel-ai/promptic",
+                     "portkey-ai/portkey-python", "wnblm/nox",
+                     "pytest-dev/pytest-lazy-fixture", "psf/pycodestyle",
+                     "pallets/blinker"):
+            self.assertNotIn(dead, pool)
+        self.assertIn("aio-libs/aiohttp", pool)
+        self.assertIn("wntrblm/nox", pool)
+
+    def test_always_slice_rotation_covers_everything(self):
+        always, rotating = monitor_fresh.build_tiers()
+        slices = [set(always[i::monitor_fresh.ALWAYS_SLICES])
+                  for i in range(monitor_fresh.ALWAYS_SLICES)]
+        covered = slices[0] | slices[1]
+        self.assertEqual(covered, set(always))
+        self.assertEqual(len(slices[0]), len(slices[1]))  # even split
 
 
 if __name__ == "__main__":

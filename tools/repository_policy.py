@@ -50,6 +50,24 @@ INTERACTION_HOLDS = {
 }
 NON_TESTABLE = {"apache/arrow", "vllm-project/vllm", "apache/seatunnel", "langfuse/langfuse"}
 
+# Pool slug hygiene (2026-10-30): the scan_recon*/scan_agent2 pool lists carry slugs
+# that 404 every round or have moved orgs. `_norm` in monitor_fresh (and every
+# pool builder that calls build_tiers) applies this map: value = the correct
+# slug, or None = unresolvable, drop the entry. Evidence: fresh-lane ERROR lines
+# ("query incomplete") repeated every round for these slugs.
+DEAD_OR_RENAMED = {
+    "aiohttp-libs/aiohttp": "aio-libs/aiohttp",       # aiohttp moved to aio-libs
+    "pyjwt/jwt": "jpadilla/pyjwt",                    # pyjwt lives under jpadilla
+    "encode/httpx-ws": "frankie567/httpx-ws",         # httpx-ws lives under frankie567
+    "daily-co/pipecat": "pipecat-ai/pipecat",         # pipecat moved to pipecat-ai
+    "python-opencv/opencv-python": "opencv/opencv-python",
+    "psf/pycodestyle": None,                          # pycqa/pycodestyle; pycqa is blocked
+    "hegel-ai/promptic": None,                        # unresolvable (10-24 pool hygiene)
+    "portkey-ai/portkey-python": None,                # unresolvable
+    "pytest-dev/pytest-lazy-fixture": None,           # unresolvable
+    "wnblm/nox": "wntrblm/nox",                       # nox: wnblm is a typo of wntrblm
+}
+
 # Issue-level suppressions for adjudications that survive dropping the repo name.
 # Never put a repo-wide trait here; those belong in NON_TESTABLE / MANUAL_GATES.
 # `updated_at` is the upstream state the decision was made against: when upstream

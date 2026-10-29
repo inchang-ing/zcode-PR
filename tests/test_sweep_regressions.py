@@ -23,6 +23,84 @@ def timeline_pr(repo="other/project", number=10):
 
 
 class ReviewPaginationTests(OfflineTests):
+    def test_offset_since_compares_instants_and_uses_utc_api_parameter(self):
+        since = '2026-10-24T20:00:00+08:00'
+        state = {'a/b#1': {'state': 'OPEN', 'updatedAt': '2026-10-24T13:00:00Z'}}
+        item = {'user': {'login': 'human'}, 'created_at': '2026-10-24T13:00:00Z',
+                'submitted_at': '2026-10-24T13:00:00Z'}
+        with patch.object(review_sweep, 'load_pr_state', return_value=state), \
+             patch.object(review_sweep.sys, 'argv', ['x', '--since', since]), \
+             patch('subprocess.run', return_value=response([[item]])) as run, \
+             contextlib.redirect_stdout(io.StringIO()) as out:
+            self.assertEqual(review_sweep.main(), 0)
+        self.assertIn('ACTION a/b#1: 1 human comments, 1 human reviews', out.getvalue())
+        self.assertEqual(run.call_count, 2)
+        # The comments endpoint fetches the full list (latest-human tracking);
+        # the UTC-instant since comparison happens client-side in the sweep.
+        comments_url = run.call_args_list[0].args[0][2]
+        self.assertIn('/comments', comments_url)
+        self.assertNotIn('since=', comments_url)
+
+    def test_fractional_seconds_and_activity_offsets_respect_since_boundary(self):
+        stamps = ['2026-10-24T12:00:00Z', '2026-10-24T20:00:00.500+08:00',
+                  '2026-10-24T12:00:00.501Z']
+        items = [{'user': {'login': 'human'}, 'created_at': stamp, 'submitted_at': stamp}
+                 for stamp in stamps]
+        for kind in ('comments', 'reviews'):
+            with self.subTest(kind=kind), patch('subprocess.run', return_value=response([items])):
+                count, latest = review_sweep.human_activity(
+                    'a/b', '1', kind,
+                    review_sweep.parse_timestamp('2026-10-24T12:00:00.500Z'))
+                self.assertEqual(count, 2)
+                self.assertEqual(latest[0], 'human')
+
+    def test_invalid_since_is_cli_error_before_state_or_api_reads(self):
+        for since in ('not-a-date', '2026-10-24T12:00:00', '2026-99-99T99:99:99Z',
+                      '0001-01-01T00:00:00+01:00', ''):
+            with self.subTest(since=since):
+                with patch.object(review_sweep.sys, 'argv', ['x', '--since', since]), \
+                     patch.object(review_sweep, 'load_pr_state', return_value={}) as read, \
+                     patch('subprocess.run') as run, contextlib.redirect_stderr(io.StringIO()), \
+                     contextlib.redirect_stdout(io.StringIO()), self.assertRaises(SystemExit) as result:
+                    review_sweep.main()
+                self.assertEqual(result.exception.code, 2)
+                read.assert_not_called()
+                run.assert_not_called()
+
+    def test_invalid_pr_update_is_unknown_without_hiding_other_pr(self):
+        item = {'user': {'login': 'human'}, 'created_at': SINCE, 'submitted_at': SINCE}
+        for stamp in (None, '', 'not-a-date', '2026-10-24T12:00:00', '2026-99-99T99:99:99Z'):
+            state = {'a/b#1': {'state': 'OPEN', 'updatedAt': stamp},
+                     'a/b#2': {'state': 'OPEN', 'updatedAt': SINCE}}
+            with self.subTest(stamp=stamp), \
+                 patch.object(review_sweep, 'load_pr_state', return_value=state), \
+                 patch.object(review_sweep.sys, 'argv', ['x', '--since', SINCE]), \
+                 patch('subprocess.run', return_value=response([[item]])) as run, \
+                 contextlib.redirect_stdout(io.StringIO()) as out:
+                self.assertEqual(review_sweep.main(), 1)
+                self.assertIn('UNKNOWN a/b#1', out.getvalue())
+                self.assertIn('ACTION a/b#2', out.getvalue())
+                self.assertEqual(run.call_count, 2)
+
+    def test_invalid_activity_time_is_unknown_without_hiding_other_pr(self):
+        state = {f'a/b#{n}': {'state': 'OPEN', 'updatedAt': SINCE} for n in (1, 2)}
+        for kind in ('comments', 'reviews'):
+            for stamp in ('not-a-date', '2026-10-24T12:00:00', '2026-99-99T99:99:99Z'):
+                def fake_api(cmd, **kwargs):
+                    item = {'user': {'login': 'human'}, 'created_at': SINCE, 'submitted_at': SINCE}
+                    if '/1/' in cmd[2] and ('/reviews?' in cmd[2]) == (kind == 'reviews'):
+                        item['created_at' if kind == 'comments' else 'submitted_at'] = stamp
+                    return response([[item]])
+                with self.subTest(kind=kind, stamp=stamp), \
+                     patch.object(review_sweep, 'load_pr_state', return_value=state), \
+                     patch.object(review_sweep.sys, 'argv', ['x', '--since', SINCE]), \
+                     patch('subprocess.run', side_effect=fake_api) as run, \
+                     contextlib.redirect_stdout(io.StringIO()) as out:
+                    self.assertEqual(review_sweep.main(), 1)
+                    self.assertIn('UNKNOWN a/b#1', out.getvalue())
+                    self.assertIn('ACTION a/b#2', out.getvalue())
+                    self.assertEqual(run.call_count, 3 if kind == 'comments' else 4)
+
     def test_cli_exit_codes_distinguish_empty_success_from_query_failure(self):
         cases = [(review_sweep, ["--since", SINCE],
                   {"a/b#1": {"state": "OPEN", "updatedAt": SINCE}}),
@@ -30,7 +108,7 @@ class ReviewPaginationTests(OfflineTests):
         for module, args, data in cases:
             for failed in (False, True):
                 with self.subTest(module=module.__name__, failed=failed), \
-                     patch("pipeline_state.read_json_object", return_value=data if failed else {}), \
+                     patch("pr_state.load_pr_state" if module is review_sweep else "pipeline_state.read_json_object", return_value=data if failed else {}), \
                      patch.object(module.sys, "argv", [module.__file__, *args]), \
                      patch("subprocess.run", return_value=response([], 1)), \
                      contextlib.redirect_stdout(io.StringIO()), self.assertRaises(SystemExit) as result:
@@ -47,7 +125,12 @@ class ReviewPaginationTests(OfflineTests):
         for kind in ("comments", "reviews"):
             pages = [early, late + ([{"submitted_at": None, "state": "PENDING"}] if kind == "reviews" else [])]
             with self.subTest(kind=kind), patch("subprocess.run", return_value=response(pages)) as run:
-                self.assertEqual(review_sweep.human_count("a/b", "1", kind, SINCE), 1)
+                count, latest = review_sweep.human_activity(
+                    "a/b", "1", kind, review_sweep.parse_timestamp(SINCE))
+                self.assertEqual(count, 1)
+                # The bot page-1 items are skipped, so the newest non-bot item
+                # is the human comment, not our own same-timestamp reply.
+                self.assertEqual(latest[0], "human")
                 cmd = run.call_args.args[0]
                 self.assertIn("--paginate", cmd)
                 self.assertIn("--slurp", cmd)
@@ -61,11 +144,13 @@ class ReviewPaginationTests(OfflineTests):
         for result in bad:
             with self.subTest(result=result), patch("subprocess.run", return_value=result):
                 with self.assertRaises(ValueError):
-                    review_sweep.human_count("a/b", "1", "comments", SINCE)
+                    review_sweep.human_activity(
+                        "a/b", "1", "comments", review_sweep.parse_timestamp(SINCE))
         for exc in (OSError("missing"), UnicodeError("invalid encoding"), subprocess.TimeoutExpired("gh", 60)):
             with self.subTest(error=exc), patch("subprocess.run", side_effect=exc):
                 with self.assertRaises(ValueError):
-                    review_sweep.human_count("a/b", "1", "comments", SINCE)
+                    review_sweep.human_activity(
+                        "a/b", "1", "comments", review_sweep.parse_timestamp(SINCE))
 
     def test_unknown_pr_does_not_hide_later_actionable_pr(self):
         state = {f"a/b#{n}": {"state": "OPEN", "updatedAt": SINCE} for n in (1, 2)}
@@ -77,7 +162,7 @@ class ReviewPaginationTests(OfflineTests):
                                "submitted_at": SINCE}]])
 
         out = io.StringIO()
-        with patch.object(review_sweep, "read_json_object", return_value=state), \
+        with patch.object(review_sweep, "load_pr_state", return_value=state), \
              patch.object(review_sweep.sys, "argv", ["x", "--since", SINCE]), \
              patch("subprocess.run", side_effect=fake_api), contextlib.redirect_stdout(out):
             self.assertEqual(review_sweep.main(), 1)
@@ -86,12 +171,13 @@ class ReviewPaginationTests(OfflineTests):
 
     def test_successful_empty_activity_is_not_unknown(self):
         state = {"a/b#1": {"state": "OPEN", "updatedAt": SINCE}}
-        with patch.object(review_sweep, "read_json_object", return_value=state), \
+        with patch.object(review_sweep, "load_pr_state", return_value=state), \
              patch.object(review_sweep.sys, "argv", ["x", "--since", SINCE]), \
              patch("subprocess.run", return_value=response([[]])), \
              contextlib.redirect_stdout(io.StringIO()) as out:
             self.assertEqual(review_sweep.main(), 0)
-        self.assertIn("0 with human activity, 0 unknown", out.getvalue())
+        self.assertIn("0 with human activity, 0 resolved (we replied last), 0 unknown",
+                      out.getvalue())
 
 
 class RevivalPaginationTests(OfflineTests):

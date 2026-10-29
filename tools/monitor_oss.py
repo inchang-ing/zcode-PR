@@ -2,9 +2,10 @@
 """OSS PR 体检: 只扫 STATE.md 的 OSS 段, 拉 state/mergeable/reviewDecision/CI 检查, 报 diff."""
 import re, subprocess, json, pathlib, time, sys
 import hashlib
+from concurrent.futures import ThreadPoolExecutor
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
-from pipeline_state import file_lock
+from pipeline_state import atomic_write_text, file_lock
 from pr_state import (PR_STATE_PATH, PR_STATUS_PATH, LEGACY_PATHS,
                       load_pr_state, save_observations, utc_now)
 
@@ -19,7 +20,7 @@ _ROW_RE = re.compile(r"github\.com/([^/\s]+)/([^/\s)]+)/pull/(\d+)")
 
 def _row_key(line):
     m = _ROW_RE.search(line)
-    return f"{m.group(1)}/{m.group(2)}#{int(m.group(3))}" if (m and "| [" in line) else None
+    return f"{m.group(1)}/{m.group(2)}#{int(m.group(3))}".lower() if (m and "| [" in line) else None
 
 
 def _fix_row_count(line, kept, header):
@@ -37,26 +38,30 @@ def reconcile_state_ledger(cur, state_path=STATE):
     touched; the file's line endings are preserved as-is.
     Returns the removed ledger lines (stripped), [] when nothing to remove.
     """
-    gone = {k for k, v in cur.items() if v.get("state") in ("MERGED", "CLOSED")}
+    gone = {k.lower() for k, v in cur.items() if v.get("state") in ("MERGED", "CLOSED")}
     if not gone or not pathlib.Path(state_path).exists():
         return []
-    raw = pathlib.Path(state_path).read_bytes()
-    newline = "\r\n" if b"\r\n" in raw else "\n"
-    text = raw.decode("utf-8")
-    head, sep, tail = text.partition("## 个人 fork")
-    removed, rebuilt = [], []
-    for section, header in ((head, "## OSS 贡献在飞"), (sep + tail, "## 个人 fork 在飞")):
-        lines = section.split(newline)
-        kept = [l for l in lines if not (_row_key(l) and _row_key(l) in gone)]
-        removed.extend(l.strip() for l in lines
-                       if _row_key(l) and _row_key(l) in gone)
-        if removed:
-            kept = [_fix_row_count(l, kept, header) for l in kept]
-        rebuilt.append(newline.join(kept))
-    if not removed:
-        return []
-    pathlib.Path(state_path).write_bytes((rebuilt[0] + rebuilt[1]).encode("utf-8"))
-    return removed
+    with file_lock(state_path):
+        try:
+            raw = pathlib.Path(state_path).read_bytes()
+        except FileNotFoundError:
+            return []
+        newline = "\r\n" if b"\r\n" in raw else "\n"
+        text = raw.decode("utf-8")
+        head, sep, tail = text.partition("## 个人 fork")
+        removed, rebuilt = [], []
+        for section, header in ((head, "## OSS 贡献在飞"), (sep + tail, "## 个人 fork 在飞")):
+            lines = section.split(newline)
+            kept = [l for l in lines if not (_row_key(l) and _row_key(l) in gone)]
+            removed.extend(l.strip() for l in lines
+                           if _row_key(l) and _row_key(l) in gone)
+            if removed:
+                kept = [_fix_row_count(l, kept, header) for l in kept]
+            rebuilt.append(newline.join(kept))
+        if not removed:
+            return []
+        atomic_write_text(state_path, rebuilt[0] + rebuilt[1])
+        return removed
 
 
 def gh(args):
@@ -78,7 +83,7 @@ def load_keys():
             continue
         for m in re.finditer(r"github\.com/([^/]+)/([^/]+)/pull/(\d+)", line):
             owner, repo, num = m.group(1), m.group(2), m.group(3)
-            keys[f"{owner}/{repo}#{num}"] = {"repo": f"{owner}/{repo}", "num": int(num)}
+            keys[f"{owner}/{repo}#{num}".lower()] = {"repo": f"{owner}/{repo}", "num": int(num)}
     return keys
 
 
@@ -139,8 +144,8 @@ def ci_fingerprint(roll):
             if check.get("state") not in {"SUCCESS", "FAILURE", "ERROR", "PENDING", "EXPECTED"}:
                 return None
             kind, name = "StatusContext", check.get("context")
-            identity = (check.get("id"), check.get("targetUrl"), check.get("createdAt"))
-            fields = ("id", "context", "targetUrl", "state", "createdAt")
+            identity = (check.get("id"), check.get("targetUrl"), check.get("createdAt"), check.get("startedAt"))
+            fields = ("id", "context", "targetUrl", "state", "createdAt", "startedAt")
         if (not isinstance(name, str) or not name.strip()
                 or check.get("__typename", kind) != kind
                 or not any(isinstance(value, str) and value.strip() for value in identity)
@@ -154,7 +159,7 @@ def ci_fingerprint(roll):
 
 def fetch(key):
     repo, num = key.split("#")
-    for _ in range(2):
+    for attempt in range(2):
         try:
             d = json.loads(gh(["pr", "view", str(num), "--repo", repo, "--json",
                                 "state,createdAt,closedAt,mergedAt,updatedAt,mergeable,reviewDecision,statusCheckRollup,title,headRefOid"]))
@@ -172,8 +177,13 @@ def fetch(key):
                     "createdAt": d.get("createdAt"), "mergedAt": d.get("mergedAt"),
                     "closedAt": d.get("closedAt"),
                     "title": d.get("title", ""), "checked_at": utc_now()}
+        except FileNotFoundError as e:
+            last = str(e)
+            break
         except Exception as e:
-            time.sleep(2); last = str(e)
+            last = str(e)
+            if attempt == 0:
+                time.sleep(2)
     return {"state": "QUERY_ERROR", "mergeable": "-", "reviewDecision": "-", "ci": "-", "title": "", "_err": last, "checked_at": utc_now()}
 
 
@@ -181,9 +191,11 @@ def run_round():
     keys = load_keys()
     if not keys:
         print("ERROR: STATE.md 未解析到在飞行,保留上次 baseline")
-        return
+        return 1
     base = load_pr_state(CANONICAL, LEGACY_PATHS)
-    cur = {k: fetch(k) for k in sorted(keys)}
+    keys = sorted({key.lower() for key in keys})
+    with ThreadPoolExecutor(max_workers=4) as executor:
+        cur = dict(zip(keys, executor.map(fetch, keys)))
 
     open_n = sum(1 for v in cur.values() if v["state"] == "OPEN")
     bad_ci = [(k, v["ci"]) for k, v in cur.items() if v["state"] == "OPEN" and ci_failed(v["ci"])]
@@ -211,7 +223,10 @@ def run_round():
             elif v["state"] == "OPEN" and b.get("state") == "OPEN":
                 if v["reviewDecision"] != b.get("reviewDecision"):
                     ch.append(f"[评审] {k}: {b.get('reviewDecision','-')} -> {v['reviewDecision']}")
-                if v["mergeable"] != b.get("mergeable"):
+                # UNKNOWN is GitHub's transient mergeability computation; only
+                # definitive transitions are worth a change line.
+                if (v["mergeable"] != b.get("mergeable")
+                        and "UNKNOWN" not in (v["mergeable"], b.get("mergeable"))):
                     ch.append(f"[mergeable] {k}: {b.get('mergeable','-')} -> {v['mergeable']}")
                 if v["ci"] != b.get("ci") or v.get("ci_fingerprint") != b.get("ci_fingerprint"):
                     detail = "（检查或运行已变化）" if v["ci"] == b.get("ci") else ""
@@ -225,17 +240,19 @@ def run_round():
     if not save_observations(CANONICAL, base, cur, REPORT):
         print("本轮无成功查询，未初始化 pr_state.json；旧基线保留")
 
-    removed = reconcile_state_ledger(cur)
+    removed = reconcile_state_ledger(cur, state_path=STATE)
     if removed:
         print(f"台账自动清理: 从 STATE.md 移除 {len(removed)} 条已合/已关行")
         for line in removed:
             print(f"  - {line[:100]}")
 
+    return 1 if any(v["state"] == "QUERY_ERROR" for v in cur.values()) else 0
+
 
 def main():
     with file_lock(CANONICAL):
-        run_round()
+        return run_round()
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

@@ -32,6 +32,7 @@ STATE_PATH = str(Path(__file__).resolve().parent / "monitor_state.json")
 PER_PAGE = 15
 PRUNE_DAYS = 7
 T3_SLICES = 3
+ALWAYS_SLICES = 2  # rotate the always tier across fires (halves per-fire cost)
 NOISE_SUBSTRINGS = ("ScreenContextAgent",)
 
 # Secondary EXTENSION pool lives only in STATE.md section 5.
@@ -53,11 +54,32 @@ EXTENSION_POOL = [
 
 
 def _norm(repo: str) -> str | None:
-    """Normalise a pool entry; None = skip."""
+    """Normalise a pool entry; None = skip.
+
+    Applies DEAD_OR_RENAMED (stale 404 slugs -> canonical slug or None) and
+    drops policy-blocked / non-testable repos, so every pool builder that
+    consumes build_tiers inherits the same hygiene without per-tool lists.
+    """
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    from repository_policy import (
+        BLOCKED_OWNERS,
+        BLOCKED_REPOS,
+        DEAD_OR_RENAMED,
+        NON_TESTABLE,
+    )
+
     repo = repo.strip().rstrip("?")
     if not repo or "/skip" in repo:
         return None
-    return repo.lower()
+    repo = repo.lower()
+    repo = DEAD_OR_RENAMED.get(repo, repo)
+    if repo is None:
+        return None
+    if repo in NON_TESTABLE or repo in BLOCKED_REPOS:
+        return None
+    if repo.split("/", 1)[0] in BLOCKED_OWNERS:
+        return None
+    return repo
 
 
 def build_tiers() -> tuple[list[str], list[str]]:
@@ -102,7 +124,7 @@ def build_tiers() -> tuple[list[str], list[str]]:
 
 def gh_api(path: str) -> str:
     cmd = [GH, "api", path]
-    for attempt in (1, 2):
+    for attempt in (1, 2, 3):
         try:
             r = subprocess.run(cmd, capture_output=True, text=True,
                                errors="replace", timeout=90)
@@ -110,7 +132,7 @@ def gh_api(path: str) -> str:
                 return r.stdout
         except (OSError, subprocess.TimeoutExpired):
             pass
-        if attempt == 1:
+        if attempt < 3:
             import time
 
             time.sleep(10)  # transient proxy flake (dial tcp 198.18.0.x)
@@ -149,12 +171,15 @@ def fetch_newest(repo: str, last_check: datetime) -> list[dict] | None:
                     continue
                 if "pull_request" in it:
                     continue
+                number = it.get("number")
+                if type(number) is not int or number <= 0:
+                    return None
                 title = it.get("title", "")
                 if any(n in title for n in NOISE_SUBSTRINGS):
                     continue
                 fresh.append({
                     "repo": repo,
-                    "num": it["number"],
+                    "num": number,
                     "age_h": round((datetime.now(timezone.utc) - created).total_seconds() / 3600, 2),
                     "title": title,
                     "labels": ",".join(l["name"] for l in it.get("labels", [])),
@@ -181,7 +206,7 @@ def persist_discoveries(items):
         atomic_write_json(path, inbox)
 
 
-def run_round() -> None:
+def run_round() -> int:
     init = "--init" in sys.argv
     state = load_state()
     now = datetime.now(timezone.utc).replace(microsecond=0)
@@ -197,11 +222,16 @@ def run_round() -> None:
     always, rotating = build_tiers()
     rot_index = int(state.get("rot_index", 0)) % T3_SLICES
     rot_slice = rotating[rot_index::T3_SLICES]
-    repos = always + rot_slice
+    # The always tier also rotates (default halves): the full ~96-repo always
+    # tier is what pushes a fresh fire to ~390 calls, leaving no triage budget.
+    alw_index = int(state.get("always_rot_index", 0)) % ALWAYS_SLICES
+    always_slice = always[alw_index::ALWAYS_SLICES]
+    repos = always_slice + rot_slice
 
     with ThreadPoolExecutor(max_workers=14) as pool:
         results = list(pool.map(lambda r: fetch_newest(
             r, datetime.fromisoformat(watermarks.get(r, state["default_since"]))), repos))
+    status = int(any(items is None for items in results))
 
     new_items = []
     for repo, items in zip(repos, results):
@@ -223,10 +253,11 @@ def run_round() -> None:
         save_state(state)
         print(
             f"INIT: baselined {len(seen)} seen keys; "
-            f"tiers: always={len(always)} rotating={len(rotating)} "
+            f"tiers: always={len(always)} (slice {alw_index}/{ALWAYS_SLICES}="
+            f"{len(always_slice)} this fire) rotating={len(rotating)} "
             f"(slice {rot_index}/{T3_SLICES}={len(rot_slice)} this fire)"
         )
-        return
+        return status
 
     # Persist before advancing seen/watermarks: a failed write can be safely replayed.
     persist_discoveries(new_items)
@@ -256,16 +287,19 @@ def run_round() -> None:
     state["last_check"] = now.isoformat()
     state["seen"] = seen
     state["rot_index"] = (rot_index + 1) % T3_SLICES
+    state["always_rot_index"] = (alw_index + 1) % ALWAYS_SLICES
     save_state(state)
     print(f"TEXTUAL-RETRY: {retry}")
+    return status
 
 
-def main() -> None:
+def main() -> int:
     with file_lock(STATE_PATH):
-        run_round()
+        status = run_round()
     from work_queue import refresh
     refresh()
+    return status
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

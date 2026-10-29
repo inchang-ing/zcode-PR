@@ -22,11 +22,22 @@ sys.path.insert(0, str(ROOT))
 
 from repository_policy import BLOCKED_OWNERS, BLOCKED_REPOS  # noqa: E402
 from pipeline_state import atomic_write_json  # noqa: E402
+from pr_state import load_pr_state  # noqa: E402
 
 GH = "C:/Program Files/GitHub CLI/gh.exe"
 NOW = datetime.now(timezone.utc)
 BUG_LABELS = {"bug", "type:bug", "bug (upstream)", "type: bug", "confirmed",
               "defect", "crash", "regression"}
+DISPOSITIONS_PATH = ROOT / "tools" / "dispositions.json"
+
+
+def load_dispositions() -> dict:
+    """issue -> {date, reason} registry; new faces lack an entry."""
+    try:
+        data = json.loads(DISPOSITIONS_PATH.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+    return {k: v for k, v in data.items() if not k.startswith("_") and isinstance(v, dict)}
 
 
 def build_pool() -> list[str]:
@@ -38,14 +49,11 @@ def build_pool() -> list[str]:
     pool = list(dict.fromkeys(always + rotating))
 
     # Skip repos where we already have 2 open PRs (same-repo cap).
-    full = set()
-    state_path = ROOT / "pr_state.json"
-    if state_path.exists():
-        counts: dict[str, int] = {}
-        for key, v in json.loads(state_path.read_text(encoding="utf-8")).items():
-            if v.get("state") == "OPEN":
-                counts[key.rsplit("#", 1)[0].lower()] = counts.get(key.rsplit("#", 1)[0].lower(), 0) + 1
-        full = {r for r, c in counts.items() if c >= 2}
+    counts: dict[str, int] = {}
+    for key, v in load_pr_state(ROOT / "pr_state.json", ()).items():
+        if v.get("state") == "OPEN":
+            counts[key.rsplit("#", 1)[0].lower()] = counts.get(key.rsplit("#", 1)[0].lower(), 0) + 1
+    full = {r for r, c in counts.items() if c >= 2}
 
     out = []
     for repo in pool:
@@ -115,15 +123,22 @@ def main() -> None:
             results.append(res)
     candidates = [h for res in results for h in res.get("ok", [])]
     skips = [res["skip"] for res in results if "skip" in res]
+    dispositions = load_dispositions()
     for h in sorted(candidates, key=lambda h: h["key"]):
+        seen = dispositions.get(h["key"])
+        tag = f" [DISPOSITIONED {seen['date']}: {seen['reason']}]" if seen else ""
         print(f"{h['key']} [{h['author_association']},{h['age_days']}d,"
-              f"{h['comments']}c] {h['title'][:90]}")
+              f"{h['comments']}c] {h['title'][:90]}{tag}")
     if args.show_skips:
         for s in sorted(skips):
             print(f"SKIP {s}")
     print(f"done: {len(pool) - len(skips)} repos ok, {len(skips)} failed, "
           f"{len(candidates)} candidates")
     if args.json:
+        for h in candidates:
+            seen = dispositions.get(h["key"])
+            if seen:
+                h["dispositioned"] = seen
         out = ROOT / "work/ledger/maintainer_candidates.json"
         out.parent.mkdir(parents=True, exist_ok=True)
         atomic_write_json(out, {"swept_at": NOW.isoformat(),

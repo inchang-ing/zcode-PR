@@ -32,6 +32,7 @@
 - agentscope 的 `/assign` 评论 = bot 正式认领,**必须读 issue 评论**。
 - 软认领与暂不接受 PR 的规则统一在 `tools/claim_rules.py`；扫描和终检共用，正文及全部评论命中即让。
 - 候选终检用 `tools/vet.py`,输出 `CLEAN / WARN / DROP / UNKNOWN`;**`UNKNOWN` 必须复核,不等于无人认领**。
+- **多会话认领登记(2026-10-30 增补,本周 docling#5007/psutil#3061 两次撞车的制度化)**:并行会话共享工作区,任何会话在 issue/PR 上开工(写码、推分支、发认领评论)前,先 `python -S tools/session_claims.py --check <owner/repo>#N`,空闲即 `--claim` 登记,完工/放弃 `--release`;活的认领 48h 自动过期。开工前另必查:`git fetch` 后对目标分支核对**远端 head sha 与本地是否一致**——不一致即有并行会话或维护者推过,以远端为准,禁止 force-push。
 
 ## 三、礼让
 

@@ -3,12 +3,14 @@ import contextlib
 import importlib.util
 import io
 import json
+import runpy
 from pathlib import Path
 import sys
 import tempfile
 import unittest
 from datetime import datetime, timedelta, timezone
 from unittest.mock import patch
+from types import SimpleNamespace
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "tools"))
@@ -38,17 +40,69 @@ def issue(number, created):
 
 
 class PRMonitorTests(unittest.TestCase):
+    def test_legacy_status_fingerprint_uses_gh_started_at_without_target_url(self):
+        check = {"__typename": "StatusContext", "context": "CodeRabbit",
+                 "startedAt": "2026-10-22T19:16:14Z", "state": "SUCCESS", "targetUrl": ""}
+        fingerprint = oss.ci_fingerprint([check])
+        self.assertIsNotNone(fingerprint)
+        self.assertNotEqual(fingerprint, oss.ci_fingerprint([
+            dict(check, startedAt="2026-10-22T19:16:15Z")]))
+
     def run_round(self, module, path, keys, values):
         loader = "load_state_keys" if module is scope else "load_keys"
         output = io.StringIO()
         with patch.object(module, "CANONICAL", str(path)), \
+                patch.object(module, "STATE", str(path.parent / "STATE.md")), \
                 patch.object(module, "LEGACY_PATHS", ()), \
                 patch.object(module, "REPORT", str(path.parent / "PR_STATUS.md")), \
                 patch.object(module, loader, return_value=dict.fromkeys(keys)), \
                 patch.object(module, "fetch", side_effect=lambda k: values[k]), \
                 contextlib.redirect_stdout(output):
-            module.main()
-        return output.getvalue()
+            status = module.main()
+        return output.getvalue(), status
+
+    def test_exit_status_and_partial_success(self):
+        for module in (scope, oss):
+            for states in ((), ("QUERY_ERROR",), ("OPEN", "QUERY_ERROR"), ("OPEN",)):
+                with self.subTest(module=module.__name__, states=states), tempfile.TemporaryDirectory() as tmp:
+                    path = Path(tmp) / "pr_state.json"
+                    values = {f"owner/repo#{i}": snapshot(state) for i, state in enumerate(states, 1)}
+                    _, status = self.run_round(module, path, values, values)
+                    self.assertEqual(status, 1 if not states or "QUERY_ERROR" in states else 0)
+                    if "OPEN" in states:
+                        self.assertEqual(json.loads(path.read_text(encoding="utf-8"))["owner/repo#1"]["state"], "OPEN")
+                    else:
+                        self.assertFalse(path.exists())
+
+    def test_cli_exits_nonzero_for_incomplete_rounds(self):
+        original_read = Path.read_text
+        for name in ("monitor_scope", "monitor_oss"):
+            for states in ((), ("QUERY_ERROR",), ("OPEN", "QUERY_ERROR"), ("OPEN",)):
+                with self.subTest(module=name, states=states), tempfile.TemporaryDirectory() as tmp:
+                    root = Path(tmp)
+                    ledger = "\n".join(f"| [#{i}](https://github.com/owner/repo/pull/{i}) | OPEN(today) |"
+                                       for i in range(1, len(states) + 1))
+                    def read_text(path, *args, **kwargs):
+                        return ledger if path == ROOT / "STATE.md" else original_read(path, *args, **kwargs)
+                    def query(command, **kwargs):
+                        failed = states[int(command[3]) - 1] == "QUERY_ERROR"
+                        response = dict(state="OPEN", statusCheckRollup=[], headRefOid="a" * 40)
+                        return SimpleNamespace(returncode=int(failed), stdout=json.dumps(response), stderr="offline")
+                    with patch("pr_state.PR_STATE_PATH", root / "pr_state.json"), \
+                            patch("pr_state.PR_STATUS_PATH", root / "PR_STATUS.md"), \
+                            patch("pr_state.LEGACY_PATHS", ()), \
+                            patch.object(Path, "read_text", read_text), \
+                            patch("subprocess.run", side_effect=query), patch("time.sleep"), \
+                            contextlib.redirect_stdout(io.StringIO()), self.assertRaises(SystemExit) as result:
+                        runpy.run_path(str(ROOT / "tools" / f"{name}.py"), run_name="__main__")
+                    self.assertEqual(result.exception.code, 1 if not states or "QUERY_ERROR" in states else 0)
+
+    def test_round_helper_uses_temporary_ledger(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "pr_state.json"
+            with patch.object(oss, "reconcile_state_ledger", return_value=[]) as reconcile:
+                self.run_round(oss, path, ["owner/repo#1"], {"owner/repo#1": snapshot("MERGED")})
+            self.assertEqual(reconcile.call_args.kwargs.get("state_path"), str(path.parent / "STATE.md"))
 
     def test_error_preserves_open_baseline_and_later_merge_reports(self):
         for module in (scope, oss):
@@ -57,14 +111,14 @@ class PRMonitorTests(unittest.TestCase):
                 key = "owner/repo#1"
                 baseline = {key: snapshot()}
                 path.write_text(json.dumps(baseline), encoding="utf-8")
-                output = self.run_round(module, path, [key], {key: snapshot("QUERY_ERROR")})
+                output, _ = self.run_round(module, path, [key], {key: snapshot("QUERY_ERROR")})
                 self.assertNotIn("离场", output)
                 saved = json.loads(path.read_text(encoding="utf-8"))[key]
                 for field, value in baseline[key].items():
                     self.assertEqual(saved[field], value)
                 self.assertIn("query_error", saved)
                 self.assertIn("query_error_at", saved)
-                output = self.run_round(module, path, [key], {key: snapshot("MERGED")})
+                output, _ = self.run_round(module, path, [key], {key: snapshot("MERGED")})
                 self.assertIn("OPEN -> MERGED", output)
                 self.assertEqual(json.loads(path.read_text(encoding="utf-8"))[key]["state"], "MERGED")
 
@@ -74,11 +128,11 @@ class PRMonitorTests(unittest.TestCase):
                 path = Path(tmp) / "baseline.json"
                 old, new = "owner/repo#1", "owner/repo#2"
                 path.write_text(json.dumps({old: snapshot()}), encoding="utf-8")
-                output = self.run_round(module, path, [old, new],
+                output, _ = self.run_round(module, path, [old, new],
                                         {old: snapshot(), new: snapshot("QUERY_ERROR")})
                 self.assertNotIn("新增在飞", output)
                 self.assertNotIn("state", json.loads(path.read_text(encoding="utf-8"))[new])
-                output = self.run_round(module, path, [old, new],
+                output, _ = self.run_round(module, path, [old, new],
                                         {old: snapshot(), new: snapshot()})
                 self.assertIn(f"[新增在飞] {new}", output)
 
@@ -137,11 +191,21 @@ class FreshMonitorTests(unittest.TestCase):
         output = io.StringIO()
         with patch.object(fresh, "STATE_PATH", str(path)), \
                 patch.object(fresh, "build_tiers", return_value=tiers), \
+                patch.object(fresh, "ALWAYS_SLICES", 1), \
                 patch.object(fresh, "fetch_newest", side_effect=fetch), \
+                patch("work_queue.refresh", return_value=[]) as refresh, \
                 patch.object(sys, "argv", argv or ["monitor_fresh.py"]), \
                 contextlib.redirect_stdout(output):
             fresh.main()
+            refresh.assert_called_once_with()
         return output.getvalue(), json.loads(path.read_text(encoding="utf-8"))
+
+    def test_round_helper_does_not_refresh_real_queue(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "state.json"
+            with patch("work_queue.refresh", side_effect=AssertionError("test leaked into real queue")) as refresh:
+                self.run_round(path, (["owner/repo"], []), lambda repo, since: [])
+            refresh.assert_not_called()
 
     def test_paginates_until_watermark_including_boundary_and_filters_prs(self):
         since = datetime(2026, 10, 15, 10, tzinfo=timezone.utc)
@@ -261,6 +325,26 @@ class LedgerReconcileTests(unittest.TestCase):
                  "me/mine#7", "me/mine#8"]
         return {k: {"state": s} for k, s in zip(names, states)}
 
+    def test_reconcile_requires_ledger_lock_before_reading(self):
+        from pipeline_state import file_lock
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "STATE.md"
+            original = LEDGER.encode("utf-8")
+            path.write_bytes(original)
+            with file_lock(path), self.assertRaises(RuntimeError):
+                oss.reconcile_state_ledger(self.cur("OPEN", "MERGED"), state_path=str(path))
+            self.assertEqual(path.read_bytes(), original)
+
+    def test_failed_atomic_replace_preserves_ledger(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "STATE.md"
+            original = LEDGER.replace("\n", "\r\n").encode("utf-8")
+            path.write_bytes(original)
+            with patch("pipeline_state.os.replace", side_effect=OSError("disk failure")), self.assertRaises(OSError):
+                oss.reconcile_state_ledger(self.cur("OPEN", "MERGED"), state_path=str(path))
+            self.assertEqual(path.read_bytes(), original)
+            self.assertEqual(list(path.parent.glob("*.tmp")), [])
+
     def test_merged_and_closed_rows_are_removed_and_counts_fixed(self):
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / "STATE.md"
@@ -295,6 +379,13 @@ class LedgerReconcileTests(unittest.TestCase):
             raw = path.read_bytes()
             self.assertIn(b"\r\n", raw)
             self.assertNotIn(b"\n", raw.replace(b"\r\n", b""))
+
+    def test_ledger_removed_before_read_is_a_noop(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "STATE.md"
+            path.write_bytes(LEDGER.encode("utf-8"))
+            with patch.object(Path, "read_bytes", side_effect=FileNotFoundError):
+                self.assertEqual(oss.reconcile_state_ledger(self.cur("MERGED"), state_path=str(path)), [])
 
     def test_missing_state_file_is_a_noop(self):
         self.assertEqual(oss.reconcile_state_ledger(
