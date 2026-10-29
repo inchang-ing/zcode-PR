@@ -2525,3 +2525,10 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - **optuna#6913 评审响应**:gen740 的测试合并意见已由并行会话落实(fd75651);本会话补 c-bata 的意见——删除私有 helper 的 docstring(对齐模块私有函数惯例),62 测试通过,推送 a3ccfe7 + 回复。
 - **docling#5007 让位并行会话**:评审者 ceberam 确认"quite robust"仅剩 DCO/真实 docx ground-truth 两项;发现 PR head 6d71e1c(gridAfter 处理)由并行会话在 ceberam 评论 8 分钟后推送——本会话不碰该分支防撞车(多会话铁律)。
 - fresh 车道整批 yt-dlp(NO-AI 政策仓)跳过。
+
+
+## 2026-10-29 15:48 UTC(第六十四轮:空手,切片 0 政策排除为主)
+
+- review_sweep 的 2 个 ACTION 均为上轮已处置(docling#5007=并行会话领地;optuna#6913=回复已发);monitor_oss 仅 mergeable 瞬时翻转回 MERGEABLE。
+- 切片 0/3(115 仓 24 候选):新面孔全部政策/不可验排除——python/mypy 五项(#22265/#22264/#22262/#22260/#22240,已降级政策)、polars#30205(scan_delta pickle 后读最新版本,fix 面在 deltalake Rust);其余 twisted 批既有档。零新处置。
+- 预算约 210/500。
