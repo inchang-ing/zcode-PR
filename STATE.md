@@ -11,7 +11,7 @@
 > | 项目说明 / 目录 / 流程 / 飞书 / 换机 | **`README.md`** |
 > | 历史轮次 / 已合并 PR 验证记录 | **`rounds-log.md`**、**`STATE-archive.md`** |
 
-## OSS 贡献在飞（54）
+## OSS 贡献在飞（55）
 
 | PR | 仓库 | 状态 | 摘要 |
 | --- | --- | --- | --- |
@@ -69,6 +69,7 @@
 | [#2629](https://github.com/unionai-oss/pandera/pull/2629) | unionai-oss/pandera | OPEN(2026-10-31) | fix(ibis): empty tables vacuously satisfy checks |
 | [#5007](https://github.com/docling-project/docling/pull/5007) | docling-project/docling | OPEN(2026-10-25) | fix(docx): keep tables whose w:tblGrid is missing or under-d |
 | [#2350](https://github.com/coveragepy/coveragepy/pull/2350) | coveragepy/coveragepy | OPEN(2026-10-25) | fix: hold the data lock only to snapshot, and make it re-ent |
+| [#3074](https://github.com/vibrantlabsai/ragas/pull/3074) | vibrantlabsai/ragas | OPEN(2026-10-31) | docs: use Answer Relevancy consistently for the answer_relevance metric |
 
 ## 个人 fork 在飞（21）
 

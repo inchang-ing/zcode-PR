@@ -2699,3 +2699,9 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - review_sweep 0 ACTION;monitor_oss 无变化;pandera#2629 CI 全绿(40✓/0✗)。
 - fresh 捕 11:lm-eval#4493(HRM8K 浮点归一化合并大整数,报告者 Max-Reisinger 自有 PR #4494)、trl#8042(qgallouedec 提议移除 API)、mlflow 三条(#27341 并行评分竞态/#27342 reproduced/#27344)、langchain(assign-gate)、pydantic-ai 三条(DouweM+bot)、openai-docs、spyder(IPython 9.18 集成)按图出局。
 - 预算约 300/500。
+
+
+## 2026-10-31 18:56 UTC(监控覆盖自检:发现并补录 1 个盲点)
+
+- 用户质询"其它在飞PR有没有监控"→ 权威搜索 vs STATE.md 全量比对:55 外部 OPEN vs 54 已跟踪,**盲点 1 个 = vibrantlabsai/ragas#3074(并行会话 10-28 开的 docs PR 未登记)**,已当场补录(55);0 条 stale 行(自动清理持续有效)。
+- 结论:登记门机制有效但有单点依赖——开 PR 的会话忘记登记时,需要这种全量比对兜底。建议:把"搜索 vs STATE.md 比对"固化为 monitor_oss 的启动自检(下轮优化)。
