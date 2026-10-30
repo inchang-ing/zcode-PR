@@ -97,6 +97,7 @@
   "python/mypy#22262": {"date": "2026-10-29", "reason": "mypy 降级政策"},
   "python/mypy#22264": {"date": "2026-10-29", "reason": "mypy 降级政策"},
   "python/mypy#22265": {"date": "2026-10-29", "reason": "mypy 降级政策"},
+  "python/mypy#22290": {"date": "2026-10-31", "reason": "我们的修复 PR #22291 已被无声关闭(降级政策的直接案例),不重投"},
   "reflex-dev/reflex#7521": {"date": "2026-10-26", "reason": "核心修复已合并(#7588),残余为维护者设计"},
   "scrapy/scrapy#7812": {"date": "2026-10-26", "reason": "88d 设计讨论"},
   "scipy/scipy#26471": {"date": "2026-10-30", "reason": "scipy.special C 级,重构建不可验"},
