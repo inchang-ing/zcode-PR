@@ -2656,3 +2656,11 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - review_sweep 0 ACTION / 2 resolved;monitor_oss 无变化。
 - fresh 捕 12:pydantic-ai 五连(DouweM 路线票)、ray 五连(AarryaSaraf Parquet 统计裁剪审计批,重验证)、xarray#11830(bot)、xarray#11829(子类类型保持=深水设计区)、**unstructured#4632(sort_page_elements 的 _coords_ok 无视 strict_points 参数)= 报告者 Eapp1e 自有 PR #4633**(其 #4630 仍在审),报告者闭环让位。
 - 预算约 300/500。
+
+
+## 2026-10-31 16:20 UTC(第八十二轮:加大力度轮,rf#5839 被取代定性;fresh 全让位)
+
+- **rf#5839 离场定性**:pekkaklarck(MEMBER)礼貌关闭——本地已有修复(版本探测法 vs 我们的签名探测,"I believe works better"),我们的同日 PR 促使其落地自有修复,净效果正面。处置册补档(124 条)。
+- review_sweep 0 ACTION;monitor_oss 另见 dd-trace#20877 CONFLICTING(他人 PR,不涉我方)。
+- 加大力度:fresh 12 捕 + revival_scan 复核。fresh 全让位——strawberry#4773(核心成员 illia-v 亲报,占位 PR #4774)、trulens#3022(报告者自有 PR #3023)、darts#3326(尾部认领"first contribution, glad to open a PR")、sktime(重依赖)、mkdocs-material(主题仓支持类)、streamlit(前端)、yt-dlp(NO-AI+patch-available)、spyder(duplicate)按图出局。revival:唯一 stale 仍是 twisted#12734(维护者自有,永久不碰)。
+- 预算约 425/500。

@@ -1,126 +1,499 @@
 {
-  "_meta": "issue -> disposition registry. Maintained by rounds; sweep/revival output annotates [DISPOSITIONED: reason]. New faces print without the tag. Re-disposition (or delete an entry) when upstream moves.",
-  "agronholm/anyio#1239": {"date": "2026-10-24", "reason": "design-in-progress: OWNER agronholm 深度参与跨平台语义讨论"},
-  "apache/iceberg-python#3970": {"date": "2026-10-29", "reason": "sungwy(COLLABORATOR) 审计批,归作者 triage"},
-  "apache/iceberg-python#3973": {"date": "2026-10-29", "reason": "sungwy 审计批"},
-  "apache/iceberg-python#3978": {"date": "2026-10-29", "reason": "sungwy 审计批"},
-  "apache/iceberg-python#3979": {"date": "2026-10-29", "reason": "sungwy 审计批"},
-  "apache/iceberg-python#3980": {"date": "2026-10-29", "reason": "sungwy 审计批"},
-  "apache/iceberg-python#3983": {"date": "2026-10-29", "reason": "sungwy 审计批"},
-  "apache/iceberg-python#3984": {"date": "2026-10-29", "reason": "sungwy 审计批"},
-  "apache/iceberg-python#3932": {"date": "2026-10-29", "reason": "sungwy 审计批"},
-  "bashtage/linearmodels#780": {"date": "2026-10-30", "reason": "revival-watch: 多年老统计议题,需计量学功底,仓内已有我们的 #850"},
-  "bashtage/linearmodels#823": {"date": "2026-10-30", "reason": "revival-watch: 同上"},
-  "bashtage/linearmodels#831": {"date": "2026-10-30", "reason": "revival-watch: 同上"},
-  "bokeh/bokeh#15134": {"date": "2026-10-26", "reason": "BokehJS/TypeScript,不可验"},
-  "chainlit/chainlit#2993": {"date": "2026-10-24", "reason": "4 个死外部 PR 先例,维护者不审该仓"},
-  "chainlit/chainlit#3019": {"date": "2026-10-30", "reason": "flaky(e2e) CI 领地 + 维护者不审外部 PR 先例"},
-  "chainlit/chainlit#3023": {"date": "2026-10-30", "reason": "flaky(e2e) CI 领地"},
-  "delta-io/delta-rs#4521": {"date": "2026-10-30", "reason": "DeltaScanNext Rust 核心"},
-  "delta-io/delta-rs#4523": {"date": "2026-10-30", "reason": "Rust 核心"},
-  "delta-io/delta-rs#4520": {"date": "2026-10-24", "reason": "maintainer-owned(rtyler MEMBER)"},
-  "delta-io/delta-rs#4524": {"date": "2026-10-26", "reason": "Rust,不可验"},
-  "great-expectations/great_expectations#12042": {"date": "2026-10-26", "reason": "Trino 方言,本地不可验"},
-  "great-expectations/great_expectations#12196": {"date": "2026-10-26", "reason": "Spark 方言,本地不可验"},
-  "great-expectations/great_expectations#12215": {"date": "2026-10-26", "reason": "SQLAlchemy 方言类型,本地不可验"},
-  "jupyterlab/jupyterlab#20190": {"date": "2026-10-30", "reason": "前端 TS 键盘导航"},
-  "kyegomez/swarms#2815": {"date": "2026-10-30", "reason": "swarms 七连报,快认领仓"},
-  "executablebooks/myst-parser#1165": {"date": "2026-10-24", "reason": "维护者自有 #1169 覆盖"},
-  "executablebooks/myst-parser#1167": {"date": "2026-10-24", "reason": "维护者自有 #1169 覆盖"},
-  "falconry/falcon#2756": {"date": "2026-10-26", "reason": "Roshan1299 认领,等维护者行为决策"},
-  "falconry/falcon#2767": {"date": "2026-10-26", "reason": "维护者 vytas7 亲自实现"},
-  "geopandas/geopandas#3885": {"date": "2026-10-26", "reason": "活跃 PR #3891 按维护者方向实施"},
-  "giampaolo/psutil#3061": {"date": "2026-10-29", "reason": "并行会话已认领(多会话铁律)"},
-  "giampaolo/psutil#3062": {"date": "2026-10-29", "reason": "AIX 不可验"},
-  "giampaolo/psutil#2910": {"date": "2026-10-29", "reason": "占位 PR #2912 在飞"},
-  "jcrist/msgspec#1095": {"date": "2026-10-29", "reason": "需 Python 3.15 + PYTHON_LAZY_IMPORTS,本机不可验"},
-  "jupyter-server/jupyter_server#1697": {"date": "2026-10-29", "reason": "有交叉引用在飞"},
-  "jupyterlab/jupyterlab#19719": {"date": "2026-10-26", "reason": "前端/设计讨论"},
-  "jupyterlab/jupyterlab#19723": {"date": "2026-10-26", "reason": "前端"},
-  "jupyterlab/jupyterlab#19795": {"date": "2026-10-26", "reason": "前端"},
-  "jupyter/notebook#8095": {"date": "2026-10-31", "reason": "前端 TS(docmanager-extension),占位 PR #8096 在飞"},
-  "open-telemetry/opentelemetry-python#5627": {"date": "2026-10-26", "reason": "报告者 Eason09053360(MEMBER)自有 PR #5630 覆盖"},
-  "open-telemetry/opentelemetry-python#5629": {"date": "2026-10-26", "reason": "同上,报告者自有 PR #5630"},
-  "jupyterlab/jupyterlab#19863": {"date": "2026-10-26", "reason": "前端"},
-  "jupyterlab/jupyterlab#19865": {"date": "2026-10-26", "reason": "前端"},
-  "jupyterlab/jupyterlab#19932": {"date": "2026-10-26", "reason": "设计:重写或移除,维护者决策"},
-  "jupyterlab/jupyterlab#20062": {"date": "2026-10-26", "reason": "CI 配置,不可本地验证"},
-  "jupyterlab/jupyterlab#20091": {"date": "2026-10-26", "reason": "前端 debugger"},
-  "jupyterlab/jupyterlab#20092": {"date": "2026-10-26", "reason": "前端 debugger"},
-  "kyegomez/swarms#2813": {"date": "2026-10-30", "reason": "swarms 七连报,占位 PR 活跃"},
-  "kyegomez/swarms#2814": {"date": "2026-10-30", "reason": "占位 PR #2818 活跃"},
-  "kyegomez/swarms#2833": {"date": "2026-10-30", "reason": "swarms 七连报"},
-  "kyegomez/swarms#2836": {"date": "2026-10-30", "reason": "占位 PR #2850 活跃"},
-  "kyegomez/swarms#2837": {"date": "2026-10-30", "reason": "占位 PR #2851 活跃"},
-  "kyegomez/swarms#2842": {"date": "2026-10-30", "reason": "swarms 七连报"},
-  "langchain-ai/langchain#41276": {"date": "2026-10-26", "reason": "assign-gate 仓未分配"},
-  "mhammond/pywin32#2814": {"date": "2026-10-29", "reason": "pywin32 老议题,gencache 区"},
-  "modelcontextprotocol/servers#5176": {"date": "2026-10-29", "reason": "handoff-only 政策仓"},
-  "modelcontextprotocol/servers#5190": {"date": "2026-10-29", "reason": "handoff-only 政策仓"},
-  "modelcontextprotocol/servers#5191": {"date": "2026-10-29", "reason": "handoff-only 政策仓"},
-  "modelcontextprotocol/servers#5192": {"date": "2026-10-29", "reason": "handoff-only 政策仓"},
-  "modelcontextprotocol/servers#5193": {"date": "2026-10-29", "reason": "handoff-only 政策仓"},
-  "modelcontextprotocol/servers#5194": {"date": "2026-10-29", "reason": "handoff-only 政策仓"},
-  "modelcontextprotocol/servers#5196": {"date": "2026-10-29", "reason": "handoff-only 政策仓"},
-  "modelcontextprotocol/servers#5197": {"date": "2026-10-29", "reason": "handoff-only 政策仓"},
-  "modelcontextprotocol/servers#5199": {"date": "2026-10-29", "reason": "handoff-only 政策仓"},
-  "modelcontextprotocol/servers#5201": {"date": "2026-10-29", "reason": "handoff-only 政策仓"},
-  "modelcontextprotocol/servers#5203": {"date": "2026-10-29", "reason": "handoff-only 政策仓"},
-  "modelcontextprotocol/servers#5205": {"date": "2026-10-29", "reason": "handoff-only 政策仓"},
-  "modelcontextprotocol/servers#5207": {"date": "2026-10-29", "reason": "handoff-only 政策仓"},
-  "modelcontextprotocol/servers#5208": {"date": "2026-10-29", "reason": "handoff-only 政策仓"},
-  "modelcontextprotocol/servers#5209": {"date": "2026-10-29", "reason": "handoff-only 政策仓"},
-  "pola-rs/polars#30017": {"date": "2026-10-26", "reason": "NDJSON Rust 核心"},
-  "pola-rs/polars#30072": {"date": "2026-10-26", "reason": "修复面 crates/polars-sql(Rust),本地无 cargo"},
-  "pola-rs/polars#30094": {"date": "2026-10-26", "reason": "同上 Rust 不可验"},
-  "pola-rs/polars#30111": {"date": "2026-10-26", "reason": "polars-time Rust 核心"},
-  "pola-rs/polars#30205": {"date": "2026-10-29", "reason": "deltalake Rust 面"},
-  "pola-rs/polars#30300": {"date": "2026-10-26", "reason": "Rust 增强"},
-  "pola-rs/polars#30301": {"date": "2026-10-26", "reason": "Rust 增强"},
-  "pymc-devs/pymc#8372": {"date": "2026-10-26", "reason": "Apple Silicon segfault,本地不可验"},
-  "pypa/cibuildwheel#2950": {"date": "2026-10-26", "reason": "Ubuntu 26.04 环境依赖,不可本地验证"},
-  "pypa/pip#14193": {"date": "2026-10-24", "reason": "活跃维护者讨论(pip 团队内部队列)"},
-  "pypa/pip#14342": {"date": "2026-10-29", "reason": "MEMBER 亲报 = pip 团队内部队列"},
-  "pypa/pip#14355": {"date": "2026-10-29", "reason": "hash 校验安全敏感区 + 内部队列"},
-  "pyvista/pyvista#8632": {"date": "2026-10-26", "reason": "VTK 迁移,heavy"},
-  "pytest-dev/pytest-mock#636": {"date": "2026-10-26", "reason": "当日被 PR #646-#648 认领"},
-  "pytest-dev/pytest-mock#637": {"date": "2026-10-26", "reason": "当日被 PR #646-#648 认领"},
-  "pytest-dev/pytest-mock#638": {"date": "2026-10-26", "reason": "当日被 PR #646-#648 认领"},
-  "pyvista/pyvista#9151": {"date": "2026-10-26", "reason": "维护者 meta(Flaky Vale)"},
-  "python/mypy#21968": {"date": "2026-10-25", "reason": "DO-NOT-REVIVE: #16722 停滞设计区"},
-  "python/mypy#22115": {"date": "2026-10-26", "reason": "mypy 降级政策(3 连无声关闭)"},
-  "python/mypy#22159": {"date": "2026-10-24", "reason": "stand-down(2 次无声关闭先例)"},
-  "python/mypy#22199": {"date": "2026-10-26", "reason": "mypy 降级政策"},
-  "python/mypy#22230": {"date": "2026-10-26", "reason": "mypy 降级政策"},
-  "python/mypy#22240": {"date": "2026-10-29", "reason": "mypy 降级政策"},
-  "python/mypy#22260": {"date": "2026-10-29", "reason": "mypy 降级政策"},
-  "python/mypy#22262": {"date": "2026-10-29", "reason": "mypy 降级政策"},
-  "python/mypy#22264": {"date": "2026-10-29", "reason": "mypy 降级政策"},
-  "python/mypy#22265": {"date": "2026-10-29", "reason": "mypy 降级政策"},
-  "python/mypy#22290": {"date": "2026-10-31", "reason": "我们的修复 PR #22291 已被无声关闭(降级政策的直接案例),不重投"},
-  "reflex-dev/reflex#7521": {"date": "2026-10-26", "reason": "核心修复已合并(#7588),残余为维护者设计"},
-  "scrapy/scrapy#7812": {"date": "2026-10-26", "reason": "88d 设计讨论"},
-  "scipy/scipy#26471": {"date": "2026-10-30", "reason": "scipy.special C 级,重构建不可验"},
-  "sktime/sktime#11525": {"date": "2026-10-26", "reason": "MacOS 专属,不可验"},
-  "sktime/sktime#11528": {"date": "2026-10-26", "reason": "有认领 + PR #11560 等审"},
-  "sktime/sktime#11535": {"date": "2026-10-26", "reason": "Moirai2 重依赖"},
-  "sktime/sktime#11579": {"date": "2026-10-30", "reason": "sktime 重依赖环境"},
-  "strawberry-graphql/strawberry#4635": {"date": "2026-10-26", "reason": "设计升级给 patrick91 等拍板(maintainer-engaged)"},
-  "truera/trulens#2963": {"date": "2026-10-26", "reason": "修复 PR #2964 已审"},
-  "truera/trulens#2965": {"date": "2026-10-26", "reason": "修复 PR #2966 已审"},
-  "truera/trulens#2967": {"date": "2026-10-26", "reason": "修复 PR #2972 在飞"},
-  "twisted/twisted#12664": {"date": "2026-10-24", "reason": "adiroiban 安全区 deprecation 批"},
-  "twisted/twisted#12680": {"date": "2026-10-24", "reason": "PoC 对 main 已被 07-17 重构修复"},
-  "twisted/twisted#12699": {"date": "2026-10-24", "reason": "测试数据类型清理,维护者区"},
-  "twisted/twisted#12703": {"date": "2026-10-24", "reason": "flaky test,维护者领地"},
-  "twisted/twisted#12714": {"date": "2026-10-24", "reason": "flaky tests,维护者领地"},
-  "twisted/twisted#12715": {"date": "2026-10-24", "reason": "pypy 基础设施,维护者领地"},
-  "twisted/twisted#12734": {"date": "2026-10-24", "reason": "adiroiban MEMBER 自有 PR #12738(永久不碰)"},
-  "twisted/twisted#12836": {"date": "2026-10-24", "reason": "☂️ umbrella 设计议题"},
-  "unit8co/darts#3308": {"date": "2026-10-30", "reason": "darts 批(iida-masashi 成批,[ok] 标签),归作者 triage"},
-  "unit8co/darts#3309": {"date": "2026-10-30", "reason": "darts 批"},
-  "unit8co/darts#3310": {"date": "2026-10-30", "reason": "darts 批"},
-  "unit8co/darts#3311": {"date": "2026-10-30", "reason": "darts 批"},
-  "wandb/wandb#13274": {"date": "2026-10-30", "reason": "报告者条件认领(等维护者选 fix vs drop 方向)"},
-  "zarr-developers/zarr-python#4580": {"date": "2026-10-30", "reason": "维护者 d-v-b 自有 PR #4581"}
+ "_meta": "issue -> disposition registry. Maintained by rounds; sweep/revival output annotates [DISPOSITIONED: reason]. New faces print without the tag. Re-disposition (or delete an entry) when upstream moves.",
+ "agronholm/anyio#1239": {
+  "date": "2026-10-24",
+  "reason": "design-in-progress: OWNER agronholm 深度参与跨平台语义讨论"
+ },
+ "apache/iceberg-python#3932": {
+  "date": "2026-10-29",
+  "reason": "sungwy 审计批"
+ },
+ "apache/iceberg-python#3970": {
+  "date": "2026-10-29",
+  "reason": "sungwy(COLLABORATOR) 审计批,归作者 triage"
+ },
+ "apache/iceberg-python#3973": {
+  "date": "2026-10-29",
+  "reason": "sungwy 审计批"
+ },
+ "apache/iceberg-python#3978": {
+  "date": "2026-10-29",
+  "reason": "sungwy 审计批"
+ },
+ "apache/iceberg-python#3979": {
+  "date": "2026-10-29",
+  "reason": "sungwy 审计批"
+ },
+ "apache/iceberg-python#3980": {
+  "date": "2026-10-29",
+  "reason": "sungwy 审计批"
+ },
+ "apache/iceberg-python#3983": {
+  "date": "2026-10-29",
+  "reason": "sungwy 审计批"
+ },
+ "apache/iceberg-python#3984": {
+  "date": "2026-10-29",
+  "reason": "sungwy 审计批"
+ },
+ "bashtage/linearmodels#780": {
+  "date": "2026-10-30",
+  "reason": "revival-watch: 多年老统计议题,需计量学功底,仓内已有我们的 #850"
+ },
+ "bashtage/linearmodels#823": {
+  "date": "2026-10-30",
+  "reason": "revival-watch: 同上"
+ },
+ "bashtage/linearmodels#831": {
+  "date": "2026-10-30",
+  "reason": "revival-watch: 同上"
+ },
+ "bokeh/bokeh#15134": {
+  "date": "2026-10-26",
+  "reason": "BokehJS/TypeScript,不可验"
+ },
+ "chainlit/chainlit#2993": {
+  "date": "2026-10-24",
+  "reason": "4 个死外部 PR 先例,维护者不审该仓"
+ },
+ "chainlit/chainlit#3019": {
+  "date": "2026-10-30",
+  "reason": "flaky(e2e) CI 领地 + 维护者不审外部 PR 先例"
+ },
+ "chainlit/chainlit#3023": {
+  "date": "2026-10-30",
+  "reason": "flaky(e2e) CI 领地"
+ },
+ "delta-io/delta-rs#4520": {
+  "date": "2026-10-24",
+  "reason": "maintainer-owned(rtyler MEMBER)"
+ },
+ "delta-io/delta-rs#4521": {
+  "date": "2026-10-30",
+  "reason": "DeltaScanNext Rust 核心"
+ },
+ "delta-io/delta-rs#4523": {
+  "date": "2026-10-30",
+  "reason": "Rust 核心"
+ },
+ "delta-io/delta-rs#4524": {
+  "date": "2026-10-26",
+  "reason": "Rust,不可验"
+ },
+ "executablebooks/myst-parser#1165": {
+  "date": "2026-10-24",
+  "reason": "维护者自有 #1169 覆盖"
+ },
+ "executablebooks/myst-parser#1167": {
+  "date": "2026-10-24",
+  "reason": "维护者自有 #1169 覆盖"
+ },
+ "falconry/falcon#2756": {
+  "date": "2026-10-26",
+  "reason": "Roshan1299 认领,等维护者行为决策"
+ },
+ "falconry/falcon#2767": {
+  "date": "2026-10-26",
+  "reason": "维护者 vytas7 亲自实现"
+ },
+ "geopandas/geopandas#3885": {
+  "date": "2026-10-26",
+  "reason": "活跃 PR #3891 按维护者方向实施"
+ },
+ "giampaolo/psutil#2910": {
+  "date": "2026-10-29",
+  "reason": "占位 PR #2912 在飞"
+ },
+ "giampaolo/psutil#3061": {
+  "date": "2026-10-29",
+  "reason": "并行会话已认领(多会话铁律)"
+ },
+ "giampaolo/psutil#3062": {
+  "date": "2026-10-29",
+  "reason": "AIX 不可验"
+ },
+ "great-expectations/great_expectations#12042": {
+  "date": "2026-10-26",
+  "reason": "Trino 方言,本地不可验"
+ },
+ "great-expectations/great_expectations#12196": {
+  "date": "2026-10-26",
+  "reason": "Spark 方言,本地不可验"
+ },
+ "great-expectations/great_expectations#12215": {
+  "date": "2026-10-26",
+  "reason": "SQLAlchemy 方言类型,本地不可验"
+ },
+ "jcrist/msgspec#1095": {
+  "date": "2026-10-29",
+  "reason": "需 Python 3.15 + PYTHON_LAZY_IMPORTS,本机不可验"
+ },
+ "jupyter-server/jupyter_server#1697": {
+  "date": "2026-10-29",
+  "reason": "有交叉引用在飞"
+ },
+ "jupyter/notebook#8095": {
+  "date": "2026-10-31",
+  "reason": "前端 TS(docmanager-extension),占位 PR #8096 在飞"
+ },
+ "jupyterlab/jupyterlab#19719": {
+  "date": "2026-10-26",
+  "reason": "前端/设计讨论"
+ },
+ "jupyterlab/jupyterlab#19723": {
+  "date": "2026-10-26",
+  "reason": "前端"
+ },
+ "jupyterlab/jupyterlab#19795": {
+  "date": "2026-10-26",
+  "reason": "前端"
+ },
+ "jupyterlab/jupyterlab#19863": {
+  "date": "2026-10-26",
+  "reason": "前端"
+ },
+ "jupyterlab/jupyterlab#19865": {
+  "date": "2026-10-26",
+  "reason": "前端"
+ },
+ "jupyterlab/jupyterlab#19932": {
+  "date": "2026-10-26",
+  "reason": "设计:重写或移除,维护者决策"
+ },
+ "jupyterlab/jupyterlab#20062": {
+  "date": "2026-10-26",
+  "reason": "CI 配置,不可本地验证"
+ },
+ "jupyterlab/jupyterlab#20091": {
+  "date": "2026-10-26",
+  "reason": "前端 debugger"
+ },
+ "jupyterlab/jupyterlab#20092": {
+  "date": "2026-10-26",
+  "reason": "前端 debugger"
+ },
+ "jupyterlab/jupyterlab#20190": {
+  "date": "2026-10-30",
+  "reason": "前端 TS 键盘导航"
+ },
+ "kyegomez/swarms#2813": {
+  "date": "2026-10-30",
+  "reason": "swarms 七连报,占位 PR 活跃"
+ },
+ "kyegomez/swarms#2814": {
+  "date": "2026-10-30",
+  "reason": "占位 PR #2818 活跃"
+ },
+ "kyegomez/swarms#2815": {
+  "date": "2026-10-30",
+  "reason": "swarms 七连报,快认领仓"
+ },
+ "kyegomez/swarms#2833": {
+  "date": "2026-10-30",
+  "reason": "swarms 七连报"
+ },
+ "kyegomez/swarms#2836": {
+  "date": "2026-10-30",
+  "reason": "占位 PR #2850 活跃"
+ },
+ "kyegomez/swarms#2837": {
+  "date": "2026-10-30",
+  "reason": "占位 PR #2851 活跃"
+ },
+ "kyegomez/swarms#2842": {
+  "date": "2026-10-30",
+  "reason": "swarms 七连报"
+ },
+ "langchain-ai/langchain#41276": {
+  "date": "2026-10-26",
+  "reason": "assign-gate 仓未分配"
+ },
+ "mhammond/pywin32#2814": {
+  "date": "2026-10-29",
+  "reason": "pywin32 老议题,gencache 区"
+ },
+ "modelcontextprotocol/servers#5176": {
+  "date": "2026-10-29",
+  "reason": "handoff-only 政策仓"
+ },
+ "modelcontextprotocol/servers#5190": {
+  "date": "2026-10-29",
+  "reason": "handoff-only 政策仓"
+ },
+ "modelcontextprotocol/servers#5191": {
+  "date": "2026-10-29",
+  "reason": "handoff-only 政策仓"
+ },
+ "modelcontextprotocol/servers#5192": {
+  "date": "2026-10-29",
+  "reason": "handoff-only 政策仓"
+ },
+ "modelcontextprotocol/servers#5193": {
+  "date": "2026-10-29",
+  "reason": "handoff-only 政策仓"
+ },
+ "modelcontextprotocol/servers#5194": {
+  "date": "2026-10-29",
+  "reason": "handoff-only 政策仓"
+ },
+ "modelcontextprotocol/servers#5196": {
+  "date": "2026-10-29",
+  "reason": "handoff-only 政策仓"
+ },
+ "modelcontextprotocol/servers#5197": {
+  "date": "2026-10-29",
+  "reason": "handoff-only 政策仓"
+ },
+ "modelcontextprotocol/servers#5199": {
+  "date": "2026-10-29",
+  "reason": "handoff-only 政策仓"
+ },
+ "modelcontextprotocol/servers#5201": {
+  "date": "2026-10-29",
+  "reason": "handoff-only 政策仓"
+ },
+ "modelcontextprotocol/servers#5203": {
+  "date": "2026-10-29",
+  "reason": "handoff-only 政策仓"
+ },
+ "modelcontextprotocol/servers#5205": {
+  "date": "2026-10-29",
+  "reason": "handoff-only 政策仓"
+ },
+ "modelcontextprotocol/servers#5207": {
+  "date": "2026-10-29",
+  "reason": "handoff-only 政策仓"
+ },
+ "modelcontextprotocol/servers#5208": {
+  "date": "2026-10-29",
+  "reason": "handoff-only 政策仓"
+ },
+ "modelcontextprotocol/servers#5209": {
+  "date": "2026-10-29",
+  "reason": "handoff-only 政策仓"
+ },
+ "open-telemetry/opentelemetry-python#5627": {
+  "date": "2026-10-26",
+  "reason": "报告者 Eason09053360(MEMBER)自有 PR #5630 覆盖"
+ },
+ "open-telemetry/opentelemetry-python#5629": {
+  "date": "2026-10-26",
+  "reason": "同上,报告者自有 PR #5630"
+ },
+ "pola-rs/polars#30017": {
+  "date": "2026-10-26",
+  "reason": "NDJSON Rust 核心"
+ },
+ "pola-rs/polars#30072": {
+  "date": "2026-10-26",
+  "reason": "修复面 crates/polars-sql(Rust),本地无 cargo"
+ },
+ "pola-rs/polars#30094": {
+  "date": "2026-10-26",
+  "reason": "同上 Rust 不可验"
+ },
+ "pola-rs/polars#30111": {
+  "date": "2026-10-26",
+  "reason": "polars-time Rust 核心"
+ },
+ "pola-rs/polars#30205": {
+  "date": "2026-10-29",
+  "reason": "deltalake Rust 面"
+ },
+ "pola-rs/polars#30300": {
+  "date": "2026-10-26",
+  "reason": "Rust 增强"
+ },
+ "pola-rs/polars#30301": {
+  "date": "2026-10-26",
+  "reason": "Rust 增强"
+ },
+ "pymc-devs/pymc#8372": {
+  "date": "2026-10-26",
+  "reason": "Apple Silicon segfault,本地不可验"
+ },
+ "pypa/cibuildwheel#2950": {
+  "date": "2026-10-26",
+  "reason": "Ubuntu 26.04 环境依赖,不可本地验证"
+ },
+ "pypa/pip#14193": {
+  "date": "2026-10-24",
+  "reason": "活跃维护者讨论(pip 团队内部队列)"
+ },
+ "pypa/pip#14342": {
+  "date": "2026-10-29",
+  "reason": "MEMBER 亲报 = pip 团队内部队列"
+ },
+ "pypa/pip#14355": {
+  "date": "2026-10-29",
+  "reason": "hash 校验安全敏感区 + 内部队列"
+ },
+ "pytest-dev/pytest-mock#636": {
+  "date": "2026-10-26",
+  "reason": "当日被 PR #646-#648 认领"
+ },
+ "pytest-dev/pytest-mock#637": {
+  "date": "2026-10-26",
+  "reason": "当日被 PR #646-#648 认领"
+ },
+ "pytest-dev/pytest-mock#638": {
+  "date": "2026-10-26",
+  "reason": "当日被 PR #646-#648 认领"
+ },
+ "python/mypy#21968": {
+  "date": "2026-10-25",
+  "reason": "DO-NOT-REVIVE: #16722 停滞设计区"
+ },
+ "python/mypy#22115": {
+  "date": "2026-10-26",
+  "reason": "mypy 降级政策(3 连无声关闭)"
+ },
+ "python/mypy#22159": {
+  "date": "2026-10-24",
+  "reason": "stand-down(2 次无声关闭先例)"
+ },
+ "python/mypy#22199": {
+  "date": "2026-10-26",
+  "reason": "mypy 降级政策"
+ },
+ "python/mypy#22230": {
+  "date": "2026-10-26",
+  "reason": "mypy 降级政策"
+ },
+ "python/mypy#22240": {
+  "date": "2026-10-29",
+  "reason": "mypy 降级政策"
+ },
+ "python/mypy#22260": {
+  "date": "2026-10-29",
+  "reason": "mypy 降级政策"
+ },
+ "python/mypy#22262": {
+  "date": "2026-10-29",
+  "reason": "mypy 降级政策"
+ },
+ "python/mypy#22264": {
+  "date": "2026-10-29",
+  "reason": "mypy 降级政策"
+ },
+ "python/mypy#22265": {
+  "date": "2026-10-29",
+  "reason": "mypy 降级政策"
+ },
+ "python/mypy#22290": {
+  "date": "2026-10-31",
+  "reason": "我们的修复 PR #22291 已被无声关闭(降级政策的直接案例),不重投"
+ },
+ "pyvista/pyvista#8632": {
+  "date": "2026-10-26",
+  "reason": "VTK 迁移,heavy"
+ },
+ "pyvista/pyvista#9151": {
+  "date": "2026-10-26",
+  "reason": "维护者 meta(Flaky Vale)"
+ },
+ "reflex-dev/reflex#7521": {
+  "date": "2026-10-26",
+  "reason": "核心修复已合并(#7588),残余为维护者设计"
+ },
+ "robotframework/robotframework#5838": {
+  "date": "2026-10-31",
+  "reason": "维护者本地已有修复(版本探测法),我们的 PR 促使其落地后礼貌关闭"
+ },
+ "scipy/scipy#26471": {
+  "date": "2026-10-30",
+  "reason": "scipy.special C 级,重构建不可验"
+ },
+ "scrapy/scrapy#7812": {
+  "date": "2026-10-26",
+  "reason": "88d 设计讨论"
+ },
+ "sktime/sktime#11525": {
+  "date": "2026-10-26",
+  "reason": "MacOS 专属,不可验"
+ },
+ "sktime/sktime#11528": {
+  "date": "2026-10-26",
+  "reason": "有认领 + PR #11560 等审"
+ },
+ "sktime/sktime#11535": {
+  "date": "2026-10-26",
+  "reason": "Moirai2 重依赖"
+ },
+ "sktime/sktime#11579": {
+  "date": "2026-10-30",
+  "reason": "sktime 重依赖环境"
+ },
+ "strawberry-graphql/strawberry#4635": {
+  "date": "2026-10-26",
+  "reason": "设计升级给 patrick91 等拍板(maintainer-engaged)"
+ },
+ "truera/trulens#2963": {
+  "date": "2026-10-26",
+  "reason": "修复 PR #2964 已审"
+ },
+ "truera/trulens#2965": {
+  "date": "2026-10-26",
+  "reason": "修复 PR #2966 已审"
+ },
+ "truera/trulens#2967": {
+  "date": "2026-10-26",
+  "reason": "修复 PR #2972 在飞"
+ },
+ "twisted/twisted#12664": {
+  "date": "2026-10-24",
+  "reason": "adiroiban 安全区 deprecation 批"
+ },
+ "twisted/twisted#12680": {
+  "date": "2026-10-24",
+  "reason": "PoC 对 main 已被 07-17 重构修复"
+ },
+ "twisted/twisted#12699": {
+  "date": "2026-10-24",
+  "reason": "测试数据类型清理,维护者区"
+ },
+ "twisted/twisted#12703": {
+  "date": "2026-10-24",
+  "reason": "flaky test,维护者领地"
+ },
+ "twisted/twisted#12714": {
+  "date": "2026-10-24",
+  "reason": "flaky tests,维护者领地"
+ },
+ "twisted/twisted#12715": {
+  "date": "2026-10-24",
+  "reason": "pypy 基础设施,维护者领地"
+ },
+ "twisted/twisted#12734": {
+  "date": "2026-10-24",
+  "reason": "adiroiban MEMBER 自有 PR #12738(永久不碰)"
+ },
+ "twisted/twisted#12836": {
+  "date": "2026-10-24",
+  "reason": "☂️ umbrella 设计议题"
+ },
+ "unit8co/darts#3308": {
+  "date": "2026-10-30",
+  "reason": "darts 批(iida-masashi 成批,[ok] 标签),归作者 triage"
+ },
+ "unit8co/darts#3309": {
+  "date": "2026-10-30",
+  "reason": "darts 批"
+ },
+ "unit8co/darts#3310": {
+  "date": "2026-10-30",
+  "reason": "darts 批"
+ },
+ "unit8co/darts#3311": {
+  "date": "2026-10-30",
+  "reason": "darts 批"
+ },
+ "wandb/wandb#13274": {
+  "date": "2026-10-30",
+  "reason": "报告者条件认领(等维护者选 fix vs drop 方向)"
+ },
+ "zarr-developers/zarr-python#4580": {
+  "date": "2026-10-30",
+  "reason": "维护者 d-v-b 自有 PR #4581"
+ }
 }
