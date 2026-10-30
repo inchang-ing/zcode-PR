@@ -58,6 +58,11 @@ def linked_prs(output):
         if not isinstance(issue, dict):
             raise ValueError("timeline source.issue 结构无效")
         if "pull_request" in issue:
+            # 我们自己的 repo-monitor 摘要 issue 会回引每个新捕获的 issue;
+            # 那是监控产物,不是竞品 PR,不得作为撞车证据(2026-10-31 发现)。
+            repo_url = (issue.get("repository_url") or "").lower()
+            if "inchang-ing/repo-monitor" in repo_url:
+                continue
             # REST puts the PR number on source.issue, not on pull_request.
             prs.append(issue.get("number") or issue.get("html_url") or "未知编号")
     return prs

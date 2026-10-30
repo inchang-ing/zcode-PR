@@ -94,6 +94,24 @@ class VetTests(unittest.TestCase):
         result, _ = self.check(comments=comments)
         self.assertEqual(result, ("DROP", "评论软认领"))
 
+    def test_repo_monitor_digest_backref_does_not_block(self):
+        """Our own digest issue back-references every captured issue; that
+        monitoring artifact must not count as a competing PR (2026-10-31)."""
+        digest_backref = {"event": "cross-referenced", "source": {"issue": {
+            "number": 1, "pull_request": {},
+            "repository_url": "https://api.github.com/repos/inchang-ing/repo-monitor",
+        }}}
+        result, _ = self.check(timeline=json.dumps([[digest_backref]]))
+        self.assertEqual(result[0], "CLEAN")
+
+    def test_competing_pr_from_other_repo_still_blocks(self):
+        competitor = {"event": "cross-referenced", "source": {"issue": {
+            "number": 99, "pull_request": {},
+            "repository_url": "https://api.github.com/repos/example/project",
+        }}}
+        result, _ = self.check(timeline=json.dumps([[competitor]]))
+        self.assertEqual(result[0], "DROP")
+
     def test_second_page_not_ready_notice_blocks(self):
         result, _ = self.check(comments=json.dumps([[], [{"body": "Do not open a PR"}]]))
         self.assertEqual(result[0], "DROP")

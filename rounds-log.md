@@ -2747,3 +2747,9 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - review_sweep 0 ACTION;monitor_oss 无变化;范围自检 55/55。
 - fresh 捕 11:swarms 四连(ayaangazali 配对 PR #3056/#3057/#3059/#3061)、mlflow 两条(has-closing-pr)、**llama_index#23839 已被报告者关闭为 #23515 的重复(llama-agents#808 同修)**;agno/superset/datasets/spyder 按图出局。
 - **元观察:repo-monitor 摘要 issue 在被监控 issue 上留下回引交叉引用**——污染撞车五查的 timeline 信号(每个新捕获 issue 都会带一条我方回引)。处置:撞车检查须排除 inchang-ing/repo-monitor 来源的交叉引用(待固化进 vet 逻辑)。
+
+
+## 2026-10-31 22:10 UTC(第八十九轮二:摘要回引排除固化进 gh_checks.linked_prs)
+
+- 上轮元观察落地:linked_prs 排除 inchang-ing/repo-monitor 来源的交叉引用(撞车五查不再被我方监控产物误伤);2 个新回归测试(摘要回引不阻塞/他仓竞品仍阻塞)。301 测试全绿。
+- 调试插曲:首版 needle 写成 "github.com/inchang-ing/..." 漏了 /repos/ 段导致排除不生效——测试立即抓住。
