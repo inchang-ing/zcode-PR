@@ -2672,3 +2672,9 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - fresh 捕 11:**sqlglot 双条上游已修**——#8841 被 georgesittas(COLLABORATOR)PR #8843 合并(issue 同分钟关)、#8845 issue 已关(其占位 PR #8846 关闭未合并);python-pillow#10362(设计)、mypy×2(降级)、scipy×2(C 级)、tox#4310(维护者批)、unstructured×3(Eapp1e 闭环/#4637/#4640)按图出局。
 - 加大力度补切片 1(117 仓 17 候选,0 failed):2 未标注均为政策/重依赖既定类(mcp/servers#5260 handoff-only、sktime#11630 重依赖),处置册补至 126 条。
 - 预算约 530/500(超 30,双切片如实记录)。
+
+
+## 2026-10-31 17:06 UTC(第八十四轮:空手,切片 2 零未标注)
+
+- review_sweep 0 ACTION;monitor_oss 无变化。
+- 切片 2/3(115 仓 23 候选,0 未标注):全既有;1 failed = boltons 已知抖动。零处置。
