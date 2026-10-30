@@ -64,6 +64,45 @@ def reconcile_state_ledger(cur, state_path=STATE):
         return removed
 
 
+def audit_scope():
+    """Scope audit: search-authoritative OPEN set vs STATE.md rows.
+
+    Catches unregistered new PRs (blind spots — the registration gate's safety
+    net when a session forgets to register) and rows whose PR is no longer
+    open. One search call; best-effort, silent on query failure. Runs from
+    Python subprocess so the jq expression skips MSYS path conversion.
+    """
+    try:
+        r = subprocess.run(
+            [GH, "api",
+             "search/issues?q=author%3Ainchang-ing+type%3Apr+state%3Aopen&per_page=100",
+             "--jq",
+             '.items[] | select(.repository_url | contains("inchang-ing") | not) '
+             '| (.repository_url | sub("https://api.github.com/repos/";"")) '
+             '+ "#" + (.number|tostring)'],
+            capture_output=True, text=True, timeout=60, cwd=CWD)
+        if r.returncode != 0 or not r.stdout.strip():
+            return
+        open_now = {line.strip().lower() for line in r.stdout.splitlines() if line.strip()}
+        tracked = set()
+        with open(STATE, encoding="utf-8") as fh:
+            for line in fh:
+                m = _ROW_RE.search(line)
+                if m and "| [" in line:
+                    repo = f"{m.group(1)}/{m.group(2)}".lower()
+                    if repo.startswith("inchang-ing/"):
+                        continue
+                    tracked.add(f"{repo}#{int(m.group(3))}")
+        blind = sorted(open_now - tracked)
+        stale = sorted(tracked - open_now)
+        print(f"范围自检: 盲点 {len(blind)}, 过期行 {len(stale)} "
+              f"(权威 OPEN {len(open_now)} / 台账 {len(tracked)})")
+        for key in blind:
+            print(f"  BLIND: {key} —— 同轮补录 STATE.md")
+    except (OSError, ValueError, RuntimeError):
+        pass  # best-effort audit; never break the main sync
+
+
 def gh(args):
     r = subprocess.run([GH] + args, capture_output=True, text=True, timeout=60, cwd=CWD)
     if r.returncode != 0:
@@ -246,6 +285,7 @@ def run_round():
         for line in removed:
             print(f"  - {line[:100]}")
 
+    audit_scope()
     return 1 if any(v["state"] == "QUERY_ERROR" for v in cur.values()) else 0
 
 
