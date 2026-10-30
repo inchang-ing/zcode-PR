@@ -2740,3 +2740,10 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 
 - review_sweep 0 ACTION;monitor_oss 无变化;范围自检 55/55。
 - 切片 2/3(115 仓 23 候选,0 未标注):全既有;1 failed = boltons 已知抖动。零处置。
+
+
+## 2026-10-31 21:37 UTC(第八十八轮二:空手;发现监控回引污染撞车信号)
+
+- review_sweep 0 ACTION;monitor_oss 无变化;范围自检 55/55。
+- fresh 捕 11:swarms 四连(ayaangazali 配对 PR #3056/#3057/#3059/#3061)、mlflow 两条(has-closing-pr)、**llama_index#23839 已被报告者关闭为 #23515 的重复(llama-agents#808 同修)**;agno/superset/datasets/spyder 按图出局。
+- **元观察:repo-monitor 摘要 issue 在被监控 issue 上留下回引交叉引用**——污染撞车五查的 timeline 信号(每个新捕获 issue 都会带一条我方回引)。处置:撞车检查须排除 inchang-ing/repo-monitor 来源的交叉引用(待固化进 vet 逻辑)。
