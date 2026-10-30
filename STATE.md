@@ -11,13 +11,12 @@
 > | 项目说明 / 目录 / 流程 / 飞书 / 换机 | **`README.md`** |
 > | 历史轮次 / 已合并 PR 验证记录 | **`rounds-log.md`**、**`STATE-archive.md`** |
 
-## OSS 贡献在飞（56）
+## OSS 贡献在飞（55）
 
 | PR | 仓库 | 状态 | 摘要 |
 | --- | --- | --- | --- |
 | [#2717](https://github.com/567-labs/instructor/pull/2717) | 567-labs/instructor | OPEN(2026-10-17) | fix(gemini): do not mutate caller-owned messages in MD_JSON mode |
 | [#3981](https://github.com/Arize-ai/openinference/pull/3981) | Arize-ai/openinference | OPEN(2026-10-17) | Fix #3803: record attributes for tuple-valued and unsupported message content parts |
-| [#3982](https://github.com/Arize-ai/openinference/pull/3982) | Arize-ai/openinference | OPEN(2026-10-17) | Fix #3904: do not record the SDK placeholder tool arguments on early stream exit |
 | [#3995](https://github.com/Arize-ai/openinference/pull/3995) | Arize-ai/openinference | OPEN(2026-10-17) |  |
 | [#3998](https://github.com/Arize-ai/openinference/pull/3998) | Arize-ai/openinference | OPEN(2026-10-17) |  |
 | [#850](https://github.com/bashtage/linearmodels/pull/850) | bashtage/linearmodels | OPEN(2026-10-18) | BUG: Test the rank of the IV inputs after scaling the columns |

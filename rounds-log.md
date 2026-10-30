@@ -2767,3 +2767,10 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 
 - review_sweep 0 ACTION;monitor_oss:any-agent#968 自动入册(登记门五连生效);范围自检 56/56。
 - 切片(117 仓 27 候选,0 未标注,0 failed):全既有(twisted 批等)。零处置。
+
+
+## 2026-10-31 23:36 UTC(第九十三轮:🎉 openinference#3982 合并 = 第 30 个外部合并;fresh 全让位)
+
+- **🎉 Arize-ai/openinference#3982(anthropic 早期流退出时的假 tool arguments 与 token 总量修复)由 caroger 合并(10-30 23:13 UTC)**——10-17 批次的第 3 个落地,外部合并成果 29→**30**。
+- review_sweep 0 ACTION;范围自检 55/55。
+- fresh 捕 10 全让位:inspect_ai 三连(Gemini thought signatures 系列,accepted-gate 关)、bokeh×2(TS)、conda(.empty 竞争,重验证)、agno/polars docs/feature、home-assistant(超速)按图出局。
