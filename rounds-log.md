@@ -2724,3 +2724,13 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 
 - review_sweep 0 ACTION;monitor_oss 无变化;范围自检 55/55。
 - 切片(117 仓 17 候选,0 未标注,0 failed):全既有。零处置。
+
+
+## 2026-10-31 20:39 UTC(第八十六轮跨日:openai-agents#5459 设计级让位 + 互锁事实评论)
+
+- review_sweep 0 ACTION;monitor_oss 无变化;范围自检 55/55。
+- fresh 捕 11:home-assistant 五连(超速仓)、pydantic-ai bot 三条、typeshed 政策、ray 审计批出局。候选 openai-agents#5459(SQLAlchemySession created_at 非单调乱序/pop 错项,诊断到 CURRENT_TIMESTAMP 时区墙钟语义)深挖:
+  - 五个 order_by 站点;读码发现**压缩子系统与 created_at 排序互锁**——摘要行靠 SQL 内复制原 created_at 排回原位(:541 注释明言),前缀清理边界与 tail claim 比较同源;
+  - 报告者方案一(仅按 id 排序)会打破该不变量(新摘要行 id 最大排到队尾);方案二(TIMESTAMPTZ)是跨 SQLite/PG/MySQL/MariaDB 的存储迁移。两者皆超 drive-by = 维护者决策(fastmcp/langflow 先例);
+  - **新事实评论已发**(压缩互锁 #issuecomment-6532994319,防止误修);claims 释放。
+- 预算约 420/500。
