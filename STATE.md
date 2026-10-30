@@ -65,8 +65,8 @@
 | [#4459](https://github.com/EleutherAI/lm-evaluation-harness/pull/4459) | EleutherAI/lm-evaluation-harness | OPEN(2026-10-25) | fix: only strip the thinking prefix when the token is presen |
 | [#56](https://github.com/explosion/preshed/pull/56) | explosion/preshed | OPEN(2026-10-25) | Fix OverflowError for keys above 2**63 after the Cython 3 re |
 | [#3529](https://github.com/confident-ai/deepeval/pull/3529) | confident-ai/deepeval | OPEN(2026-10-25) | fix(benchmarks): score EquityMedQA without inverting BiasMet |
-| [#5839](https://github.com/robotframework/robotframework/pull/5839) | robotframework/robotframework | OPEN(2026-10-31) | Libdoc: avoid the docutils 0.22 writer_name deprecation warning |
 | [#17429](https://github.com/Arize-ai/phoenix/pull/17429) | Arize-ai/phoenix | OPEN(2026-10-31) | fix(phoenix-otel): treat empty process env values as unset |
+| [#2629](https://github.com/unionai-oss/pandera/pull/2629) | unionai-oss/pandera | OPEN(2026-10-31) | fix(ibis): empty tables vacuously satisfy checks |
 | [#5007](https://github.com/docling-project/docling/pull/5007) | docling-project/docling | OPEN(2026-10-25) | fix(docx): keep tables whose w:tblGrid is missing or under-d |
 | [#2350](https://github.com/coveragepy/coveragepy/pull/2350) | coveragepy/coveragepy | OPEN(2026-10-25) | fix: hold the data lock only to snapshot, and make it re-ent |
 

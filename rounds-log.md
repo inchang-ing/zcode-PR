@@ -2678,3 +2678,11 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 
 - review_sweep 0 ACTION;monitor_oss 无变化。
 - 切片 2/3(115 仓 23 候选,0 未标注):全既有;1 failed = boltons 已知抖动。零处置。
+
+
+## 2026-10-31 17:51 UTC(第八十五轮:🎯 pandera#2628 → PR pandera#2629)
+
+- review_sweep 0 ACTION / 0 resolved;monitor_oss 无变化。
+- fresh 捕 11:twisted#12892(大端 getTTL)= 报告者自有 PR #12893、ray 审计批延续、pydantic-ai/nicegui/typeshed/pytest-xdist 按图出局。
+- **🎯 pandera#2628(ibis 后端空表必 SchemaError,.all() 空归约返回 None 被当失败)→ PR https://github.com/unionai-oss/pandera/pull/2629**:两处物化点 None→vacuous truth(passed is not False),False 仍失败;issue 复现 pre-fix raise/post-fix 通过;真违规仍抓;附带修好 test_ibis_custom_check(同一病根);io 剩余 6 失败 = 环境缺 io extras 既有。DCO -s,ruff 全清。
+- session_claims 第三次全流程;STATE.md 同轮登记(54→55)。
