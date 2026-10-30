@@ -2753,3 +2753,11 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 
 - 上轮元观察落地:linked_prs 排除 inchang-ing/repo-monitor 来源的交叉引用(撞车五查不再被我方监控产物误伤);2 个新回归测试(摘要回引不阻塞/他仓竞品仍阻塞)。301 测试全绿。
 - 调试插曲:首版 needle 写成 "github.com/inchang-ing/..." 漏了 /repos/ 段导致排除不生效——测试立即抓住。
+
+
+## 2026-10-31 22:47 UTC(第九十一轮:🎯 any-agent#967 → PR any-agent#968)
+
+- review_sweep 0 ACTION;monitor_oss 无变化;范围自检 55/55。
+- fresh 捕 11:prefect#23678 报告者自有 PR #23679、pydantic-ai 六连(DouweM 路线票)、numpy docs(团队)、mypy(降级)按图出局。
+- **🎯 any-agent#967(LangChain 工具循环丢 reasoning_content,Kimi/DeepSeek 400)→ PR https://github.com/mozilla-ai/any-agent/pull/968**:vendor 转换器双向保留 reasoning_content/extra_content,新增 _openai_tool_calls_from_message 按 id 合并每 tool call 的 extra_content(优先级不变);3 新往返测试(pre-fix 2 失败 → post-fix 3 过);既有 4 失败与基线集合一致(环境缺 extras);仓级 ruff 297 pre/post 一致 = 零新增。
+- session_claims 第四次全流程;STATE.md 同轮登记(55→56)。
