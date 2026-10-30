@@ -272,6 +272,10 @@
   "date": "2026-10-29",
   "reason": "handoff-only 政策仓"
  },
+ "modelcontextprotocol/servers#5260": {
+  "date": "2026-10-31",
+  "reason": "handoff-only 政策仓"
+ },
  "open-telemetry/opentelemetry-python#5627": {
   "date": "2026-10-26",
   "reason": "报告者 Eason09053360(MEMBER)自有 PR #5630 覆盖"
@@ -422,6 +426,10 @@
  },
  "sktime/sktime#11579": {
   "date": "2026-10-30",
+  "reason": "sktime 重依赖环境"
+ },
+ "sktime/sktime#11630": {
+  "date": "2026-10-31",
   "reason": "sktime 重依赖环境"
  },
  "strawberry-graphql/strawberry#4635": {

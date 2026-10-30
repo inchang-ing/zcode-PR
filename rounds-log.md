@@ -2664,3 +2664,11 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - review_sweep 0 ACTION;monitor_oss 另见 dd-trace#20877 CONFLICTING(他人 PR,不涉我方)。
 - 加大力度:fresh 12 捕 + revival_scan 复核。fresh 全让位——strawberry#4773(核心成员 illia-v 亲报,占位 PR #4774)、trulens#3022(报告者自有 PR #3023)、darts#3326(尾部认领"first contribution, glad to open a PR")、sktime(重依赖)、mkdocs-material(主题仓支持类)、streamlit(前端)、yt-dlp(NO-AI+patch-available)、spyder(duplicate)按图出局。revival:唯一 stale 仍是 twisted#12734(维护者自有,永久不碰)。
 - 预算约 425/500。
+
+
+## 2026-10-31 16:39 UTC(第八十三轮:sqlglot 双条上游已修;加大力度补切片)
+
+- review_sweep 0 ACTION / 0 resolved;monitor_oss 无变化。
+- fresh 捕 11:**sqlglot 双条上游已修**——#8841 被 georgesittas(COLLABORATOR)PR #8843 合并(issue 同分钟关)、#8845 issue 已关(其占位 PR #8846 关闭未合并);python-pillow#10362(设计)、mypy×2(降级)、scipy×2(C 级)、tox#4310(维护者批)、unstructured×3(Eapp1e 闭环/#4637/#4640)按图出局。
+- 加大力度补切片 1(117 仓 17 候选,0 failed):2 未标注均为政策/重依赖既定类(mcp/servers#5260 handoff-only、sktime#11630 重依赖),处置册补至 126 条。
+- 预算约 530/500(超 30,双切片如实记录)。
