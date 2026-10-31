@@ -2795,3 +2795,11 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 
 - review_sweep 0 ACTION;monitor_oss:pymc#8588 CI 3✓/0✗ 推进中;范围自检 56/56。
 - 切片(115 仓 34 候选):4 未标注全定性——swarms#2877(ayaangazali 配对 PR #2878)、swarms#2865/#2864(kyegomez 自有 PR #2867 维护者亲修)、swarms#2863(占位 PR #2909 在飞);处置册 130 条。零新处置。
+
+
+## 2026-10-31 01:45 UTC(第九十七轮:🎯 pipecat#6495 → PR pipecat#6496)
+
+- review_sweep 0 ACTION;monitor_oss 无变化;范围自检 56/56。
+- fresh 捕 11:boltons#692 报告者自带 PR #693、pipecat#6491 报告者已备补丁(让位)、tox 审计批×5、prefect feature 按图出局。
+- **🎯 pipecat#6495(TaskManager.create_task 的 context or 吞掉显式空 Context)→ PR https://github.com/pipecat-ai/pipecat/pull/6496**:context if context is not None else self._context——显式空 Context 运行于无变量环境,其余路径不变;bool(empty Context)=False 实证;pre-fix 复现(读到 caller 变量)/post-fix 三行为(空/默认/无参)全对;新回归测试 + 套件 9 过。DCO -s。
+- session_claims 全流程;STATE.md 同轮登记(56→57)。
