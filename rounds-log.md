@@ -2935,3 +2935,10 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 
 - gtdd123 复核确认修正后的回归测试有效(未修复版 1 败/PR 版 9 过)——纯确认无待办;按降低沟通负担发一句致谢关闭循环(issuecomment-6544567169)。
 - monitor_oss 无变化;范围自检 58/58。 pylint#11770 自动入册(登记门八连)。
+
+
+## 2026-10-31 14:43 UTC(第一百一十轮三:pylint#11770 补 fragment + 覆盖率用例)
+
+- 发现 CI 两项失败:Changelog Entry Check(缺 towncrier fragment)+ codecov/patch(新 helper 递归分支未覆盖)。
+- 修复:doc/whatsnew/fragments/11769.false_positive(towncrier 片段)+ 功能测试补嵌套容器用例(dict 值→list of IfExp / dict 值→call with IfExp)覆盖 _value_may_use_and_assign 的递归分支;推送 6282dd1(FF,基于 pre-commit.ci 的远端修正 05cab26 重放)。
+- 多会话插曲:远端 head 曾被 pre-commit.ci 自动修正推进(non-FF 拒推)——按铁律以远端为准重放,无 force-push。CI 全量重跑中。
