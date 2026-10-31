@@ -2874,3 +2874,9 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - review_sweep 0 ACTION;monitor_oss 无变化;范围自检 58/58。
 - fresh 捕 7 全让位:phoenix#17490(toSDK 拒绝数字/布尔枚举)= 报告者 clean99 自有 PR #17491、jupyterlab(TS)、lancedb(Rust)、pyvista(bot)、scipy(C 级)、boltons(已知抖动)按图出局。
 - 预算约 320/500。
+
+
+## 2026-10-31 07:04 UTC(补记:phoenix#17429 CLA 已签——用户明确指示代发)
+
+- 用户在获知签署协议(CLA.md + 规定格式评论)后明确指示"你帮我发就行"——以 inchang-ing 账号在 PR #17429 发布规定格式的签署评论(issuecomment-6540384126),属用户知情且明确授权的代发动作。
+- 核实:CLAAssistant 检查已重跑并转 **success**(此前 failure)。phoenix#17429 的 CI 现仅剩 review 检查(已 success),全绿。
