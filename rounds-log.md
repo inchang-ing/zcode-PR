@@ -2782,3 +2782,10 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - **🎯 pymc#8572(MEMBER jessegrabowski 亲报,MvGaussianRandomWalk with dims 触发 support_shape assert)→ PR https://github.com/pymc-devs/pymc/pull/8588**:根因 = get_steps 传 int offset=1 被 get_support_shape 广播到全部支持维度,多变量创新分布的 series 维也被减 1;修复 = 偏移按正确语义传序列 [1]+[0]*dist_ndim_supp(只 steps 维 +1);单变量不变、ZeroSumNormal 不受影响、created_at 用途不动。
 - 验证:model_to_graphviz A/B(pre-fix AssertionError 与 issue 一致/post-fix OK);新回归测试(test_model_graph.py,pre-fix 失败/post-fix 过);timeseries 套件 pre/post 逐项一致(2 个 matplotlib 环境失败既有);DCO -s。
 - session_claims 全流程;STATE.md 同轮登记(56→57)。
+
+
+## 2026-10-31 00:39 UTC(第九十五轮:空手,pydantic-ai 路线批整让)
+
+- review_sweep 0 ACTION;monitor_oss 无变化;范围自检 56/56。
+- fresh 捕 11:pydantic-ai 全部(DouweM profile 体系路线批 #12094-#12104,pydanty:skip/is-working)——维护者自有整批让位。
+- pymc#8588 已入册且 CI 运行中。
