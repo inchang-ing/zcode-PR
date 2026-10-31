@@ -2886,3 +2886,11 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 
 - review_sweep 0 ACTION;monitor_oss:phoenix#17429 全绿 7✓/0✗(CLA 签署生效确认);范围自检 58/58。
 - 切片(117 仓 18 候选,0 未标注,0 failed):全既有。零处置。
+
+
+## 2026-10-31 07:39 UTC(第一百零九轮:pipecat#6496 评审响应——测试有效性修正)
+
+- review_sweep ACTION:pipecat#6496 报告者 gtdd123 指出**我的回归测试在未修复的 main 上也通过**(marker 从未在 ambient 设置,新旧代码读同一默认)——完全正确,第一版测试无效。
+- 修正:caller context 播种 "ambient"、新增"显式空覆盖 vs 已填充 manager 默认"用例、断言两个不变行为;pre-fix(HEAD~1 版本)双断言失败/post-fix 全过;DCO -s 提交 c784f62 推送 + 简短回复致谢。
+- 测试有效性教训:回归测试必须在 pre-fix 状态下验证其失败——本次 CI 全绿掩盖了测试无效(测试通过≠测试有效)。
+- 其余:范围自检 58/58;monitor_oss 无变化。预算约 300/500。
