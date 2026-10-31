@@ -2774,3 +2774,11 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - **🎉 Arize-ai/openinference#3982(anthropic 早期流退出时的假 tool arguments 与 token 总量修复)由 caroger 合并(10-30 23:13 UTC)**——10-17 批次的第 3 个落地,外部合并成果 29→**30**。
 - review_sweep 0 ACTION;范围自检 55/55。
 - fresh 捕 10 全让位:inspect_ai 三连(Gemini thought signatures 系列,accepted-gate 关)、bokeh×2(TS)、conda(.empty 竞争,重验证)、agno/polars docs/feature、home-assistant(超速)按图出局。
+
+
+## 2026-10-31 00:36 UTC(第九十四轮:🎯 pymc#8572 → PR pymc#8588)
+
+- review_sweep 0 ACTION;monitor_oss 无变化;范围自检 55/55。
+- **🎯 pymc#8572(MEMBER jessegrabowski 亲报,MvGaussianRandomWalk with dims 触发 support_shape assert)→ PR https://github.com/pymc-devs/pymc/pull/8588**:根因 = get_steps 传 int offset=1 被 get_support_shape 广播到全部支持维度,多变量创新分布的 series 维也被减 1;修复 = 偏移按正确语义传序列 [1]+[0]*dist_ndim_supp(只 steps 维 +1);单变量不变、ZeroSumNormal 不受影响、created_at 用途不动。
+- 验证:model_to_graphviz A/B(pre-fix AssertionError 与 issue 一致/post-fix OK);新回归测试(test_model_graph.py,pre-fix 失败/post-fix 过);timeseries 套件 pre/post 逐项一致(2 个 matplotlib 环境失败既有);DCO -s。
+- session_claims 全流程;STATE.md 同轮登记(56→57)。
