@@ -332,6 +332,10 @@
   "date": "2026-10-26",
   "reason": "Apple Silicon segfault,本地不可验"
  },
+ "pymc-devs/pymc#8572": {
+  "date": "2026-10-31",
+  "reason": "我们的 PR #8588 在飞(空表偏移修复)"
+ },
  "pypa/cibuildwheel#2950": {
   "date": "2026-10-26",
   "reason": "Ubuntu 26.04 环境依赖,不可本地验证"
