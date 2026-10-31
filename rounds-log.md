@@ -2838,3 +2838,12 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - review_sweep 0 ACTION;monitor_oss 无变化;范围自检 57/57。
 - 切片(115 仓 34 候选,0 未标注):全既有;1 failed = boltons 已知抖动。零处置。
 - phoenix#17429 的 6✓/1✗ 维持(CLA 待用户签);openinference 三条 CI 全绿。
+
+
+## 2026-10-31 05:10 UTC(第一百零三轮:🎯 sqlglot#8855 → PR sqlglot#8856)
+
+- review_sweep 0 ACTION;monitor_oss 无变化;范围自检 57/57。
+- fresh 捕 11:sqlglot 三连(jayhemnani9910 批报,无 PR)——**选 #8855 出手**(IS 语义最小且规格完整;#8853 需启发式、#8854 是 parser 重设计留观察):SQLite 的 IS/IS NOT 是 null-safe 相等,reader 却透传 exp.Is,DuckDB/Postgres 生成器原样打回非法语。
+- 修复 = SQLiteParser._parse_is 覆写:右侧非 Null/Boolean 时改建 exp.NullSafeEQ/NEQ(IS [NOT] DISTINCT FROM);SQLite 生成器加 nullsafeeq/neq 回写(IS/IS NOT)保 round-trip。**两版设计迭代**:初版生成器侧(duckdb/postgres is_sql 覆写)被 postgres 的合法 IS JSON 形式否决,回归 reader 侧。
+- 验证:issue 复现 duckdb/postgres 输出与期望逐字一致;sqlite round-trip 保持;三方言套件 94 过;核心套件 2 失败=环境既有(基线一致);两处既有归一化断言按新语义更新(city IS NOT ''/NULL IS NOT y 恒等化)。DCO -s。
+- session_claims 全流程;STATE.md 同轮登记(57→58)。

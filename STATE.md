@@ -11,7 +11,7 @@
 > | 项目说明 / 目录 / 流程 / 飞书 / 换机 | **`README.md`** |
 > | 历史轮次 / 已合并 PR 验证记录 | **`rounds-log.md`**、**`STATE-archive.md`** |
 
-## OSS 贡献在飞（57）
+## OSS 贡献在飞（58）
 
 | PR | 仓库 | 状态 | 摘要 |
 | --- | --- | --- | --- |
@@ -68,6 +68,7 @@
 | [#2629](https://github.com/unionai-oss/pandera/pull/2629) | unionai-oss/pandera | OPEN(2026-10-31) | fix(ibis): empty tables vacuously satisfy checks |
 | [#968](https://github.com/mozilla-ai/any-agent/pull/968) | mozilla-ai/any-agent | OPEN(2026-10-31) | fix(vendor): keep reasoning_content and extra_content through the LangChain tool loop |
 | [#8588](https://github.com/pymc-devs/pymc/pull/8588) | pymc-devs/pymc | OPEN(2026-10-31) | fix(timeseries): scope the support_shape_offset to the steps dimension |
+| [#8856](https://github.com/tobymao/sqlglot/pull/8856) | tobymao/sqlglot | OPEN(2026-10-31) | fix(sqlite): parse IS / IS NOT with a non-trivial right side as a null-safe comparison |
 | [#6496](https://github.com/pipecat-ai/pipecat/pull/6496) | pipecat-ai/pipecat | OPEN(2026-10-31) | fix(TaskManager): honor an explicitly empty context override |
 | [#5007](https://github.com/docling-project/docling/pull/5007) | docling-project/docling | OPEN(2026-10-25) | fix(docx): keep tables whose w:tblGrid is missing or under-d |
 | [#2350](https://github.com/coveragepy/coveragepy/pull/2350) | coveragepy/coveragepy | OPEN(2026-10-25) | fix: hold the data lock only to snapshot, and make it re-ent |
