@@ -1,0 +1,59 @@
+name: self-dispatch-probe
+
+# One question, answered once: can a workflow start its own next run using only
+# the built-in GITHUB_TOKEN? GitHub's docs carve out workflow_dispatch and
+# repository_dispatch from the "events from GITHUB_TOKEN do not create runs"
+# rule, which would make a self-perpetuating chain possible with no external
+# scheduler and no personal access token. If it works, the flaky cron stops
+# mattering entirely.
+#
+# The probe is deliberately bounded to two runs: the first is dispatched by hand
+# with chain=true, which fires one chained dispatch with chain=false, and that
+# second run stops. Without the guard this would loop every few seconds.
+
+on:
+  workflow_dispatch:
+    inputs:
+      chain:
+        description: "dispatch one more run from inside this run"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  actions: write
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Report who we are
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "run_id   = ${{ github.run_id }}"
+          echo "chain    = ${{ inputs.chain }}"
+          echo "actor    = ${{ github.actor }}"
+          echo "now      = $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+
+      - name: Try to dispatch one more run with the built-in token
+        if: ${{ inputs.chain }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -o pipefail
+          code=$(curl -s -o /tmp/resp.txt -w '%{http_code}' -X POST \
+            -H "Authorization: Bearer $GITHUB_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${{ github.repository }}/actions/workflows/self-dispatch-probe.yml/dispatches" \
+            -d '{"ref":"main","inputs":{"chain":"false"}}')
+          echo "dispatch HTTP $code"
+          cat /tmp/resp.txt
+          echo "---"
+          if [ "$code" = "204" ]; then
+            echo "RESULT: built-in token was accepted for workflow_dispatch"
+          else
+            echo "RESULT: built-in token was rejected (HTTP $code)"
+          fi
