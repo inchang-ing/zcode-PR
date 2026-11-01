@@ -1,0 +1,38 @@
+name: fresh-issue-poll
+
+# Fast lane for issue discovery. The desktop automation scheduler cannot fire
+# more often than once an hour, but a good-first-issue is typically claimed
+# within ~15 minutes, so this polls a shorter cycle and reports into an inbox
+# issue with an @mention (that mention is what produces the notification).
+#
+# Claiming and code work stay in the hourly pipeline; this only reports.
+
+on:
+  schedule:
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: fresh-issue-poll
+  cancel-in-progress: false
+
+jobs:
+  poll:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Poll watched repos for newly opened issues
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WINDOW_MIN: "40"
+        run: python tools/poll_fresh.py
