@@ -23,7 +23,7 @@
 ## 一、不可违反的用户指令
 - **方案/计划文档改动先审批后落盘**: 先给完整计划获批再写; 已落盘的摊开「改前→改后」供审。例: 未获批改 `work/plan-issue-first.md` 被纠正。
 - **「找到就跑PR啊问我干什么」(2026-10-13)**: 干净候选自行实现+提 PR, 不回头问。例外: 法律协议/不可逆破坏先问。
-- 权威仓 PR 监控 recurring automation 已授权(45 分钟一轮 `70b30a25`; 另有 2 小时扫描 `da3572ce`)。
+- 自动化**已获授权**(2026-11-01 用户裁决「两个都建」): `3997bee0` 开源贡献侦察(每小时 0/15/30/45 分 = 每 15 分钟, 只扫+认领不开 PR; 抢 GFI 窗口) + `417db721` 开源贡献流水线(每小时 7/37 分 = 每 30 分钟, 维护+写码)。旧 `70b30a25`/`22508949`/`da3572ce` 均已被删。**调度器最小粒度 1 小时, 分钟级被拒**, 但 `FREQ=HOURLY;INTERVAL=1;BYMINUTE=...` 可绕过; 45 分钟无法表达。
 - **无「一轮只跑一个 PR」约束; 纪律 = 同仓在飞 ≤1(硬上限 2)**。例: sqlalchemy 同 org 备 4 分支→整批 `createPullRequest` 被封。
 - **权威池(4 门槛)**: ①Python 包 ②本机可跑测(重 GPU/C++/Rust 降级) ③收外部 bug-fix PR ④活跃 bug 流; 约 53 个, 受限池(sqlalchemy/httpx/pallets)只扫不投。
 - **org 规范名**: starlette/uvicorn→`Kludex/*`; typer/fastapi→`fastapi/*`; ragas→`vibrantlabsai/ragas`; hydra→`hydra-ecosystem/hydra`; aiohttp=`aio-libs/aiohttp`。
@@ -79,5 +79,5 @@
 ## 六、复盘/池状态
 - **10-15 复盘**(`work/retro-2026-10-15.md`): 外部 100 个, 合 22/拒 30/在飞 48; 拒关率 9 月 32.1%→10 月 87.5%; **七成死因与代码质量无关**(重复/抢先 40%>门禁 30%>方案被否>AI 政策>自撤)。10-27: 外部合并 26、在飞 56(自有仓 67 另计)。
 - **新 bug 流已饱和(10-19 起, 10-23 复核)**: 23 仓 × 30 天只扫出 3–5 个且多数已被软认领。**策略**: ①维护在飞 PR ②降星级 500–2000 中型仓 ③换贡献类型。
-- **定时扫描机制**: `tools/quality_repos.json`+`tools/scan_candidates.py --days --max`→`work/ledger/candidates.json`; automation `da3572ce`(HOURLY/INTERVAL=2)。
+- **定时扫描机制**: `tools/quality_repos.json`+`tools/scan_candidates.py --days --max`→`work/ledger/candidates.json`; 现在由 automation `3997bee0`(侦察/15min)与 `417db721`(流水线/30min)驱动, 已无独立扫描任务。
 - **search API 对本账号容忍度极低**(连 2 次即 403): 扫描用仓库 issues 端点并保留间隔; 单次调用别拆 total+items 两次。
