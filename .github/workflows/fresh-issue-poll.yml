@@ -1,34 +1,50 @@
 name: fresh-issue-poll
 
-# Fast lane for issue discovery. The desktop automation scheduler cannot fire
-# more often than once an hour, but a good-first-issue is typically claimed
-# within ~15 minutes, so this polls a shorter cycle and reports into an inbox
-# issue with an @mention (that mention is what produces the notification).
+# Fast lane for issue discovery. A good-first-issue is typically claimed within
+# ~15 minutes, so this polls a short cycle and reports into an inbox issue with
+# an @mention (that mention is what produces the notification).
 #
 # Claiming and code work stay in the hourly pipeline; this only reports.
 #
-# Cadence strategy, revised 2026-11-01: the `*/5` schedule registered 34 slots in
-# 166 minutes and fired once (2.9%), which is not the drift GitHub documents.
-# Instead of trusting the trigger, the job now takes a long shift: one trigger
-# starts a loop that polls every six minutes for 340 minutes. A trigger every
-# few hours then delivers near-continuous coverage, so the same flaky schedule
-# that was useless as a five-minute timer is sufficient as a shift starter.
+# Cadence, revised 2026-11-01 after measuring the schedule: the `*/5` entry
+# registered 34 slots in 166 minutes and fired once (2.9%). Instead of relying on
+# the trigger, the job takes a long shift -- one trigger starts a loop that polls
+# every six minutes for 340 minutes -- and then chains its own successor with the
+# built-in GITHUB_TOKEN. That was verified on 2026-11-01: a self-dispatch from
+# inside a run returned HTTP 204 and produced a new run five seconds later, so
+# the chain needs no external scheduler and no personal access token.
+#
+# The schedule entries stay as a restart button. If the chain ever breaks (API
+# hiccup, cancelled run, exhausted minutes), one cron hit is enough to start it
+# again, and a cron hit arrives every couple of hours whether or not anyone is
+# watching.
 
 on:
   schedule:
     - cron: "*/5 * * * *"
-    # Control timer, kept to tell the mechanisms apart while the shift design
-    # beds in: if 13,43 fires and */5 stays silent, high cadence on this repo is
-    # being throttled; if neither fires, schedule is unreliable here in general.
-    # Every run logs github.event.schedule, so each run names its own timer.
+    # Control timer, kept to tell the mechanisms apart: if 13,43 fires and */5
+    # stays silent, high cadence on this repo is being throttled; if neither
+    # fires, schedule is unreliable here in general. Every run logs
+    # github.event.schedule, so each run names its own timer.
     - cron: "13,43 * * * *"
   workflow_dispatch:
+    inputs:
+      duration_min:
+        description: "shift length in minutes (340 on schedule)"
+        type: string
+        default: "340"
+      chain:
+        description: "start the next shift when this one ends"
+        type: boolean
+        default: true
 
 permissions:
   contents: read
   issues: write
   actions: read
 
+# Serialise shifts. A trigger that arrives mid-shift waits instead of running a
+# second poller over the same repos and doubling the API spend.
 concurrency:
   group: fresh-issue-poll
   cancel-in-progress: false
@@ -38,7 +54,7 @@ jobs:
     runs-on: ubuntu-latest
     # GitHub-hosted jobs may run for six hours. The shift stops itself at 340
     # minutes so it always exits on its own terms rather than being killed.
-    timeout-minutes: 355
+    timeout-minutes: 358
     steps:
       - name: Which timer fired
         run: |
@@ -53,14 +69,63 @@ jobs:
           python-version: "3.12"
 
       - name: Poll in a loop for the length of the shift
+        id: shift
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # Minimum lookback; the script widens it to cover the gap since the
-          # previous poll, because triggers are rare and irregular.
+          # previous poll, so a gap between shifts cannot lose issues.
           WINDOW_MIN: "20"
           WINDOW_MAX_MIN: "360"
           # 360s x 88 repos = 880 requests/hour, inside the 1000/hour cap that
           # an installation token gets per repository.
           INTERVAL_SEC: "360"
-          DURATION_MIN: "340"
-        run: bash tools/poll_loop.sh
+          DURATION_MIN: ${{ inputs.duration_min || '340' }}
+        run: |
+          date +%s > /tmp/shift_start
+          echo "shift_minutes=${DURATION_MIN}" >> "$GITHUB_OUTPUT"
+          bash tools/poll_loop.sh
+
+      - name: Chain the next shift
+        if: always()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REQUESTED_MIN: ${{ inputs.duration_min || '340' }}
+          CHAIN: ${{ inputs.chain }}
+        run: |
+          set -u
+          # A scheduled run has no inputs at all, so an empty CHAIN means yes.
+          chain="${CHAIN:-true}"
+          if [ "$chain" != "true" ]; then
+            echo "chain disabled for this run, stopping"
+            exit 0
+          fi
+
+          started=$(cat /tmp/shift_start 2>/dev/null || echo 0)
+          now=$(date +%s)
+          elapsed=$(( now - started ))
+          echo "shift ran $(( elapsed / 60 )) minute(s) of a requested $REQUESTED_MIN"
+
+          # Guard against turning a broken loop into a tight dispatch cycle: if
+          # the shift died early, do not immediately start another. Half the
+          # requested length is the floor, so a crash at minute two waits for
+          # the schedule or a human rather than burning runs in a fast loop.
+          floor=$(( REQUESTED_MIN / 2 ))
+          [ "$floor" -lt 1 ] && floor=1
+          if [ "$elapsed" -lt $(( floor * 60 )) ]; then
+            echo "shorter than ${floor}m floor, leaving the restart to the schedule"
+            exit 0
+          fi
+
+          code=$(curl -s -o /tmp/dispatch.txt -w '%{http_code}' -X POST \
+            -H "Authorization: Bearer $GITHUB_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${{ github.repository }}/actions/workflows/fresh-issue-poll.yml/dispatches" \
+            -d "{\"ref\":\"${{ github.ref_name }}\",\"inputs\":{\"duration_min\":\"${REQUESTED_MIN}\",\"chain\":\"true\"}}")
+          echo "dispatch HTTP $code"
+          if [ "$code" = "204" ]; then
+            echo "next shift queued; it starts as soon as this job releases the concurrency group"
+          else
+            cat /tmp/dispatch.txt
+            exit 1
+          fi
