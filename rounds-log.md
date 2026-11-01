@@ -2969,3 +2969,14 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
   - `kyegomez/swarms#2899` —— 已有 PR **#2901** 交叉引用。
   - **本轮 0 条干净候选,未投新 PR(除 #969 救济)。** rotator `2 → 0` 原子写回。
 - **预算**:整轮约 150 次 API 调用(上限 500)。
+
+## Round 113 — 2026-11-01 13:00–13:25（用户策略调整轮）
+
+- **触发**: 用户连续两条指令 —— ①不必追求「高质量 bug PR」，文档修正/简单 PR 也可投；②简单内容的 PR **必须**落在高星库或大厂库，不为凑数投小库。
+- **落盘**: `RULES.md` 新增「贡献分层（2026-11-01）」节：仓库准入（高星 **或** 组织背书；个人小库即便星高也不因内容简单而下放）、可投类别、验证要求不变、撞车策略，并附「低门槛≠低竞争」实测数据。
+- **撞车实测（关键）**: `tools/scan_docs.py` 扫 20 仓得 45 条文档/GFI 候选，逐个核 timeline 的 7 条**全部已被占**——autogen#7749 有 **8 个**竞争 PR、llama_index#23673 有 5 个、sympy#29023 有 3 个、sympy#24244 有 2 个、python-fire#238 有 1 个；elasticsearch-py#1974 虽无 PR 但属 2022 年老 issue。结论：降低选题标准会**提高**撞车率，产出要靠换来源而非降标准。
+- **新 PR**: `cattrs#817` —— `docs/why.md` 把 `structure()` 对 `Sequence[str]` 的输出写成 `list`，实际是 `tuple`（`tests/test_cols.py:64` 已固定该行为）；1 行 diff，修前 `why.md 1/13 failed` → 修后 `13 examples OK`。已在 `STATE.md` 登记（在飞 57→58）。
+- **大厂低星池**: 取 12 仓元数据；`googleapis/python-bigquery`(796★) 与 `python-storage`(502★) **已 archived** 排除；`aws-powertools/powertools-lambda-python`(3303★, AWS 官方, 默认分支 `develop`) 维护者 leandrodamascena 于 10-31 22:36 批量开 8 个 good-first-issue（#8721–#8728），一天后仍 0 cross-ref / 0 assignee。
+- **认领**: 已在 #8722（`output_serializer=PydanticSerializer` 在 `from __future__ import annotations` 下 import 崩溃）留言认领并等 assignment —— 该仓 issue 正文内置强制门禁：先认领、被 assign 后才可开 PR。
+- **新工具**: `tools/scan_docs.py`（文档/GFI 扫描，支持 `--` 指定仓）、`tools/docstring_audit.py`（docstring 参数 vs 签名）、`tools/run_docs_doctest.py`（跑 docs 内 `>>>`，剥离 markdown fence）。
+- **预算**: 约 130 次 API 调用。
