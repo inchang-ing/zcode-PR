@@ -9,24 +9,28 @@ name: fresh-issue-poll
 # Cadence, revised 2026-11-01 after measuring the schedule: the `*/5` entry
 # registered 34 slots in 166 minutes and fired once (2.9%). Instead of relying on
 # the trigger, the job takes a long shift -- one trigger starts a loop that polls
-# every six minutes for 340 minutes -- and then chains its own successor with the
-# built-in GITHUB_TOKEN. That was verified on 2026-11-01: a self-dispatch from
-# inside a run returned HTTP 204 and produced a new run five seconds later, so
-# the chain needs no external scheduler and no personal access token.
+# every fifteen minutes for 340 minutes -- and then chains its own successor with
+# the built-in GITHUB_TOKEN. That was verified on 2026-11-01: a self-dispatch
+# from inside a run returned HTTP 204 and produced a new run five seconds later,
+# so the chain needs no external scheduler and no personal access token.
 #
 # The schedule entries stay as a restart button. If the chain ever breaks (API
 # hiccup, cancelled run, exhausted minutes), one cron hit is enough to start it
 # again, and a cron hit arrives every couple of hours whether or not anyone is
 # watching.
+#
+# Switch: setting the repository variable PIPELINE_ENABLED=false stops the lane
+# within one interval and prevents it from chaining, without editing this file.
+# The same flag is read by the hourly pipeline before it starts work, so one
+# command turns discovery and execution off together. Unset means on.
 
 on:
   schedule:
-    - cron: "*/5 * * * *"
-    # Control timer, kept to tell the mechanisms apart: if 13,43 fires and */5
-    # stays silent, high cadence on this repo is being throttled; if neither
-    # fires, schedule is unreliable here in general. Every run logs
-    # github.event.schedule, so each run names its own timer.
-    - cron: "13,43 * * * *"
+    # Nominal cadence is a formality here -- measured hit rate is ~3%, so this
+    # is a restart button rather than a timer. Fifteen minutes matches the
+    # interval the shift loop uses, so a cron hit that lands mid-shift is
+    # simply absorbed by the concurrency group.
+    - cron: "*/15 * * * *"
   workflow_dispatch:
     inputs:
       duration_min:
@@ -54,6 +58,9 @@ concurrency:
 
 jobs:
   poll:
+    # Off switch, checked before a runner is even allocated. An unset variable
+    # leaves the job enabled, so nothing changes for a repo that never sets it.
+    if: vars.PIPELINE_ENABLED != 'false'
     runs-on: ubuntu-latest
     # GitHub-hosted jobs may run for six hours. The shift stops itself at 340
     # minutes so it always exits on its own terms rather than being killed.
@@ -79,9 +86,10 @@ jobs:
           # previous poll, so a gap between shifts cannot lose issues.
           WINDOW_MIN: "20"
           WINDOW_MAX_MIN: "360"
-          # 360s x 88 repos = 880 requests/hour, inside the 1000/hour cap that
-          # an installation token gets per repository.
-          INTERVAL_SEC: "360"
+          # 900s x 88 repos = 352 requests/hour, a third of the 1000/hour cap an
+          # installation token gets per repository. Widening the window is free;
+          # shortening the interval is what costs budget.
+          INTERVAL_SEC: "900"
           DURATION_MIN: ${{ inputs.duration_min || '340' }}
         run: |
           date +%s > /tmp/shift_start
@@ -94,12 +102,21 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REQUESTED_MIN: ${{ inputs.duration_min || '340' }}
           CHAIN: ${{ inputs.chain }}
+          ENABLED: ${{ vars.PIPELINE_ENABLED }}
         run: |
           set -u
           # A scheduled run has no inputs at all, so an empty CHAIN means yes.
           chain="${CHAIN:-true}"
           if [ "$chain" != "true" ]; then
             echo "chain disabled for this run, stopping"
+            exit 0
+          fi
+
+          # Re-read the switch at the end of the shift rather than trusting the
+          # value from job start: the point of an off switch is that it stops
+          # things now, and a shift can be hours long.
+          if [ "${ENABLED:-}" = "false" ]; then
+            echo "PIPELINE_ENABLED=false, not chaining"
             exit 0
           fi
 

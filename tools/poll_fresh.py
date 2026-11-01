@@ -197,11 +197,37 @@ def render(items: list[dict], window_min: int) -> str:
     return "\n".join(lines)
 
 
+def switch_on(repo: str) -> bool:
+    """Whether the lane is allowed to run, read from a repo variable.
+
+    A missing variable means on: the lane should keep working for anyone who
+    never touched the switch. Only an explicit `false` turns it off. A lookup
+    that fails for any other reason is also treated as on, because a
+    permissions blip must not look like an operator turning the lane off.
+    """
+    if os.environ.get("PIPELINE_ENABLED", "").strip().lower() == "false":
+        return False
+    try:
+        value = call("GET", f"/repos/{repo}/actions/variables/PIPELINE_ENABLED")
+    except SystemExit as exc:
+        if "404" not in str(exc):
+            print(f"switch lookup failed, assuming on: {exc}")
+        return True
+    return str((value or {}).get("value", "true")).strip().lower() != "false"
+
+
 def main() -> int:
     dry = "--dry-run" in sys.argv
     window = int(os.environ.get("WINDOW_MIN", "40"))
     cap = int(os.environ.get("WINDOW_MAX_MIN", "360"))
     repo = os.environ.get("GITHUB_REPOSITORY", "inchang-ing/zcode-PR")
+
+    # 42 is "switched off", distinct from failure: the shift loop stops the
+    # whole run on it instead of retrying, and the chain step reads the same
+    # variable so the lane does not restart itself.
+    if not switch_on(repo):
+        print("PIPELINE_ENABLED=false, not polling")
+        return 42
 
     gap = last_success_gap(repo)
     if gap is not None:
