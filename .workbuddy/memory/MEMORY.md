@@ -23,7 +23,7 @@
 ## 一、不可违反的用户指令
 - **方案/计划文档改动先审批后落盘**: 先给完整计划获批再写; 已落盘的摊开「改前→改后」供审。例: 未获批改 `work/plan-issue-first.md` 被纠正。
 - **「找到就跑PR啊问我干什么」(2026-10-13)**: 干净候选自行实现+提 PR, 不回头问。例外: 法律协议/不可逆破坏先问。
-- 自动化**已获授权**(2026-11-01 用户裁决「两个都建」, 实测合并为一个): `417db721` 开源贡献流水线每小时一轮, 第 0 步快扫 48h 新 issue+五项核查+认领, 之后维护/写码。**调度器上限 = 每小时一次**: 分钟级直接报错, `BYMINUTE` 能存但不生效(判据看 `nextRunAt` 是否真对齐, 别看 rrule 是否被接受), 锚点是创建时刻而非整点 → 多建任务只会同秒撞车并同写台账, 故合并为单任务。旧 `70b30a25`/`22508949`/`da3572ce`/`3997bee0` 均已删。
+- 自动化**已获授权**(2026-11-01 用户裁决「两个都建」, 实测合并为一个): `417db721` 开源贡献流水线每小时一轮, 第 0 步快扫 48h 新 issue+五项核查+认领, 之后维护/写码。**调度器上限 = 每小时一次**: 分钟级直接报错, `BYMINUTE` 能存但不生效(判据看 `nextRunAt` 是否真对齐, 别看 rrule 是否被接受), 锚点是创建时刻而非整点 → 多建任务只会同秒撞车并同写台账, 故合并为单任务。旧 `70b30a25`/`22508949`/`da3572ce`/`3997bee0` 均已删。**要亚小时频率就别在客户端调度器上使劲** —— 改走 GitHub Actions 快车道(见六节)。
 - **无「一轮只跑一个 PR」约束; 纪律 = 同仓在飞 ≤1(硬上限 2)**。例: sqlalchemy 同 org 备 4 分支→整批 `createPullRequest` 被封。
 - **权威池(4 门槛)**: ①Python 包 ②本机可跑测(重 GPU/C++/Rust 降级) ③收外部 bug-fix PR ④活跃 bug 流; 约 53 个, 受限池(sqlalchemy/httpx/pallets)只扫不投。
 - **org 规范名**: starlette/uvicorn→`Kludex/*`; typer/fastapi→`fastapi/*`; ragas→`vibrantlabsai/ragas`; hydra→`hydra-ecosystem/hydra`; aiohttp=`aio-libs/aiohttp`。
@@ -79,5 +79,8 @@
 ## 六、复盘/池状态
 - **10-15 复盘**(`work/retro-2026-10-15.md`): 外部 100 个, 合 22/拒 30/在飞 48; 拒关率 9 月 32.1%→10 月 87.5%; **七成死因与代码质量无关**(重复/抢先 40%>门禁 30%>方案被否>AI 政策>自撤)。10-27: 外部合并 26、在飞 56(自有仓 67 另计)。
 - **新 bug 流已饱和(10-19 起, 10-23 复核)**: 23 仓 × 30 天只扫出 3–5 个且多数已被软认领。**策略**: ①维护在飞 PR ②降星级 500–2000 中型仓 ③换贡献类型。
-- **定时扫描机制**: `tools/quality_repos.json`+`tools/scan_candidates.py --days --max`→`work/ledger/candidates.json`; 现在由 automation `3997bee0`(侦察/15min)与 `417db721`(流水线/30min)驱动, 已无独立扫描任务。
+- **定时扫描机制**: `tools/quality_repos.json`+`tools/scan_candidates.py --days --max`→`work/ledger/candidates.json`; 现只有 automation `417db721`(每小时, 首步 `monitor_fresh.py --all`)。
+- **发现层与决策层分开**: 发现新 issue 不需要模型 → 放 GitHub Actions(`tools/poll_fresh.py` + `.github/workflows/fresh-issue-poll.yml`, `cron */5`, 命中即往仓内收件箱 issue 追加评论并 `@inchang-ing`, **mention 才产生通知**); 认领/写码仍需模型 → 留每小时流水线。**私有仓按「每 job 最少 1 分钟」计费, 会把频率锁死在上限; 公开仓标准 runner 免费, 频率只受 cron 最小 5 分钟约束** —— `zcode-PR` 已于 2026-11-01 转公开。转公开前必扫: 跟踪文件+`git log -p --all` 的密钥模式、`.env`/`.pem` 类文件、提交作者邮箱。
+- **轮询必须按仓拉增量, 不能用全局搜索**: `search/issues?q=created:>=X` 有 1000 条上限, 实测 5 小时窗口只拿到最新 200 条(全是热门仓), 池内命中 0; 改 `repos/{r}/issues?since=&state=all&sort=created` 并发 10 线程约 25 秒。池内含改名前后两个 slug(`embedchain/embedchain`+`mem0ai/mem0`)会重复播报, 按 `html_url` 去重。
+- **triage bot 把关 issue 质量的仓, 快车道价值≈0**: langchain 的 `langchain-oss-automated-triage[bot]` 在 **12 秒**内以 `not_planned` 关闭「无 issue type」的 issue(同题 #36991/#41610 均被掐, 同题 open issue 数为 0)。这类仓报得再快也无法认领, 只剩「直接提 PR」一条路。**发现快 ≠ 可认领; 高速车道只对「愿收外部 issue 且不自动关」的仓有价值。**
 - **search API 对本账号容忍度极低**(连 2 次即 403): 扫描用仓库 issues 端点并保留间隔; 单次调用别拆 total+items 两次。
