@@ -228,6 +228,15 @@ def run_round() -> int:
     always_slice = always[alw_index::ALWAYS_SLICES]
     repos = always_slice + rot_slice
 
+    # --all/--full: scan every repo this fire instead of a rotating slice.
+    # Rotation exists for the 45-minute cadence, where 3 slices kept a single
+    # repo's discovery latency at ~3h. On an hourly cadence that latency means
+    # a good-first-issue is often gone before we ever see it, and the full pool
+    # costs ~440 calls/fire against a 5000/hour ceiling — affordable.
+    full_scan = "--all" in sys.argv or "--full" in sys.argv
+    if full_scan:
+        repos = always + rotating
+
     with ThreadPoolExecutor(max_workers=14) as pool:
         results = list(pool.map(lambda r: fetch_newest(
             r, datetime.fromisoformat(watermarks.get(r, state["default_since"]))), repos))
@@ -286,9 +295,12 @@ def run_round() -> int:
         state["textual_last"] = now.isoformat()
     state["last_check"] = now.isoformat()
     state["seen"] = seen
-    state["rot_index"] = (rot_index + 1) % T3_SLICES
-    state["always_rot_index"] = (alw_index + 1) % ALWAYS_SLICES
+    if not full_scan:
+        state["rot_index"] = (rot_index + 1) % T3_SLICES
+        state["always_rot_index"] = (alw_index + 1) % ALWAYS_SLICES
     save_state(state)
+    if full_scan:
+        print(f"SCOPE: full scan, {len(repos)} repos (rotation paused)")
     print(f"TEXTUAL-RETRY: {retry}")
     return status
 
