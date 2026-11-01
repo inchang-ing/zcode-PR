@@ -2953,3 +2953,19 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - **唯一干净候选 `inspect_ai#6223`**:0 评论、`assignee=null`、timeline 无 cross-ref。本地验证根因: `scorer/_common.py` 的 `words = re.split(r"\s+", v)` 会把 U+00A0/U+202F/U+2009 一起拆开("2 500" → `['2','500.']`,end 路取 500),而 `scorer/_unicode.py` 的 `_GROUP_SEPARATORS` **已包含**这些码点 → **同一字符在「分词层」与「数字解析层」语义矛盾**。拟修法: 分词正则排除 Unicode 分组空格 `[^\S\u00a0\u202f\u2009\u2007\u2008]+`,让 `"2\u202f500."` 保持单 token。
 - **门禁判定**:该仓 `CONTRIBUTING.md` 为 **issue-first**——非 `.github/qualified.yml` 在册者必须先由 maintainer 打 `accepted` 标签,否则 PR 被自动关闭(`pr_gate.py`)。故按硬纪律**写码前留言**(复现/根因/拟修法/请求 accepted),issuecomment-**6546611472** 已发。台账状态 **waiting**,等 accepted 再写,不提前开 PR。
 - **预算**:整轮约 200 次 API 调用(上限 500),中途额度窗口重置。
+
+
+## 2026-11-01 03:45 UTC(第一百一十二轮:流水线一轮 · 偶数分走维护者亲提赛道)
+
+- **步骤1 monitor_oss**:`markdown#1666` **1✗→0✗**(上轮 flake8 E302 修复生效,现 13✓/0✗);`mozilla-ai/any-agent#968` 被 **CLOSED**(离场);范围自检 57/57(any-agent 移出后由 58 降到 57)。
+- **步骤2 review_sweep**:5 个 PR 有更新、**0 个人工活动**、0 unknown → **无 ACTION**。
+- **any-agent#968 救济(本轮主要动作)**:bot 于 2026-11-01T00:08Z 自动关闭,原因写明 *"required checklist was not restored within 24 hours"* —— 该 PR body 用了自定义格式、**没有保留模板的 Checklist**,而模板中明写 *"If this checklist is deleted from the PR submission it will be immediately closed"*。判定: **bot 关闭 ≠ 维护者裁定**,属可救济的流程问题。
+  - `gh pr reopen 968` **被拒**(GraphQL `Could not open the pull request`) —— bot 关闭的 PR 作者无法自行 reopen。
+  - 按 bot 明示的 *"Please create a new PR using the template and complete the checklist"* 走新建路径,但先做撞车核查: issue #967 仍 OPEN、`assignee=null`、无标签、**search 无任何 open PR 引用 967**(唯一先例是刚被关的 #968 自己)。
+  - 按模板重写 body(Description / PR Type / Relevant issues / **完整 Checklist** / AI Usage Information,含 `This is fully AI-generated` 与 `I am an AI Agent` 两条如实勾选;对 4 个 pre-existing 测试失败在 checklist 项内直接说明),用同一分支 `fix/langchain-tool-loop-reasoning-content`(head `12cc1c8`)新建 **`any-agent#969`**。状态 **OPEN / BLOCKED**,未被 bot 二次关闭 ✓。
+- **步骤4(UTC 分钟十位=4,偶数 → 维护者亲提扫描)** `maintainer_sweep --slice 2 --slices 3`:sweeping 116 仓、**115 ok / 1 failed**、38 candidates。其中 **35 条已 DISPOSITIONED**;4 条未处置的**全部排除**:
+  - `jupyterlab#20276`、`jupyterlab#20282` —— 前端 TS(键盘导航 / 链接打开目标),本机不可验。
+  - `kyegomez/swarms#2895` —— 已有 PR **#2900** 交叉引用。
+  - `kyegomez/swarms#2899` —— 已有 PR **#2901** 交叉引用。
+  - **本轮 0 条干净候选,未投新 PR(除 #969 救济)。** rotator `2 → 0` 原子写回。
+- **预算**:整轮约 150 次 API 调用(上限 500)。
