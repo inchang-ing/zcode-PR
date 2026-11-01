@@ -13,12 +13,13 @@
 #
 # Cadence is capped by the token, not by taste: an installation token gets 1000
 # requests per hour per repository, and one poll costs one request per pooled
-# repo (88). At 360s that is 10 polls/hour x 88 = 880, leaving room for the
-# occasional comment write. Shortening the interval without raising the budget
-# will start returning 403s partway through a shift.
+# repo (88). At 900s that is 4 polls/hour x 88 = 352, a third of the budget, so
+# there is headroom for comment writes and the switch lookup. At 360s the same
+# arithmetic left 120 requests for everything else, which was tighter than it
+# needed to be -- 15 minutes is enough for a lane that only reports.
 set -u
 
-interval="${INTERVAL_SEC:-360}"
+interval="${INTERVAL_SEC:-900}"
 duration_min="${DURATION_MIN:-340}"
 max_rounds="${MAX_ROUNDS:-0}"
 deadline=$(( $(date +%s) + duration_min * 60 ))
@@ -36,9 +37,17 @@ while [ "$(date +%s)" -lt "$deadline" ]; do
     round=$((round + 1))
     echo "--- round $round at $(date -u +%Y-%m-%dT%H:%M:%SZ) ---"
     # A transient API error must not end a six-hour shift; the next round is
-    # six minutes away and the lookback window covers whatever was missed.
-    if ! poll_once "$@"; then
-        echo "round $round failed, continuing"
+    # one interval away and the lookback window covers whatever was missed.
+    poll_once "$@"
+    rc=$?
+    if [ "$rc" = "42" ]; then
+        # 42 is the poller's "switch is off" code, not a failure: stop now
+        # rather than at the end of the shift, so turning the lane off takes
+        # effect within one interval instead of within six hours.
+        echo "pipeline switch is off, ending shift early"
+        break
+    elif [ "$rc" != "0" ]; then
+        echo "round $round failed ($rc), continuing"
     fi
     if [ "$max_rounds" -gt 0 ] && [ "$round" -ge "$max_rounds" ]; then
         break
