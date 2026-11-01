@@ -1,0 +1,26 @@
+{
+ "agno-agi/agno#11422": {
+  "at": "2026-11-01T16:41:16Z",
+  "note": "ready 标签门禁, 未标 ready 的外部 PR 会被机器人关闭"
+ },
+ "docling-project/docling#5124": {
+  "at": "2026-11-01T16:41:16Z",
+  "note": "同仓在飞已满, 按纪律让出"
+ },
+ "eleutherai/lm-evaluation-harness#4502": {
+  "at": "2026-11-01T16:41:16Z",
+  "note": "作者 19 分钟后自开 #4503"
+ },
+ "foundationagents/metagpt#2184": {
+  "at": "2026-11-01T16:41:17Z",
+  "note": "招募/pilot 广告, 非缺陷"
+ },
+ "openhands/openhands#19176": {
+  "at": "2026-11-01T16:41:17Z",
+  "note": "标题 probe, 无内容的测试条目"
+ },
+ "pydantic/pydantic-ai#12156": {
+  "at": "2026-11-01T16:41:18Z",
+  "note": "标签 is-working, 维护者自己在做"
+ }
+}

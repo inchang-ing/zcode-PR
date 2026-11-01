@@ -16,8 +16,10 @@ the same entry every hour.
     python tools/inbox.py done foo/bar#12 --note "self-claimed in body"
     python tools/inbox.py stats
 
-State lives in work/inbox_handled.json, which is local on purpose: the inbox is
-the shared record, this file only remembers what this pipeline already judged.
+State lives in tools/inbox_handled.json rather than work/, because work/ is
+gitignored: a judgement that only exists on one disk gets re-made by the next
+session. The inbox issue is the shared record; this file remembers what has
+already been judged.
 """
 
 from __future__ import annotations
@@ -33,7 +35,7 @@ from pathlib import Path
 REPO = "inchang-ing/zcode-PR"
 LABEL = "inbox:fresh"
 ROOT = Path(__file__).resolve().parents[1]
-STATE = ROOT / "work" / "inbox_handled.json"
+STATE = ROOT / "tools" / "inbox_handled.json"
 TZ = timezone.utc
 
 KEY_RE = re.compile(r"\b([A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+)#(\d+)\b")
@@ -168,15 +170,20 @@ def main() -> int:
         return 0
 
     if action == "done":
-        keys = [a for a in args[1:] if not a.startswith("-") and "#" in a]
+        # Strip --note and its value before collecting keys: a note like
+        # "author opened #4503" contains a '#', so scanning the raw argument
+        # list for '#' silently records the prose as a second entry.
+        rest = args[1:]
+        note = ""
+        if "--note" in rest:
+            index = rest.index("--note")
+            if index + 1 >= len(rest):
+                raise SystemExit("--note needs text")
+            note = rest[index + 1]
+            rest = rest[:index] + rest[index + 2:]
+        keys = [a for a in rest if not a.startswith("-") and "#" in a]
         if not keys:
             raise SystemExit("done needs at least one owner/repo#num")
-        note = ""
-        if "--note" in args:
-            try:
-                note = args[args.index("--note") + 1]
-            except IndexError:
-                raise SystemExit("--note needs text")
         state = load_state()
         stamp = datetime.now(TZ).strftime("%Y-%m-%dT%H:%M:%SZ")
         for key in keys:

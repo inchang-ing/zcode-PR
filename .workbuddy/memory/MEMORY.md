@@ -49,6 +49,9 @@
 ## 五、监控/数据
 - **本仓 Actions schedule 极不可靠**(`*/5` 在 166 分钟内 34 个时点只响 1 次 = 2.9%; 平台与配置已逐项排除, 不编因果)。两条对策, 后者是根治: ①窗口不能固定, 以「上一次成功运行的 `created_at`」为下界(`clamp(gap+2min, 20m, 6h)`), 否则 20 分钟窗 + 145 分钟间隔会丢掉期间全部内容; ②**`GITHUB_TOKEN` 能自链 `workflow_dispatch`**(「GITHUB_TOKEN 事件不产生新 run」的唯一豁免, 实测 204 + 5 秒后新 run), 所以**一次触发跑长班(≤6h) + 班末自触发下一班**, cron 退化为重启按钮。**坑: permissions 必须 `actions: write`, 写 read 会 403 `Resource not accessible by integration`**; 守卫=实际时长不足一半不链(防挂掉的环变成秒级循环), 留 `chain=false` 让链条可测。**只改分支没用, schedule 只跑默认分支。**
 - **跟进按阻塞和证据决定**: 有明确评审要求优先处理; 无新信息默认等待, 不因到期自动 ping 或关闭。我方引入的失败优先修; behind 本身不触发同步。**但「具体化催询」例外且有效**: 点名谁已批/何时批/卡在哪一条 → docling#4849 挂了 16 天的 CHANGES_REQUESTED 当天解开并合并; 空催无效。
+- **关得掉才叫开关**: 已在跑的长班不会因为推了新配置就停(job 级 `if` 只管新 run, 老班要跑满 6h)。所以要三层读同一变量: job `if`(不分配 runner) + poller 退出码 42(本轮即停, 循环见到就 break) + chain step 末尾重读(不接棒)。**只关发现层不关执行层 = 只堆 backlog**。例: `PIPELINE_ENABLED` + `tools/pipeline_switch.py on/off`(off 默认顺带 cancel 在跑的班)。
+- **发现层与执行层之间要有队列状态**: 收件箱是评论流, 「这条判过了」不在里面, 于是每轮把同一批重判一遍, 积压只涨不减(实测 28 条 0 标记)。台账分两级: done=判过了(弃单也记, 带一句原因), PR 号=做完了。例: `tools/inbox.py list/done` + `work/inbox_handled.json`。
+- **轮询间隔由 token 配额定, 不由直觉定**: 88 仓 × 4 次/h(15 分钟) = 352, 占安装令牌 1000/h 的三分之一; 6 分钟一轮是 880, 几乎顶满且留不出写评论的余量。放宽回看窗口不花钱, 缩短间隔才花钱。
 - 单一事实源=GitHub; 全量盘 PR 用 `gh api "search/issues?q=is:pr+author:inchang-ing+state:open&per_page=100&sort=updated"`(**`gh search prs` 静默返回 0, 不可信**); memory 只记规律不记清单。`mergeable_state`: blocked=待门禁/behind=落后/unstable=CI 未绿。
 - 维护者先关 issue(not_planned)再关 PR=裁定不修; 大仓 reviewDecision null 数周常态; **fork PR 的 Actions 常停 `action_required`**=待批准, 非推送失败 —— `gh pr checks` 此时只报 "no checks reported", 判据要拉 `actions/runs?head_sha=<sha>` 看 `conclusion`; **rulesets 才是必需检查的唯一事实源**(空=该红不阻塞)。
 - **扫「他人新动静」cutoff 用「上次扫描时间」不用自然日 0 点**; 单仓 `query incomplete` 不必补救(watermark 未推进, 下轮 `--all` 补扫)。**但整份巡检全 `QUERY_ERROR` 不是「无变化」**: 先看 `gh api rate_limit`, 充足即判瞬时抖动重跑, 别把查询失败当状态未变。临时文件统一 `work/tmp/`(Windows 上 Python 的 `/tmp` 落 `E:\tmp`, 与 bash 的 `%TEMP%` 不同目录)。
@@ -58,5 +61,5 @@
 - **七成弃单死因与代码质量无关**(重复/抢先 40%>门禁 30%>方案被否>AI 政策>自撤); 10-15 复盘 合 22/拒 30。
 - **新 bug 流已饱和**: 23 仓 × 30 天只扫出 3–5 个且多数被软认领; 策略=维护在飞 + 降星级 500–2000 仓 + 换贡献类型。**唯一稳定收益: 只有跑起来才暴露的缺陷**(无人立 issue 也就无人抢)。连续四轮全池 0 认领, 印证「加频率无增量」。
 - **维护期产出上限由评审吞吐决定, 不由写入速度决定**: 85 在飞 = 29 CLEAN + 38 BLOCKED + 15 UNSTABLE(多为既有红) + 2 BEHIND。此时正确动作是清红、具体化催询、补欠承诺, **不是开新单**。
-- **发现层与决策层分开**: 发现不需模型 → 按仓拉增量并 `@inchang-ing`(mention 才通知); 认领/写码留每小时流水线(`417db721`)。轮询禁用全局 search(1000 条上限), 按仓 `issues?since=` 并用 `html_url` 去重(改名仓重复播报)。
+- **发现层与决策层分开**: 发现不需模型 → 按仓拉增量并 `@inchang-ing`(mention 才通知); 认领/写码留每小时流水线(`417db721`)。轮询禁用全局 search(1000 条上限), 按仓 `issues?since=` 并用 `html_url` 去重(改名仓重复播报)。**两层的频率差是硬上限, 不是调参**: 发现层 15 分钟, 执行层受调度器限制最快 1 小时, 中间最多 45 分钟时差 —— 想缩短只能让执行层自己盯盘, 不能靠加自动化。
 - **search API 有独立配额(30/min)+secondary limit**: 遇 403 先看 `X-RateLimit-Remaining`, 为 0 才是 primary 耗尽, 否则隔几秒重试。用 issues 端点是因为它没有 1000 条上限。
