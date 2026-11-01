@@ -14,6 +14,13 @@ name: fresh-issue-poll
 on:
   schedule:
     - cron: "*/5 * * * *"
+    # Control timer. The */5 entry has fired once in 158 minutes, which is far
+    # outside the drift GitHub documents. Registering a second, deliberately
+    # low-frequency entry tells the two hypotheses apart: if this one keeps
+    # firing and */5 does not, high cadence on this repo is being throttled; if
+    # neither fires, schedule is unreliable here in general. The job logs
+    # `github.event.schedule`, so each run names its own timer.
+    - cron: "13,43 * * * *"
   workflow_dispatch:
 
 permissions:
@@ -30,6 +37,12 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 4
     steps:
+      - name: Which timer fired
+        run: |
+          echo "event = ${{ github.event_name }}"
+          echo "timer = [${{ github.event.schedule }}]"
+          echo "now   = $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+
       - uses: actions/checkout@v4
 
       - uses: actions/setup-python@v5
