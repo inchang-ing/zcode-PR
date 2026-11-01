@@ -6,10 +6,14 @@ name: fresh-issue-poll
 # issue with an @mention (that mention is what produces the notification).
 #
 # Claiming and code work stay in the hourly pipeline; this only reports.
+#
+# 5-minute cadence: GitHub's minimum for cron is 5 minutes, and since this repo
+# is public, Actions minutes for standard runners are free, so the cadence costs
+# nothing. Note GitHub can delay scheduled runs under load; expect drift.
 
 on:
   schedule:
-    - cron: "*/30 * * * *"
+    - cron: "*/5 * * * *"
   workflow_dispatch:
 
 permissions:
@@ -23,7 +27,7 @@ concurrency:
 jobs:
   poll:
     runs-on: ubuntu-latest
-    timeout-minutes: 6
+    timeout-minutes: 4
     steps:
       - uses: actions/checkout@v4
 
@@ -34,5 +38,5 @@ jobs:
       - name: Poll watched repos for newly opened issues
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          WINDOW_MIN: "40"
+          WINDOW_MIN: "20"
         run: python tools/poll_fresh.py
