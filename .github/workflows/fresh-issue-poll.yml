@@ -7,19 +7,20 @@ name: fresh-issue-poll
 #
 # Claiming and code work stay in the hourly pipeline; this only reports.
 #
-# 5-minute cadence: GitHub's minimum for cron is 5 minutes, and since this repo
-# is public, Actions minutes for standard runners are free, so the cadence costs
-# nothing. Note GitHub can delay scheduled runs under load; expect drift.
+# Cadence strategy, revised 2026-11-01: the `*/5` schedule registered 34 slots in
+# 166 minutes and fired once (2.9%), which is not the drift GitHub documents.
+# Instead of trusting the trigger, the job now takes a long shift: one trigger
+# starts a loop that polls every six minutes for 340 minutes. A trigger every
+# few hours then delivers near-continuous coverage, so the same flaky schedule
+# that was useless as a five-minute timer is sufficient as a shift starter.
 
 on:
   schedule:
     - cron: "*/5 * * * *"
-    # Control timer. The */5 entry has fired once in 158 minutes, which is far
-    # outside the drift GitHub documents. Registering a second, deliberately
-    # low-frequency entry tells the two hypotheses apart: if this one keeps
-    # firing and */5 does not, high cadence on this repo is being throttled; if
-    # neither fires, schedule is unreliable here in general. The job logs
-    # `github.event.schedule`, so each run names its own timer.
+    # Control timer, kept to tell the mechanisms apart while the shift design
+    # beds in: if 13,43 fires and */5 stays silent, high cadence on this repo is
+    # being throttled; if neither fires, schedule is unreliable here in general.
+    # Every run logs github.event.schedule, so each run names its own timer.
     - cron: "13,43 * * * *"
   workflow_dispatch:
 
@@ -35,7 +36,9 @@ concurrency:
 jobs:
   poll:
     runs-on: ubuntu-latest
-    timeout-minutes: 4
+    # GitHub-hosted jobs may run for six hours. The shift stops itself at 340
+    # minutes so it always exits on its own terms rather than being killed.
+    timeout-minutes: 355
     steps:
       - name: Which timer fired
         run: |
@@ -49,11 +52,15 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Poll watched repos for newly opened issues
+      - name: Poll in a loop for the length of the shift
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # Minimum lookback; the script widens it to cover the gap since the
-          # previous successful run, because the cron is not a real 5-min timer.
+          # previous poll, because triggers are rare and irregular.
           WINDOW_MIN: "20"
           WINDOW_MAX_MIN: "360"
-        run: python tools/poll_fresh.py
+          # 360s x 88 repos = 880 requests/hour, inside the 1000/hour cap that
+          # an installation token gets per repository.
+          INTERVAL_SEC: "360"
+          DURATION_MIN: "340"
+        run: bash tools/poll_loop.sh
