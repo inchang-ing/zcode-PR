@@ -41,7 +41,10 @@ on:
 permissions:
   contents: read
   issues: write
-  actions: read
+  # write, not read: chaining the next shift is a workflow_dispatch call, and
+  # with only read the dispatch returns 403 "Resource not accessible by
+  # integration". write still covers the run-history lookup read was for.
+  actions: write
 
 # Serialise shifts. A trigger that arrives mid-shift waits instead of running a
 # second poller over the same repos and doubling the API spend.

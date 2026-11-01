@@ -43,7 +43,17 @@ while [ "$(date +%s)" -lt "$deadline" ]; do
     if [ "$max_rounds" -gt 0 ] && [ "$round" -ge "$max_rounds" ]; then
         break
     fi
-    sleep "$interval"
+    # Sleep only until the deadline, never past it: sleeping a full interval
+    # after the final round kept a short shift alive well beyond its length.
+    remaining=$(( deadline - $(date +%s) ))
+    if [ "$remaining" -le 0 ]; then
+        break
+    fi
+    if [ "$remaining" -lt "$interval" ]; then
+        sleep "$remaining"
+    else
+        sleep "$interval"
+    fi
 done
 
 echo "shift finished after $round round(s) at $(date -u +%Y-%m-%dT%H:%M:%SZ)"
