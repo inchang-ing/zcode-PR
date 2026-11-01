@@ -19,6 +19,7 @@ on:
 permissions:
   contents: read
   issues: write
+  actions: read
 
 concurrency:
   group: fresh-issue-poll
@@ -38,5 +39,8 @@ jobs:
       - name: Poll watched repos for newly opened issues
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Minimum lookback; the script widens it to cover the gap since the
+          # previous successful run, because the cron is not a real 5-min timer.
           WINDOW_MIN: "20"
+          WINDOW_MAX_MIN: "360"
         run: python tools/poll_fresh.py

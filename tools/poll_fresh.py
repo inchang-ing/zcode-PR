@@ -71,26 +71,68 @@ def load_pool() -> set[str]:
     return {r.lower() for r in json.loads(POOL_FILE.read_text(encoding="utf-8"))}
 
 
-def search_new_issues(window_min: int) -> list[dict]:
-    """Poll every watched repo for issues created within the window.
+def last_success_gap(repo: str) -> int | None:
+    """Minutes since this workflow last succeeded, or None if unknown.
+
+    The cron is best-effort, not a real 5-minute timer: on 2026-11-01 this
+    workflow fired once at 13:09Z and then stayed silent for 145 minutes.
+    A fixed lookback therefore has to be sized for the gap, not the cadence.
+    """
+    try:
+        runs = call(
+            "GET",
+            f"/repos/{repo}/actions/workflows/fresh-issue-poll.yml/runs"
+            "?status=success&per_page=5",
+        )
+    except SystemExit as exc:  # a lookup failure must not stop the poll
+        print(f"WARN last-run lookup failed: {exc}")
+        return None
+    current = os.environ.get("GITHUB_RUN_ID")
+    stamps = [
+        r["created_at"]
+        for r in (runs or {}).get("workflow_runs", [])
+        if current is None or str(r.get("id")) != current
+    ]
+    if not stamps:
+        return None
+    try:
+        prev = datetime.fromisoformat(stamps[0].replace("Z", "+00:00"))
+    except ValueError:
+        return None
+    return max(1, int((datetime.now(TZ) - prev).total_seconds() // 60))
+
+
+def search_new_issues(since: str) -> list[dict]:
+    """Poll every watched repo for issues created at or after `since`.
 
     A global search is not usable here: `created:>=` over even one hour returns
     far more than the 1000-result search cap, so pool issues get pushed out of
     the result set. One cheap call per repo is bounded and exact.
+
+    The repo endpoint's `since` filters on last-updated, not created, so results
+    are ordered newest-created first and paging stops as soon as a page reaches
+    past `since` -- that keeps a widened lookback cheap.
     """
-    since = (datetime.now(TZ) - timedelta(minutes=window_min)).strftime("%Y-%m-%dT%H:%M:%SZ")
     out: list[dict] = []
 
     def one(repo: str):
-        qs = urllib.parse.urlencode({
-            "since": since, "state": "all", "sort": "created",
-            "direction": "desc", "per_page": 30,
-        })
-        try:
-            return repo, call("GET", f"/repos/{repo}/issues?{qs}")
-        except SystemExit as exc:  # one bad repo must not kill the run
-            print(f"WARN {repo}: {exc}")
-            return repo, None
+        got: list[dict] = []
+        for page in range(1, 6):
+            qs = urllib.parse.urlencode({
+                "since": since, "state": "all", "sort": "created",
+                "direction": "desc", "per_page": 100, "page": page,
+            })
+            try:
+                batch = call("GET", f"/repos/{repo}/issues?{qs}") or []
+            except SystemExit as exc:  # one bad repo must not kill the run
+                print(f"WARN {repo}: {exc}")
+                break
+            got.extend(batch)
+            if len(batch) < 100 or any(
+                (it.get("created_at") or "9999") < since for it in batch
+            ):
+                break
+        return repo, got
 
     with ThreadPoolExecutor(max_workers=10) as pool:
         for repo, items in pool.map(one, sorted(POOL)):
@@ -124,7 +166,7 @@ def inbox_issue(repo: str) -> int:
 
 def already_reported(repo: str, number: int) -> set[str]:
     seen: set[str] = set()
-    for page in (1, 2, 3):
+    for page in range(1, 11):
         qs = urllib.parse.urlencode({"per_page": 100, "page": page})
         batch = call("GET", f"/repos/{repo}/issues/{number}/comments?{qs}") or []
         for c in batch:
@@ -158,11 +200,20 @@ def render(items: list[dict], window_min: int) -> str:
 def main() -> int:
     dry = "--dry-run" in sys.argv
     window = int(os.environ.get("WINDOW_MIN", "40"))
+    cap = int(os.environ.get("WINDOW_MAX_MIN", "360"))
     repo = os.environ.get("GITHUB_REPOSITORY", "inchang-ing/zcode-PR")
 
+    gap = last_success_gap(repo)
+    if gap is not None:
+        # Overlap by two minutes: a run that starts mid-minute would otherwise
+        # skip anything opened between the previous run's start and its finish.
+        window = max(window, min(cap, gap + 2))
+        print(f"last success {gap}m ago -> window {window}m")
+
+    since = (datetime.now(TZ) - timedelta(minutes=window)).strftime("%Y-%m-%dT%H:%M:%SZ")
     hits = []
     dedupe: dict[str, dict] = {}
-    for it in search_new_issues(window):
+    for it in search_new_issues(since):
         login = (it.get("user") or {}).get("login", "")
         if login.endswith("[bot]") or login.endswith("-bot"):
             continue
