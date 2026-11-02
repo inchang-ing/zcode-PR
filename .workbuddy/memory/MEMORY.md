@@ -55,7 +55,7 @@
 - 维护者先关 issue(not_planned)再关 PR=裁定不修; **fork PR 的 Actions 常停 `action_required`**=待批准, 非推送失败 —— `gh pr checks` 此时只报 "no checks reported", 判据拉 `actions/runs?head_sha=<sha>`; **rulesets 才是必需检查的唯一事实源**(空=该红不阻塞)。
 - **扫「他人新动静」cutoff 用「上次扫描时间」不用自然日 0 点**; 单仓 `query incomplete` 不必补救(watermark 未推进, 下轮 `--all` 补扫)。**整份巡检全 `QUERY_ERROR` 不是「无变化」**: 先看 `rate_limit`, 充足即重跑。临时文件统一 `work/tmp/`。
 - **AI review bot 的 🟡 项常是真回归线索**(miloco 两条均成立), 逐条实现+回复+推 commit。
-- **拿 GitHub issue 当日志会外溢到别人仓库**: issue 正文/评论里的**裸 URL 或 `owner/repo#num`** 都会生成 cross-reference 并通知目标 issue 的全部 watcher; **编辑评论、删评论都不回收**, 只有删掉**评论所在的整个 issue** 才让 timeline 清零(实测删后立即 0, 三次抽查全空)。所以内部日志只写反引号包裹的 `repo#num`(code span 不链接化), 绝不贴外链。例: 2026-11-02 `repo-monitor#1` 43 条评论 → **1269 个 issue / 108 个仓**, biopython#5396 维护者公开投诉 spam; 同源问题在自家 `zcode-PR#1`(28 个引用), 两处都已删 issue + 改格式 + 停 workflow。代价是别人的 timeline 回收不了, 只能指望删源。
+- **拿 GitHub issue 当日志会外溢到别人仓库**: issue 正文/评论里的**裸 URL 或 `owner/repo#num`** 都会生成 cross-reference 并通知目标 issue 的全部 watcher; **编辑评论、删评论都不回收**, 只有删掉**评论所在的整个 issue** 才让 timeline 清零(删后**全量复查 1269 个 issue 全部为 0**, 不是抽样)。所以内部日志只写反引号包裹的 `repo#num`(code span 不链接化), 绝不贴外链。例: 2026-11-02 `repo-monitor#1` 43 条评论 → **1269 个 issue / 108 个仓**, biopython#5396 维护者公开投诉 spam; 同源问题在自家 `zcode-PR#1`(28 个引用), 两处都已删 issue + 改格式 + 停 workflow。代价是**已发出的通知邮件收不回**, 且一次 cross-reference 推给该 issue 的全部 watcher, 实际触达远大于 issue 数; 补救只能靠删源, 不能靠逐个道歉(那是第二轮骚扰)。
 
 ## 六、复盘/池状态(运维细节见 PLAYBOOK「发现层/池状态运维」)
 - **七成弃单死因与代码质量无关**(重复/抢先 40% > 门禁 30% > 方案被否 > AI 政策 > 自撤); 10-15 复盘 合 22/拒 30。
