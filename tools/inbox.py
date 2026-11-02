@@ -38,11 +38,14 @@ ROOT = Path(__file__).resolve().parents[1]
 STATE = ROOT / "tools" / "inbox_handled.json"
 TZ = timezone.utc
 
-KEY_RE = re.compile(r"\b([A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+)#(\d+)\b")
-# "- `owner/repo#12` 7m [bug, help wanted] Title text — https://..."
+# Anchored at the line start and limited to the shape the poller writes, so a
+# `owner/repo#num` that happens to sit inside an upstream issue title is not
+# mistaken for a report of its own.
+KEY_RE = re.compile(r"^- `([A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+)#(\d+)`", re.MULTILINE)
+# "- `owner/repo#12` 7m [`bug, help wanted`] `Title text`"
 LINE_RE = re.compile(
-    r"^-\s+`(?P<key>[^`]+)`\s+(?P<age>\S+)\s+\[(?P<labels>[^\]]*)\]\s+"
-    r"(?P<title>.*?)\s+[—-]\s+(?P<url>\S+)\s*$"
+    r"^-\s+`(?P<key>[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+#\d+)`\s+(?P<age>\S+)\s+"
+    r"\[(?P<labels>[^\]]*)\]\s+(?P<title>.+?)\s*$"
 )
 
 
@@ -92,11 +95,21 @@ def parse(rows: list[dict]) -> dict[str, dict]:
             match = LINE_RE.match(line)
             if match:
                 key = match.group("key").lower()
+                title = match.group("title").strip()
+                labels = match.group("labels").strip()
+                # The poller renders both inside code spans so GitHub will not
+                # mention or reference anything inside them; they read the same
+                # once the delimiter is off.
+                title = title[1:-1] if title.startswith("`") and title.endswith("`") and len(title) > 1 else title
+                labels = labels[1:-1] if labels.startswith("`") and labels.endswith("`") and len(labels) > 1 else labels
+                owner_repo, _, number = key.partition("#")
                 entries[key] = {
                     "key": key,
-                    "title": match.group("title").strip(),
-                    "labels": match.group("labels").strip(),
-                    "url": match.group("url"),
+                    "title": title,
+                    "labels": labels,
+                    # Built from the key rather than read from the comment: the
+                    # poller stopped writing URLs, which is the whole point.
+                    "url": f"https://github.com/{owner_repo}/issues/{number}",
                     "posted": seen_at,
                     "age": match.group("age"),
                 }
