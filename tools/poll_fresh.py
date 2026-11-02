@@ -37,8 +37,26 @@ POOL_FILE = ROOT / "tools" / "fresh_pool.json"
 POOL = json.loads(POOL_FILE.read_text(encoding="utf-8"))
 INBOX_LABEL = "inbox:fresh"
 INBOX_TITLE = "Fresh issue inbox (fast lane)"
-KEY_RE = re.compile(r"\b([A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+)#(\d+)\b")
+# Anchored to the start of a line, because every line this script writes that
+# should be remembered starts with its own key. A looser pattern also matched
+# `owner/repo#num` appearing inside an upstream issue *title*, which then got
+# recorded as "already reported" and suppressed a different issue later.
+KEY_RE = re.compile(r"^- `([A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+)#(\d+)`", re.MULTILINE)
 TZ = timezone.utc
+
+
+def code(text: str) -> str:
+    """Render foreign text so GitHub does not act on it.
+
+    A title and its labels come from someone else's repository and are
+    arbitrary strings. Written out bare, a title carrying an `@mention`
+    notifies a real person and one carrying `owner/repo#num` files a
+    cross-reference on that issue and notifies its watchers -- the same
+    mistake, arriving by a different route. A code span suppresses both:
+    GitHub does not linkify or mention inside one. Backticks are stripped
+    first so the span cannot close early.
+    """
+    return "`" + text.replace("`", "'") + "`"
 
 
 def token() -> str:
@@ -195,8 +213,13 @@ def render(items: list[dict], window_min: int) -> str:
         # upstream repositories, which is what a maintainer complained about on
         # 2026-11-02. The backticked `repo#num` is enough to find the issue and
         # a code span is not linkified, so this stays local.
+        #
+        # The title and labels are wrapped for the same reason: they are text
+        # someone else wrote, and an @mention or an owner/repo#num inside a
+        # title would reach out exactly the same way.
         lines.append(
-            f"- `{repo}#{it['number']}` {age} [{labels}] {it['title']}"
+            f"- `{repo}#{it['number']}` {age} "
+            f"[{code(labels)}] {code(it['title'])}"
         )
     lines += ["", "@inchang-ing"]
     return "\n".join(lines)
