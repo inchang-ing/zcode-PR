@@ -189,9 +189,14 @@ def render(items: list[dict], window_min: int) -> str:
             age = f"{(datetime.now(TZ) - created).total_seconds() / 60:.0f}m"
         except Exception:
             pass
+        # No URL here, and that is deliberate. A bare issue URL in an issue body
+        # is a cross-reference: GitHub files it on the target issue's timeline
+        # and notifies its watchers. Reporting 28 new issues therefore pinged 28
+        # upstream repositories, which is what a maintainer complained about on
+        # 2026-11-02. The backticked `repo#num` is enough to find the issue and
+        # a code span is not linkified, so this stays local.
         lines.append(
-            f"- `{repo}#{it['number']}` {age} [{labels}] {it['title']} "
-            f"— {it['html_url']}"
+            f"- `{repo}#{it['number']}` {age} [{labels}] {it['title']}"
         )
     lines += ["", "@inchang-ing"]
     return "\n".join(lines)
