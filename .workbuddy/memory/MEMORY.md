@@ -54,9 +54,7 @@
 - 维护者先关 issue 再关 PR=裁定不修; **fork PR 的 Actions 常停 `action_required`**=待批准, 非推送失败 —— `gh pr checks` 此时只报 "no checks reported", 判据拉 `actions/runs?head_sha=<sha>`; **rulesets 才是必需检查的唯一事实源**(空=该红不阻塞)。
 - **扫「他人新动静」cutoff 用「上次扫描时间」不用自然日 0 点**; 单仓 `query incomplete`、临时文件位置等取数前提见 PLAYBOOK「巡检取数的两个小前提」。
 - **AI review bot 的 🟡 项常是真回归**(miloco 两条均成立): 逐条实现+回复+推 commit。
-- **拿 GitHub issue 当日志会外溢到别人仓库**: 裸 URL 或裸 `owner/repo#num` 会 cross-reference 并通知全部 watcher, **删评论不回收**。内部日志一律反引号包裹。例: 2026-11-02 43 条评论波及 1269 issue / 108 仓。全文 PLAYBOOK「日志外溢」。
-- **外溢面要按字段封闭, 不能只堵 URL**: 一条上报里凡是「别人写的文本」都是入口——URL → **issue 标题** → **labels** 依次被漏过(标题带 `@某人` 真通知到人, 带别仓编号生成引用)。判据: 渲染外部文本时**逐字段**过一遍 `code()`(剥反引号再包, 防提前闭 span), 而不是记得哪个字段有链接就修哪个。同理 commit message 里写别仓 `owner/repo#num` 也外溢(实测 190 个提交里 4 处命中, 3 处指向不存在的 slug 或 code span 内, 1 处指向自有 PR)。**只有 code span 是可靠隔离**; 事后编辑/删除都撤销不了(已删评论仍留 1 条)。
-- **上报条目里夹带上游文本会污染去重**: 用「整行搜 `owner/repo#num`」解析自己的台账, 会把标题里出现的编号也记成「已报过」, 之后静默跳过另一条真实 issue。解析必须**锚定行首 + 限定本工具自己的格式**。例: 2026-11-03 `poll_fresh.py`/`inbox.py` 的 `KEY_RE`。
+- **拿 GitHub issue 当日志会外溢到别人仓库**: 裸 URL / 裸 `owner/repo#num` / 标题里的 `@某人` 都会 cross-reference 或真通知到人, **删评论不回收、只有删整个 issue 才清零**; 唯一可靠隔离是 code span。**封闭要按字段做, 不能只堵上次漏的那个**(URL→标题→labels 依次被漏过), 判据=渲染任何外部文本都先剥反引号再包 `code()`。台账解析同理必须锚定行首, 否则标题里的编号会被记成"已报过"并静默吞掉另一条。例: 2026-11-02 `repo-monitor#1` 43 条评论波及 1269 issue / 108 仓被公开投诉; 2026-11-03 `KEY_RE` 污染去重。全文 PLAYBOOK「日志外溢」。
 
 ## 六、复盘/池状态(运维细节见 PLAYBOOK「发现层/池状态运维」)
 - **七成弃单死因与代码质量无关**(重复/抢先 > 门禁 > 方案被否 > AI 政策 > 自撤)。
