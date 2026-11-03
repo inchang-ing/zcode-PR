@@ -20,10 +20,10 @@
 - **贡献分层**: 文档修正/简单 PR 可投(不再要求实质行为影响), 但**落点必须是高星库或有组织背书的大厂仓**(低星公司官方仓合格, 个人小库不下放); 验证门槛不降。详见 `RULES.md`。
 
 ## 二、做不做(全文细则见 PLAYBOOK「2026-11-02 下沉: 做不做」, 原九查 v5 一字未删)
-- **核查顺序**: 候选出现 → ①先数本仓我方 open PR(硬上限 2) → ②再核 timeline/评论/PR/assignee/标签。反了会把时间花在只能让出的候选上。
+- **核查顺序**: 候选出现 → ①先数本仓我方 open PR(硬上限 2) → ②再核 timeline/评论/PR/assignee/标签。反了会把时间花在只能让出的候选上。**积压 >50 条时先批量降维再逐条判**: 元数据(assignee/closed/is-PR) → 仓级政策 → 在飞额度 → 竞品, 四刀能砍掉八成且判据全是可复查的硬事实; 逐条九查会把时间全花在"必然该弃"上。例: 2026-11-03 142 条 → 20 条。
 - **先试「PR 号 = issue 号 +1/+2/+3」再跑 timeline**: 竞品 PR 常在 issue 开出十几分钟内出现; timeline 的 cross-referenced 留作兜底。例: 2026-11-02 轮 29 条中 15 条。
 - **cross-referenced 必须核 `source.issue.repository.full_name`**: 只有同仓才算撞车, 他仓引用是正信号(含作者自有 fork 备 PR = 对方已在做); 改名仓看对象身份不看 slug。例: nvitop#238; sympy#30921→csp256/sympy#26。
-- **自滤两类即弃**: 自陈已修/自陈愿提 PR(`fixed by PR`、裸链 cross-ref 抓不到), 与软认领(正文+评论双查)。每轮仍要读正文末尾; 尾巴句式「happy to send a PR」已蔓延到高质量 issue, 新变体=正文 `<details>` 里贴修好的代码与 `fix OK` 输出。例: lighteval#1466; huggingface_hub#5293。
+- **自滤三类即弃**: ①自陈已修/自陈愿提 PR ②**reporter 自己已开 PR 或正等 assign**(最常见的占位形态; 只出现在评论里, timeline 可能一条都没有) ③软认领(正文+评论双查)。每轮仍要读正文末尾; 尾巴句式「happy to send a PR」已蔓延到高质量 issue, 新变体=正文 `<details>` 里贴修好的代码与 `fix OK` 输出。**速度实测**: 30+ 候选里过半在 1–2 小时内被作者本人开 PR 占掉(fastmcp#6273 连测试矩阵都贴好了只等 assign), 15 分钟发现延迟下抢窗口靠运气。例: lighteval#1466; huggingface_hub#5293; agentscope#3664/#3665→3666/3667。
 - **准入三条**: ①issue 描述的文件**是否还在默认分支**(dbt-core#16990 main 已 Rust 重写) ②仓级门禁三形态 assign / **`ready`、`ready-for-dev` 标签**(同族, 见到即弃)(agno#11422) / AI 政策禁投 ③政策名单以 `tools/repository_policy.py` 为准, **探测名须含 `AGENTS.md`**(pandas 只有 contributing.rst)。
 - **同一门禁只许栽一次** → 命中即入台账(langgraph 3 连栽)。**不发占位留言**, 允许直提 PR 的仓不问(psutil/vcrpy); **弃单下沉前判「仓级 or issue 级」**: 去掉仓库名弃因仍成立就只进 `tools/dispositions.json`, 误下沉会误杀该仓未来干净候选。
 - **低门槛≠低竞争 / GFI 窗口 ≤12h / 低星大厂池是红利 / 在飞规模是策略变量 / 加频无增量**: 五条均实测成立, 详见 PLAYBOOK。竞争密度＝该仓有多少自动化在盯(open PR 分支名同质即 LLM 密集仓, 前置跳过)。
@@ -34,7 +34,7 @@
 ## 三、怎么交(机制细节见 PLAYBOOK「三、怎么交」+「2026-11-01 下沉」)
 - DCO 仓手写 Signed-off-by; 浅克隆禁直接 amend; **动手前 `git fetch <fork> <branch>` 比远端 head**(status 干净≠没做过)。例: docling#5007 远端 10-29 已做完同一修复, 整轮丢弃。
 - **判「分叉」只认 `git merge-base --is-ancestor <remote> HEAD`**; 拿 `git log -3` 两边并列比必然误判。**push 打印 `old..new`(无 `+`)才是 fast-forward 实证**。例: zcode-PR 误报分叉, 实际本地领先 5 个。
-- **推送顺序: 先试直推 fork 再降级** —— git https 时通时不通, 不通且 api 通才走 Git Data API; **API 默认取主邮箱须显式传 noreply**; 之后 `reset --hard fork/<branch>` 对齐。**`git merge-file` 干净 ≠ GitHub 接受合并**(要双父 commit)。例: zarr#4526。见 PLAYBOOK「推送通道」。
+- **推送顺序: 先试直推 fork 再降级** —— git https 时通时不通, 不通且 api 通才走 Git Data API; **API 默认取主邮箱须显式传 noreply**; 之后 `reset --hard fork/<branch>` 对齐。**`git merge-file` 干净 ≠ GitHub 接受合并**(要双父 commit)。**502 `CONNECT tunnel failed` 先加 `-c http.version=HTTP/1.1 -c http.postBuffer=524288000` 重试**, 2026-11-03 默认 HTTP/2 连败后一次成功(同一代理下 clone 能通、push 不通就是这个症状)。例: zarr#4526。见 PLAYBOOK「推送通道」。
 - **有 AGENTS.md 即硬约束**(litellm: 分支名无 `/`、行宽 120、禁注释); 「预读」= AGENTS+CONTRIBUTING+`.pre-commit-config` 全套; **改 rst 必跑 `rstwrap <file>`**; **本地 checkout 是 CRLF≠仓库是 CRLF**, diff 整份重写先怀疑换行符。
 
 ## 四、验证纪律(全文细则见 PLAYBOOK「2026-11-02 下沉: 验证纪律」)
