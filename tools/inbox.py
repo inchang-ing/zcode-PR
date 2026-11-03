@@ -25,6 +25,7 @@ already been judged.
 from __future__ import annotations
 
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -134,8 +135,28 @@ def load_state() -> dict:
 
 
 def save_state(state: dict) -> None:
+    """Write the ledger in one step, and never truncate in place.
+
+    Two reasons, one of them learned the hard way. Truncating first means a
+    crash between truncate and write leaves an empty ledger, which reads back as
+    "nothing was ever judged" -- every entry gets re-decided. And on Windows a
+    file that another process holds open rejects the truncate but accepts a
+    replace, so writing a sibling and renaming over it is what actually works.
+    """
     STATE.parent.mkdir(parents=True, exist_ok=True)
-    STATE.write_text(json.dumps(state, indent=1, sort_keys=True, ensure_ascii=False), encoding="utf-8")
+    payload = json.dumps(state, indent=1, sort_keys=True, ensure_ascii=False)
+    tmp = STATE.with_suffix(".json.tmp")
+    tmp.write_text(payload, encoding="utf-8")
+    try:
+        os.replace(tmp, STATE)
+    except PermissionError:
+        # A handle on the target blocks the rename. Drop it and move the new
+        # file into place; the content is already complete on disk.
+        try:
+            STATE.unlink()
+        except FileNotFoundError:
+            pass
+        os.replace(tmp, STATE)
 
 
 def pending(rows: list[dict], hours: int | None) -> list[dict]:
