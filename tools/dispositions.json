@@ -1181,5 +1181,37 @@
  "agentscope-ai/agentscope#3733": {
   "date": "2026-11-05",
   "reason": "已提交 PR #3735（message_handler 接线 + ToolListChangedNotification 失效 _cached_tools；fake A/B 修前 2 fail 修后 2 pass；EVIDENCE_OK 推送前）"
+ },
+ "openhands/openhands#19334": {
+  "date": "2026-11-05",
+  "reason": "gate: 人工门禁: PR 描述含真人专属段：模板首行必须是 `HUMAN:`，`.github/scripts/check_pr_description.py` 要求该段 ≥20 字符并勾选 human-tested，且模板明写「Just running unit tests is NOT sufficient」须 e2e 证据（日志/截图）。真人声明不能代签"
+ },
+ "openhands/openhands#19333": {
+  "date": "2026-11-05",
+  "reason": "gate: 人工门禁: PR 描述含真人专属段：模板首行必须是 `HUMAN:`，`.github/scripts/check_pr_description.py` 要求该段 ≥20 字符并勾选 human-tested，且模板明写「Just running unit tests is NOT sufficient」须 e2e 证据（日志/截图）。真人声明不能代签"
+ },
+ "kyegomez/swarms#3196": {
+  "date": "2026-11-05",
+  "reason": "feature/API 设计让位: 给 Agent.__init__ 加 description 别名属公共接口扩展决策，且该条带 ai-generated 标签为维护者侧看板 item"
+ },
+ "arize-ai/phoenix#17622": {
+  "date": "2026-11-05",
+  "reason": "gate: 人工门禁: CONTRIBUTING 明写「An open issue is not an invitation to submit a PR」，须 maintainer 明确确认后才可开工"
+ },
+ "modelcontextprotocol/servers#5434": {
+  "date": "2026-11-05",
+  "reason": "gate: 人工门禁: handoff-only：修复推 fork 后请维护者代开 PR"
+ },
+ "modelcontextprotocol/servers#5433": {
+  "date": "2026-11-05",
+  "reason": "gate: 人工门禁: handoff-only：修复推 fork 后请维护者代开 PR"
+ },
+ "crewaiinc/crewai#9078": {
+  "date": "2026-11-05",
+  "reason": "gate: "
+ },
+ "crewaiinc/crewai#9076": {
+  "date": "2026-11-05",
+  "reason": "gate: "
  }
 }

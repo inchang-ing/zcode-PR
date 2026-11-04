@@ -3550,3 +3550,9 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - **🎉 `arize-ai/openinference#3995` MERGED**（10-17 批次存活者，台账自动清理）。
 - 环境坑记录：agentscope 全仓收集 149 错全为可选依赖缺失（apscheduler×122/fakeredis×18）；mcp_runtime_headers_test.py 真 socket 在本机挂起，留 CI。
 - monitor_oss 68/68 盲点 0；review_sweep 0 ACTION。
+
+## 2026-11-05 03:2x 轮（第 33 轮，automation-ad2012ad）— 0 新单；收件箱 8 条清零（含上轮 5 条泄漏）
+
+- **账目纠正（规律 98）**：第 32 轮日志写「11 → 0」失实——实际只处置了 6/11（agentscope 实现 + 5 让位），phoenix#17622、mcp/servers#5433/#5434、crewai#9076/#9078 五条未执行 `inbox done` 就收了轮，泄漏到本轮。本轮补齐。
+- 收件箱 8 条 → 0 pending（668 reported / 745 done）：openhands HUMAN 门禁×2、phoenix 人工门禁×1、mcp/servers handoff×2、crewai 同仓上限×2、swarms#3196 feature/API 设计让位（description 别名 = 公共接口扩展决策 + ai-generated 看板 item）。dispositions 296→304。
+- 本轮 0 干净候选。monitor_oss 68/68 盲点 0（agentscope#3735 首批 CI 2✓/0✗）；review_sweep 0 ACTION。

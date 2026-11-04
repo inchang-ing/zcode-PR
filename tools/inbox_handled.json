@@ -3212,5 +3212,53 @@
     "note": "已提交 agentscope-ai/agentscope#3735（tools/list_changed 失效缓存层；fake A/B + 6/6 reconnect 回归 + pin lint 净）",
     "status": "done",
     "history": []
+  },
+  "openhands/openhands#19334": {
+    "at": "2026-11-04T18:46:49.547014+00:00",
+    "note": "gate: 人工门禁: PR 描述含真人专属段：模板首行必须是 `HUMAN:`，`.github/scripts/check_pr_description.py` 要求该段 ≥20 字符并勾选 human-tested，且模板明写「Just running unit tests is NOT sufficient」须",
+    "status": "done",
+    "history": []
+  },
+  "openhands/openhands#19333": {
+    "at": "2026-11-04T18:46:49.753840+00:00",
+    "note": "gate: 人工门禁: PR 描述含真人专属段：模板首行必须是 `HUMAN:`，`.github/scripts/check_pr_description.py` 要求该段 ≥20 字符并勾选 human-tested，且模板明写「Just running unit tests is NOT sufficient」须",
+    "status": "done",
+    "history": []
+  },
+  "kyegomez/swarms#3196": {
+    "at": "2026-11-04T18:46:49.972003+00:00",
+    "note": "feature/API 设计让位: 给 Agent.__init__ 加 description 别名属公共接口扩展决策，且该条带 ai-generated 标签为维护者侧看板 item",
+    "status": "done",
+    "history": []
+  },
+  "arize-ai/phoenix#17622": {
+    "at": "2026-11-04T18:46:50.176572+00:00",
+    "note": "gate: 人工门禁: CONTRIBUTING 明写「An open issue is not an invitation to submit a PR」，须 maintainer 明确确认后才可开工",
+    "status": "done",
+    "history": []
+  },
+  "modelcontextprotocol/servers#5434": {
+    "at": "2026-11-04T18:46:50.386745+00:00",
+    "note": "gate: 人工门禁: handoff-only：修复推 fork 后请维护者代开 PR",
+    "status": "done",
+    "history": []
+  },
+  "modelcontextprotocol/servers#5433": {
+    "at": "2026-11-04T18:46:50.587109+00:00",
+    "note": "gate: 人工门禁: handoff-only：修复推 fork 后请维护者代开 PR",
+    "status": "done",
+    "history": []
+  },
+  "crewaiinc/crewai#9078": {
+    "at": "2026-11-04T18:46:50.800562+00:00",
+    "note": "gate: ",
+    "status": "done",
+    "history": []
+  },
+  "crewaiinc/crewai#9076": {
+    "at": "2026-11-04T18:46:50.998647+00:00",
+    "note": "gate: ",
+    "status": "done",
+    "history": []
   }
 }
