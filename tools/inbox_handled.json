@@ -3560,5 +3560,29 @@
     "note": "受限/禁投仓库: pydantic/pydantic-ai",
     "status": "done",
     "history": []
+  },
+  "arize-ai/phoenix#17629": {
+    "at": "2026-11-04T22:43:02.272364+00:00",
+    "note": "人工门禁: CONTRIBUTING 明写「An open issue is not an invitation to submit a PR」，须 maintainer 明确确认",
+    "status": "done",
+    "history": []
+  },
+  "pydantic/pydantic-ai#12557": {
+    "at": "2026-11-04T22:43:02.458288+00:00",
+    "note": "受限/禁投仓库: pydantic/pydantic-ai",
+    "status": "done",
+    "history": []
+  },
+  "pydantic/pydantic-ai#12553": {
+    "at": "2026-11-04T22:43:02.645912+00:00",
+    "note": "受限/禁投仓库: pydantic/pydantic-ai",
+    "status": "done",
+    "history": []
+  },
+  "crewaiinc/crewai#9087": {
+    "at": "2026-11-04T22:43:02.833407+00:00",
+    "note": "same-repo cap: 该仓在飞 2 个（#7795/#7981，STATE.md 台账），硬上限 2",
+    "status": "done",
+    "history": []
   }
 }
