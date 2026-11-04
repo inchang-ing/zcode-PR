@@ -3296,5 +3296,77 @@
     "note": "礼让+竞品: 报告者自陈 I can submit a focused fix，且 issue 后 14 分钟 XR #13292（fix(sdk): preserve integer column names）",
     "status": "done",
     "history": []
+  },
+  "pydantic/pydantic-ai#12537": {
+    "at": "2026-11-04T19:43:00.568309+00:00",
+    "note": "gate: 受限/禁投仓库: pydantic/pydantic-ai",
+    "status": "done",
+    "history": []
+  },
+  "berriai/litellm#50084": {
+    "at": "2026-11-04T19:43:00.765441+00:00",
+    "note": "same-repo cap: 该仓在飞 2 个（STATE.md 台账），硬上限 2",
+    "status": "done",
+    "history": []
+  },
+  "crewaiinc/crewai#9082": {
+    "at": "2026-11-04T19:43:00.962070+00:00",
+    "note": "same-repo cap: 该仓在飞 2 个（STATE.md 台账），硬上限 2",
+    "status": "done",
+    "history": []
+  },
+  "pydantic/pydantic-ai#12536": {
+    "at": "2026-11-04T19:43:01.152948+00:00",
+    "note": "gate: 受限/禁投仓库: pydantic/pydantic-ai",
+    "status": "done",
+    "history": []
+  },
+  "pydantic/pydantic-ai#12535": {
+    "at": "2026-11-04T19:43:01.349460+00:00",
+    "note": "gate: 受限/禁投仓库: pydantic/pydantic-ai",
+    "status": "done",
+    "history": []
+  },
+  "pydantic/pydantic-ai#12534": {
+    "at": "2026-11-04T19:43:01.552494+00:00",
+    "note": "gate: 受限/禁投仓库: pydantic/pydantic-ai",
+    "status": "done",
+    "history": []
+  },
+  "pydantic/pydantic-ai#12533": {
+    "at": "2026-11-04T19:43:01.752205+00:00",
+    "note": "gate: 受限/禁投仓库: pydantic/pydantic-ai",
+    "status": "done",
+    "history": []
+  },
+  "pydantic/pydantic-ai#12532": {
+    "at": "2026-11-04T19:43:01.952779+00:00",
+    "note": "gate: 受限/禁投仓库: pydantic/pydantic-ai",
+    "status": "done",
+    "history": []
+  },
+  "pydantic/pydantic-ai#12531": {
+    "at": "2026-11-04T19:43:02.157946+00:00",
+    "note": "gate: 受限/禁投仓库: pydantic/pydantic-ai",
+    "status": "done",
+    "history": []
+  },
+  "pydantic/pydantic-ai#12530": {
+    "at": "2026-11-04T19:43:02.359355+00:00",
+    "note": "gate: 受限/禁投仓库: pydantic/pydantic-ai",
+    "status": "done",
+    "history": []
+  },
+  "pydantic/pydantic-ai#12529": {
+    "at": "2026-11-04T19:43:02.564041+00:00",
+    "note": "gate: 受限/禁投仓库: pydantic/pydantic-ai",
+    "status": "done",
+    "history": []
+  },
+  "ukgovernmentbeis/inspect_ai#6321": {
+    "at": "2026-11-04T19:43:02.765929+00:00",
+    "note": "gate: issue-readiness 门禁仓: 缺少 accepted 标签",
+    "status": "done",
+    "history": []
   }
 }
