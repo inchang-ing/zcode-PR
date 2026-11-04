@@ -3260,5 +3260,41 @@
     "note": "gate: ",
     "status": "done",
     "history": []
+  },
+  "agno-agi/agno#11478": {
+    "at": "2026-11-04T19:13:20.646776+00:00",
+    "note": "agno issue-readiness 门禁: 缺 ready 标签（CONTRIBUTING: 未 ready 的 PR 由 pr-lint 自动关闭）+ 新 provider 接入为 feature 提案",
+    "status": "done",
+    "history": []
+  },
+  "huggingface/peft#4115": {
+    "at": "2026-11-04T19:13:20.850429+00:00",
+    "note": "assign 门禁仓: 须先分配给当前账号",
+    "status": "done",
+    "history": []
+  },
+  "langchain-ai/langchain#41688": {
+    "at": "2026-11-04T19:13:21.053430+00:00",
+    "note": "assign 门禁仓: 须先分配给当前账号",
+    "status": "done",
+    "history": []
+  },
+  "langchain-ai/langchain#41687": {
+    "at": "2026-11-04T19:13:21.260043+00:00",
+    "note": "assign 门禁仓: 须先分配给当前账号",
+    "status": "done",
+    "history": []
+  },
+  "livekit/agents#8388": {
+    "at": "2026-11-04T19:13:21.465876+00:00",
+    "note": "标准 CLA 须账号持有者网页签署（11-04 round 24 #8367 先例），无人值守护必卡 cla:no",
+    "status": "done",
+    "history": []
+  },
+  "wandb/wandb#13291": {
+    "at": "2026-11-04T19:13:21.673890+00:00",
+    "note": "礼让+竞品: 报告者自陈 I can submit a focused fix，且 issue 后 14 分钟 XR #13292（fix(sdk): preserve integer column names）",
+    "status": "done",
+    "history": []
   }
 }
