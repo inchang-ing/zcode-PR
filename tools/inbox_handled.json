@@ -3128,5 +3128,53 @@
     "note": "受限/禁投仓库: pydantic/pydantic-ai",
     "status": "done",
     "history": []
+  },
+  "arize-ai/phoenix#17619": {
+    "at": "2026-11-04T17:43:05.805552+00:00",
+    "note": "gate: 人工门禁: CONTRIBUTING 明写「An open issue is not an invitation to submit a PR」，须 maintainer 明确确认后才可开工",
+    "status": "done",
+    "history": []
+  },
+  "modelcontextprotocol/servers#5432": {
+    "at": "2026-11-04T17:43:06.012858+00:00",
+    "note": "gate: 人工门禁: handoff-only：修复推 fork 后请维护者代开 PR",
+    "status": "done",
+    "history": []
+  },
+  "modelcontextprotocol/servers#5431": {
+    "at": "2026-11-04T17:43:06.220679+00:00",
+    "note": "gate: 人工门禁: handoff-only：修复推 fork 后请维护者代开 PR",
+    "status": "done",
+    "history": []
+  },
+  "ukgovernmentbeis/inspect_ai#6320": {
+    "at": "2026-11-04T17:43:06.421874+00:00",
+    "note": "gate: issue-readiness 门禁仓: 缺少 accepted 标签",
+    "status": "done",
+    "history": []
+  },
+  "arize-ai/phoenix#17618": {
+    "at": "2026-11-04T17:43:06.626306+00:00",
+    "note": "gate: 人工门禁: CONTRIBUTING 明写「An open issue is not an invitation to submit a PR」，须 maintainer 明确确认后才可开工",
+    "status": "done",
+    "history": []
+  },
+  "arize-ai/phoenix#17617": {
+    "at": "2026-11-04T17:43:06.826117+00:00",
+    "note": "gate: 人工门禁: CONTRIBUTING 明写「An open issue is not an invitation to submit a PR」，须 maintainer 明确确认后才可开工",
+    "status": "done",
+    "history": []
+  },
+  "langchain-ai/langgraph#9587": {
+    "at": "2026-11-04T17:43:07.024423+00:00",
+    "note": "gate: assign 门禁仓: 须先分配给当前账号",
+    "status": "done",
+    "history": []
+  },
+  "ukgovernmentbeis/inspect_ai#6319": {
+    "at": "2026-11-04T17:43:07.222064+00:00",
+    "note": "gate: issue-readiness 门禁仓: 缺少 accepted 标签",
+    "status": "done",
+    "history": []
   }
 }
