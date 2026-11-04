@@ -1285,5 +1285,61 @@
  "ukgovernmentbeis/inspect_ai#6321": {
   "date": "2026-11-05",
   "reason": "gate: issue-readiness 门禁仓: 缺少 accepted 标签"
+ },
+ "openhands/openhands#19337": {
+  "date": "2026-11-05",
+  "reason": "gate: 人工门禁: PR 描述含真人专属段：模板首行必须是 `HUMAN:`，`.github/scripts/check_pr_description.py` 要求该段 ≥20 字符并勾选 human-tested，且模板明写「Just running unit tests is NOT sufficient」须 e2e 证据（日志/截图）。真人声明不能代签"
+ },
+ "arize-ai/phoenix#17625": {
+  "date": "2026-11-05",
+  "reason": "gate: 人工门禁: CONTRIBUTING 明写「An open issue is not an invitation to submit a PR」，须 maintainer 明确确认后才可开工"
+ },
+ "langchain-ai/langchain#41692": {
+  "date": "2026-11-05",
+  "reason": "gate: assign 门禁仓: 须先分配给当前账号"
+ },
+ "ukgovernmentbeis/inspect_ai#6324": {
+  "date": "2026-11-05",
+  "reason": "gate: issue-readiness 门禁仓: 缺少 accepted 标签"
+ },
+ "openhands/openhands#19336": {
+  "date": "2026-11-05",
+  "reason": "gate: 人工门禁: PR 描述含真人专属段：模板首行必须是 `HUMAN:`，`.github/scripts/check_pr_description.py` 要求该段 ≥20 字符并勾选 human-tested，且模板明写「Just running unit tests is NOT sufficient」须 e2e 证据（日志/截图）。真人声明不能代签"
+ },
+ "arize-ai/openinference#4229": {
+  "date": "2026-11-05",
+  "reason": "same-repo cap: 该仓在飞 2 个（STATE.md 台账），硬上限 2"
+ },
+ "crewaiinc/crewai#9083": {
+  "date": "2026-11-05",
+  "reason": "same-repo cap: 该仓在飞 2 个（STATE.md 台账），硬上限 2"
+ },
+ "pydantic/pydantic-ai#12539": {
+  "date": "2026-11-05",
+  "reason": "gate: 受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "ukgovernmentbeis/inspect_ai#6322": {
+  "date": "2026-11-05",
+  "reason": "gate: issue-readiness 门禁仓: 缺少 accepted 标签"
+ },
+ "kyegomez/swarms#3197": {
+  "date": "2026-11-05",
+  "reason": "维护者内部队列让位: kyegomez 本人批量报入（同分钟 5 连发）+ ai-generated 标签 = 其 AI 审计输出，umbrella-audit 归作者消化（规律 55/umbrella 先例）"
+ },
+ "kyegomez/swarms#3198": {
+  "date": "2026-11-05",
+  "reason": "维护者内部队列让位: kyegomez 本人批量报入（同分钟 5 连发）+ ai-generated 标签 = 其 AI 审计输出，umbrella-audit 归作者消化（规律 55/umbrella 先例）"
+ },
+ "kyegomez/swarms#3199": {
+  "date": "2026-11-05",
+  "reason": "维护者内部队列让位: kyegomez 本人批量报入（同分钟 5 连发）+ ai-generated 标签 = 其 AI 审计输出，umbrella-audit 归作者消化（规律 55/umbrella 先例）"
+ },
+ "kyegomez/swarms#3200": {
+  "date": "2026-11-05",
+  "reason": "维护者内部队列让位: kyegomez 本人批量报入（同分钟 5 连发）+ ai-generated 标签 = 其 AI 审计输出，umbrella-audit 归作者消化（规律 55/umbrella 先例）"
+ },
+ "kyegomez/swarms#3201": {
+  "date": "2026-11-05",
+  "reason": "维护者内部队列让位: kyegomez 本人批量报入（同分钟 5 连发）+ ai-generated 标签 = 其 AI 审计输出，umbrella-audit 归作者消化（规律 55/umbrella 先例）"
  }
 }

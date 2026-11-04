@@ -3368,5 +3368,89 @@
     "note": "gate: issue-readiness 门禁仓: 缺少 accepted 标签",
     "status": "done",
     "history": []
+  },
+  "openhands/openhands#19337": {
+    "at": "2026-11-04T20:13:01.690190+00:00",
+    "note": "gate: 人工门禁: PR 描述含真人专属段：模板首行必须是 `HUMAN:`，`.github/scripts/check_pr_description.py` 要求该段 ≥20 字符并勾选 human-tested，且模板明写「Just running unit tests is NOT sufficient」须",
+    "status": "done",
+    "history": []
+  },
+  "arize-ai/phoenix#17625": {
+    "at": "2026-11-04T20:13:01.894746+00:00",
+    "note": "gate: 人工门禁: CONTRIBUTING 明写「An open issue is not an invitation to submit a PR」，须 maintainer 明确确认后才可开工",
+    "status": "done",
+    "history": []
+  },
+  "langchain-ai/langchain#41692": {
+    "at": "2026-11-04T20:13:02.081857+00:00",
+    "note": "gate: assign 门禁仓: 须先分配给当前账号",
+    "status": "done",
+    "history": []
+  },
+  "ukgovernmentbeis/inspect_ai#6324": {
+    "at": "2026-11-04T20:13:02.266993+00:00",
+    "note": "gate: issue-readiness 门禁仓: 缺少 accepted 标签",
+    "status": "done",
+    "history": []
+  },
+  "openhands/openhands#19336": {
+    "at": "2026-11-04T20:13:02.453039+00:00",
+    "note": "gate: 人工门禁: PR 描述含真人专属段：模板首行必须是 `HUMAN:`，`.github/scripts/check_pr_description.py` 要求该段 ≥20 字符并勾选 human-tested，且模板明写「Just running unit tests is NOT sufficient」须",
+    "status": "done",
+    "history": []
+  },
+  "arize-ai/openinference#4229": {
+    "at": "2026-11-04T20:13:02.645602+00:00",
+    "note": "same-repo cap: 该仓在飞 2 个（STATE.md 台账），硬上限 2",
+    "status": "done",
+    "history": []
+  },
+  "crewaiinc/crewai#9083": {
+    "at": "2026-11-04T20:13:02.836620+00:00",
+    "note": "same-repo cap: 该仓在飞 2 个（STATE.md 台账），硬上限 2",
+    "status": "done",
+    "history": []
+  },
+  "pydantic/pydantic-ai#12539": {
+    "at": "2026-11-04T20:13:03.028824+00:00",
+    "note": "gate: 受限/禁投仓库: pydantic/pydantic-ai",
+    "status": "done",
+    "history": []
+  },
+  "ukgovernmentbeis/inspect_ai#6322": {
+    "at": "2026-11-04T20:13:03.212593+00:00",
+    "note": "gate: issue-readiness 门禁仓: 缺少 accepted 标签",
+    "status": "done",
+    "history": []
+  },
+  "kyegomez/swarms#3197": {
+    "at": "2026-11-04T20:13:34.425030+00:00",
+    "note": "维护者内部队列让位: kyegomez 本人批量报入（同分钟 5 连发）+ ai-generated 标签 = 其 AI 审计输出，umbrella-audit 归作者消化（规律 55/umbrella 先例）",
+    "status": "done",
+    "history": []
+  },
+  "kyegomez/swarms#3198": {
+    "at": "2026-11-04T20:13:34.618832+00:00",
+    "note": "维护者内部队列让位: kyegomez 本人批量报入（同分钟 5 连发）+ ai-generated 标签 = 其 AI 审计输出，umbrella-audit 归作者消化（规律 55/umbrella 先例）",
+    "status": "done",
+    "history": []
+  },
+  "kyegomez/swarms#3199": {
+    "at": "2026-11-04T20:13:34.806044+00:00",
+    "note": "维护者内部队列让位: kyegomez 本人批量报入（同分钟 5 连发）+ ai-generated 标签 = 其 AI 审计输出，umbrella-audit 归作者消化（规律 55/umbrella 先例）",
+    "status": "done",
+    "history": []
+  },
+  "kyegomez/swarms#3200": {
+    "at": "2026-11-04T20:13:34.987638+00:00",
+    "note": "维护者内部队列让位: kyegomez 本人批量报入（同分钟 5 连发）+ ai-generated 标签 = 其 AI 审计输出，umbrella-audit 归作者消化（规律 55/umbrella 先例）",
+    "status": "done",
+    "history": []
+  },
+  "kyegomez/swarms#3201": {
+    "at": "2026-11-04T20:13:35.175230+00:00",
+    "note": "维护者内部队列让位: kyegomez 本人批量报入（同分钟 5 连发）+ ai-generated 标签 = 其 AI 审计输出，umbrella-audit 归作者消化（规律 55/umbrella 先例）",
+    "status": "done",
+    "history": []
   }
 }
