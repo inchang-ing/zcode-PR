@@ -4,6 +4,22 @@
   "date": "2026-10-24",
   "reason": "design-in-progress: OWNER agronholm 深度参与跨平台语义讨论"
  },
+ "agronholm/anyio#1451": {
+  "date": "2026-11-02",
+  "reason": "anyio 维护者 graingert 自开自修,内部事项"
+ },
+ "agronholm/anyio#1452": {
+  "date": "2026-11-02",
+  "reason": "anyio 维护者 graingert 自开自修,内部事项"
+ },
+ "all-hands-ai/openhands#19191": {
+  "date": "2026-11-02",
+  "reason": "enhancement(功能请求),非缺陷"
+ },
+ "all-hands-ai/openhands#19192": {
+  "date": "2026-11-02",
+  "reason": "enhancement(功能请求),非缺陷"
+ },
  "apache/iceberg-python#3932": {
   "date": "2026-10-29",
   "reason": "sungwy 审计批"
@@ -52,6 +68,10 @@
   "date": "2026-10-26",
   "reason": "BokehJS/TypeScript,不可验"
  },
+ "bytedance/deer-flow#7598": {
+  "date": "2026-11-01",
+  "reason": "同仓 PR #7600(Starchaser1024) 已实现同一修复"
+ },
  "chainlit/chainlit#2993": {
   "date": "2026-10-24",
   "reason": "4 个死外部 PR 先例,维护者不审该仓"
@@ -79,6 +99,14 @@
  "delta-io/delta-rs#4524": {
   "date": "2026-10-26",
   "reason": "Rust,不可验"
+ },
+ "delta-io/delta-rs#5007": {
+  "date": "2026-11-02",
+  "reason": "Rust 仓,不在 Python 准入池"
+ },
+ "docling-project/docling#5128": {
+  "date": "2026-11-02",
+  "reason": "同仓 PR #5129 已开 + 本仓在飞已达 2 个上限"
  },
  "executablebooks/myst-parser#1165": {
   "date": "2026-10-24",
@@ -123,6 +151,18 @@
  "great-expectations/great_expectations#12215": {
   "date": "2026-10-26",
   "reason": "SQLAlchemy 方言类型,本地不可验"
+ },
+ "huggingface/huggingface_hub#5293": {
+  "date": "2026-11-02",
+  "reason": "作者自陈 happy to send a PR，软认领"
+ },
+ "huggingface/lighteval#1464": {
+  "date": "2026-11-02",
+  "reason": "作者本人已开 PR #1465"
+ },
+ "huggingface/lighteval#1466": {
+  "date": "2026-11-02",
+  "reason": "作者自陈 happy to open a PR 且正文已贴出完整修复与测试"
  },
  "jcrist/msgspec#1095": {
   "date": "2026-10-29",
@@ -176,6 +216,26 @@
   "date": "2026-10-30",
   "reason": "前端 TS 键盘导航"
  },
+ "jupyterlab/jupyterlab#20276": {
+  "date": "2026-11-02",
+  "reason": "前端 TS/UI 类(调试器按钮),不在 Python 修复面"
+ },
+ "jupyterlab/jupyterlab#20282": {
+  "date": "2026-11-02",
+  "reason": "前端 TS/UI 类(链接打开方式)"
+ },
+ "jupyterlab/jupyterlab#20286": {
+  "date": "2026-11-02",
+  "reason": "前端 TS/UI 类(后台标签页数学排版)"
+ },
+ "jupyterlab/jupyterlab#20287": {
+  "date": "2026-11-02",
+  "reason": "前端 TS/UI 类(主题切换后 Mermaid)"
+ },
+ "kevin1024/vcrpy#1092": {
+  "date": "2026-11-02",
+  "reason": "已投 PR #1093(urllib3 1.x HTTPHeaderDict 回退导入)"
+ },
  "kyegomez/swarms#2813": {
   "date": "2026-10-30",
   "reason": "swarms 七连报,占位 PR 活跃"
@@ -220,6 +280,14 @@
   "date": "2026-10-31",
   "reason": "ayaangazali 配对 PR #2878"
  },
+ "kyegomez/swarms#2895": {
+  "date": "2026-11-02",
+  "reason": "已有的同题 PR 在飞：#2900 (ayaangazali)；更早 #3001 已关"
+ },
+ "kyegomez/swarms#2899": {
+  "date": "2026-11-02",
+  "reason": "已有的同题 PR 在飞：#2901 (ayaangazali)；更早 #2999 已关"
+ },
  "langchain-ai/langchain#41276": {
   "date": "2026-10-26",
   "reason": "assign-gate 仓未分配"
@@ -227,6 +295,10 @@
  "mhammond/pywin32#2814": {
   "date": "2026-10-29",
   "reason": "pywin32 老议题,gencache 区"
+ },
+ "microsoft/playwright-python#3307": {
+  "date": "2026-11-02",
+  "reason": "时序竞态无可复现最小例,作者为提问式(teardown 契约需维护者定)"
  },
  "modelcontextprotocol/servers#5176": {
   "date": "2026-10-29",
@@ -328,6 +400,22 @@
   "date": "2026-10-26",
   "reason": "Rust 增强"
  },
+ "pola-rs/polars#30351": {
+  "date": "2026-11-02",
+  "reason": "SQL FULL/RIGHT JOIN USING 合并在 Rust 层，本机无 Rust 工具链不可验"
+ },
+ "pola-rs/polars#30352": {
+  "date": "2026-11-02",
+  "reason": "scan_csv head 的 RSS 回归在 Rust io 层，本机不可验"
+ },
+ "pola-rs/polars#30353": {
+  "date": "2026-11-02",
+  "reason": "SQL 未知/歧义列报错在 Rust 解析层，本机不可验"
+ },
+ "prefecthq/prefect#23691": {
+  "date": "2026-11-02",
+  "reason": "同仓 PR #23692/#23693 已开"
+ },
  "pymc-devs/pymc#8372": {
   "date": "2026-10-26",
   "reason": "Apple Silicon segfault,本地不可验"
@@ -420,6 +508,14 @@
   "date": "2026-10-26",
   "reason": "核心修复已合并(#7588),残余为维护者设计"
  },
+ "reflex-dev/reflex#7708": {
+  "date": "2026-11-02",
+  "reason": "同仓 PR #7710 已开"
+ },
+ "reflex-dev/reflex#7709": {
+  "date": "2026-11-02",
+  "reason": "内部同步(linear ENG-13672),评论仅 linkback"
+ },
  "robotframework/robotframework#5838": {
   "date": "2026-10-31",
   "reason": "维护者本地已有修复(版本探测法),我们的 PR 促使其落地后礼貌关闭"
@@ -427,6 +523,10 @@
  "scipy/scipy#26471": {
   "date": "2026-10-30",
   "reason": "scipy.special C 级,重构建不可验"
+ },
+ "scipy/scipy#26588": {
+  "date": "2026-11-02",
+  "reason": "仓级禁 agent 自主投稿"
  },
  "scrapy/scrapy#7812": {
   "date": "2026-10-26",
@@ -455,6 +555,18 @@
  "strawberry-graphql/strawberry#4635": {
   "date": "2026-10-26",
   "reason": "设计升级给 patrick91 等拍板(maintainer-engaged)"
+ },
+ "sympy/sympy#30921": {
+  "date": "2026-11-02",
+  "reason": "作者已在自有 fork 备 PR(csp256/sympy#26),且属性能重排非缺陷"
+ },
+ "tobymao/sqlglot#8870": {
+  "date": "2026-11-02",
+  "reason": "作者评论自陈已在 fork 分支备好 fix + 回归测试"
+ },
+ "tox-dev/tox#4357": {
+  "date": "2026-11-02",
+  "reason": "同仓已有 3 个竞品 PR(#4358/#4359/#4360)"
  },
  "truera/trulens#2963": {
   "date": "2026-10-26",
@@ -523,5 +635,459 @@
  "zarr-developers/zarr-python#4580": {
   "date": "2026-10-30",
   "reason": "维护者 d-v-b 自有 PR #4581"
+ },
+ "scipy/scipy#26531": {
+  "date": "2026-11-02",
+  "reason": "C/Fortran 级数值精度(scipy.stats.beta.ppf)，需重构建与参考实现比对，本机不可验"
+ },
+ "truera/trulens#3009": {
+  "date": "2026-11-02",
+  "reason": "已有同仓 PR #3010 覆盖(issue 开启即被占)"
+ },
+ "langflow-ai/langflow#16110": {
+  "date": "2026-11-03",
+  "reason": "DONE -> PR #16113 (Graph._build_edges set() -> dict.fromkeys 保序去重 + 回归测试); 同仓在飞1,已开PR"
+ },
+ "langflow-ai/langflow#16108": {
+  "date": "2026-11-03",
+  "reason": "defer-candidate: Loop 列表输入 fan-in, 修复点 loop_utils.py:270 update_raw_params overwrite=True 覆盖整列表丢另一条边; 与已修#14965 fan-out 相邻,需谨慎设计+本地复现(lfx 安装被阻), 待 #16110 评审后跟进"
+ },
+ "huggingface/lighteval#1471": {
+  "date": "2026-11-03",
+  "reason": "DONE -> PR #1473 (fix/translation-literals-lv-lt-mt-sl, 补齐 lv/lt/mt/sl 的 TRANSLATION_LITERALS); 15:21 轮已投, 本人在复核台账时误记为 skip, 已更正"
+ },
+ "guardrails-ai/guardrails#1692": {
+  "date": "2026-11-03",
+  "reason": "skip: 纯Python可复现缺陷(async_validator_service 三处 metadata 丢弃), 但 reporter 明确希望先对齐并发语义选择, 非即插即修; 等 reporter 对齐后再评估"
+ },
+ "all-hands-ai/openhands#19061": {
+  "date": "2026-11-04",
+  "reason": "secure replacement 对话框属前端 TS 交互,需真后端与浏览器会话,本机不可验"
+ },
+ "giampaolo/psutil#3087": {
+  "date": "2026-11-04",
+  "reason": "macOS 专属 sysctl 失败路径,psutil._psosx 依赖 _psutil_osx C 扩展,Windows 上无法导入验证"
+ },
+ "giampaolo/psutil#3088": {
+  "date": "2026-11-04",
+  "reason": "FreeBSD 专属 sensors/cpu_freq 路径,本机无 FreeBSD 环境不可验"
+ },
+ "pola-rs/polars#30305": {
+  "date": "2026-11-04",
+  "reason": "sink 失败后继续写属 Rust io 层,本机无 Rust 工具链不可验"
+ },
+ "pymc-devs/pymc#8579": {
+  "repo": "pymc-devs/pymc",
+  "issue": 8579,
+  "reason": "MEMBER 亲报(6d,0 评论)=团队内部队列; pymc 重依赖本地不可验",
+  "date": "2026-11-04"
+ },
+ "mlflow/mlflow#27281": {
+  "date": "2026-11-04",
+  "reason": "has-closing-pr 标签（已有对应 PR）"
+ },
+ "python/mypy#22316": {
+  "date": "2026-11-04",
+  "reason": "mypy 降级政策：3 次无声关闭先例，停投"
+ },
+ "comet-ml/opik#9427": {
+  "date": "2026-11-04",
+  "reason": "DONE -> PR #9427 (Fixes #9376: dataset 去重缓存上传失败时失效, except 块设 _hashes_synced=False 仅 dedup=True; 含 2 回归测试, 撤修复->fail/恢复->pass; 分支 inchang-ing/NA-dedup-cache-invalidation)"
+ },
+ "openhands/openhands#19327": {
+  "date": "2026-11-04",
+  "reason": "gate: 人工门禁: PR 描述含真人专属段：模板首行必须是 `HUMAN:`，`.github/scripts/check_pr_description.py` 要求该段 ≥20 字符并勾选 human-tested，且模板明写「Just running unit tests is NOT sufficient」须 e2e 证据（日志/截图）。真人声明不能代签"
+ },
+ "arize-ai/phoenix#17614": {
+  "date": "2026-11-04",
+  "reason": "gate: 人工门禁: CONTRIBUTING 明写「An open issue is not an invitation to submit a PR」，须 maintainer 明确确认后才可开工"
+ },
+ "arize-ai/phoenix#17613": {
+  "date": "2026-11-04",
+  "reason": "gate: 人工门禁: CONTRIBUTING 明写「An open issue is not an invitation to submit a PR」，须 maintainer 明确确认后才可开工"
+ },
+ "huggingface/setfit#669": {
+  "date": "2026-11-04",
+  "reason": "竞品 PR #670 'Honor revision when loading the SentenceTransforme'（issue 开出 14 分钟内）"
+ },
+ "agentscope-ai/agentscope#3731": {
+  "date": "2026-11-04",
+  "reason": "竞品 PR 占据/报告者闭环: 常驻审计员 rotation 数分钟内开 PR（3731 报告者 konlue 即常驻审计本人）"
+ },
+ "berriai/litellm#50059": {
+  "date": "2026-11-04",
+  "reason": "same-repo cap: 该仓在飞 2 个（STATE.md 台账），硬上限 2"
+ },
+ "modelcontextprotocol/servers#5425": {
+  "date": "2026-11-04",
+  "reason": "gate: 人工门禁: handoff-only：修复推 fork 后请维护者代开 PR"
+ },
+ "agno-agi/agno#11473": {
+  "date": "2026-11-04",
+  "reason": "agno issue-readiness 门禁: 缺 ready 标签，CONTRIBUTING 明写未 ready 的 PR 由 pr-lint 自动关闭（11-04 round 12 #11454 先例）"
+ },
+ "berriai/litellm#50056": {
+  "date": "2026-11-04",
+  "reason": "same-repo cap: 该仓在飞 2 个（STATE.md 台账），硬上限 2"
+ },
+ "berriai/litellm#50055": {
+  "date": "2026-11-04",
+  "reason": "same-repo cap: 该仓在飞 2 个（STATE.md 台账），硬上限 2"
+ },
+ "berriai/litellm#50054": {
+  "date": "2026-11-04",
+  "reason": "same-repo cap: 该仓在飞 2 个（STATE.md 台账），硬上限 2"
+ },
+ "comet-ml/opik#9435": {
+  "date": "2026-11-04",
+  "reason": "维护者已认领: bharadwaj-pendyala 15:23Z 'I'm taking the marker route' + Scout bot 已受理（规律 55 内部承接）"
+ },
+ "livekit/agents#8380": {
+  "date": "2026-11-04",
+  "reason": "feature 提案（Sarvam saaras:v4 新功能）+ 标准 CLA 须本人签（11-04 round 24 #8367 先例）"
+ },
+ "openhands/openhands#19326": {
+  "date": "2026-11-04",
+  "reason": "gate: 人工门禁: PR 描述含真人专属段：模板首行必须是 `HUMAN:`，`.github/scripts/check_pr_description.py` 要求该段 ≥20 字符并勾选 human-tested，且模板明写「Just running unit tests is NOT sufficient」须 e2e 证据（日志/截图）。真人声明不能代签"
+ },
+ "openhands/openhands#19325": {
+  "date": "2026-11-04",
+  "reason": "gate: 人工门禁: PR 描述含真人专属段：模板首行必须是 `HUMAN:`，`.github/scripts/check_pr_description.py` 要求该段 ≥20 字符并勾选 human-tested，且模板明写「Just running unit tests is NOT sufficient」须 e2e 证据（日志/截图）。真人声明不能代签"
+ },
+ "google/adk-python#7988": {
+  "date": "2026-11-04",
+  "reason": "gate: 人工门禁: 外部 PR 须先签 Google CLA（cla.developers.google.com，需账号持有者网页签署，流水线无法代办）；CONTRIBUTING「For other issues, please kindly ask before contributing」+「Large or Complex Changes: Open an Issue First, Gather Fe"
+ },
+ "arize-ai/openinference#4226": {
+  "date": "2026-11-04",
+  "reason": "same-repo cap: 该仓在飞 3 个（STATE.md 台账），硬上限 2"
+ },
+ "mem0ai/mem0#7830": {
+  "date": "2026-11-04",
+  "reason": "gate: issue-readiness 门禁仓: 缺少 accepted 标签"
+ },
+ "huggingface/trl#8116": {
+  "date": "2026-11-04",
+  "reason": "维护者自修: albertvillanova（triage 团队）自提 PR #8118"
+ },
+ "huggingface/trl#8115": {
+  "date": "2026-11-04",
+  "reason": "维护者自修: albertvillanova 自提 PR #8119 + 既有 #7137"
+ },
+ "agentscope-ai/agentscope#3730": {
+  "date": "2026-11-04",
+  "reason": "竞品 PR 占据/报告者闭环: 常驻审计员 rotation 数分钟内开 PR（3731 报告者 konlue 即常驻审计本人）"
+ },
+ "agentscope-ai/agentscope#3729": {
+  "date": "2026-11-04",
+  "reason": "竞品 PR 占据/报告者闭环: 常驻审计员 rotation 数分钟内开 PR（3731 报告者 konlue 即常驻审计本人）"
+ },
+ "agentscope-ai/agentscope#3728": {
+  "date": "2026-11-04",
+  "reason": "竞品 PR 占据/报告者闭环: 常驻审计员 rotation 数分钟内开 PR（3731 报告者 konlue 即常驻审计本人）"
+ },
+ "agentscope-ai/agentscope#3727": {
+  "date": "2026-11-04",
+  "reason": "竞品 PR 占据/报告者闭环: 常驻审计员 rotation 数分钟内开 PR（3731 报告者 konlue 即常驻审计本人）"
+ },
+ "agentscope-ai/agentscope#3726": {
+  "date": "2026-11-04",
+  "reason": "竞品 PR 占据/报告者闭环: 常驻审计员 rotation 数分钟内开 PR（3731 报告者 konlue 即常驻审计本人）"
+ },
+ "langchain-ai/langgraph#9582": {
+  "date": "2026-11-04",
+  "reason": "gate: assign 门禁仓: 须先分配给当前账号"
+ },
+ "eleutherai/lm-evaluation-harness#4530": {
+  "date": "2026-11-04",
+  "reason": "竞品 PR #4531 'fix(ifeval): read the nth paragraph after blank se'"
+ },
+ "agentscope-ai/agentscope#3724": {
+  "date": "2026-11-04",
+  "reason": "竞品 PR 占据/报告者闭环: 常驻审计员 rotation 数分钟内开 PR（3731 报告者 konlue 即常驻审计本人）"
+ },
+ "crewaiinc/crewai#9064": {
+  "date": "2026-11-04",
+  "reason": "same-repo cap: 该仓在飞 2 个（STATE.md 台账），硬上限 2"
+ },
+ "pydantic/pydantic-ai#12508": {
+  "date": "2026-11-04",
+  "reason": "gate: 受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "traceloop/openllmetry#4691": {
+  "date": "2026-11-04",
+  "reason": "设计让位: issue 自陈捕获默认值 on->off 'needs a decision'（PII 语义）+ 共享 helper 改 24 包超本轮范围"
+ },
+ "traceloop/openllmetry#4690": {
+  "date": "2026-11-04",
+  "reason": "竞品 PR #4692 'fix(openai): default upload_base64_image to None'（同 reporter 批量报障，仓内竞品活跃）"
+ },
+ "langchain-ai/langchain#41675": {
+  "date": "2026-11-04",
+  "reason": "gate: assign 门禁仓: 须先分配给当前账号"
+ },
+ "crewaiinc/crewai#9062": {
+  "date": "2026-11-04",
+  "reason": "same-repo cap: 该仓在飞 2 个（STATE.md 台账），硬上限 2"
+ },
+ "google/adk-python#7987": {
+  "date": "2026-11-04",
+  "reason": "gate: 人工门禁: 外部 PR 须先签 Google CLA（cla.developers.google.com，需账号持有者网页签署，流水线无法代办）；CONTRIBUTING「For other issues, please kindly ask before contributing」+「Large or Complex Changes: Open an Issue First, Gather Fe"
+ },
+ "pydantic/pydantic-ai#12507": {
+  "date": "2026-11-04",
+  "reason": "gate: 受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "openhands/openhands#19322": {
+  "date": "2026-11-04",
+  "reason": "gate: 人工门禁: PR 描述含真人专属段：模板首行必须是 `HUMAN:`，`.github/scripts/check_pr_description.py` 要求该段 ≥20 字符并勾选 human-tested，且模板明写「Just running unit tests is NOT sufficient」须 e2e 证据（日志/截图）。真人声明不能代签"
+ },
+ "openhands/openhands#19320": {
+  "date": "2026-11-04",
+  "reason": "gate: 人工门禁: PR 描述含真人专属段：模板首行必须是 `HUMAN:`，`.github/scripts/check_pr_description.py` 要求该段 ≥20 字符并勾选 human-tested，且模板明写「Just running unit tests is NOT sufficient」须 e2e 证据（日志/截图）。真人声明不能代签"
+ },
+ "mem0ai/mem0#7828": {
+  "date": "2026-11-04",
+  "reason": "gate: issue-readiness 门禁仓: 缺少 accepted 标签"
+ },
+ "567-labs/instructor#2889": {
+  "date": "2026-11-04",
+  "reason": "竞品 PR #2890 'fix(core): make MD_JSON streaming extraction injec'"
+ },
+ "agentscope-ai/agentscope#3722": {
+  "date": "2026-11-04",
+  "reason": "竞品 PR 占据/报告者闭环: 常驻审计员 rotation 数分钟内开 PR（3731 报告者 konlue 即常驻审计本人）"
+ },
+ "openhands/openhands#19317": {
+  "date": "2026-11-04",
+  "reason": "gate: 人工门禁: PR 描述含真人专属段：模板首行必须是 `HUMAN:`，`.github/scripts/check_pr_description.py` 要求该段 ≥20 字符并勾选 human-tested，且模板明写「Just running unit tests is NOT sufficient」须 e2e 证据（日志/截图）。真人声明不能代签"
+ },
+ "googleapis/python-genai#3262": {
+  "date": "2026-11-04",
+  "reason": "gate/None-issue: type:question 正文仅邮箱地址，且该仓需 Google CLA 本人网页签署（11-04 round 24 同类先例 #3260）"
+ },
+ "qwenlm/qwen-agent#1032": {
+  "date": "2026-11-04",
+  "reason": "质量红线: sandbox 网络隔离/资源限制属安全敏感面设计问题，不投"
+ },
+ "deepset-ai/haystack#13554": {
+  "date": "2026-11-04",
+  "reason": "竞品 PR #13556 'fix: validate AnswerBuilder reference patterns'（10 分钟内）"
+ },
+ "docling-project/docling#5178": {
+  "date": "2026-11-04",
+  "reason": "same-repo cap: 该仓在飞 3 个（STATE.md 台账），硬上限 2"
+ },
+ "agentscope-ai/agentscope#3714": {
+  "date": "2026-11-04",
+  "reason": "竞品 PR 占据/报告者闭环: 常驻审计员 rotation 数分钟内开 PR（3731 报告者 konlue 即常驻审计本人）"
+ },
+ "crewaiinc/crewai#9053": {
+  "date": "2026-11-04",
+  "reason": "same-repo cap: 该仓在飞 2 个（STATE.md 台账），硬上限 2"
+ },
+ "crewaiinc/crewai#9052": {
+  "date": "2026-11-04",
+  "reason": "same-repo cap: 该仓在飞 2 个（STATE.md 台账），硬上限 2"
+ },
+ "crewaiinc/crewai#9051": {
+  "date": "2026-11-04",
+  "reason": "same-repo cap: 该仓在飞 2 个（STATE.md 台账），硬上限 2"
+ },
+ "crewaiinc/crewai#9050": {
+  "date": "2026-11-04",
+  "reason": "same-repo cap: 该仓在飞 2 个（STATE.md 台账），硬上限 2"
+ },
+ "crewaiinc/crewai#9049": {
+  "date": "2026-11-04",
+  "reason": "same-repo cap: 该仓在飞 2 个（STATE.md 台账），硬上限 2"
+ },
+ "agentscope-ai/agentscope#3710": {
+  "date": "2026-11-04",
+  "reason": "竞品 PR 占据/报告者闭环: 常驻审计员 rotation 数分钟内开 PR（3731 报告者 konlue 即常驻审计本人）"
+ },
+ "berriai/litellm#50033": {
+  "date": "2026-11-04",
+  "reason": "same-repo cap: 该仓在飞 2 个（STATE.md 台账），硬上限 2"
+ },
+ "langchain-ai/langchain#41674": {
+  "date": "2026-11-04",
+  "reason": "gate: assign 门禁仓: 须先分配给当前账号"
+ },
+ "langchain-ai/langchain#41673": {
+  "date": "2026-11-04",
+  "reason": "gate: assign 门禁仓: 须先分配给当前账号"
+ },
+ "pydantic/pydantic-ai#12502": {
+  "date": "2026-11-04",
+  "reason": "gate: 受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "bytedance/deer-flow#7886": {
+  "date": "2026-11-04",
+  "reason": "needs-triage 未分诊 + deer-flow 需 LLM 服务端到端验证，无人值守不可验证"
+ },
+ "crewaiinc/crewai#9048": {
+  "date": "2026-11-04",
+  "reason": "same-repo cap: 该仓在飞 2 个（STATE.md 台账），硬上限 2"
+ },
+ "langchain-ai/langchain#41672": {
+  "date": "2026-11-04",
+  "reason": "gate: assign 门禁仓: 须先分配给当前账号"
+ },
+ "openhands/openhands#19315": {
+  "date": "2026-11-04",
+  "reason": "gate: 人工门禁: PR 描述含真人专属段：模板首行必须是 `HUMAN:`，`.github/scripts/check_pr_description.py` 要求该段 ≥20 字符并勾选 human-tested，且模板明写「Just running unit tests is NOT sufficient」须 e2e 证据（日志/截图）。真人声明不能代签"
+ },
+ "berriai/litellm#50030": {
+  "date": "2026-11-04",
+  "reason": "same-repo cap: 该仓在飞 2 个（STATE.md 台账），硬上限 2"
+ },
+ "berriai/litellm#50029": {
+  "date": "2026-11-04",
+  "reason": "same-repo cap: 该仓在飞 2 个（STATE.md 台账），硬上限 2"
+ },
+ "bytedance/deer-flow#7885": {
+  "date": "2026-11-04",
+  "reason": "needs-triage 未分诊 + deer-flow 需 LLM 服务端到端验证，无人值守不可验证"
+ },
+ "bytedance/deer-flow#7884": {
+  "date": "2026-11-04",
+  "reason": "roadmap 讨论 issue，非可执行任务"
+ },
+ "crewaiinc/crewai#9046": {
+  "date": "2026-11-04",
+  "reason": "same-repo cap: 该仓在飞 2 个（STATE.md 台账），硬上限 2"
+ },
+ "berriai/litellm#50024": {
+  "date": "2026-11-04",
+  "reason": "same-repo cap: 该仓在飞 2 个（STATE.md 台账），硬上限 2"
+ },
+ "berriai/litellm#50023": {
+  "date": "2026-11-04",
+  "reason": "same-repo cap: 该仓在飞 2 个（STATE.md 台账），硬上限 2"
+ },
+ "bytedance/deer-flow#7883": {
+  "date": "2026-11-04",
+  "reason": "needs-triage 未分诊 + deer-flow 需 LLM 服务端到端验证，无人值守不可验证"
+ },
+ "crewaiinc/crewai#9044": {
+  "date": "2026-11-04",
+  "reason": "same-repo cap: 该仓在飞 2 个（STATE.md 台账），硬上限 2"
+ },
+ "huggingface/trl#8109": {
+  "date": "2026-11-04",
+  "reason": "维护者自修: albertvillanova 自提 PR #8110/#8072"
+ },
+ "agno-agi/agno#11470": {
+  "date": "2026-11-04",
+  "reason": "agno issue-readiness 门禁: 缺 ready 标签，CONTRIBUTING 明写未 ready 的 PR 由 pr-lint 自动关闭（11-04 round 12 #11454 先例）"
+ },
+ "bytedance/deer-flow#7882": {
+  "date": "2026-11-04",
+  "reason": "needs-triage 未分诊 + deer-flow 需 LLM 服务端到端验证，无人值守不可验证"
+ },
+ "crewaiinc/crewai#9042": {
+  "date": "2026-11-04",
+  "reason": "same-repo cap: 该仓在飞 2 个（STATE.md 台账），硬上限 2"
+ },
+ "crewaiinc/crewai#9040": {
+  "date": "2026-11-04",
+  "reason": "same-repo cap: 该仓在飞 2 个（STATE.md 台账），硬上限 2"
+ },
+ "crewaiinc/crewai#9038": {
+  "date": "2026-11-04",
+  "reason": "same-repo cap: 该仓在飞 2 个（STATE.md 台账），硬上限 2"
+ },
+ "pydantic/pydantic-ai#12496": {
+  "date": "2026-11-04",
+  "reason": "gate: 受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "agno-agi/agno#11469": {
+  "date": "2026-11-04",
+  "reason": "agno issue-readiness 门禁: 缺 ready 标签，CONTRIBUTING 明写未 ready 的 PR 由 pr-lint 自动关闭（11-04 round 12 #11454 先例）"
+ },
+ "bytedance/deer-flow#7881": {
+  "date": "2026-11-04",
+  "reason": "needs-triage 未分诊 + deer-flow 需 LLM 服务端到端验证，无人值守不可验证"
+ },
+ "crewaiinc/crewai#9036": {
+  "date": "2026-11-04",
+  "reason": "same-repo cap: 该仓在飞 2 个（STATE.md 台账），硬上限 2"
+ },
+ "langchain-ai/langchain#41668": {
+  "date": "2026-11-04",
+  "reason": "gate: assign 门禁仓: 须先分配给当前账号"
+ },
+ "docling-project/docling#5176": {
+  "date": "2026-11-04",
+  "reason": "same-repo cap: 该仓在飞 3 个（STATE.md 台账），硬上限 2"
+ },
+ "docling-project/docling#5174": {
+  "date": "2026-11-04",
+  "reason": "same-repo cap: 该仓在飞 3 个（STATE.md 台账），硬上限 2"
+ },
+ "docling-project/docling#5173": {
+  "date": "2026-11-04",
+  "reason": "same-repo cap: 该仓在飞 3 个（STATE.md 台账），硬上限 2"
+ },
+ "pydantic/pydantic-ai#12494": {
+  "date": "2026-11-04",
+  "reason": "gate: 受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "openhands/openhands#19313": {
+  "date": "2026-11-04",
+  "reason": "gate: 人工门禁: PR 描述含真人专属段：模板首行必须是 `HUMAN:`，`.github/scripts/check_pr_description.py` 要求该段 ≥20 字符并勾选 human-tested，且模板明写「Just running unit tests is NOT sufficient」须 e2e 证据（日志/截图）。真人声明不能代签"
+ },
+ "arize-ai/phoenix#17602": {
+  "date": "2026-11-04",
+  "reason": "gate: 人工门禁: CONTRIBUTING 明写「An open issue is not an invitation to submit a PR」，须 maintainer 明确确认后才可开工"
+ },
+ "huggingface/peft#4113": {
+  "date": "2026-11-04",
+  "reason": "gate: assign 门禁仓: 须先分配给当前账号"
+ },
+ "agentscope-ai/agentscope#3704": {
+  "date": "2026-11-04",
+  "reason": "竞品 PR 占据/报告者闭环: 常驻审计员 rotation 数分钟内开 PR（3731 报告者 konlue 即常驻审计本人）"
+ },
+ "openai/openai-agents-python#5507": {
+  "date": "2026-11-04",
+  "reason": "gate: 受限/禁投仓库: openai/openai-agents-python"
+ },
+ "agno-agi/agno#11466": {
+  "date": "2026-11-04",
+  "reason": "agno issue-readiness 门禁: 缺 ready 标签，CONTRIBUTING 明写未 ready 的 PR 由 pr-lint 自动关闭（11-04 round 12 #11454 先例）"
+ },
+ "agno-agi/agno#11465": {
+  "date": "2026-11-04",
+  "reason": "agno issue-readiness 门禁: 缺 ready 标签，CONTRIBUTING 明写未 ready 的 PR 由 pr-lint 自动关闭（11-04 round 12 #11454 先例）"
+ },
+ "docling-project/docling#5171": {
+  "date": "2026-11-04",
+  "reason": "same-repo cap: 该仓在飞 3 个（STATE.md 台账），硬上限 2"
+ },
+ "langchain-ai/langgraph#9581": {
+  "date": "2026-11-04",
+  "reason": "gate: assign 门禁仓: 须先分配给当前账号"
+ },
+ "pydantic/pydantic-ai#12492": {
+  "date": "2026-11-04",
+  "reason": "gate: 受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "agentscope-ai/agentscope#3702": {
+  "date": "2026-11-04",
+  "reason": "竞品 PR 占据/报告者闭环: 常驻审计员 rotation 数分钟内开 PR（3731 报告者 konlue 即常驻审计本人）"
+ },
+ "pydantic/pydantic-ai#12491": {
+  "date": "2026-11-04",
+  "reason": "gate: 受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "Aider-AI/aider#5944": {
+  "date": "2026-11-04",
+  "reason": "已提交 PR #5945（fix: honor strict param, warn-only for unmapped litellm errors; 修复前 ValueError 复现 + 9/9 测试）"
+ },
+ "traceloop/openllmetry#4689": {
+  "date": "2026-11-04",
+  "reason": "scope 让位: 4 包中 watsonx 需 ibm-watsonx-ai 新 SDK 代码迁移（非元数据修正），3/4 子集修复必被追问第 4 包；reporter 同批 #4690 已有竞品 PR，仓内竞争活跃"
  }
 }

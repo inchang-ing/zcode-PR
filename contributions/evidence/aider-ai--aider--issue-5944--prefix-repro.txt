@@ -1,0 +1,5 @@
+=== pre-fail repro on origin/main (5dc9490) exceptions.py, litellm 1.108.0 ===
+PRE-FAIL: CallerCredentialAuthenticationError is in litellm but not in aider's exceptions list
+=== new regression test on unpatched code ===
+FAILED tests/basic/test_exceptions.py::test_new_litellm_error_does_not_break_startup
+1 failed in 11.92s

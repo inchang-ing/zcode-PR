@@ -3512,3 +3512,14 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - review_sweep 0 ACTION(多日后零积压);范围自检 66/66(并行会话扩容,自动同步)。
 - instructor#2717 仍 open 未合并。
 - 本日日志新建(2026-11-04)。
+
+## 2026-11-04 16:xx 轮（第 28 轮，新任务 automation-ad2012ad 首轮，开关 ON）— 1 新 PR（Aider-AI/aider#5945）+ 收件箱 101 条清零
+
+- **任务切换后首轮**：旧巡检 b6c5946d 已停（144 轮），新任务只做清收件箱 + 推进在飞 PR。
+- **收件箱 99 条（轮内班次又喂 2 条 = 101）全部处置到 0 pending**（636 reported / 713 done）。本地刀：32 条仓级门禁（openhands HUMAN 段×7、pydantic-ai BLOCKED×6、langchain/langgraph/peft assign×7、phoenix「open issue 不是邀请」×3、adk CLA×2、mem0 accepted×2、mcp/servers handoff×2、openai-agents BLOCKED×1）+ 29 条同仓上限（litellm×7、crewai×11、docling×4、openinference×1…）。dispositions.json 174→273。
+- **撞车查证 24 条，20 条被占**：agentscope 12 条全灭（常驻审计员 rotation 数分钟开满 PR；konlue 报的 #3731 是闭环自修）、trl 3 条全维护者 albertvillanova 自提 PR、setfit#669→#670、instructor#2889→#2890、haystack#13554→#13556、lm-eval#4530→#4531、openllmetry#4690→#4692、opik#9435 维护者 bharadwaj-pendyala 评论认领 + Scout 受理。openllmetry#4691 设计让位（默认值 on→off 自陈需决策，PII 语义）。
+- **产出 PR `Aider-AI/aider#5945`**（issue #5944）：litellm 上游新增异常类型（1.108.0 实装 `CallerCredentialAuthenticationError`）即崩 `LiteLLMExceptions._load` 的无条件 raise；`strict` 参数从未被读取。修法=strict=True 保留漂移检查、默认路径 warn-only；**不**自动注册未知异常（dir(litellm) 含 pydantic ValidationError/zoneinfo ZoneInfoNotFoundError 第三方 re-export，扩 catch 网会吞无关 bug）。
+- **判别性**：真实 litellm 1.108.0 修前复现与 issue 回溯逐字一致（`git checkout origin/main --` 基线 A/B）；2 个新回归测试（假异常名 monkeypatch，版本无关）修前 fail 修后 pass；tests/basic/test_exceptions.py 9 passed；black 23.3.0/flake8 7.1.0/isort 5.12.0（仓库 pin）全净。quality_check EVIDENCE_OK（3 条声明核对）。PR 现在 MERGEABLE，`license/cla` pending=标准网页 OAuth 签署（无 custom-pr-sign-comment），**待账号持有者本人签**。
+- **markdown#1688 pyspelling 1✗ 查明**：checkspelling tox env 把 facelessuser 提交里的 `CDATA`/`etree`/`IndentedRawHtml` 当生词（不在 .spell-dict，211 词），代码 job 12 个全过。修复提交 `b878783`（词典 +3 词）已备在本地分支 `_md_indent`，**待用户推送**（该仓 CONTRIBUTING 禁 agent 自主更新 PR，且 waylan 有过警告在先）。
+- monitor_oss 对账 66/66 盲点 0；review_sweep 0 ACTION。
+- **沉淀（规律 90-94，见当日记忆）**。

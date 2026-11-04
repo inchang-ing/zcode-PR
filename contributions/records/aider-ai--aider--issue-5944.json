@@ -1,0 +1,166 @@
+{
+ "schema_version": 1,
+ "id": "aider-ai--aider--issue-5944",
+ "repo": "Aider-AI/aider",
+ "issue": 5944,
+ "pr": 5945,
+ "title": "Don't crash startup when litellm ships a new exception type",
+ "kind": "bug",
+ "problem_type": "litellm 新增异常类型触发 LiteLLMExceptions._load 无条件 raise（strict 参数从未使用）",
+ "approach": "落地 strict 参数：strict=True 保留漂移检查；默认路径警告放行；不注册未知错误进 catch 元组（dir(litellm) 含 pydantic ValidationError 等第三方 re-export）",
+ "created_at": "2026-11-04T16:15:47+00:00",
+ "policy": {
+  "status": "verified",
+  "checked_at": "2026-11-04T16:15Z",
+  "summary": "CONTRIBUTING.md 无 AI 禁令（仅 LLM benchmark 章节）；无 DCO 要求；fork PR 通道正常",
+  "sources": [
+   {
+    "kind": "url",
+    "ref": "https://github.com/Aider-AI/aider/blob/main/CONTRIBUTING.md"
+   }
+  ]
+ },
+ "collision": {
+  "status": "verified",
+  "checked_at": "2026-11-04T16:02Z",
+  "summary": "五查：issue #5944 timeline 0 cross-ref、0 评论、无认领语言；邻近编号 #5943-#5946 无同题 PR；作者 mintyYuki 仅报告未自修",
+  "sources": [
+   {
+    "kind": "url",
+    "ref": "https://github.com/Aider-AI/aider/issues/5944"
+   }
+  ]
+ },
+ "verification": {
+  "status": "recorded",
+  "case": "issue #5944 场景：litellm 1.108.0 下构造 LiteLLMExceptions()（base_coder.py:1451 / models.py:1042 的用户启动路径，含未映射的 CallerCredentialAuthenticationError）；tests/basic/test_exceptions.py 全量",
+  "summary": "修复前构造抛 ValueError（与 issue 回溯逐字一致），新回归测试未打补丁时 fail；修复后构造成功并按未映射名警告，tests/basic/test_exceptions.py 9 passed（7 存量+2 新增）；black 23.3.0/flake8 7.1.0/isort 5.12.0 全净",
+  "method": "regression",
+  "base_commit": "5dc9490bb35f9729ef2c95d00a19ccd30c26339c",
+  "before": {
+   "commit": "5dc9490bb35f9729ef2c95d00a19ccd30c26339c",
+   "command": "python -c \"from aider.exceptions import LiteLLMExceptions; LiteLLMExceptions()\" ; pytest tests/basic/test_exceptions.py::test_new_litellm_error_does_not_break_startup",
+   "environment": "Windows 10 (Git Bash), Python 3.12.4 venv, litellm 1.108.0",
+   "test_case": "issue #5944 场景：litellm 1.108.0 下构造 LiteLLMExceptions()（base_coder.py:1451 / models.py:1042 的用户启动路径，含未映射的 CallerCredentialAuthenticationError）；tests/basic/test_exceptions.py 全量",
+   "ran_at": "2026-11-04T16:18:12+00:00",
+   "exit_code": 1,
+   "result": "regression_failed",
+   "scope": "project",
+   "log": {
+    "kind": "local",
+    "ref": "contributions/evidence/aider-ai--aider--issue-5944--prefix-repro.txt",
+    "sha256": "1202a27392050c17a57421dacb54201c3bf51dde35da5f1253a3e044d4a4f554"
+   }
+  },
+  "after": {
+   "commit": "e980beec7930f0e38cb0769eba362bbef094491d",
+   "command": "pytest tests/basic/test_exceptions.py",
+   "environment": "Windows 10 (Git Bash), Python 3.12.4 venv, litellm 1.108.0",
+   "test_case": "issue #5944 场景：litellm 1.108.0 下构造 LiteLLMExceptions()（base_coder.py:1451 / models.py:1042 的用户启动路径，含未映射的 CallerCredentialAuthenticationError）；tests/basic/test_exceptions.py 全量",
+   "ran_at": "2026-11-04T16:20:37+00:00",
+   "exit_code": 0,
+   "result": "passed",
+   "scope": "project",
+   "log": {
+    "kind": "local",
+    "ref": "contributions/evidence/aider-ai--aider--issue-5944--postfix-pytest.txt",
+    "sha256": "8c8722ffeb92cdd358194d4a9b5fe4887744f757d5f28de6ad0c77808d5c47e2"
+   }
+  }
+ },
+ "feedback": {
+  "checked_at": "2026-11-04T16:21:51+00:00",
+  "items": []
+ },
+ "outcome": {
+  "reason_category": "unknown",
+  "summary": "",
+  "sources": []
+ },
+ "next_actions": [],
+ "provenance": [
+  {
+   "kind": "local",
+   "ref": "contributions/evidence/aider-ai--aider--issue-5944--provenance.txt",
+   "sha256": "d627bbbbc3526066a103f90fc99e9a5ae7db94e73b7098c28b49dc432cb35f5a"
+  },
+  {
+   "kind": "local",
+   "ref": "contributions/evidence/aider-ai--aider--issue-5944--prefix-repro.txt",
+   "sha256": "1202a27392050c17a57421dacb54201c3bf51dde35da5f1253a3e044d4a4f554"
+  },
+  {
+   "kind": "local",
+   "ref": "contributions/evidence/aider-ai--aider--issue-5944--postfix-pytest.txt",
+   "sha256": "8c8722ffeb92cdd358194d4a9b5fe4887744f757d5f28de6ad0c77808d5c47e2"
+  }
+ ],
+ "submission": {
+  "head": "e980beec7930f0e38cb0769eba362bbef094491d",
+  "body": {
+   "kind": "local",
+   "ref": "contributions/evidence/aider-ai--aider--issue-5944--body-c038a9b2007e150691eda1d00472fc219b7bb4a4ba272e3b1cbd0313ca772145.md",
+   "sha256": "c038a9b2007e150691eda1d00472fc219b7bb4a4ba272e3b1cbd0313ca772145"
+  },
+  "claims": [
+   {
+    "text": "Pre-fix with litellm 1.108.0, constructing `LiteLLMExceptions()` reproduces exactly the issue's failure",
+    "run": "after"
+   },
+   {
+    "text": "Post-fix the same construction succeeds (warns once per unmapped name) and `tests/basic/test_exceptions.py` passes 9/9",
+    "run": "after"
+   },
+   {
+    "text": "`black 23.3.0 --line-length 100 --preview`, `flake8 7.1.0` and `isort 5.12.0` (the repo's pre-commit pins) are all clean on the two touched files.",
+    "run": "after"
+   }
+  ],
+  "limitations": [
+   "A real LLM chat session was not exercised (it needs live API keys); the change only touches exception-map loading and warning paths, which the regression tests cover directly.",
+   "Per-name retry semantics for the 8 currently-unmapped litellm errors are maintainer classification calls and are intentionally untouched here."
+  ],
+  "feedback": []
+ },
+ "submission_history": [
+  {
+   "head": "e980beec7930f0e38cb0769eba362bbef094491d",
+   "body": {
+    "kind": "local",
+    "ref": "contributions/evidence/aider-ai--aider--issue-5944--body-7c4a3fcd6de813c2e07e5e0d2c21669e636eb06e3a31aeead1e1fc5a588ddcf8.md",
+    "sha256": "7c4a3fcd6de813c2e07e5e0d2c21669e636eb06e3a31aeead1e1fc5a588ddcf8"
+   },
+   "claims": [
+    {
+     "text": "Pre-fix with litellm 1.108.0, constructing `LiteLLMExceptions()` reproduces exactly the issue's failure",
+     "run": "after"
+    },
+    {
+     "text": "Post-fix the same construction succeeds (warns once per unmapped name) and `tests/basic/test_exceptions.py` passes 9/9",
+     "run": "after"
+    },
+    {
+     "text": "`black 23.3.0 --line-length 100 --preview`, `flake8 7.1.0` and `isort 5.12.0` (the repo's pre-commit pins) are all clean on the two touched files.",
+     "run": "after"
+    }
+   ],
+   "limitations": [
+    "A real LLM chat session was not exercised (it needs live API keys); the change only touches exception-map loading and warning paths, which the regression tests cover directly.",
+    "Per-name retry semantics for the 8 currently-unmapped litellm errors are maintainer classification calls and are intentionally untouched here."
+   ],
+   "feedback": [],
+   "evidence": [
+    {
+     "kind": "local",
+     "ref": "contributions/evidence/aider-ai--aider--issue-5944--prefix-repro.txt",
+     "sha256": "1202a27392050c17a57421dacb54201c3bf51dde35da5f1253a3e044d4a4f554"
+    },
+    {
+     "kind": "local",
+     "ref": "contributions/evidence/aider-ai--aider--issue-5944--postfix-pytest.txt",
+     "sha256": "52153aded5ab3144f50d43eb1f91622c2d9c5814824ac3513140c55b8a92b6bf"
+    }
+   ]
+  }
+ ]
+}

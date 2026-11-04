@@ -11,10 +11,11 @@
 > | 项目说明 / 目录 / 流程 / 飞书 / 换机 | **`README.md`** |
 > | 历史轮次 / 已合并 PR 验证记录 | **`rounds-log.md`**、**`STATE-archive.md`** |
 
-## OSS 贡献在飞（66）
+## OSS 贡献在飞（67）
 
 | PR | 仓库 | 状态 | 摘要 |
 | --- | --- | --- | --- |
+| [#5945](https://github.com/Aider-AI/aider/pull/5945) | Aider-AI/aider | OPEN(2026-11-04) | fix: don't crash startup when litellm ships a new exception type |
 | [#9427](https://github.com/comet-ml/opik/pull/9427) | comet-ml/opik | OPEN(2026-11-04) | [issue-9376] [SDK] fix: invalidate dedup hash cache on failed insert |
 | [#6300](https://github.com/browser-use/browser-use/pull/6300) | browser-use/browser-use | OPEN(2026-11-04) | fix(cli): report the browser-use package version for --version |
 | [#3052](https://github.com/truera/trulens/pull/3052) | truera/trulens | OPEN(2026-11-03) | fix(dataset): keep parquet list columns as their elements when curating |
