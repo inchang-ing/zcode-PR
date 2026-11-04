@@ -1429,5 +1429,57 @@
  "crewaiinc/crewai#9087": {
   "date": "2026-11-05",
   "reason": "same-repo cap: 该仓在飞 2 个（#7795/#7981，STATE.md 台账），硬上限 2"
+ },
+ "openhands/openhands#19339": {
+  "date": "2026-11-05",
+  "reason": "gate: 人工门禁: PR 描述含真人专属段：模板首行必须是 `HUMAN:`，`.github/scripts/check_pr_description.py` 要求该段 ≥20 字符并勾选 human-tested，且模板明写「Just running unit tests is NOT sufficient」须 e2e 证据（日志/截图）。真人声明不能代签"
+ },
+ "arize-ai/phoenix#17634": {
+  "date": "2026-11-05",
+  "reason": "gate: 人工门禁: CONTRIBUTING 明写「An open issue is not an invitation to submit a PR」，须 maintainer 明确确认后才可开工"
+ },
+ "arize-ai/phoenix#17633": {
+  "date": "2026-11-05",
+  "reason": "gate: 人工门禁: CONTRIBUTING 明写「An open issue is not an invitation to submit a PR」，须 maintainer 明确确认后才可开工"
+ },
+ "arize-ai/phoenix#17632": {
+  "date": "2026-11-05",
+  "reason": "gate: 人工门禁: CONTRIBUTING 明写「An open issue is not an invitation to submit a PR」，须 maintainer 明确确认后才可开工"
+ },
+ "arize-ai/phoenix#17631": {
+  "date": "2026-11-05",
+  "reason": "gate: 人工门禁: CONTRIBUTING 明写「An open issue is not an invitation to submit a PR」，须 maintainer 明确确认后才可开工"
+ },
+ "berriai/litellm#50125": {
+  "date": "2026-11-05",
+  "reason": "same-repo cap: 该仓在飞 2 个（STATE.md 台账），硬上限 2"
+ },
+ "berriai/litellm#50124": {
+  "date": "2026-11-05",
+  "reason": "same-repo cap: 该仓在飞 2 个（STATE.md 台账），硬上限 2"
+ },
+ "langflow-ai/langflow#16176": {
+  "date": "2026-11-05",
+  "reason": "安全敏感面让位: 未认证 RCE（CVE 披露帖），质量红线不碰安全敏感设计与披露流程"
+ },
+ "langflow-ai/langflow#16175": {
+  "date": "2026-11-05",
+  "reason": "安全敏感面让位: 未认证自动登录绕过（CVE 披露帖），质量红线不碰安全敏感设计与披露流程"
+ },
+ "pydantic/pydantic-ai#12560": {
+  "date": "2026-11-05",
+  "reason": "gate: 受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "agentscope-ai/agentscope#3738": {
+  "date": "2026-11-05",
+  "reason": "报告者闭环: Fahmid-Arman issue 后数分钟自开 PR #3739（同 pymilvus #3916/#3918 模式，跨仓持续自修）"
+ },
+ "agentscope-ai/agentscope#3736": {
+  "date": "2026-11-05",
+  "reason": "报告者闭环: Fahmid-Arman issue 后数分钟自开 PR #3737"
+ },
+ "ukgovernmentbeis/inspect_ai#6327": {
+  "date": "2026-11-05",
+  "reason": "维护者内部承接: 报告者 dragonstyle 为 inspect_ai 核心维护者本人（规律 55），有 accepted 标签属其内部队列"
  }
 }

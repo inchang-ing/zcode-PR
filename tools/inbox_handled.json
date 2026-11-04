@@ -3584,5 +3584,83 @@
     "note": "same-repo cap: 该仓在飞 2 个（#7795/#7981，STATE.md 台账），硬上限 2",
     "status": "done",
     "history": []
+  },
+  "openhands/openhands#19339": {
+    "at": "2026-11-04T23:13:50.307591+00:00",
+    "note": "gate: 人工门禁: PR 描述含真人专属段：模板首行必须是 `HUMAN:`，`.github/scripts/check_pr_description.py` 要求该段 ≥20 字符并勾选 human-tested，且模板明写「Just running unit tests is NOT sufficient」须",
+    "status": "done",
+    "history": []
+  },
+  "arize-ai/phoenix#17634": {
+    "at": "2026-11-04T23:13:50.498401+00:00",
+    "note": "gate: 人工门禁: CONTRIBUTING 明写「An open issue is not an invitation to submit a PR」，须 maintainer 明确确认后才可开工",
+    "status": "done",
+    "history": []
+  },
+  "arize-ai/phoenix#17633": {
+    "at": "2026-11-04T23:13:50.691820+00:00",
+    "note": "gate: 人工门禁: CONTRIBUTING 明写「An open issue is not an invitation to submit a PR」，须 maintainer 明确确认后才可开工",
+    "status": "done",
+    "history": []
+  },
+  "arize-ai/phoenix#17632": {
+    "at": "2026-11-04T23:13:50.881148+00:00",
+    "note": "gate: 人工门禁: CONTRIBUTING 明写「An open issue is not an invitation to submit a PR」，须 maintainer 明确确认后才可开工",
+    "status": "done",
+    "history": []
+  },
+  "arize-ai/phoenix#17631": {
+    "at": "2026-11-04T23:13:51.070173+00:00",
+    "note": "gate: 人工门禁: CONTRIBUTING 明写「An open issue is not an invitation to submit a PR」，须 maintainer 明确确认后才可开工",
+    "status": "done",
+    "history": []
+  },
+  "berriai/litellm#50125": {
+    "at": "2026-11-04T23:13:51.256601+00:00",
+    "note": "same-repo cap: 该仓在飞 2 个（STATE.md 台账），硬上限 2",
+    "status": "done",
+    "history": []
+  },
+  "berriai/litellm#50124": {
+    "at": "2026-11-04T23:13:51.449852+00:00",
+    "note": "same-repo cap: 该仓在飞 2 个（STATE.md 台账），硬上限 2",
+    "status": "done",
+    "history": []
+  },
+  "langflow-ai/langflow#16176": {
+    "at": "2026-11-04T23:13:51.636728+00:00",
+    "note": "安全敏感面让位: 未认证 RCE（CVE 披露帖），质量红线不碰安全敏感设计与披露流程",
+    "status": "done",
+    "history": []
+  },
+  "langflow-ai/langflow#16175": {
+    "at": "2026-11-04T23:13:51.832403+00:00",
+    "note": "安全敏感面让位: 未认证自动登录绕过（CVE 披露帖），质量红线不碰安全敏感设计与披露流程",
+    "status": "done",
+    "history": []
+  },
+  "pydantic/pydantic-ai#12560": {
+    "at": "2026-11-04T23:13:52.017676+00:00",
+    "note": "gate: 受限/禁投仓库: pydantic/pydantic-ai",
+    "status": "done",
+    "history": []
+  },
+  "agentscope-ai/agentscope#3738": {
+    "at": "2026-11-04T23:14:24.381341+00:00",
+    "note": "报告者闭环: Fahmid-Arman issue 后数分钟自开 PR #3739（同 pymilvus #3916/#3918 模式，跨仓持续自修）",
+    "status": "done",
+    "history": []
+  },
+  "agentscope-ai/agentscope#3736": {
+    "at": "2026-11-04T23:14:24.572195+00:00",
+    "note": "报告者闭环: Fahmid-Arman issue 后数分钟自开 PR #3737",
+    "status": "done",
+    "history": []
+  },
+  "ukgovernmentbeis/inspect_ai#6327": {
+    "at": "2026-11-04T23:14:24.763588+00:00",
+    "note": "维护者内部承接: 报告者 dragonstyle 为 inspect_ai 核心维护者本人（规律 55），有 accepted 标签属其内部队列",
+    "status": "done",
+    "history": []
   }
 }
