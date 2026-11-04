@@ -1341,5 +1341,17 @@
  "kyegomez/swarms#3201": {
   "date": "2026-11-05",
   "reason": "维护者内部队列让位: kyegomez 本人批量报入（同分钟 5 连发）+ ai-generated 标签 = 其 AI 审计输出，umbrella-audit 归作者消化（规律 55/umbrella 先例）"
+ },
+ "huggingface/peft#4116": {
+  "date": "2026-11-05",
+  "reason": "assign 门禁仓: 须先分配给当前账号"
+ },
+ "pydantic/pydantic-ai#12543": {
+  "date": "2026-11-05",
+  "reason": "受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "significant-gravitas/autogpt#16628": {
+  "date": "2026-11-05",
+  "reason": "非 issue 内容: 正文为西语项目宣传帖（HotelDo 助手介绍），与仓库无关且已关闭、0 评论"
  }
 }

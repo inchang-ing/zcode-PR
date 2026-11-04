@@ -3452,5 +3452,23 @@
     "note": "维护者内部队列让位: kyegomez 本人批量报入（同分钟 5 连发）+ ai-generated 标签 = 其 AI 审计输出，umbrella-audit 归作者消化（规律 55/umbrella 先例）",
     "status": "done",
     "history": []
+  },
+  "huggingface/peft#4116": {
+    "at": "2026-11-04T20:43:16.557218+00:00",
+    "note": "assign 门禁仓: 须先分配给当前账号",
+    "status": "done",
+    "history": []
+  },
+  "pydantic/pydantic-ai#12543": {
+    "at": "2026-11-04T20:43:16.747816+00:00",
+    "note": "受限/禁投仓库: pydantic/pydantic-ai",
+    "status": "done",
+    "history": []
+  },
+  "significant-gravitas/autogpt#16628": {
+    "at": "2026-11-04T20:43:16.934318+00:00",
+    "note": "非 issue 内容: 正文为西语项目宣传帖（HotelDo 助手介绍），与仓库无关且已关闭、0 评论",
+    "status": "done",
+    "history": []
   }
 }
