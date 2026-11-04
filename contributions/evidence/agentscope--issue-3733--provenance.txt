@@ -1,0 +1,6 @@
+provenance / toolchain for agentscope-ai/agentscope PR (issue #3733)
+- fix authored by the ZCode automated pipeline (GLM model, inchang-ing account authorized), 2026-11-05
+- clone: E:/zcode-PR/work/agentscope @ origin/main 782bd43f9f61, branch fix/mcp-list-changed-cache, head d3d325adea0d
+- venv: Python 3.12.4, agentscope editable (mcp 2.3.0), pytest, anyio; lint pins: black 23.3.0 (--line-length=79), flake8 6.1.0 (--extend-ignore=E203)
+- fake-based A/B per the issue's own suggested method (fake SDK client recording message_handler, scripted two listings); pre-fix via `git stash push src/...` (fix uncommitted at A/B time)
+- local env gaps recorded: 149 collection errors from missing optional deps (apscheduler x122, fakeredis x18, ...); mcp_runtime_headers_test.py hangs on real sockets on this Windows box

@@ -3541,3 +3541,12 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 
 - 收件箱 8 条 → 0 pending（654 reported / 731 done）：phoenix 人工门禁×3（#17617/#17618/#17619）、mcp/servers handoff×2（#5431/#5432）、inspect_ai 缺 accepted×2（#6319/#6320）、langgraph assign×1（#9587）。全部本地刀命中，0 联网查撞。dispositions 282→290。
 - 本轮 0 干净候选。monitor_oss 68/68 盲点 0（openinference#3995 CI 计数重滚动 18→1，0✗ 不变非新红）；review_sweep 0 ACTION。
+
+## 2026-11-05 02:5x 轮（第 32 轮，automation-ad2012ad）— 1 新 PR（agentscope#3735）+ 🎉 openinference#3995 合并 + 收件箱 11 条清零
+
+- 收件箱 11 条 → 0 pending（665 reported / 732 done）：6 条门禁/上限（phoenix、mcp/servers×2、crewai×2），撞车查证 6 候选让 5（opik#9443→#9444+Scout、llama_index#23941→#23942、pymilvus#3918→#3919 与 #3916→#3917 均报告者 3 分钟闭环、trulens#3054 报告者自陈 I have this ready）。dispositions 290→296。
+- **产出 `agentscope-ai/agentscope#3735`**（issue #3733）：stateful MCPClient 无 message_handler 且 `_cached_tools` 永不重置 → get_tool 连接全生命周期冻结在首次列表。修法 = SDK client 接 `message_handler`，`ToolListChangedNotification` 时置 None，下次 get_tool 实时重解析；无关通知不动缓存。
+- 判别性：按 issue 自荐的 fake SDK client 法写 2 回归测试——控制断言（通知前 get_tool('new_tool') 抛 ValueError）+ 通知后成功解析第二份列表 + 无关通知保缓存；**修前 2 fail / 修后 2 pass**（stash A/B）；tests/mcp_client_reconnect_test.py 6/6（Windows 慢但过）；black 23.3.0(79列)/flake8 6.1.0 全净；**EVIDENCE_OK 推送前**。session_claims 全生命周期（claim→release）。
+- **🎉 `arize-ai/openinference#3995` MERGED**（10-17 批次存活者，台账自动清理）。
+- 环境坑记录：agentscope 全仓收集 149 错全为可选依赖缺失（apscheduler×122/fakeredis×18）；mcp_runtime_headers_test.py 真 socket 在本机挂起，留 CI。
+- monitor_oss 68/68 盲点 0；review_sweep 0 ACTION。

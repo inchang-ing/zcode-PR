@@ -1157,5 +1157,29 @@
  "ukgovernmentbeis/inspect_ai#6319": {
   "date": "2026-11-05",
   "reason": "gate: issue-readiness 门禁仓: 缺少 accepted 标签"
+ },
+ "comet-ml/opik#9443": {
+  "date": "2026-11-05",
+  "reason": "竞品 PR #9444（18:04Z，issue 后 ~10 分钟）+ Scout bot 已受理；同型 #9427 先例"
+ },
+ "run-llama/llama_index#23941": {
+  "date": "2026-11-05",
+  "reason": "竞品 PR #23942（issue 后 ~30 分钟）fix(llms-openai): keep a single retry layer"
+ },
+ "truera/trulens#3054": {
+  "date": "2026-11-05",
+  "reason": "报告者自陈已有修复: 'I have this ready with a regression test' + 'happy to open the PR either way'（正文认领）"
+ },
+ "milvus-io/pymilvus#3918": {
+  "date": "2026-11-05",
+  "reason": "报告者闭环: Fahmid-Arman issue 后 3 分钟自开 PR #3919（同 #3914/#3915 模式，该报告者持续自修）"
+ },
+ "milvus-io/pymilvus#3916": {
+  "date": "2026-11-05",
+  "reason": "报告者闭环: Fahmid-Arman issue 后 3 分钟自开 PR #3917"
+ },
+ "agentscope-ai/agentscope#3733": {
+  "date": "2026-11-05",
+  "reason": "已提交 PR #3735（message_handler 接线 + ToolListChangedNotification 失效 _cached_tools；fake A/B 修前 2 fail 修后 2 pass；EVIDENCE_OK 推送前）"
  }
 }

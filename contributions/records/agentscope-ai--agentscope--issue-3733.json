@@ -1,0 +1,115 @@
+{
+ "schema_version": 1,
+ "id": "agentscope-ai--agentscope--issue-3733",
+ "repo": "agentscope-ai/agentscope",
+ "issue": 3733,
+ "pr": 3735,
+ "title": "Honor tools/list_changed notifications in stateful MCP clients",
+ "kind": "bug",
+ "problem_type": "stateful MCPClient 无 message_handler 且 _cached_tools 永不重置：连接全生命周期内 get_tool 冻结在首次列表（新工具 ValueError、schema 旧形状）",
+ "approach": "给 SDK client 接 message_handler，ToolListChangedNotification 时置 _cached_tools=None，下一次 get_tool 实时重解析；无关通知不动缓存",
+ "created_at": "2026-11-04T18:43:36+00:00",
+ "policy": {
+  "status": "verified",
+  "checked_at": "2026-11-04T18:43:52+00:00",
+  "summary": "CONTRIBUTING 第 2 节欢迎 AI 协助但要求作者担责/原子 PR/评审后提交；无 DCO；AI 披露按仓库要求如实写入",
+  "sources": [
+   {
+    "kind": "url",
+    "ref": "https://github.com/agentscope-ai/agentscope/blob/main/CONTRIBUTING.md"
+   }
+  ]
+ },
+ "collision": {
+  "status": "verified",
+  "checked_at": "2026-11-04T18:43:52+00:00",
+  "summary": "issue #3733 timeline 0 cross-ref、0 评论、无自修意图；邻近编号 #3731-#3734 无同题 PR；session_claims --claim 原子认领成功；工作开始前 1 小时窗口无竞品（该仓常驻审计 rotation 下罕见）",
+  "sources": [
+   {
+    "kind": "url",
+    "ref": "https://github.com/agentscope-ai/agentscope/issues/3733"
+   }
+  ]
+ },
+ "verification": {
+  "status": "recorded",
+  "method": "regression",
+  "case": "issue #3733 场景：fake SDK client（记录 message_handler、脚本化两次 tool listing）下 stateful MCPClient 的 get_tool 在 tools/list_changed 通知前后对新增工具的可见性；tests/mcp_client_list_changed_test.py 全量",
+  "summary": "修复前 2 个新回归测试全 fail（handler 未接线 + 通知后 get_tool 仍 ValueError 冻结缓存）；修复后 2 passed（控制断言：通知前 get_tool('new_tool') 抛 ValueError，通知后成功解析第二份列表；无关通知不动缓存）；tests/mcp_client_reconnect_test.py 6/6（Windows 慢但过）；black 23.3.0/flake8 6.1.0 全净",
+  "base_commit": "782bd43f9f61788a1901fcc4e5486758491d387f",
+  "before": {
+   "commit": "782bd43f9f61788a1901fcc4e5486758491d387f",
+   "command": "pytest tests/mcp_client_list_changed_test.py",
+   "environment": "Windows 10 (Git Bash), Python 3.12.4 venv, agentscope editable, mcp 2.3.0",
+   "test_case": "issue #3733 场景：fake SDK client（记录 message_handler、脚本化两次 tool listing）下 stateful MCPClient 的 get_tool 在 tools/list_changed 通知前后对新增工具的可见性；tests/mcp_client_list_changed_test.py 全量",
+   "ran_at": "2026-11-04T18:43:16+00:00",
+   "exit_code": 1,
+   "result": "regression_failed",
+   "scope": "project",
+   "log": {
+    "kind": "local",
+    "ref": "contributions/evidence/agentscope--issue-3733--prefix-pytest.txt",
+    "sha256": "bb4b46ace0a87362aa22768faebf058bc628bd7363f485a436ff6bac1c4d8c83"
+   }
+  },
+  "after": {
+   "commit": "d3d325adea0d0a25f1a452b4d946cd957c9d7256",
+   "command": "pytest tests/mcp_client_list_changed_test.py",
+   "environment": "Windows 10 (Git Bash), Python 3.12.4 venv, agentscope editable, mcp 2.3.0",
+   "test_case": "issue #3733 场景：fake SDK client（记录 message_handler、脚本化两次 tool listing）下 stateful MCPClient 的 get_tool 在 tools/list_changed 通知前后对新增工具的可见性；tests/mcp_client_list_changed_test.py 全量",
+   "ran_at": "2026-11-04T18:43:19+00:00",
+   "exit_code": 0,
+   "result": "passed",
+   "scope": "project",
+   "log": {
+    "kind": "local",
+    "ref": "contributions/evidence/agentscope--issue-3733--postfix-pytest.txt",
+    "sha256": "34746e783e0ec1ffcada2f5c503e5e16451ea5c0a3858578d087eadea734bb53"
+   }
+  }
+ },
+ "feedback": {
+  "checked_at": "2026-11-04T18:44:28+00:00",
+  "items": []
+ },
+ "outcome": {
+  "reason_category": "unknown",
+  "summary": "",
+  "sources": []
+ },
+ "next_actions": [],
+ "provenance": [
+  {
+   "kind": "local",
+   "ref": "contributions/evidence/agentscope--issue-3733--provenance.txt",
+   "sha256": "10dea8d9f8cf88347b5c2566a8fa1eceab44e26f55ac2f71eb26bbb993d49fd5"
+  }
+ ],
+ "submission": {
+  "head": "d3d325adea0d0a25f1a452b4d946cd957c9d7256",
+  "body": {
+   "kind": "local",
+   "ref": "contributions/evidence/agentscope-ai--agentscope--issue-3733--body-70c6171a691ffb4db06008ed915f98c768496080a47d0eaac53690942bc8d4cf.md",
+   "sha256": "70c6171a691ffb4db06008ed915f98c768496080a47d0eaac53690942bc8d4cf"
+  },
+  "claims": [
+   {
+    "text": "**Pre-fix both tests fail** (verified by stashing the source change), post-fix 2/2 pass.",
+    "run": "after"
+   },
+   {
+    "text": "`tests/mcp_client_reconnect_test.py` passes with the updated fakes (6/6 locally, though each test is slow on Windows).",
+    "run": "after"
+   },
+   {
+    "text": "Pinned lint clean on the touched files: `black 23.3.0 --line-length=79`, `flake8 6.1.0 --extend-ignore=E203` (the repo's pre-commit pins).",
+    "run": "after"
+   }
+  ],
+  "limitations": [
+   "Local run is a minimal venv: suites importing optional extras (`fakeredis`, `apscheduler`, …) are not exercised here (149 collection errors from missing optional deps on this machine, pre-existing); the real-socket `mcp_runtime_headers_test.py` suite hangs on this Windows box, so it is left to CI.",
+   "No live MCP server was used; the fake reproduces the two-listing + notification sequence, which is the mechanism under test."
+  ],
+  "feedback": []
+ }
+}

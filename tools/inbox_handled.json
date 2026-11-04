@@ -3176,5 +3176,41 @@
     "note": "gate: issue-readiness 门禁仓: 缺少 accepted 标签",
     "status": "done",
     "history": []
+  },
+  "comet-ml/opik#9443": {
+    "at": "2026-11-04T18:14:05.894586+00:00",
+    "note": "竞品 PR #9444（18:04Z，issue 后 ~10 分钟）+ Scout bot 已受理；同型 #9427 先例",
+    "status": "done",
+    "history": []
+  },
+  "run-llama/llama_index#23941": {
+    "at": "2026-11-04T18:14:06.108618+00:00",
+    "note": "竞品 PR #23942（issue 后 ~30 分钟）fix(llms-openai): keep a single retry layer",
+    "status": "done",
+    "history": []
+  },
+  "truera/trulens#3054": {
+    "at": "2026-11-04T18:14:06.316045+00:00",
+    "note": "报告者自陈已有修复: 'I have this ready with a regression test' + 'happy to open the PR either way'（正文认领）",
+    "status": "done",
+    "history": []
+  },
+  "milvus-io/pymilvus#3918": {
+    "at": "2026-11-04T18:14:06.537450+00:00",
+    "note": "报告者闭环: Fahmid-Arman issue 后 3 分钟自开 PR #3919（同 #3914/#3915 模式，该报告者持续自修）",
+    "status": "done",
+    "history": []
+  },
+  "milvus-io/pymilvus#3916": {
+    "at": "2026-11-04T18:14:06.743656+00:00",
+    "note": "报告者闭环: Fahmid-Arman issue 后 3 分钟自开 PR #3917",
+    "status": "done",
+    "history": []
+  },
+  "agentscope-ai/agentscope#3733": {
+    "at": "2026-11-04T18:44:29.328349+00:00",
+    "note": "已提交 agentscope-ai/agentscope#3735（tools/list_changed 失效缓存层；fake A/B + 6/6 reconnect 回归 + pin lint 净）",
+    "status": "done",
+    "history": []
   }
 }

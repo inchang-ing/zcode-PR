@@ -1,0 +1,111 @@
+FF                                                                       [100%]
+================================== FAILURES ===================================
+_ MCPClientListChangedTest.test_list_changed_notification_refreshes_stateful_cache _
+
+self = <mcp_client_list_changed_test.MCPClientListChangedTest testMethod=test_list_changed_notification_refreshes_stateful_cache>
+
+    async def test_list_changed_notification_refreshes_stateful_cache(self):
+        """The cached tool view is dropped when the notification arrives."""
+        transport = _FakeTransport()
+        created: list[_FakeClient] = []
+    
+        def make_client(
+            transport_arg: _FakeTransport,
+            *,
+            mode: str,
+            message_handler: Any = None,
+        ) -> _FakeClient:
+            fake = _FakeClient(
+                transport_arg,
+                mode=mode,
+                message_handler=message_handler,
+            )
+            created.append(fake)
+            return fake
+    
+        with patch(
+            "agentscope.mcp._mcp_client.stdio_client",
+            return_value=transport,
+        ), patch(
+            "agentscope.mcp._mcp_client.SDKClient",
+            side_effect=make_client,
+        ):
+            client = MCPClient(
+                name="dynamic_tools",
+                is_stateful=True,
+                mcp_config=StdioMCPConfig(command="unused"),
+            )
+            await client.connect()
+            try:
+                fake = created[0]
+                # The fix wires a message handler into the SDK client so the
+                # notification is observed at all.
+>               self.assertIsNotNone(fake.message_handler)
+E               AssertionError: unexpectedly None
+
+tests\mcp_client_list_changed_test.py:129: AssertionError
+---------------------------- Captured stderr call -----------------------------
+2026-11-05 02:43:15,929 | INFO    | _mcp_client:connect:380 - MCP connected: dynamic_tools
+2026-11-05 02:43:15,930 | INFO    | _mcp_client:close:460 - MCP closed: dynamic_tools
+------------------------------ Captured log call ------------------------------
+INFO     as:_mcp_client.py:380 MCP connected: dynamic_tools
+INFO     as:_mcp_client.py:460 MCP closed: dynamic_tools
+__ MCPClientListChangedTest.test_unrelated_notification_keeps_stateful_cache __
+
+self = <mcp_client_list_changed_test.MCPClientListChangedTest testMethod=test_unrelated_notification_keeps_stateful_cache>
+
+    async def test_unrelated_notification_keeps_stateful_cache(self):
+        """Only ``tools/list_changed`` drops the cached listing."""
+        transport = _FakeTransport()
+        created: list[_FakeClient] = []
+    
+        def make_client(
+            transport_arg: _FakeTransport,
+            *,
+            mode: str,
+            message_handler: Any = None,
+        ) -> _FakeClient:
+            fake = _FakeClient(
+                transport_arg,
+                mode=mode,
+                message_handler=message_handler,
+            )
+            created.append(fake)
+            return fake
+    
+        with patch(
+            "agentscope.mcp._mcp_client.stdio_client",
+            return_value=transport,
+        ), patch(
+            "agentscope.mcp._mcp_client.SDKClient",
+            side_effect=make_client,
+        ):
+            client = MCPClient(
+                name="stable_tools",
+                is_stateful=True,
+                mcp_config=StdioMCPConfig(command="unused"),
+            )
+            await client.connect()
+            try:
+                fake = created[0]
+                fake.script_listings([_tool("kept_tool")])
+                await client.list_raw_tools()
+    
+>               await fake.message_handler(
+                    mcp.types.PromptListChangedNotification(
+                        method="notifications/prompts/list_changed",
+                    )
+                )
+E               TypeError: 'NoneType' object is not callable
+
+tests\mcp_client_list_changed_test.py:194: TypeError
+---------------------------- Captured stderr call -----------------------------
+2026-11-05 02:43:16,089 | INFO    | _mcp_client:connect:380 - MCP connected: stable_tools
+2026-11-05 02:43:16,090 | INFO    | _mcp_client:close:460 - MCP closed: stable_tools
+------------------------------ Captured log call ------------------------------
+INFO     as:_mcp_client.py:380 MCP connected: stable_tools
+INFO     as:_mcp_client.py:460 MCP closed: stable_tools
+=========================== short test summary info ===========================
+FAILED tests/mcp_client_list_changed_test.py::MCPClientListChangedTest::test_list_changed_notification_refreshes_stateful_cache
+FAILED tests/mcp_client_list_changed_test.py::MCPClientListChangedTest::test_unrelated_notification_keeps_stateful_cache
+2 failed in 1.68s

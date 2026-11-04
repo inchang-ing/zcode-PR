@@ -15,6 +15,7 @@
 
 | PR | 仓库 | 状态 | 摘要 |
 | --- | --- | --- | --- |
+| [#3735](https://github.com/agentscope-ai/agentscope/pull/3735) | agentscope-ai/agentscope | OPEN(2026-11-05) | fix: honor tools/list_changed notifications in stateful MCP clients |
 | [#5305](https://github.com/huggingface/huggingface_hub/pull/5305) | huggingface/huggingface_hub | OPEN(2026-11-05) | Ignore empty user_agent entries when building the User-Agent header |
 | [#5945](https://github.com/Aider-AI/aider/pull/5945) | Aider-AI/aider | OPEN(2026-11-04) | fix: don't crash startup when litellm ships a new exception type |
 | [#9427](https://github.com/comet-ml/opik/pull/9427) | comet-ml/opik | OPEN(2026-11-04) | [issue-9376] [SDK] fix: invalidate dedup hash cache on failed insert |
@@ -23,7 +24,6 @@
 | [#2359](https://github.com/coveragepy/coveragepy/pull/2359) | coveragepy/coveragepy | OPEN(2026-11-04) | fix: don't treat a touched file as a conflicting tracer claim |
 | [#2879](https://github.com/567-labs/instructor/pull/2879) | 567-labs/instructor | OPEN(2026-11-03) | fix(dsl): lift AliasPath fields into partial streaming snapshots |
 | [#3981](https://github.com/Arize-ai/openinference/pull/3981) | Arize-ai/openinference | OPEN(2026-10-17) | Fix #3803: record attributes for tuple-valued and unsupported message content parts |
-| [#3995](https://github.com/Arize-ai/openinference/pull/3995) | Arize-ai/openinference | OPEN(2026-10-17) |  |
 | [#3998](https://github.com/Arize-ai/openinference/pull/3998) | Arize-ai/openinference | OPEN(2026-10-17) |  |
 | [#850](https://github.com/bashtage/linearmodels/pull/850) | bashtage/linearmodels | OPEN(2026-10-18) | BUG: Test the rank of the IV inputs after scaling the columns |
 | [#4633](https://github.com/traceloop/openllmetry/pull/4633) | traceloop/openllmetry | OPEN(2026-10-18) | fix(sdk): keep local dataset state when a delete request fails |
