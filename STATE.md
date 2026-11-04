@@ -11,11 +11,15 @@
 > | 项目说明 / 目录 / 流程 / 飞书 / 换机 | **`README.md`** |
 > | 历史轮次 / 已合并 PR 验证记录 | **`rounds-log.md`**、**`STATE-archive.md`** |
 
-## OSS 贡献在飞（58）
+## OSS 贡献在飞（66）
 
 | PR | 仓库 | 状态 | 摘要 |
 | --- | --- | --- | --- |
-| [#2717](https://github.com/567-labs/instructor/pull/2717) | 567-labs/instructor | OPEN(2026-10-17) | fix(gemini): do not mutate caller-owned messages in MD_JSON mode |
+| [#9427](https://github.com/comet-ml/opik/pull/9427) | comet-ml/opik | OPEN(2026-11-04) | [issue-9376] [SDK] fix: invalidate dedup hash cache on failed insert |
+| [#6300](https://github.com/browser-use/browser-use/pull/6300) | browser-use/browser-use | OPEN(2026-11-04) | fix(cli): report the browser-use package version for --version |
+| [#3052](https://github.com/truera/trulens/pull/3052) | truera/trulens | OPEN(2026-11-03) | fix(dataset): keep parquet list columns as their elements when curating |
+| [#2359](https://github.com/coveragepy/coveragepy/pull/2359) | coveragepy/coveragepy | OPEN(2026-11-04) | fix: don't treat a touched file as a conflicting tracer claim |
+| [#2879](https://github.com/567-labs/instructor/pull/2879) | 567-labs/instructor | OPEN(2026-11-03) | fix(dsl): lift AliasPath fields into partial streaming snapshots |
 | [#3981](https://github.com/Arize-ai/openinference/pull/3981) | Arize-ai/openinference | OPEN(2026-10-17) | Fix #3803: record attributes for tuple-valued and unsupported message content parts |
 | [#3995](https://github.com/Arize-ai/openinference/pull/3995) | Arize-ai/openinference | OPEN(2026-10-17) |  |
 | [#3998](https://github.com/Arize-ai/openinference/pull/3998) | Arize-ai/openinference | OPEN(2026-10-17) |  |
@@ -37,9 +41,11 @@
 | [#5337](https://github.com/pypa/setuptools/pull/5337) | pypa/setuptools | OPEN(2026-10-17) | Extract tar members through the tarfile data filter |
 | [#986](https://github.com/QwenLM/Qwen-Agent/pull/986) | QwenLM/Qwen-Agent | OPEN(2026-10-17) | fix(agents): uniquify dialogue history filenames per run |
 | [#3187](https://github.com/repowise-dev/repowise/pull/3187) | repowise-dev/repowise | OPEN(2026-10-17) |  |
+| [#23876](https://github.com/run-llama/llama_index/pull/23876) | run-llama/llama_index | OPEN(2026-11-01) | fix(core): let Memory.reset() win over writes that are still in flight |
 | [#3046](https://github.com/snowflakedb/snowflake-connector-python/pull/3046) | snowflakedb/snowflake-connector-python | OPEN(2026-10-17) | fix: honor external_browser_timeout in the externalbrowser flow |
 | [#3050](https://github.com/snowflakedb/snowflake-connector-python/pull/3050) | snowflakedb/snowflake-connector-python | OPEN(2026-10-17) | Fix #3049: apply force_microsecond_precision to TIMESTAMP_NTZ/LTZ(7) |
 | [#2307](https://github.com/tortoise/tortoise-orm/pull/2307) | tortoise/tortoise-orm | OPEN(2026-10-17) |  |
+| [#2392](https://github.com/tortoise/tortoise-orm/pull/2392) | tortoise/tortoise-orm | OPEN(2026-11-02) | fix(transactions): return the pool connection when entering a transaction is cancelled |
 | [#2180](https://github.com/weaviate/weaviate-python-client/pull/2180) | weaviate/weaviate-python-client | OPEN(2026-10-17) | fix(batch): filter re-added errors by uuid and avoid the deprecated all_responses read |
 | [#5349](https://github.com/pypa/setuptools/pull/5349) | pypa/setuptools | OPEN(2026-10-12) | Restore hashability of Extension via eq=False (fix #5303) |
 | [#1546](https://github.com/bottlepy/bottle/pull/1546) | bottlepy/bottle | OPEN(2026-10-12) | Fix mounted apps using the parent error handlers (#1205) |
@@ -47,14 +53,13 @@
 | [#2826](https://github.com/deepchecks/deepchecks/pull/2826) | deepchecks/deepchecks | OPEN(2026-10-12) | Fix single dataset performance conditions for metrics with a |
 | [#14017](https://github.com/aio-libs/aiohttp/pull/14017) | aio-libs/aiohttp | OPEN(2026-10-12) | Fix RequestHandler crash after connection_lost() during keep |
 | [#2332](https://github.com/jupyter/nbconvert/pull/2332) | jupyter/nbconvert | OPEN(2026-10-13) | Preserve safe subdirectories in extracted output filenames |
-| [#4849](https://github.com/docling-project/docling/pull/4849) | docling-project/docling | OPEN(2026-10-15) | fix(utils): drop leading UTF-8 BOM for explicit encoding=utf-8 |
 | [#2993](https://github.com/huggingface/smolagents/pull/2993) | huggingface/smolagents | OPEN(2026-10-15) | Fix comprehension scoping to match CPython closure capture |
 | [#6913](https://github.com/optuna/optuna/pull/6913) | optuna/optuna | OPEN(2026-10-15) | fix(visualization): skip NaN targets in plot_rank instead of |
 | [#987](https://github.com/python-poetry/poetry-core/pull/987) | python-poetry/poetry-core | OPEN(2026-10-18) | fix: generate valid PEP 508 metadata for OR version constrai |
-| [#4526](https://github.com/zarr-developers/zarr-python/pull/4526) | zarr-developers/zarr-python | OPEN(2026-10-18) | fix: tolerate unencodable default_scalar in ShardingCodec.va |
+| [#4526](https://github.com/zarr-developers/zarr-python/pull/4526) | zarr-developers/zarr-python | OPEN(2026-10-18) | fix: tolerate unencodable default_scalar in ShardingCodec.validate（11-01 冲突已解，merge 双父 9f7cea0，MERGEABLE 待 d-v-b 复评） |
 | [#11759](https://github.com/pydata/xarray/pull/11759) | pydata/xarray | OPEN(2026-10-19) | Fix rolling(center=True) splitting the rolling dimension int |
 | [#14752](https://github.com/sphinx-doc/sphinx/pull/14752) | sphinx-doc/sphinx | OPEN(2026-10-19) | autodoc: register alias targets for type aliases so runtime- |
-| [#1666](https://github.com/Python-Markdown/markdown/pull/1666) | Python-Markdown/markdown | OPEN(2026-10-20) | Fix HTML blocks nested in indented blocks |
+| [#1688](https://github.com/Python-Markdown/markdown/pull/1688) | Python-Markdown/markdown | OPEN(2026-11-04) | Fix HTML blocks nested in indented blocks (#1096)，改容器方案，基于 facelessuser 原型分支 |
 | [#2814](https://github.com/mhammond/pywin32/pull/2814) | mhammond/pywin32 | OPEN(2026-10-20) | Detect namespace packages in gencache._GetModule |
 | [#1161](https://github.com/FactoryBoy/factory_boy/pull/1161) | FactoryBoy/factory_boy | OPEN(2026-10-20) | Fix django_get_or_create for factories built through SubFact |
 | [#4023](https://github.com/mwaskom/seaborn/pull/4023) | mwaskom/seaborn | OPEN(2026-10-21) | Fix catplot crash when plotting an empty DataFrame |
@@ -65,15 +70,17 @@
 | [#56](https://github.com/explosion/preshed/pull/56) | explosion/preshed | OPEN(2026-10-25) | Fix OverflowError for keys above 2**63 after the Cython 3 re |
 | [#3529](https://github.com/confident-ai/deepeval/pull/3529) | confident-ai/deepeval | OPEN(2026-10-25) | fix(benchmarks): score EquityMedQA without inverting BiasMet |
 | [#17429](https://github.com/Arize-ai/phoenix/pull/17429) | Arize-ai/phoenix | OPEN(2026-10-31) | fix(phoenix-otel): treat empty process env values as unset |
-| [#2629](https://github.com/unionai-oss/pandera/pull/2629) | unionai-oss/pandera | OPEN(2026-10-31) | fix(ibis): empty tables vacuously satisfy checks |
 | [#8588](https://github.com/pymc-devs/pymc/pull/8588) | pymc-devs/pymc | OPEN(2026-10-31) | fix(timeseries): scope the support_shape_offset to the steps dimension |
 | [#11770](https://github.com/pylint-dev/pylint/pull/11770) | pylint-dev/pylint | OPEN(2026-10-31) | Fix false-positive used-before-assignment for walrus in nested dict values |
-| [#6496](https://github.com/pipecat-ai/pipecat/pull/6496) | pipecat-ai/pipecat | OPEN(2026-10-31) | fix(TaskManager): honor an explicitly empty context override |
 | [#5007](https://github.com/docling-project/docling/pull/5007) | docling-project/docling | OPEN(2026-10-25) | fix(docx): keep tables whose w:tblGrid is missing or under-d |
 | [#2350](https://github.com/coveragepy/coveragepy/pull/2350) | coveragepy/coveragepy | OPEN(2026-10-25) | fix: hold the data lock only to snapshot, and make it re-ent |
 | [#3074](https://github.com/vibrantlabsai/ragas/pull/3074) | vibrantlabsai/ragas | OPEN(2026-10-31) | docs: use Answer Relevancy consistently for the answer_relevance metric |
 | [#969](https://github.com/mozilla-ai/any-agent/pull/969) | mozilla-ai/any-agent | OPEN(2026-11-01) | fix(vendor): keep reasoning_content and extra_content through the LangChain tool loop |
 | [#817](https://github.com/python-attrs/cattrs/pull/817) | python-attrs/cattrs | OPEN(2026-11-01) | docs: fix structure() output for Sequence[str] in why.md |
+| [#5125](https://github.com/docling-project/docling/pull/5125) | docling-project/docling | OPEN(2026-11-01) | fix(datamodel): only accept a tar guess that the header confirms |
+| [#1473](https://github.com/huggingface/lighteval/pull/1473) | huggingface/lighteval | OPEN(2026-11-03) | Fill in the translation literals for Latvian, Lithuanian, Maltese and Slovenian |
+| [#5843](https://github.com/robotframework/robotframework/pull/5843) | robotframework/robotframework | OPEN(2026-11-02) | Handle cyclic exception chains when removing Robot traces |
+| [#7860](https://github.com/bytedance/deer-flow/pull/7860) | bytedance/deer-flow | OPEN(2026-11-03) | fix(skills): pair a skill read with the read call of its own turn |
 
 ## 个人 fork 在飞（21）
 
