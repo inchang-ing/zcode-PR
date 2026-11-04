@@ -3494,5 +3494,47 @@
     "note": "已提交 browser-use/browser-use#6310（doctor 广告 flags 转发；CLI 级 A/B + 2 新回归测试 6/6 + ruff pin 净）",
     "status": "done",
     "history": []
+  },
+  "langflow-ai/langflow#16165": {
+    "at": "2026-11-04T21:43:11.058579+00:00",
+    "note": "前端 TS 让位: New Flow 按钮双击竞态为 React UI 层（#11017 同类修法=前端 loading 态），本流水线只做可本机验证的 Python 修复",
+    "status": "done",
+    "history": []
+  },
+  "pydantic/pydantic-ai#12547": {
+    "at": "2026-11-04T21:43:11.246093+00:00",
+    "note": "受限/禁投仓库: pydantic/pydantic-ai",
+    "status": "done",
+    "history": []
+  },
+  "pydantic/pydantic-ai#12546": {
+    "at": "2026-11-04T21:43:11.440737+00:00",
+    "note": "受限/禁投仓库: pydantic/pydantic-ai",
+    "status": "done",
+    "history": []
+  },
+  "pydantic/pydantic-ai#12545": {
+    "at": "2026-11-04T21:43:11.629957+00:00",
+    "note": "受限/禁投仓库: pydantic/pydantic-ai",
+    "status": "done",
+    "history": []
+  },
+  "berriai/litellm#50104": {
+    "at": "2026-11-04T21:43:11.816845+00:00",
+    "note": "same-repo cap: 该仓在飞 2 个（#46262/#48309，STATE.md 台账），硬上限 2",
+    "status": "done",
+    "history": []
+  },
+  "kyegomez/swarms#3206": {
+    "at": "2026-11-04T21:43:12.005055+00:00",
+    "note": "维护者内部队列让位: kyegomez ai-generated 审计批量（#3197-#3201 同批模式）",
+    "status": "done",
+    "history": []
+  },
+  "modelcontextprotocol/python-sdk#3817": {
+    "at": "2026-11-04T21:43:12.193218+00:00",
+    "note": "人工门禁: 须先 assign + 明令别让 agent 发认领评论（11-04 round 18 增补），handoff 之外无自助通道",
+    "status": "done",
+    "history": []
   }
 }
