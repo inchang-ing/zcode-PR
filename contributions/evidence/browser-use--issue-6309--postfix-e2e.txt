@@ -1,0 +1,3 @@
+=== post-fix: browser-use doctor --json --require-existing-daemon ===
+{"chrome_running": null, "daemon": {"alive": false, "browser_ready": false, "name": "default"}, "healthy": false, "install_mode": "pypi", "require_existing_daemon": true, "schema_version": 1, "version": "0.1.13"}
+exit=1

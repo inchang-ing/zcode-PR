@@ -1,0 +1,3 @@
+=== pre-fix: browser-use doctor --json --require-existing-daemon ===
+usage: browser-use doctor [--fix-snap]
+exit=2

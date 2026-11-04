@@ -1,0 +1,16 @@
+
+tests/ci/test_browser_use_cli.py::test_browser_use_doctor_help_prints_browser_use_usage PASSED [ 16%]
+tests/ci/test_browser_use_cli.py::test_browser_use_doctor_json_flags_reach_the_json_report PASSED [ 33%]
+tests/ci/test_browser_use_cli.py::test_browser_use_doctor_rejects_unknown_flags_with_branded_usage PASSED [ 50%]
+tests/ci/test_browser_use_cli.py::test_browser_use_module_entrypoint_matches_cli_entrypoint PASSED [ 66%]
+tests/ci/test_browser_use_cli.py::test_normalize_captured_cli_output_handles_string_system_exit PASSED [ 83%]
+tests/ci/test_browser_use_cli.py::test_browser_use_tui_is_deprecated_alias PASSED [100%]
+
+============================== warnings summary ===============================
+..\bu_venv\Lib\site-packages\_pytest\config\__init__.py:1636
+  E:\zcode-PR\work\bu_venv\Lib\site-packages\_pytest\config\__init__.py:1636: PytestConfigWarning: Unknown config option: timeout
+  
+    self._warn_or_fail_if_strict(f"Unknown config option: {key}\n")
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================== 6 passed, 1 warning in 3.59s =========================

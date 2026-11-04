@@ -3470,5 +3470,29 @@
     "note": "非 issue 内容: 正文为西语项目宣传帖（HotelDo 助手介绍），与仓库无关且已关闭、0 评论",
     "status": "done",
     "history": []
+  },
+  "berriai/litellm#50099": {
+    "at": "2026-11-04T21:13:27.587303+00:00",
+    "note": "same-repo cap: 该仓在飞 2 个（#46262/#48309，STATE.md 台账），硬上限 2",
+    "status": "done",
+    "history": []
+  },
+  "langchain-ai/langgraph#9592": {
+    "at": "2026-11-04T21:13:27.778358+00:00",
+    "note": "assign 门禁仓: 须先分配给当前账号",
+    "status": "done",
+    "history": []
+  },
+  "langchain-ai/langgraph#9591": {
+    "at": "2026-11-04T21:13:27.970381+00:00",
+    "note": "assign 门禁仓: 须先分配给当前账号",
+    "status": "done",
+    "history": []
+  },
+  "browser-use/browser-use#6309": {
+    "at": "2026-11-04T21:25:06.770802+00:00",
+    "note": "已提交 browser-use/browser-use#6310（doctor 广告 flags 转发；CLI 级 A/B + 2 新回归测试 6/6 + ruff pin 净）",
+    "status": "done",
+    "history": []
   }
 }

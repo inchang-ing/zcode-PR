@@ -1,0 +1,125 @@
+{
+ "schema_version": 1,
+ "id": "browser-use--browser-use--issue-6309",
+ "repo": "browser-use/browser-use",
+ "issue": 6309,
+ "pr": 6310,
+ "title": "Accept the advertised doctor flags instead of rejecting them",
+ "kind": "bug",
+ "problem_type": "wrapper 的 doctor 白名单只放行 --fix-snap，help 广告的 --json/--require-existing-daemon 在参数校验即 exit 2，机器可读健康检查从未运行",
+ "approach": "放行 harness doctor 实际支持的 flag 组合并转发，未知 flag 仍以品牌化 usage 拒收，usage 行打印真实 flag 集",
+ "created_at": "2026-11-04T21:24:19+00:00",
+ "policy": {
+  "status": "verified",
+  "checked_at": "2026-11-04T21:24:39+00:00",
+  "summary": "CONTRIBUTING 无 AI 禁令、无 DCO（#6300 同仓先例：lint=ruff pin、CI 134 项）；fork 通道已验证",
+  "sources": [
+   {
+    "kind": "url",
+    "ref": "https://github.com/browser-use/browser-use/blob/main/CONTRIBUTING.md"
+   }
+  ]
+ },
+ "collision": {
+  "status": "verified",
+  "checked_at": "2026-11-04T21:24:39+00:00",
+  "summary": "issue #6309 timeline 0 cross-ref、0 评论、正文无认领语言（第三人称调查报告体）；邻近编号 #6308-#6310 无同题 PR；session_claims 原子认领成功",
+  "sources": [
+   {
+    "kind": "url",
+    "ref": "https://github.com/browser-use/browser-use/issues/6309"
+   }
+  ]
+ },
+ "verification": {
+  "status": "recorded",
+  "method": "regression",
+  "case": "issue #6309 场景：fresh venv + 隔离 BH_HOME/BH_RUNTIME_DIR 下 browser-use doctor --json --require-existing-daemon 的退出码与输出（对照 browser-harness 同命令）；tests/ci/test_browser_use_cli.py 全量（-o addopts=\"\" -n0）",
+  "summary": "修复前：CLI 退出 2 并打印受限 usage（与 issue 逐字一致），3 个回归测试 fail（--help 期望新 usage、--json 出 JSON、未知 flag 品牌化 usage）；修复后：合法 JSON 报告（healthy:false/require_existing_daemon:true/daemon.alive:false）exit 1，6/6 passed；ruff==0.14.14 check+format 全净",
+  "base_commit": "b49a68e4060acb226da8f784194fef301c53a6d7",
+  "before": {
+   "commit": "b49a68e4060acb226da8f784194fef301c53a6d7",
+   "command": "python -m browser_use.cli doctor --json --require-existing-daemon ; pytest tests/ci/test_browser_use_cli.py -o addopts= -n0",
+   "environment": "Windows 10 (Git Bash), Python 3.12.4 venv, browser-use main editable + browser-harness 0.1.13",
+   "test_case": "issue #6309 场景：fresh venv + 隔离 BH_HOME/BH_RUNTIME_DIR 下 browser-use doctor --json --require-existing-daemon 的退出码与输出（对照 browser-harness 同命令）；tests/ci/test_browser_use_cli.py 全量（-o addopts=\"\" -n0）",
+   "ran_at": "2026-11-04T21:21:35+00:00",
+   "exit_code": 1,
+   "result": "regression_failed",
+   "scope": "project",
+   "log": {
+    "kind": "local",
+    "ref": "contributions/evidence/browser-use--issue-6309--prefix-pytest.txt",
+    "sha256": "2c09600704d221bf7d8dbb586f988b9cb80f3a979b6647fb8d7f9f79aeeb89f8"
+   }
+  },
+  "after": {
+   "commit": "004c16d3bf41bbb060b6b3da359d4214913ffb0a",
+   "command": "python -m browser_use.cli doctor --json --require-existing-daemon ; pytest tests/ci/test_browser_use_cli.py -o addopts= -n0",
+   "environment": "Windows 10 (Git Bash), Python 3.12.4 venv, browser-use main editable + browser-harness 0.1.13",
+   "test_case": "issue #6309 场景：fresh venv + 隔离 BH_HOME/BH_RUNTIME_DIR 下 browser-use doctor --json --require-existing-daemon 的退出码与输出（对照 browser-harness 同命令）；tests/ci/test_browser_use_cli.py 全量（-o addopts=\"\" -n0）",
+   "ran_at": "2026-11-04T21:23:46+00:00",
+   "exit_code": 0,
+   "result": "passed",
+   "scope": "project",
+   "log": {
+    "kind": "local",
+    "ref": "contributions/evidence/browser-use--issue-6309--postfix-pytest.txt",
+    "sha256": "d7b3b886d3dffea3c4f987dfe048cbda3a4cce37c14d9b3c3c27eef0e7541a07"
+   }
+  }
+ },
+ "feedback": {
+  "checked_at": "2026-11-04T21:25:06+00:00",
+  "items": []
+ },
+ "outcome": {
+  "reason_category": "unknown",
+  "summary": "",
+  "sources": []
+ },
+ "next_actions": [],
+ "provenance": [
+  {
+   "kind": "local",
+   "ref": "contributions/evidence/browser-use--issue-6309--provenance.txt",
+   "sha256": "a6fb3a936622cc2982782d9bc2ce5e4fde981ab70de5cecc1441a257793cc4b2"
+  },
+  {
+   "kind": "local",
+   "ref": "contributions/evidence/browser-use--issue-6309--prefix-e2e.txt",
+   "sha256": "b30ab93ff60a98857bad5604adc3c7bd54510add69ea6e0a93fc996788d1ccbf"
+  },
+  {
+   "kind": "local",
+   "ref": "contributions/evidence/browser-use--issue-6309--postfix-e2e.txt",
+   "sha256": "f8e9b27c9c33461a8727e4f5842d3340e461fe4af659dd580911060ea84087b9"
+  }
+ ],
+ "submission": {
+  "head": "004c16d3bf41bbb060b6b3da359d4214913ffb0a",
+  "body": {
+   "kind": "local",
+   "ref": "contributions/evidence/browser-use--browser-use--issue-6309--body-dc51ad7394495e8fd0d8fc370bbf16779cf16d71986a8d058fcefb775cd87889.md",
+   "sha256": "dc51ad7394495e8fd0d8fc370bbf16779cf16d71986a8d058fcefb775cd87889"
+  },
+  "claims": [
+   {
+    "text": "pre-fix: `doctor --json --require-existing-daemon` → stderr `usage: browser-use doctor [--fix-snap]`, exit 2 (verbatim as reported);",
+    "run": "after"
+   },
+   {
+    "text": "With `-o addopts=\"\"`: **pre-fix 3 failed / post-fix 6 passed** (A/B by stashing the source change).",
+    "run": "after"
+   },
+   {
+    "text": "Pinned lint clean on both touched files: `ruff==0.14.14` check + format (tab indent, single quotes).",
+    "run": "after"
+   }
+  ],
+  "limitations": [
+   "No browser/daemon interaction was exercised beyond the require-existing-daemon path, which by design starts nothing; the fix is argument plumbing only.",
+   "Verified on Windows (CPython 3.12) against the same byte-identical `cli.py` as the published wheel and default branch; CI covers the rest of the matrix."
+  ],
+  "feedback": []
+ }
+}

@@ -1353,5 +1353,21 @@
  "significant-gravitas/autogpt#16628": {
   "date": "2026-11-05",
   "reason": "非 issue 内容: 正文为西语项目宣传帖（HotelDo 助手介绍），与仓库无关且已关闭、0 评论"
+ },
+ "berriai/litellm#50099": {
+  "date": "2026-11-05",
+  "reason": "same-repo cap: 该仓在飞 2 个（#46262/#48309，STATE.md 台账），硬上限 2"
+ },
+ "langchain-ai/langgraph#9592": {
+  "date": "2026-11-05",
+  "reason": "assign 门禁仓: 须先分配给当前账号"
+ },
+ "langchain-ai/langgraph#9591": {
+  "date": "2026-11-05",
+  "reason": "assign 门禁仓: 须先分配给当前账号"
+ },
+ "browser-use/browser-use#6309": {
+  "date": "2026-11-05",
+  "reason": "已提交 PR #6310（doctor 白名单放行广告 flags；CLI 级 A/B exit2→JSON+exit1，3 fail→6 pass，ruff pin 净，EVIDENCE_OK 推送前）"
  }
 }

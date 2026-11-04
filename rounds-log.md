@@ -3576,3 +3576,11 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 
 - 收件箱 3 条 → 0 pending（703 reported / 780 done）：peft assign 门禁、pydantic-ai 禁投、autogpt#16628 非issue 内容（西语项目宣传帖已关闭）。dispositions 336→339。
 - 本轮 0 干净候选。monitor_oss 68/68 盲点 0；review_sweep 0 ACTION。
+
+## 2026-11-05 06:1x 轮（第 38 轮，automation-ad2012ad）— 1 新 PR（browser-use#6310）+ trulens#3052 APPROVED + 收件箱 4 条清零
+
+- 收件箱 4 条 → 0 pending（707 reported / 781 done）：litellm 同仓上限、langgraph assign×2；**browser-use#6309 干净**（0 cross-ref/0 评论/正文第三人称调查体无认领语言，且与我们在飞 #6300 同族=同文件 wrapper 层）。session_claims 全生命周期。
+- **产出 `browser-use/browser-use#6310`**（issue #6309）：`_run_browser_harness()` 的 doctor 白名单只放行 `--fix-snap`，help（harness HELP 品牌化而来）广告的 `--json/--require-existing-daemon` 在参数校验即 exit 2，机器可读健康检查从未运行。修法 = 放行 harness 实际支持的 flag 组合并转发，未知 flag 仍品牌化 usage 拒收，usage 行打印真实 flag 集。
+- 判别性：CLI 级 A/B（隔离 BH_HOME/BH_RUNTIME_DIR，不启动浏览器）修前 exit 2 usage 逐字复现 → 修后合法 JSON（healthy:false, require_existing_daemon:true）exit 1；2 个新子进程级回归测试 + --help 期望更新，**修前 3 fail / 修后 6 pass**（`-o addopts="" -n0` 绕过仓库 `-svx`/`-nauto`）；ruff==0.14.14 check+format 全净（顺带清掉 Edit 引入的 CRLF 整文件假 diff，§八.2 再中一次）。EVIDENCE_OK 推送前。
+- **🎉 truera/trulens#3052 转 APPROVED**（ashwingadhave 两轮评审后的回归修复已获认可，等合并）。
+- monitor_oss 69/69 盲点 0；review_sweep 0 ACTION。

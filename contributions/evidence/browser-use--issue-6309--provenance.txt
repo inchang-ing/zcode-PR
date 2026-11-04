@@ -1,0 +1,6 @@
+provenance / toolchain for browser-use/browser-use PR (issue #6309)
+- fix authored by the ZCode automated pipeline (GLM model, inchang-ing account authorized), 2026-11-05
+- clone: E:/zcode-PR/work/browser-use @ origin/main b49a68e4060a, branch fix/doctor-json-flags, head 004c16d3bf41
+- venv: Python 3.12.4, browser-use editable + browser-harness 0.1.13, pytest/pytest-asyncio/xdist/httpserver; lint pin ruff==0.14.14 (tab indent, single quotes)
+- repro: fresh venv, isolated BH_HOME/BH_RUNTIME_DIR, telemetry off, no browser/daemon started; A/B via `git stash push browser_use/cli.py`
+- env note: repo addopts include -svx/-nauto; A/B runs use `-o addopts="" -n0` to cover all failures and avoid xdist arg conflicts

@@ -11,10 +11,11 @@
 > | 项目说明 / 目录 / 流程 / 飞书 / 换机 | **`README.md`** |
 > | 历史轮次 / 已合并 PR 验证记录 | **`rounds-log.md`**、**`STATE-archive.md`** |
 
-## OSS 贡献在飞（68）
+## OSS 贡献在飞（69）
 
 | PR | 仓库 | 状态 | 摘要 |
 | --- | --- | --- | --- |
+| [#6310](https://github.com/browser-use/browser-use/pull/6310) | browser-use/browser-use | OPEN(2026-11-05) | fix: accept the advertised doctor flags instead of rejecting them |
 | [#3735](https://github.com/agentscope-ai/agentscope/pull/3735) | agentscope-ai/agentscope | OPEN(2026-11-05) | fix: honor tools/list_changed notifications in stateful MCP clients |
 | [#5305](https://github.com/huggingface/huggingface_hub/pull/5305) | huggingface/huggingface_hub | OPEN(2026-11-05) | Ignore empty user_agent entries when building the User-Agent header |
 | [#5945](https://github.com/Aider-AI/aider/pull/5945) | Aider-AI/aider | OPEN(2026-11-04) | fix: don't crash startup when litellm ships a new exception type |

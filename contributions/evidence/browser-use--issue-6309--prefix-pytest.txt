@@ -1,0 +1,101 @@
+
+tests/ci/test_browser_use_cli.py::test_browser_use_doctor_help_prints_browser_use_usage FAILED [ 16%]
+tests/ci/test_browser_use_cli.py::test_browser_use_doctor_json_flags_reach_the_json_report FAILED [ 33%]
+tests/ci/test_browser_use_cli.py::test_browser_use_doctor_rejects_unknown_flags_with_branded_usage FAILED [ 50%]
+tests/ci/test_browser_use_cli.py::test_browser_use_module_entrypoint_matches_cli_entrypoint PASSED [ 66%]
+tests/ci/test_browser_use_cli.py::test_normalize_captured_cli_output_handles_string_system_exit PASSED [ 83%]
+tests/ci/test_browser_use_cli.py::test_browser_use_tui_is_deprecated_alias PASSED [100%]
+
+================================== FAILURES ===================================
+____________ test_browser_use_doctor_help_prints_browser_use_usage ____________
+
+    def test_browser_use_doctor_help_prints_browser_use_usage():
+    	result = _run_browser_use_cli('doctor', '--help')
+    
+    	assert result.returncode == 0
+>   	assert result.stdout == 'usage: browser-use doctor [--fix-snap] [--json] [--require-existing-daemon]\n'
+E    AssertionError: assert 'usage: brows...--fix-snap]\n' == 'usage: brows...ing-daemon]\n'
+E      
+E      - usage: browser-use doctor [--fix-snap] [--json] [--require-existing-daemon]
+E      + usage: browser-use doctor [--fix-snap]
+
+tests\ci\test_browser_use_cli.py:28: AssertionError
+__________ test_browser_use_doctor_json_flags_reach_the_json_report ___________
+
+    def test_browser_use_doctor_json_flags_reach_the_json_report():
+    	# https://github.com/browser-use/browser-use/issues/6309: the advertised
+    	# doctor flags must run the health check, not die in argument validation
+    	import json
+    	import tempfile
+    
+    	with tempfile.TemporaryDirectory() as work:
+    		overrides = {
+    			'HOME': str(Path(work) / 'home'),
+    			'BH_HOME': str(Path(work) / 'harness'),
+    			'BH_RUNTIME_DIR': str(Path(work) / 'runtime'),
+    			'BH_TELEMETRY': 'false',
+    			'ANONYMIZED_TELEMETRY': 'false',
+    		}
+    		result = _run_browser_use_cli(
+    			'doctor', '--json', '--require-existing-daemon', env_overrides=overrides,
+    		)
+    
+>   	report = json.loads(result.stdout)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\ci\test_browser_use_cli.py:50: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+D:\python\Lib\json\__init__.py:346: in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+D:\python\Lib\json\decoder.py:337: in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <json.decoder.JSONDecoder object at 0x000001EBD0364260>, s = '', idx = 0
+
+    def raw_decode(self, s, idx=0):
+        """Decode a JSON document from ``s`` (a ``str`` beginning with
+        a JSON document) and return a 2-tuple of the Python
+        representation and the index in ``s`` where the document ended.
+    
+        This can be used to decode a JSON document from a string that may
+        have extraneous data at the end.
+    
+        """
+        try:
+            obj, end = self.scan_once(s, idx)
+        except StopIteration as err:
+>           raise JSONDecodeError("Expecting value", s, err.value) from None
+E           json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+D:\python\Lib\json\decoder.py:355: JSONDecodeError
+______ test_browser_use_doctor_rejects_unknown_flags_with_branded_usage _______
+
+    def test_browser_use_doctor_rejects_unknown_flags_with_branded_usage():
+    	result = _run_browser_use_cli('doctor', '--bogus')
+    
+    	assert result.returncode == 2
+    	assert result.stdout == ''
+>   	assert result.stderr == (
+    		'usage: browser-use doctor [--fix-snap] [--json] [--require-existing-daemon]\n'
+    	)
+E    AssertionError: assert 'usage: brows...--fix-snap]\n' == 'usage: brows...ing-daemon]\n'
+E      
+E      - usage: browser-use doctor [--fix-snap] [--json] [--require-existing-daemon]
+E      + usage: browser-use doctor [--fix-snap]
+
+tests\ci\test_browser_use_cli.py:62: AssertionError
+============================== warnings summary ===============================
+..\bu_venv\Lib\site-packages\_pytest\config\__init__.py:1636
+  E:\zcode-PR\work\bu_venv\Lib\site-packages\_pytest\config\__init__.py:1636: PytestConfigWarning: Unknown config option: timeout
+  
+    self._warn_or_fail_if_strict(f"Unknown config option: {key}\n")
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/ci/test_browser_use_cli.py::test_browser_use_doctor_help_prints_browser_use_usage
+FAILED tests/ci/test_browser_use_cli.py::test_browser_use_doctor_json_flags_reach_the_json_report
+FAILED tests/ci/test_browser_use_cli.py::test_browser_use_doctor_rejects_unknown_flags_with_branded_usage
+=================== 3 failed, 3 passed, 1 warning in 3.83s ====================
