@@ -3523,3 +3523,11 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - **markdown#1688 pyspelling 1✗ 查明**：checkspelling tox env 把 facelessuser 提交里的 `CDATA`/`etree`/`IndentedRawHtml` 当生词（不在 .spell-dict，211 词），代码 job 12 个全过。修复提交 `b878783`（词典 +3 词）已备在本地分支 `_md_indent`，**待用户推送**（该仓 CONTRIBUTING 禁 agent 自主更新 PR，且 waylan 有过警告在先）。
 - monitor_oss 对账 66/66 盲点 0；review_sweep 0 ACTION。
 - **沉淀（规律 90-94，见当日记忆）**。
+
+## 2026-11-05 00:5x 轮（第 29 轮，automation-ad2012ad）— 1 新 PR（huggingface_hub#5305）+ 收件箱 8 条清零
+
+- 收件箱 8 条 → 0 pending（644 reported / 715 done）：6 条本地刀（同仓上限×3、mem0 accepted、langgraph assign×2），2 候选撞车查证均干净。dispositions 273→280。
+- **产出 `huggingface/huggingface_hub#5305`**（issue #5304）：空 user_agent 尾随 "; " 非法头值（h11 拒收）；修 `_http_user_agent` 两追加点跳过空串/空 dict；空 dict 为同根因第二入口一并修。
+- 判别性：h11 端到端修前 `Illegal header value` 逐字复现/修后通过；3 新回归测试 A/B（修前 3 failed → 修后全文件 21/21）；ruff check+format 全净；**EVIDENCE_OK 在推送前取得**。
+- aider#5946 让位保留（traceback 截断 + 同日不叠同仓第二单）。monitor_oss 68/68 盲点 0；review_sweep 0 ACTION。
+- 沉淀（规律 95–97，见当日记忆）：join 前判空；build_request 不触发头校验（用 h11 直连）；EVIDENCE 流程 commit→prepare→check→push。

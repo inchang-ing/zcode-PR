@@ -11,10 +11,11 @@
 > | 项目说明 / 目录 / 流程 / 飞书 / 换机 | **`README.md`** |
 > | 历史轮次 / 已合并 PR 验证记录 | **`rounds-log.md`**、**`STATE-archive.md`** |
 
-## OSS 贡献在飞（67）
+## OSS 贡献在飞（68）
 
 | PR | 仓库 | 状态 | 摘要 |
 | --- | --- | --- | --- |
+| [#5305](https://github.com/huggingface/huggingface_hub/pull/5305) | huggingface/huggingface_hub | OPEN(2026-11-05) | Ignore empty user_agent entries when building the User-Agent header |
 | [#5945](https://github.com/Aider-AI/aider/pull/5945) | Aider-AI/aider | OPEN(2026-11-04) | fix: don't crash startup when litellm ships a new exception type |
 | [#9427](https://github.com/comet-ml/opik/pull/9427) | comet-ml/opik | OPEN(2026-11-04) | [issue-9376] [SDK] fix: invalidate dedup hash cache on failed insert |
 | [#6300](https://github.com/browser-use/browser-use/pull/6300) | browser-use/browser-use | OPEN(2026-11-04) | fix(cli): report the browser-use package version for --version |

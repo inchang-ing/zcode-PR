@@ -1,0 +1,41 @@
+============================= test session starts =============================
+platform win32 -- Python 3.12.4, pytest-9.2.0, pluggy-1.7.0
+rootdir: E:\zcode-PR\work\huggingface_hub
+configfile: pyproject.toml
+plugins: anyio-4.16.0, mock-3.17.0
+collected 21 items
+
+tests/test_utils_headers.py::TestAuthHeadersUtil::test_token_str PASSED
+tests/test_utils_headers.py::TestAuthHeadersUtil::test_token_true_no_cached_token PASSED
+tests/test_utils_headers.py::TestAuthHeadersUtil::test_token_true_has_cached_token PASSED
+tests/test_utils_headers.py::TestAuthHeadersUtil::test_token_false PASSED
+tests/test_utils_headers.py::TestAuthHeadersUtil::test_token_none_no_cached_token PASSED
+tests/test_utils_headers.py::TestAuthHeadersUtil::test_token_none_has_cached_token PASSED
+tests/test_utils_headers.py::TestAuthHeadersUtil::test_implicit_use_disabled PASSED
+tests/test_utils_headers.py::TestAuthHeadersUtil::test_implicit_use_disabled_but_explicit_use PASSED
+tests/test_utils_headers.py::TestUserAgentHeadersUtil::test_default_user_agent PASSED
+tests/test_utils_headers.py::TestUserAgentHeadersUtil::test_user_agent_with_library_name_multiple_missing PASSED
+tests/test_utils_headers.py::TestUserAgentHeadersUtil::test_user_agent_with_library_name_and_version PASSED
+tests/test_utils_headers.py::TestUserAgentHeadersUtil::test_user_agent_with_library_name_no_version PASSED
+tests/test_utils_headers.py::TestUserAgentHeadersUtil::test_user_agent_with_custom_agent_string PASSED
+tests/test_utils_headers.py::TestUserAgentHeadersUtil::test_user_agent_with_custom_agent_dict PASSED
+tests/test_utils_headers.py::TestUserAgentHeadersUtil::test_user_agent_with_empty_custom_agent_string PASSED
+tests/test_utils_headers.py::TestUserAgentHeadersUtil::test_user_agent_with_blank_custom_agent_string PASSED
+tests/test_utils_headers.py::TestUserAgentHeadersUtil::test_user_agent_with_empty_custom_agent_dict PASSED
+tests/test_utils_headers.py::TestUserAgentHeadersUtil::test_user_agent_deduplicate PASSED
+tests/test_utils_headers.py::TestUserAgentHeadersUtil::test_user_agent_with_origin PASSED
+tests/test_utils_headers.py::TestUserAgentHeadersUtil::test_user_agent_with_origin_and_user_agent PASSED
+tests/test_utils_headers.py::TestUserAgentHeadersUtil::test_user_agent_with_origin_and_user_agent_str PASSED
+
+============================== warnings summary ===============================
+..\hub_venv\Lib\site-packages\_pytest\config\__init__.py:1636
+  E:\zcode-PR\work\hub_venv\Lib\site-packages\_pytest\config\__init__.py:1636: PytestConfigWarning: Unknown config option: env
+  
+    self._warn_or_fail_if_strict(f"Unknown config option: {key}\n")
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+============================== slowest durations ==============================
+0.24s setup    tests/test_utils_headers.py::TestAuthHeadersUtil::test_token_str
+
+(62 durations < 0.005s hidden.  Use -vv to show these durations.)
+======================== 21 passed, 1 warning in 0.39s ========================

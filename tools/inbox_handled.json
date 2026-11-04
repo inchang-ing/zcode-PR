@@ -3068,5 +3068,53 @@
     "note": "handoff-only: modelcontextprotocol/servers 修复推 fork 后请维护者代开 PR，且为 CI-chore 类 issue",
     "status": "done",
     "history": []
+  },
+  "crewaiinc/crewai#9073": {
+    "at": "2026-11-04T16:44:14.448193+00:00",
+    "note": "same-repo cap: 该仓在飞 2 个（#7795/#7981，STATE.md 台账），硬上限 2；且为 docs/feature-request 类",
+    "status": "done",
+    "history": []
+  },
+  "mem0ai/mem0#7832": {
+    "at": "2026-11-04T16:44:14.660432+00:00",
+    "note": "issue-readiness 门禁仓: 缺少 accepted 标签（pr-gate 自动关闭未链 accepted 的 PR）",
+    "status": "done",
+    "history": []
+  },
+  "berriai/litellm#50070": {
+    "at": "2026-11-04T16:44:14.875587+00:00",
+    "note": "same-repo cap: 该仓在飞 2 个（#46262/#48309，STATE.md 台账），硬上限 2",
+    "status": "done",
+    "history": []
+  },
+  "crewaiinc/crewai#9071": {
+    "at": "2026-11-04T16:44:15.087183+00:00",
+    "note": "same-repo cap: 该仓在飞 2 个（#7795/#7981，STATE.md 台账），硬上限 2",
+    "status": "done",
+    "history": []
+  },
+  "langchain-ai/langgraph#9586": {
+    "at": "2026-11-04T16:44:15.287044+00:00",
+    "note": "assign 门禁仓: 须先分配给当前账号",
+    "status": "done",
+    "history": []
+  },
+  "langchain-ai/langgraph#9584": {
+    "at": "2026-11-04T16:44:15.489567+00:00",
+    "note": "assign 门禁仓: 须先分配给当前账号",
+    "status": "done",
+    "history": []
+  },
+  "huggingface/huggingface_hub#5304": {
+    "at": "2026-11-04T16:51:15.598734+00:00",
+    "note": "已提交 huggingface/huggingface_hub#5305（空 user_agent 尾随分隔符；修前 h11 非法头复现 + 3 回归测试 21/21）",
+    "status": "done",
+    "history": []
+  },
+  "aider-ai/aider#5946": {
+    "at": "2026-11-04T16:51:15.840352+00:00",
+    "note": "让位保留: 本轮容量已投 hub#5305；aider 在飞 #5945 待 CLA；候选保持关注，traceback 截断需先定位 normalize_path 的 None 来源",
+    "status": "done",
+    "history": []
   }
 }

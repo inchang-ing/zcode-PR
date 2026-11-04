@@ -1,0 +1,79 @@
+============================= test session starts =============================
+platform win32 -- Python 3.12.4, pytest-9.2.0, pluggy-1.7.0
+rootdir: E:\zcode-PR\work\huggingface_hub
+configfile: pyproject.toml
+plugins: anyio-4.16.0, mock-3.17.0
+collected 13 items
+
+tests/test_utils_headers.py::TestUserAgentHeadersUtil::test_default_user_agent PASSED
+tests/test_utils_headers.py::TestUserAgentHeadersUtil::test_user_agent_with_library_name_multiple_missing PASSED
+tests/test_utils_headers.py::TestUserAgentHeadersUtil::test_user_agent_with_library_name_and_version PASSED
+tests/test_utils_headers.py::TestUserAgentHeadersUtil::test_user_agent_with_library_name_no_version PASSED
+tests/test_utils_headers.py::TestUserAgentHeadersUtil::test_user_agent_with_custom_agent_string PASSED
+tests/test_utils_headers.py::TestUserAgentHeadersUtil::test_user_agent_with_custom_agent_dict PASSED
+tests/test_utils_headers.py::TestUserAgentHeadersUtil::test_user_agent_with_empty_custom_agent_string FAILED
+tests/test_utils_headers.py::TestUserAgentHeadersUtil::test_user_agent_with_blank_custom_agent_string FAILED
+tests/test_utils_headers.py::TestUserAgentHeadersUtil::test_user_agent_with_empty_custom_agent_dict FAILED
+tests/test_utils_headers.py::TestUserAgentHeadersUtil::test_user_agent_deduplicate PASSED
+tests/test_utils_headers.py::TestUserAgentHeadersUtil::test_user_agent_with_origin PASSED
+tests/test_utils_headers.py::TestUserAgentHeadersUtil::test_user_agent_with_origin_and_user_agent PASSED
+tests/test_utils_headers.py::TestUserAgentHeadersUtil::test_user_agent_with_origin_and_user_agent_str PASSED
+
+================================== FAILURES ===================================
+___ TestUserAgentHeadersUtil.test_user_agent_with_empty_custom_agent_string ___
+
+self = <tests.test_utils_headers.TestUserAgentHeadersUtil object at 0x0000029979386900>
+
+    def test_user_agent_with_empty_custom_agent_string(self) -> None:
+        # https://github.com/huggingface/huggingface_hub/issues/5304:
+        # a trailing "; " is an illegal header value for h11 and breaks every request
+>       assert not self._get_user_agent(user_agent="").endswith("; ")
+E       AssertionError: assert not True
+E        +  where True = <built-in method endswith of str object at 0x00000299795A89F0>('; ')
+E        +    where <built-in method endswith of str object at 0x00000299795A89F0> = 'unknown/None; hf_hub/2.5.0.dev0; python/3.12.4; '.endswith
+E        +      where 'unknown/None; hf_hub/2.5.0.dev0; python/3.12.4; ' = _get_user_agent(user_agent='')
+E        +        where _get_user_agent = <tests.test_utils_headers.TestUserAgentHeadersUtil object at 0x0000029979386900>._get_user_agent
+
+tests\test_utils_headers.py:90: AssertionError
+___ TestUserAgentHeadersUtil.test_user_agent_with_blank_custom_agent_string ___
+
+self = <tests.test_utils_headers.TestUserAgentHeadersUtil object at 0x0000029979386B70>
+
+    def test_user_agent_with_blank_custom_agent_string(self) -> None:
+>       assert not self._get_user_agent(user_agent="   ").endswith("; ")
+E       AssertionError: assert not True
+E        +  where True = <built-in method endswith of str object at 0x00000299795AAA30>('; ')
+E        +    where <built-in method endswith of str object at 0x00000299795AAA30> = 'unknown/None; hf_hub/2.5.0.dev0; python/3.12.4; '.endswith
+E        +      where 'unknown/None; hf_hub/2.5.0.dev0; python/3.12.4; ' = _get_user_agent(user_agent='   ')
+E        +        where _get_user_agent = <tests.test_utils_headers.TestUserAgentHeadersUtil object at 0x0000029979386B70>._get_user_agent
+
+tests\test_utils_headers.py:93: AssertionError
+____ TestUserAgentHeadersUtil.test_user_agent_with_empty_custom_agent_dict ____
+
+self = <tests.test_utils_headers.TestUserAgentHeadersUtil object at 0x0000029979386DE0>
+
+    def test_user_agent_with_empty_custom_agent_dict(self) -> None:
+>       assert not self._get_user_agent(user_agent={}).endswith("; ")
+E       AssertionError: assert not True
+E        +  where True = <built-in method endswith of str object at 0x00000299795AA730>('; ')
+E        +    where <built-in method endswith of str object at 0x00000299795AA730> = 'unknown/None; hf_hub/2.5.0.dev0; python/3.12.4; '.endswith
+E        +      where 'unknown/None; hf_hub/2.5.0.dev0; python/3.12.4; ' = _get_user_agent(user_agent={})
+E        +        where _get_user_agent = <tests.test_utils_headers.TestUserAgentHeadersUtil object at 0x0000029979386DE0>._get_user_agent
+
+tests\test_utils_headers.py:96: AssertionError
+============================== warnings summary ===============================
+..\hub_venv\Lib\site-packages\_pytest\config\__init__.py:1636
+  E:\zcode-PR\work\hub_venv\Lib\site-packages\_pytest\config\__init__.py:1636: PytestConfigWarning: Unknown config option: env
+  
+    self._warn_or_fail_if_strict(f"Unknown config option: {key}\n")
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+============================== slowest durations ==============================
+0.24s setup    tests/test_utils_headers.py::TestUserAgentHeadersUtil::test_default_user_agent
+
+(38 durations < 0.005s hidden.  Use -vv to show these durations.)
+=========================== short test summary info ===========================
+FAILED tests/test_utils_headers.py::TestUserAgentHeadersUtil::test_user_agent_with_empty_custom_agent_string
+FAILED tests/test_utils_headers.py::TestUserAgentHeadersUtil::test_user_agent_with_blank_custom_agent_string
+FAILED tests/test_utils_headers.py::TestUserAgentHeadersUtil::test_user_agent_with_empty_custom_agent_dict
+=================== 3 failed, 10 passed, 1 warning in 0.48s ===================

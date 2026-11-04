@@ -1,0 +1,126 @@
+{
+ "schema_version": 1,
+ "id": "huggingface--huggingface_hub--issue-5304",
+ "repo": "huggingface/huggingface_hub",
+ "issue": 5304,
+ "pr": 5305,
+ "title": "Ignore empty user_agent entries when building the User-Agent header",
+ "kind": "bug",
+ "problem_type": "user_agent 空串/空 dict 在 _http_user_agent 追加 '; ' 后留下尾随分隔符，h11 判非法头值，会话内所有请求失败",
+ "approach": "在两个 isinstance 追加点跳过空条目：空/全空白串忽略、空 dict 忽略、非空串 strip 后追加（与 dedup 既有逐段 strip 语义一致）",
+ "created_at": "2026-11-04T16:49:32+00:00",
+ "policy": {
+  "status": "verified",
+  "checked_at": "2026-11-04T16:49:59+00:00",
+  "summary": "CONTRIBUTING/Makefile: 无 AI 禁令、无 DCO；ruff check + ruff format 为 quality 门禁",
+  "sources": [
+   {
+    "kind": "url",
+    "ref": "https://github.com/huggingface/huggingface_hub/blob/main/CONTRIBUTING.md"
+   }
+  ]
+ },
+ "collision": {
+  "status": "verified",
+  "checked_at": "2026-11-04T16:49:59+00:00",
+  "summary": "issue #5304 timeline 0 cross-ref、0 评论、报告者 BramVanroy 无修复自陈（kernels 侧已自行修复 0.18.0，hub 侧无人动）",
+  "sources": [
+   {
+    "kind": "url",
+    "ref": "https://github.com/huggingface/huggingface_hub/issues/5304"
+   }
+  ]
+ },
+ "verification": {
+  "status": "recorded",
+  "method": "regression",
+  "case": "issue #5304 场景：build_hf_headers(user_agent=\"\") 的 user-agent 值经 h11 发送校验（httpx→httpcore→h11 同一校验器）；tests/test_utils_headers.py 全量",
+  "summary": "修复前：h11.LocalProtocolError: Illegal header value b'unknown/None; hf_hub/2.5.0.dev0; python/3.12.4; '（与 issue 描述一致），3 个新回归测试（空串/空白串/空 dict）全部 fail；修复后：请求构建成功，全文件 21 passed；ruff check + ruff format --check 全净",
+  "base_commit": "3e344caea352c78832ed7abbcbb68a9546b48f28",
+  "before": {
+   "commit": "3e344caea352c78832ed7abbcbb68a9546b48f28",
+   "command": "python repro5304.py ; pytest tests/test_utils_headers.py::TestUserAgentHeadersUtil",
+   "environment": "Windows 10 (Git Bash), Python 3.12.4 venv, huggingface_hub 2.5.0.dev0 editable, h11 0.16.0",
+   "test_case": "issue #5304 场景：build_hf_headers(user_agent=\"\") 的 user-agent 值经 h11 发送校验（httpx→httpcore→h11 同一校验器）；tests/test_utils_headers.py 全量",
+   "ran_at": "2026-11-04T16:50:28+00:00",
+   "exit_code": 1,
+   "result": "regression_failed",
+   "scope": "project",
+   "log": {
+    "kind": "local",
+    "ref": "contributions/evidence/hf-hub--issue-5304--prefix-e2e.txt",
+    "sha256": "cf1846a58cf097f7ab9f1efd553a77c0729aa0728db8c4a3e95b5c57f08328ae"
+   },
+   "base_commit": "3e344caea352c78832ed7abbcbb68a9546b48f28"
+  },
+  "after": {
+   "commit": "75ba56be76c335f2cc6c37f1e465c01f9c803999",
+   "command": "python repro5304.py ; pytest tests/test_utils_headers.py",
+   "environment": "Windows 10 (Git Bash), Python 3.12.4 venv, huggingface_hub 2.5.0.dev0 editable, h11 0.16.0",
+   "test_case": "issue #5304 场景：build_hf_headers(user_agent=\"\") 的 user-agent 值经 h11 发送校验（httpx→httpcore→h11 同一校验器）；tests/test_utils_headers.py 全量",
+   "ran_at": "2026-11-04T16:50:31+00:00",
+   "exit_code": 0,
+   "result": "passed",
+   "scope": "project",
+   "log": {
+    "kind": "local",
+    "ref": "contributions/evidence/hf-hub--issue-5304--postfix-pytest.txt",
+    "sha256": "25675ff588f0d558fab8686cf321992c3f87f9a48f30f82157b5b01a58a57a96"
+   }
+  }
+ },
+ "feedback": {
+  "checked_at": "2026-11-04T16:51:14+00:00",
+  "items": []
+ },
+ "outcome": {
+  "reason_category": "unknown",
+  "summary": "",
+  "sources": []
+ },
+ "next_actions": [],
+ "provenance": [
+  {
+   "kind": "local",
+   "ref": "contributions/evidence/hf-hub--issue-5304--provenance.txt",
+   "sha256": "2b2ef964fd3979af211b9c4c0d30ff7e0606313cfeced68d4416b6f5eb50af4c"
+  },
+  {
+   "kind": "local",
+   "ref": "contributions/evidence/hf-hub--issue-5304--prefix-e2e.txt",
+   "sha256": "cf1846a58cf097f7ab9f1efd553a77c0729aa0728db8c4a3e95b5c57f08328ae"
+  },
+  {
+   "kind": "local",
+   "ref": "contributions/evidence/hf-hub--issue-5304--postfix-e2e.txt",
+   "sha256": "43fb99d1b8644812e96d6db21a5cd46fddbbc70f27c20d13cf161fc28a6c099b"
+  }
+ ],
+ "submission": {
+  "head": "75ba56be76c335f2cc6c37f1e465c01f9c803999",
+  "body": {
+   "kind": "local",
+   "ref": "contributions/evidence/huggingface--huggingface_hub--issue-5304--body-fec68946673c303058d3e80b118412ae95e471273ccf55ad3dd34cf84f82c390.md",
+   "sha256": "fec68946673c303058d3e80b118412ae95e471273ccf55ad3dd34cf84f82c390"
+  },
+  "claims": [
+   {
+    "text": "pre-fix: `h11.LocalProtocolError: Illegal header value b'unknown/None; hf_hub/2.5.0.dev0; python/3.12.4; '`",
+    "run": "after"
+   },
+   {
+    "text": "the full file passes 21/21 with the fix",
+    "run": "after"
+   },
+   {
+    "text": "`ruff check` and `ruff format --check` are clean on the two touched files.",
+    "run": "after"
+   }
+  ],
+  "limitations": [
+   "No live Hub request was made: the illegal value is rejected before anything reaches the wire, and the h11 send-path validation above is the same validator httpx uses.",
+   "Hub-side hardening only; the `kernels`/`transformers` sides are already fixed upstream."
+  ],
+  "feedback": []
+ }
+}

@@ -1089,5 +1089,33 @@
  "traceloop/openllmetry#4689": {
   "date": "2026-11-04",
   "reason": "scope 让位: 4 包中 watsonx 需 ibm-watsonx-ai 新 SDK 代码迁移（非元数据修正），3/4 子集修复必被追问第 4 包；reporter 同批 #4690 已有竞品 PR，仓内竞争活跃"
+ },
+ "crewaiinc/crewai#9073": {
+  "date": "2026-11-05",
+  "reason": "same-repo cap: 该仓在飞 2 个（#7795/#7981，STATE.md 台账），硬上限 2；且为 docs/feature-request 类"
+ },
+ "mem0ai/mem0#7832": {
+  "date": "2026-11-05",
+  "reason": "issue-readiness 门禁仓: 缺少 accepted 标签（pr-gate 自动关闭未链 accepted 的 PR）"
+ },
+ "berriai/litellm#50070": {
+  "date": "2026-11-05",
+  "reason": "same-repo cap: 该仓在飞 2 个（#46262/#48309，STATE.md 台账），硬上限 2"
+ },
+ "crewaiinc/crewai#9071": {
+  "date": "2026-11-05",
+  "reason": "same-repo cap: 该仓在飞 2 个（#7795/#7981，STATE.md 台账），硬上限 2"
+ },
+ "langchain-ai/langgraph#9586": {
+  "date": "2026-11-05",
+  "reason": "assign 门禁仓: 须先分配给当前账号"
+ },
+ "langchain-ai/langgraph#9584": {
+  "date": "2026-11-05",
+  "reason": "assign 门禁仓: 须先分配给当前账号"
+ },
+ "huggingface/huggingface_hub#5304": {
+  "date": "2026-11-05",
+  "reason": "已提交 PR #5305（空 user_agent 尾随 '; ' 非法头；h11 端到端 A/B + 3 回归测试 21/21 + ruff 净，EVIDENCE_OK 推送前）"
  }
 }

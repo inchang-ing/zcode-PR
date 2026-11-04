@@ -1,0 +1,6 @@
+provenance / toolchain for huggingface/huggingface_hub PR (issue #5304)
+- fix authored by the ZCode automated pipeline (GLM model, inchang-ing account authorized), 2026-11-05
+- clone: E:/zcode-PR/work/huggingface_hub @ origin/main 3e344caea352, branch fix/empty-user-agent-trailing-separator, head 75ba56be76c3
+- venv: Python 3.12.4, huggingface_hub 2.5.0.dev0 (editable), httpx+h11 0.16.0, pytest, pytest-mock, ruff (Makefile quality/format targets)
+- repro5304: h11.Connection(our_role=h11.CLIENT).send(h11.Request(...)) = the same validator httpcore uses at send time; offline, no network
+- A/B via `git stash push src/huggingface_hub/utils/_headers.py` (fix uncommitted at A/B time), restored via `git stash pop`
