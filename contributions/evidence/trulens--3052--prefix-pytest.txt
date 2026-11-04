@@ -1,0 +1,186 @@
+..........FF...........F...                                              [100%]
+================================== FAILURES ===================================
+__ TestNormalization.test_datetime_array_serializes_as_text_not_nanoseconds ___
+
+self = <tests.unit.test_trace_curation.TestNormalization testMethod=test_datetime_array_serializes_as_text_not_nanoseconds>
+
+    def test_datetime_array_serializes_as_text_not_nanoseconds(self):
+        # numpy cannot hold ns precision as datetime objects, so a 1-D
+        # `.tolist()` returns int nanoseconds and the same logical timestamp
+        # curates to different text (and a different ground truth id) than
+        # the equivalent Python list. Review: #3052 follow-up.
+        value = np.array(["2024-01-01", "2024-01-02"], dtype="datetime64[ns]")
+        python_list = [pd.Timestamp("2024-01-01"), pd.Timestamp("2024-01-02")]
+        self.assertEqual(
+            core_dataset._normalize_text(value),
+>           core_dataset._normalize_text(python_list),
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        )
+
+tests\unit\test_trace_curation.py:206: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src\core\trulens\core\dataset.py:237: in _normalize_text
+    return json.dumps(
+D:\python\Lib\json\__init__.py:238: in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+D:\python\Lib\json\encoder.py:200: in encode
+    chunks = self.iterencode(o, _one_shot=True)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+D:\python\Lib\json\encoder.py:258: in iterencode
+    return _iterencode(o, 0)
+           ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = Timestamp('2024-01-01 00:00:00')
+
+    def _json_default(value: Any) -> Any:
+        """Render one value the JSON encoder has no rule for, or refuse it.
+    
+        Only parquet's array-likes and numpy scalars reach this: a list column is
+        read back as a numpy array, and a struct column's fields may still be
+        arrays. Returning the list an array represents is what makes the cell
+        serialize the same way an equivalent Python list would, so the same row
+        curated from a parquet export and from a JSON export yields one ground
+        truth id. Anything else is genuinely unserializable and keeps raising.
+        """
+    
+        elements = _as_elements(value)
+        if elements is not None:
+            return elements
+    
+        if hasattr(value, "item"):  # numpy scalar
+            return value.item()
+    
+>       raise TypeError(
+            f"Object of type {type(value).__name__} is not JSON serializable"
+        )
+E       TypeError: Object of type Timestamp is not JSON serializable
+
+src\core\trulens\core\dataset.py:310: TypeError
+_____ TestNormalization.test_datetime_in_a_plain_list_serializes_as_text ______
+
+self = <tests.unit.test_trace_curation.TestNormalization testMethod=test_datetime_in_a_plain_list_serializes_as_text>
+
+    def test_datetime_in_a_plain_list_serializes_as_text(self):
+        # The JSON fallback renders datetimes as text too, so the plain
+        # Python path matches the array path instead of crashing the encoder.
+        self.assertEqual(
+>           core_dataset._normalize_text([pd.Timestamp("2024-01-01")]),
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            '["2024-01-01 00:00:00"]',
+        )
+
+tests\unit\test_trace_curation.py:217: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src\core\trulens\core\dataset.py:237: in _normalize_text
+    return json.dumps(
+D:\python\Lib\json\__init__.py:238: in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+D:\python\Lib\json\encoder.py:200: in encode
+    chunks = self.iterencode(o, _one_shot=True)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+D:\python\Lib\json\encoder.py:258: in iterencode
+    return _iterencode(o, 0)
+           ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = Timestamp('2024-01-01 00:00:00')
+
+    def _json_default(value: Any) -> Any:
+        """Render one value the JSON encoder has no rule for, or refuse it.
+    
+        Only parquet's array-likes and numpy scalars reach this: a list column is
+        read back as a numpy array, and a struct column's fields may still be
+        arrays. Returning the list an array represents is what makes the cell
+        serialize the same way an equivalent Python list would, so the same row
+        curated from a parquet export and from a JSON export yields one ground
+        truth id. Anything else is genuinely unserializable and keeps raising.
+        """
+    
+        elements = _as_elements(value)
+        if elements is not None:
+            return elements
+    
+        if hasattr(value, "item"):  # numpy scalar
+            return value.item()
+    
+>       raise TypeError(
+            f"Object of type {type(value).__name__} is not JSON serializable"
+        )
+E       TypeError: Object of type Timestamp is not JSON serializable
+
+src\core\trulens\core\dataset.py:310: TypeError
+_ TestNormalization.test_parquet_round_trip_of_a_timestamp_list_column_curates_stably _
+
+self = <tests.unit.test_trace_curation.TestNormalization testMethod=test_parquet_round_trip_of_a_timestamp_list_column_curates_stably>
+
+    def test_parquet_round_trip_of_a_timestamp_list_column_curates_stably(self):
+        # A parquet list<timestamp[ns]> cell and the equivalent Python list
+        # must produce the same context text (hence the same content
+        # addressed ground truth id), mirroring the #2987 round trip shape.
+        import pyarrow as pa
+        import pyarrow.parquet as pq
+    
+        stamps = [pd.Timestamp("2024-01-01"), pd.Timestamp("2024-01-02")]
+        work = tempfile.mkdtemp()
+        path = os.path.join(work, "cells.parquet")
+        table = pa.table(
+            {"ctx": pa.array([stamps], type=pa.list_(pa.timestamp("ns")))}
+        )
+        pq.write_table(table, path)
+        cell = pd.read_parquet(path)["ctx"].iloc[0]
+    
+        self.assertEqual(
+            core_dataset._normalize_text(cell),
+>           core_dataset._normalize_text(stamps),
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        )
+
+tests\unit\test_trace_curation.py:239: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src\core\trulens\core\dataset.py:237: in _normalize_text
+    return json.dumps(
+D:\python\Lib\json\__init__.py:238: in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+D:\python\Lib\json\encoder.py:200: in encode
+    chunks = self.iterencode(o, _one_shot=True)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+D:\python\Lib\json\encoder.py:258: in iterencode
+    return _iterencode(o, 0)
+           ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = Timestamp('2024-01-01 00:00:00')
+
+    def _json_default(value: Any) -> Any:
+        """Render one value the JSON encoder has no rule for, or refuse it.
+    
+        Only parquet's array-likes and numpy scalars reach this: a list column is
+        read back as a numpy array, and a struct column's fields may still be
+        arrays. Returning the list an array represents is what makes the cell
+        serialize the same way an equivalent Python list would, so the same row
+        curated from a parquet export and from a JSON export yields one ground
+        truth id. Anything else is genuinely unserializable and keeps raising.
+        """
+    
+        elements = _as_elements(value)
+        if elements is not None:
+            return elements
+    
+        if hasattr(value, "item"):  # numpy scalar
+            return value.item()
+    
+>       raise TypeError(
+            f"Object of type {type(value).__name__} is not JSON serializable"
+        )
+E       TypeError: Object of type Timestamp is not JSON serializable
+
+src\core\trulens\core\dataset.py:310: TypeError
+=========================== short test summary info ===========================
+FAILED tests/unit/test_trace_curation.py::TestNormalization::test_datetime_array_serializes_as_text_not_nanoseconds
+FAILED tests/unit/test_trace_curation.py::TestNormalization::test_datetime_in_a_plain_list_serializes_as_text
+FAILED tests/unit/test_trace_curation.py::TestNormalization::test_parquet_round_trip_of_a_timestamp_list_column_curates_stably
+3 failed, 24 passed in 3.15s

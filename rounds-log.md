@@ -3590,3 +3590,12 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - 收件箱 7 条 → 0 pending（714 reported / 791 done）：pydantic-ai×3、litellm 上限、swarms#3206（维护者 ai-generated 批量）、mcp/python-sdk 人工门禁、langflow#16165 前端 TS 让位（New Flow 双击竞态，#11017 同类=前端 loading 态）。dispositions 343→350。
 - **#6310 CI 1✗ 定性**：`browser-use skill sync` = #6300 同款 main 继承漂移（同 job、同 diff 行、base 同败，Codex 11-04 复核确认），与 doctor 改动无关。按「新 PR 首次解释」原则留了一条简短说明（6642892232），不重复、不空推。
 - monitor_oss 69/69 盲点 0；review_sweep 0 ACTION。
+
+## 2026-11-05 07:1x 轮（第 40 轮，automation-ad2012ad）— 收件箱 4 条清零 + trulens#3052 评审返工（94b197f）
+
+- 收件箱 4 条 → 0 pending（718 reported / 795 done）：litellm 上限、phoenix 人工门禁、langflow#16168 前端 TS、pydantic-ai 禁投。dispositions 350→354。
+- **review_sweep 真实 ACTION（trulens#3052）**：Abelo9996 should-fix——`_as_elements` 的 `.tolist()` 把 parquet `list<timestamp[ns]>` 变 int 纳秒（numpy 存不了 ns 精度的 datetime），同一逻辑值与等价 Python 列表得到不同 ground truth id（内容寻址分裂，与本 PR 主题同根）。sfc-gh-jreini 已 APPROVED、Abelo9996 判 non-blocking，但按正确性照修。
+- **返工（94b197f，FF 推到 PR 分支）**：`_as_elements` 1-D 数组走 `pd.Series(value).tolist()`（保 Timestamp；高维保持 .tolist()）+ `_json_default` 渲染 datetime/date 为文本（否则 Timestamp 会崩 json 编码器——评审人建议的修法少说了一半）。
+- 判别性：复现脚本（可执行证据入库 contributions/evidence/trulens--3052--repro_runner.py）修前 `_as_elements` 逐字返回 `[1704067200000000000]`、修后 `_normalize_text` 两侧同为 ISO 文本；TestNormalization **修前 3 fail / 修后 27/27**（时序正确的 A/B）；ruff==0.16.3 check+format 净；**EVIDENCE_OK**（既有 PR 补建记录 truera--trulens--issue-3051，feedback facts 绑定评审指纹 + resolutions 关联回归用例）；正文追加 Review follow-up 段。已回评审线程（6643719602），session_claims 全生命周期。
+- 环境沉淀（规律 99-100）：quality_check 的 feedback schema：items 要 observed_at+sources（fact 必须 URL）+ resolutions 要 fingerprint/test_case；PR 旧记录无正文存档时用 gh api 拉真实正文做 prepare；trulens-core 完整安装比 stub 包链快（规律 75 的 spec_from_file_location 在资源读取类模块上会卡 importlib_resources）。
+- monitor_oss 69/69 盲点 0（#3052 新 commit CI 重跑中 4✓/7…）；review_sweep 0 ACTION。

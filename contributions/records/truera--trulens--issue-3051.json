@@ -1,0 +1,195 @@
+{
+ "schema_version": 1,
+ "id": "truera--trulens--issue-3051",
+ "repo": "truera/trulens",
+ "issue": 3051,
+ "pr": 3052,
+ "title": "fix(dataset): keep parquet list columns as their elements when curating",
+ "kind": "bug",
+ "problem_type": "parquet 导出的列表列是 numpy ndarray，_normalize_text/_json_safe 只认 list/tuple，文本被数组的 repr 污染（评审后续: .tolist() 又把 timestamp 列变 int 纳秒）",
+ "approach": "_as_elements 数组感知助手 + pd.Series 路径保留 Timestamp + _json_default 渲染 datetime 为文本",
+ "created_at": "2026-11-04T22:26:57+00:00",
+ "policy": {
+  "status": "verified",
+  "checked_at": "2026-11-04T22:25:06+00:00",
+  "summary": "CONTRIBUTING 无 AI 禁令；CLA 经 PR 内 custom-pr-sign-comment 自助签署（11-04 已签）；DCO 按 commit Signed-off-by 满足",
+  "sources": [
+   {
+    "kind": "url",
+    "ref": "https://github.com/truera/trulens/pull/3052"
+   }
+  ]
+ },
+ "collision": {
+  "status": "verified",
+  "checked_at": "2026-11-04T22:25:06+00:00",
+  "summary": "原始提交（round 21）五查通过；本轮为评审返工（ashwingadhave 前轮 + Abelo9996 should-fix），无撞车面",
+  "sources": [
+   {
+    "kind": "url",
+    "ref": "https://github.com/truera/trulens/pull/3052"
+   }
+  ]
+ },
+ "verification": {
+  "status": "recorded",
+  "method": "regression",
+  "case": "评审返工场景（Abelo9996 should-fix）：parquet list<timestamp[ns]> 列经 _as_elements/_normalize_text 的文本输出与等价 Python 列表一致；tests/unit/test_trace_curation.py::TestNormalization 全量",
+  "summary": "返工前：3 fail / 24 pass，_as_elements 返回 [1704067200000000000]（评审人逐字观察）；返工后：27/27 pass，_normalize_text 两侧同为 [\"2024-01-01 00:00:00\", ...]；ruff==0.16.3 check+format 净",
+  "base_commit": "f2b8d4d8e98d40ed254d010f1ecbb17fb714b17b",
+  "before": {
+   "commit": "f2b8d4d8e98d40ed254d010f1ecbb17fb714b17b",
+   "command": "pytest tests/unit/test_trace_curation.py::TestNormalization ; python contributions/evidence/trulens--3052--repro_runner.py",
+   "environment": "Windows 10 (Git Bash), Python 3.12.4 venv, trulens-core editable, pandas/pyarrow",
+   "test_case": "评审返工场景（Abelo9996 should-fix）：parquet list<timestamp[ns]> 列经 _as_elements/_normalize_text 的文本输出与等价 Python 列表一致；tests/unit/test_trace_curation.py::TestNormalization 全量",
+   "ran_at": "2026-11-04T22:24:59+00:00",
+   "exit_code": 1,
+   "result": "regression_failed",
+   "scope": "project",
+   "log": {
+    "kind": "local",
+    "ref": "contributions/evidence/trulens--3052--prefix-pytest.txt",
+    "sha256": "b3c4a5cf8bc2b85b9a5c42fe656b25b215eaf9e9c6453036fb8eb5f0c67c8ae7"
+   }
+  },
+  "after": {
+   "commit": "94b197f3b424f7db63c072a803a973c8c85d8e63",
+   "command": "pytest tests/unit/test_trace_curation.py::TestNormalization ; python contributions/evidence/trulens--3052--repro_runner.py",
+   "environment": "Windows 10 (Git Bash), Python 3.12.4 venv, trulens-core editable, pandas/pyarrow",
+   "test_case": "评审返工场景（Abelo9996 should-fix）：parquet list<timestamp[ns]> 列经 _as_elements/_normalize_text 的文本输出与等价 Python 列表一致；tests/unit/test_trace_curation.py::TestNormalization 全量",
+   "ran_at": "2026-11-04T22:25:06+00:00",
+   "exit_code": 0,
+   "result": "passed",
+   "scope": "project",
+   "log": {
+    "kind": "local",
+    "ref": "contributions/evidence/trulens--3052--postfix-pytest.txt",
+    "sha256": "8cdf2ba8644990201c3670c8483bc99e30dbb68f91bc97561646ffa9da18eb45"
+   }
+  }
+ },
+ "feedback": {
+  "checked_at": "2026-11-04T22:30:17+00:00",
+  "items": [
+   {
+    "kind": "fact",
+    "author": "ashwingadhave",
+    "summary": "数组处理方向认可；_normalize_text 对 query 列仍有缺口（round 26 已修）",
+    "observed_at": "2026-11-04T02:16Z",
+    "sources": [
+     {
+      "kind": "url",
+      "ref": "https://github.com/truera/trulens/pull/3052#pullrequestreview-5762288475"
+     }
+    ]
+   },
+   {
+    "kind": "fact",
+    "author": "Abelo9996",
+    "summary": "should-fix(非阻塞): _as_elements 的 .tolist() 把 parquet list<timestamp[ns]> 变 int 纳秒，同一逻辑值得到不同 ground truth id",
+    "observed_at": "2026-11-04T21:50Z",
+    "sources": [
+     {
+      "kind": "url",
+      "ref": "https://github.com/truera/trulens/pull/3052#pullrequestreview-5776356808"
+     }
+    ]
+   }
+  ]
+ },
+ "outcome": {
+  "reason_category": "unknown",
+  "summary": "",
+  "sources": []
+ },
+ "next_actions": [],
+ "provenance": [
+  {
+   "kind": "local",
+   "ref": "contributions/evidence/trulens--3052--repro_runner.py",
+   "sha256": "eae95e5aea7dff1d6970b7113eacd01d234c4b5df5964b97e1b00f708a29dce9"
+  },
+  {
+   "kind": "local",
+   "ref": "contributions/evidence/trulens--3052--prefix-e2e.txt",
+   "sha256": "8e368846a7b31d1d2ca63f521e86ce72623744ac51159199133b5acdc2805a1a"
+  },
+  {
+   "kind": "local",
+   "ref": "contributions/evidence/trulens--3052--postfix-e2e.txt",
+   "sha256": "8f6f13b8d7c35a2af102ffff23476386c79a2d0390c17cdbf381b8aef806005b"
+  }
+ ],
+ "submission": {
+  "head": "94b197f3b424f7db63c072a803a973c8c85d8e63",
+  "body": {
+   "kind": "local",
+   "ref": "contributions/evidence/truera--trulens--issue-3051--body-d78d8866ce49d6e5a09226d4a97318a31695a01199ef26fe8018a31e53c810cd.md",
+   "sha256": "d78d8866ce49d6e5a09226d4a97318a31695a01199ef26fe8018a31e53c810cd"
+  },
+  "claims": [
+   {
+    "text": "Three regression tests added, including the parquet round-trip in the #2987 shape: `TestNormalization` is 27/27 (3 failed before the change, with `_as_elements` returning `[1704067200000000000]` verbatim as reported).",
+    "run": "after"
+   },
+   {
+    "text": "ruff 0.16.3 check+format clean on both touched files.",
+    "run": "after"
+   }
+  ],
+  "limitations": [
+   "Verified on Windows (CPython 3.12, local venv); the repo's full matrix (including DB-backed suites) runs in CI."
+  ],
+  "feedback": [
+   {
+    "fingerprint": "839412f08cf12b9c84167bcca7284c1f54b57540d37577600159e0f29791b378",
+    "status": "addressed",
+    "test_case": "评审返工场景（Abelo9996 should-fix）：parquet list<timestamp[ns]> 列经 _as_elements/_normalize_text 的文本输出与等价 Python 列表一致；tests/unit/test_trace_curation.py::TestNormalization 全量",
+    "summary": "round 26 已修：default=_json_default + _normalize_text 数组感知（commit 6f0e4f6）"
+   },
+   {
+    "fingerprint": "3fef52f6eb18c591ef0627cc9c473c41bfaef520235e1f969b3f2169491dfaeb",
+    "status": "addressed",
+    "test_case": "评审返工场景（Abelo9996 should-fix）：parquet list<timestamp[ns]> 列经 _as_elements/_normalize_text 的文本输出与等价 Python 列表一致；tests/unit/test_trace_curation.py::TestNormalization 全量",
+    "summary": "94b197f: 1-D 数组走 pd.Series(value).tolist() 保留 Timestamp，_json_default 渲染 datetime/date 为文本；已回复 comment 6643719602"
+   }
+  ]
+ },
+ "submission_history": [
+  {
+   "head": "94b197f3b424f7db63c072a803a973c8c85d8e63",
+   "body": {
+    "kind": "local",
+    "ref": "contributions/evidence/truera--trulens--issue-3051--body-0f6bc53a27d970cbb6b50b33523df08e2785bd16ebb01543c898252cc8c6126f.md",
+    "sha256": "0f6bc53a27d970cbb6b50b33523df08e2785bd16ebb01543c898252cc8c6126f"
+   },
+   "claims": [
+    {
+     "text": "Three regression tests added, including the parquet round-trip in the #2987 shape: `TestNormalization` is 27/27 (3 failed before the change, with `_as_elements` returning `[1704067200000000000]` verbatim as reported).",
+     "run": "after"
+    },
+    {
+     "text": "ruff 0.16.3 check+format clean on both touched files.",
+     "run": "after"
+    }
+   ],
+   "limitations": [
+    "Verified on Windows (CPython 3.12, local venv); the repo's full matrix (including DB-backed suites) runs in CI."
+   ],
+   "feedback": [
+    {
+     "fingerprint": "839412f08cf12b9c84167bcca7284c1f54b57540d37577600159e0f29791b378",
+     "status": "addressed",
+     "summary": "round 26 已修：default=_json_default + _normalize_text 数组感知（commit 6f0e4f6）",
+     "test_case": "评审返工场景（Abelo9996 should-fix）：parquet list<timestamp[ns]> 列经 _as_elements/_normalize_text 的文本输出与等价 Python 列表一致；tests/unit/test_trace_curation.py::TestNormalization 全量"
+    },
+    {
+     "fingerprint": "3fef52f6eb18c591ef0627cc9c473c41bfaef520235e1f969b3f2169491dfaeb",
+     "status": "addressed",
+     "summary": "94b197f: 1-D 数组走 pd.Series(value).tolist() 保留 Timestamp，_json_default 渲染 datetime/date 为文本；3 新回归测试（27/27，修前 3 fail 逐字复现）；已回复 comment 6643719602",
+     "test_case": "评审返工场景（Abelo9996 should-fix）：parquet list<timestamp[ns]> 列经 _as_elements/_normalize_text 的文本输出与等价 Python 列表一致；tests/unit/test_trace_curation.py::TestNormalization 全量"
+    }
+   ]
+  }
+ ]
+}
