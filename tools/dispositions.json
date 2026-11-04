@@ -1117,5 +1117,13 @@
  "huggingface/huggingface_hub#5304": {
   "date": "2026-11-05",
   "reason": "已提交 PR #5305（空 user_agent 尾随 '; ' 非法头；h11 端到端 A/B + 3 回归测试 21/21 + ruff 净，EVIDENCE_OK 推送前）"
+ },
+ "milvus-io/pymilvus#3914": {
+  "date": "2026-11-05",
+  "reason": "礼让+竞品: 报告者自陈 I can send a PR，且 issue 开出 1 分钟后 cross-ref #3915（fix: add the whole timedelta）= 报告者闭环"
+ },
+ "pydantic/pydantic-ai#12525": {
+  "date": "2026-11-05",
+  "reason": "受限/禁投仓库: pydantic/pydantic-ai"
  }
 }

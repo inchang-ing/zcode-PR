@@ -3116,5 +3116,17 @@
     "note": "让位保留: 本轮容量已投 hub#5305；aider 在飞 #5945 待 CLA；候选保持关注，traceback 截断需先定位 normalize_path 的 None 来源",
     "status": "done",
     "history": []
+  },
+  "milvus-io/pymilvus#3914": {
+    "at": "2026-11-04T17:13:14.685844+00:00",
+    "note": "礼让+竞品: 报告者自陈 I can send a PR，且 issue 开出 1 分钟后 cross-ref #3915（fix: add the whole timedelta）= 报告者闭环",
+    "status": "done",
+    "history": []
+  },
+  "pydantic/pydantic-ai#12525": {
+    "at": "2026-11-04T17:13:14.880285+00:00",
+    "note": "受限/禁投仓库: pydantic/pydantic-ai",
+    "status": "done",
+    "history": []
   }
 }
