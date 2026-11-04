@@ -1481,5 +1481,17 @@
  "ukgovernmentbeis/inspect_ai#6327": {
   "date": "2026-11-05",
   "reason": "维护者内部承接: 报告者 dragonstyle 为 inspect_ai 核心维护者本人（规律 55），有 accepted 标签属其内部队列"
+ },
+ "arize-ai/phoenix#17635": {
+  "date": "2026-11-05",
+  "reason": "人工门禁: CONTRIBUTING 明写「An open issue is not an invitation to submit a PR」（good student issue 标签属其学生项目，非外部邀请）+ 前端 UI"
+ },
+ "berriai/litellm#50127": {
+  "date": "2026-11-05",
+  "reason": "same-repo cap: 该仓在飞 2 个（#46262/#48309，STATE.md 台账），硬上限 2"
+ },
+ "crewaiinc/crewai#9089": {
+  "date": "2026-11-05",
+  "reason": "same-repo cap: 该仓在飞 2 个（#7795/#7981，STATE.md 台账），硬上限 2"
  }
 }
