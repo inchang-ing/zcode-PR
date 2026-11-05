@@ -3680,5 +3680,11 @@
     "note": "same-repo cap: 该仓在飞 2 个（#7795/#7981，STATE.md 台账），硬上限 2",
     "status": "done",
     "history": []
+  },
+  "crewaiinc/crewai#9090": {
+    "at": "2026-11-05T00:13:04.448792+00:00",
+    "note": "same-repo cap: 该仓在飞 2 个（#7795/#7981，STATE.md 台账），硬上限 2；且为 FEATURE 提案",
+    "status": "done",
+    "history": []
   }
 }
