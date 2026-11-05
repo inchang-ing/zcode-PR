@@ -258,6 +258,7 @@ class QueueTests(unittest.TestCase):
                         q.main(command + ['--source', source, '--note', 'Checked'])
                     self.assertNotIn('DEMO_PASSWORD', str(error.exception))
                     self.assertFalse((self.root / 'work_queue.json').exists())
+                    self.assertFalse((self.root / 'task_state.json').exists())
                     refresh.assert_not_called()
 
     def test_green_ci_is_not_current_without_fresh_matching_commit(self):
@@ -349,16 +350,18 @@ class QueueTests(unittest.TestCase):
             q.main(['stage', 'Example/Repo#1', 'stopped', '--note', '无法复现', '--minutes', '20'])
             state = q.load_queue(self.root / 'work_queue.json')
             self.assertEqual(state['issues']['example/repo#1']['events'][0]['minutes'], 20)
-            before = (self.root / 'work_queue.json').read_bytes()
+            before = (self.root / 'task_state.json').read_bytes()
+            self.assertFalse((self.root / 'work_queue.json').exists())
             with self.assertRaises(ValueError):
                 q.main(['stage', 'Example/Repo#1', 'deferred', '--note', 'later'])
-            self.assertEqual(before, (self.root / 'work_queue.json').read_bytes())
+            self.assertEqual(before, (self.root / 'task_state.json').read_bytes())
 
     def test_refresh_offline_and_case_dedup(self):
         (self.root / 'round_candidates.json').write_text(json.dumps([self.c.__dict__, self.c.__dict__]), encoding='utf-8')
         rows = q.refresh(self.root)
         self.assertEqual(len(rows), 1)
         self.assertTrue((self.root / 'WEEKLY_CONTRIBUTIONS.md').exists())
+        self.assertFalse((self.root / 'task_state.json').exists())
 
 
 if __name__ == '__main__':

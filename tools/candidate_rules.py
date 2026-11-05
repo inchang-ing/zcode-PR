@@ -134,7 +134,7 @@ def enqueue_candidates(candidates, root):
     with file_lock(path):
         inbox = read_json_object(path)
         receipts = load_consumed(root)
-        tasks = TaskStore(root / 'dispatched.json')
+        tasks = TaskStore(root=root)
         added = 0
         for candidate in candidates:
             key = task_key(candidate.key)

@@ -106,7 +106,7 @@ class AutoRunQualityTests(unittest.TestCase):
                         def clone(repo):
                             a.DispatchedStore(str(path)).mark(candidate.key, status,
                                 reason='Maintainer finished', pr_url='https://example.com/pr')
-                            terminal.append(path.read_bytes())
+                            terminal.append(store.path.read_bytes())
                             if result == 'error':
                                 raise OSError('offline')
                             return folder
@@ -116,7 +116,7 @@ class AutoRunQualityTests(unittest.TestCase):
                              patch.object(a.subprocess, 'run') as external:
                             a.run(candidate, store)
                         external.assert_not_called()
-                        self.assertEqual(path.read_bytes(), terminal[0])
+                        self.assertEqual(store.path.read_bytes(), terminal[0])
 
     def test_changed_patch_stops_for_verification_without_external_write(self):
         with tempfile.TemporaryDirectory() as folder:

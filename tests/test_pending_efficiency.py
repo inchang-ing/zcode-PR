@@ -13,7 +13,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'tools'))
 import candidate_rules
 import monitor_round as scan
 from pipeline_state import atomic_write_json, file_lock
-from task_state import record_handled
+from task_state import record_handled, TaskStore
 import work_queue
 
 
@@ -40,25 +40,24 @@ class PendingEfficiencyTests(unittest.TestCase):
         atomic_write_json(self.inbox, {f'a/b#{n}': dict(repo='a/b', number=n, title='bug: crash') for n in numbers})
 
     def defer(self, retry_at):
-        atomic_write_json(self.root / 'work_queue.json', {
-            'version': 1, 'prs': {}, 'issues': {'a/b#2': {
+        with TaskStore(root=self.root).transaction() as ledger:
+            ledger['queue']['issues']['a/b#2'] = {
                 'stage': 'deferred', 'retry_at': retry_at.isoformat(), 'signals': {},
                 'events': [{'command': 'stage', 'stage': 'deferred', 'note': 'Wait for evidence',
                             'minutes': 0, 'at': self.now.isoformat()}],
-            }},
-        })
+            }
 
     def test_completed_and_deferred_entries_make_no_api_calls(self):
         self.seed(1, 2, 3)
         record_handled(self.handled, ['a/b#1'], 'Already fixed')
         self.defer(self.now + timedelta(days=1))
-        decisions = self.handled.read_bytes()
+        decisions = (self.root / 'task_state.json').read_bytes()
         self.assertEqual(scan.main(['--pending']), 0)
         self.lookup.assert_called_once_with('a/b', 3)
         self.timeline.assert_called_once_with('a/b', 3)
         self.comments.assert_called_once_with('a/b', 3)
         self.assertEqual(set(json.loads(self.inbox.read_text())), {'a/b#1', 'a/b#2'})
-        self.assertEqual(self.handled.read_bytes(), decisions)
+        self.assertEqual((self.root / 'task_state.json').read_bytes(), decisions)
         self.assertEqual(json.loads(self.output.read_text())[0]['number'], 3)
 
     def test_reopened_and_due_entries_resume_checks(self):

@@ -8,9 +8,9 @@ import json
 from pathlib import Path
 import re
 
-from task_state import DispatchedStore
+from task_state import TaskStore
 from candidate_rules import Candidate, is_clean, load_candidates, BLOCKING_LABELS
-from task_state import task_key, load_handled, load_queue_state, SIGNALS, STAGES, ACTIONS
+from task_state import task_key, load_queue_state, SIGNALS, STAGES, ACTIONS
 from contributions import cell, load_records, load_queue_records, require, validate_https_url as evidence
 from pipeline_state import atomic_write_json, atomic_write_text, file_lock, read_json_object
 from pr_state import ci_binding_error, load_pr_state
@@ -39,7 +39,10 @@ def valid_key(key):
 
 
 def load_queue(path):
-    state = load_queue_state(path)
+    return _validate_queue_evidence(load_queue_state(path))
+
+
+def _validate_queue_evidence(state):
     for section in ("issues", "prs"):
         for entry in state[section].values():
             if section == "issues":
@@ -236,9 +239,9 @@ def weekly(cache, state, now):
 def refresh(root=ROOT, limit=50):
     require(type(limit) is int and limit >= 0, "展示上限必须为非负整数，0 表示全部")
     now = datetime.now(timezone.utc)
-    path = root / 'work_queue.json'
-    with file_lock(path):
-        state = load_queue(path)
+    with file_lock(root / 'work_queue_view.json'):
+        store = TaskStore(root=root)
+        state = _validate_queue_evidence(store.queue)
         candidates = load_candidates(root / 'round_candidates.json')
         existing = {c.key.lower() for c in candidates}
         inbox = read_json_object(root / 'tools/fresh_candidates.json')
@@ -246,8 +249,7 @@ def refresh(root=ROOT, limit=50):
         cache = {k.lower(): v for k, v in load_pr_state(root / 'pr_state.json', ()).items()
                  if k.split('/')[0].lower() != ACCOUNT.lower()}
         records, record_errors = load_queue_records(root)
-        handled = load_handled(root / 'tools/inbox_handled.json')
-        rows = rank_candidates(candidates, state, DispatchedStore(str(root / 'dispatched.json')), cache, now, handled)
+        rows = rank_candidates(candidates, state, store, cache, now, store.handled)
         rows += pr_tasks(cache, state, records, now, record_errors)
         rows.sort(key=lambda r: (r['hidden'], not r['ready'], -r['score'], r['key']))
         lines = ['# 贡献工作队列', '', f'生成时间：{now.isoformat()}', '',
@@ -301,10 +303,10 @@ def main(argv=None):
     if args.command != 'refresh':
         valid_key(args.key)
         require(args.note.strip() and args.minutes >= 0, '需说明理由；工时不得为负')
-        key, now = args.key.lower(), datetime.now(timezone.utc).isoformat()
-        path = ROOT / 'work_queue.json'
-        with file_lock(path):
-            state = load_queue(path)
+        key = args.key.lower()
+        with TaskStore(root=ROOT).transaction() as ledger:
+            now = datetime.now(timezone.utc).isoformat()
+            state = _validate_queue_evidence(ledger['queue'])
             event = {'at': now, 'minutes': args.minutes, 'note': args.note, 'command': args.command}
             if args.command == 'pr-action':
                 evidence(args.source)
@@ -328,7 +330,6 @@ def main(argv=None):
                     entry.update(stage=args.stage, retry_at=args.retry_at)
                     event['stage'] = args.stage
             entry['events'].append(event)
-            atomic_write_json(path, state)
     try:
         rows = refresh(limit=args.limit) if args.command == 'refresh' else refresh()
     except (ValueError, OSError, RuntimeError) as exc:

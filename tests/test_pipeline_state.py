@@ -85,18 +85,18 @@ class StateTests(unittest.TestCase):
         for status in ("closed", "merged", "dropped", "running", "pr_opened", "deferred"):
             for with_hook in (False, True):
                 with self.subTest(status=status, with_hook=with_hook):
-                    atomic_write_json(self.path, {})
-                    stale = DispatchedStore(self.path)
-                    DispatchedStore(self.path).mark("Owner/Repo#1", status,
+                    path = Path(self.enterContext(tempfile.TemporaryDirectory())) / "state.json"
+                    stale = DispatchedStore(path)
+                    DispatchedStore(path).mark("Owner/Repo#1", status,
                         retry_after="2999-01-01T00:00:00Z", pr_url="https://example.com/pr")
-                    original = self.path.read_bytes()
+                    original = stale.path.read_bytes()
                     hooks = {candidate.key: lambda c, p: False} if with_hook else {}
                     with patch.dict(auto_run.REPROS, hooks, clear=True), \
                          patch.dict(auto_run.FIXERS, {}, clear=True), \
                          patch.object(auto_run, "_clone_via_tarball") as clone:
                         auto_run.run(candidate, stale)
                     clone.assert_not_called()
-                    self.assertEqual(self.path.read_bytes(), original)
+                    self.assertEqual(stale.path.read_bytes(), original)
 
     def test_two_running_processes_dispatch_same_candidate_only_once(self):
         code = (
@@ -157,11 +157,12 @@ class StateTests(unittest.TestCase):
         with patch.object(auto_run, "_clone_via_tarball") as clone:
             auto_run.run(candidate, DispatchedStore(self.path), dry_run=True)
             self.assertFalse(self.path.exists())
+            self.assertFalse(self.path.with_name("task_state.json").exists())
             store = DispatchedStore(self.path)
             store.mark(candidate.key, "closed")
-            original = self.path.read_bytes()
+            original = store.path.read_bytes()
             auto_run.run(candidate, store, dry_run=True)
-            self.assertEqual(self.path.read_bytes(), original)
+            self.assertEqual(store.path.read_bytes(), original)
         clone.assert_not_called()
 
     def test_run_retries_expired_deferral_without_losing_history(self):
@@ -190,8 +191,8 @@ class StateTests(unittest.TestCase):
         candidate = Candidate("owner/repo", 1, "Crash", "url", is_bug=True)
         self.assertFalse(is_clean(candidate, store)[0])
         store.mark("OWNER/REPO#1", "merged")
-        saved = json.loads(self.path.read_text(encoding="utf-8"))
-        self.assertEqual(set(saved), {"owner/repo#1", "other/repo#2"})
+        saved = json.loads(store.path.read_text(encoding="utf-8"))["dispatched"]
+        self.assertEqual(set(saved), {"owner/repo#1", "Other/Repo#2"})
         self.assertEqual(saved["owner/repo#1"]["status"], "merged")
         self.assertFalse(store.repo_inflight("Owner/Repo"))
 
@@ -201,15 +202,16 @@ class StateTests(unittest.TestCase):
                                ("pr_opened", "repro_failed"), ("unrecognized", "pending")]:
             for reverse in (False, True):
                 with self.subTest(blocked=blocked, other=other, reverse=reverse):
+                    path = Path(self.enterContext(tempfile.TemporaryDirectory())) / "state.json"
                     entries = [("Owner/Repo#1", {"status": blocked, "ts": 1}),
                                ("owner/repo#1", {"status": other, "ts": 2})]
-                    atomic_write_json(self.path, dict(reversed(entries) if reverse else entries))
-                    store = DispatchedStore(self.path)
+                    atomic_write_json(path, dict(reversed(entries) if reverse else entries))
+                    store = DispatchedStore(path)
                     self.assertTrue(store.is_active("OWNER/REPO#1"))
                     self.assertEqual(store.status_of("owner/repo#1"), blocked)
                     self.assertEqual(store.repo_inflight("Owner/Repo"), blocked in store.ACTIVE)
                     store.mark("unrelated/repo#2", "pending")
-                    self.assertTrue(DispatchedStore(self.path).is_active("Owner/Repo#1"))
+                    self.assertTrue(DispatchedStore(path).is_active("Owner/Repo#1"))
 
     def test_case_collision_keeps_unexpired_deferral(self):
         atomic_write_json(self.path, {

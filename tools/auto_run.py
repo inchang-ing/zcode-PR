@@ -5,7 +5,7 @@
 设计目标(对应指令):
   1. 明确"候选"与"干净"的判定标准(见 is_clean / _is_real_bug)。
   2. 一旦某候选处于 clean 状态, 在遍历到的"瞬间"立即触发 run()。
-  3. 用持久化 dispatched.json 去重, 同一候选绝不二次触发。
+  3. 用统一 task_state.json 记录派发与处理结论，防止重复执行。
 
 "run" 的语义 = 准备本地修复:
   clone/fetch → 复现(reproduce) → 应用补丁(FIXERS 钩子) → 等待最终提交与证据检查。
@@ -29,7 +29,6 @@ import session_claims
 
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # 仓库根(本文件在 tools/)
 CANDIDATES = os.path.join(BASE, "round_candidates.json")   # monitor_round.py 的产物
-DISPATCHED = os.path.join(BASE, "dispatched.json")          # 去重状态库
 WORKDIR = os.path.join(BASE, "work")                        # 仓库克隆目录
 
 # ──────────────────────────────────────────────────────────────

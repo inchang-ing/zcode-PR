@@ -1,15 +1,37 @@
-"""Shared task identity and completion decisions for inbox and queue readers."""
+"""One atomic task ledger, with read-only compatibility for the legacy files."""
+from contextlib import contextmanager, ExitStack
+from copy import deepcopy
 from datetime import datetime, timezone
-from pathlib import Path
+import argparse
+import hashlib
+import json
+import os
+from pathlib import Path, PureWindowsPath
 import math
 import re
+import sys
 import time
+import uuid
 
-from pipeline_state import atomic_write_json, file_lock, read_json_object
+from pipeline_state import atomic_write_json, file_lock
 
 SIGNALS = {'policy', 'collision', 'intent', 'reproduced', 'testable', 'small'}
 STAGES = {'new', 'probe', 'fixing', 'submitted', 'stopped', 'deferred'}
 ACTIONS = {'small_fix': 100, 'ci': 80, 'discussion': 20, 'wait': 0, 'done': 0}
+
+
+def _path_identity(path):
+    """Compare resolved Windows names consistently without changing I/O paths."""
+    resolved = Path(path).resolve()
+    if isinstance(resolved, PureWindowsPath):
+        value = str(resolved)
+        # Missing-path races in ntpath.realpath can retain an extended prefix.
+        if value.upper().startswith('\\\\?\\UNC\\'):
+            value = '\\\\' + value[8:]
+        elif value.startswith('\\\\?\\') and re.match(r'[A-Za-z]:\\', value[4:]):
+            value = value[4:]
+        return PureWindowsPath(value)
+    return resolved
 
 
 def task_key(value):
@@ -28,8 +50,16 @@ def timestamp(value):
 
 
 def load_handled(path):
+    path = Path(path)
+    root = path.parent.parent if path.parent.name == 'tools' else path.parent
+    return TaskStore(root=root, _handled_path=path).handled
+
+
+def _validate_handled(data):
+    if not isinstance(data, dict):
+        raise ValueError('处理记录必须是对象')
     result = {}
-    for raw_key, entry in read_json_object(path).items():
+    for raw_key, entry in data.items():
         key = task_key(raw_key)
         if (not isinstance(entry, dict) or not isinstance(entry.get('at'), str)
                 or not isinstance(entry.get('note'), str)
@@ -49,16 +79,21 @@ def record_handled(path, keys, note, status='done'):
     keys = [task_key(key) for key in keys]
     if not isinstance(note, str) or not note.strip() or status not in {'done', 'open'}:
         raise ValueError('需说明处理/重开理由')
-    with file_lock(path):
-        state = load_handled(path)
+    path = Path(path)
+    root = path.parent.parent if path.parent.name == 'tools' else path.parent
+    with TaskStore(root=root, _handled_path=path).transaction() as ledger:
+        state = ledger['handled']
         for key in keys:
-            previous = state.get(key, {})
+            previous = _validate_handled(state).get(key, {})
             history = list(previous.get('history', []))
             if previous:
                 history.append({k: v for k, v in previous.items() if k != 'history'})
-            state[key] = {'at': datetime.now(timezone.utc).isoformat(), 'note': note,
-                          'status': status, 'history': history}
-        atomic_write_json(path, state)
+            for alias in [alias for alias in state if alias.lower() == key]:
+                if state[alias] != previous:
+                    history.append(deepcopy(state[alias]))
+                del state[alias]
+            state[key] = {**previous, 'at': datetime.now(timezone.utc).isoformat(),
+                          'note': note, 'status': status, 'history': history}
 
 
 def completion_reason(key, handled, issue, now):
@@ -74,8 +109,12 @@ def issue_states(root):
 
 
 def load_queue_state(path):
+    path = Path(path)
+    return TaskStore(root=path.parent, _queue_path=path).queue
+
+
+def _validate_queue(state):
     """Validate decision data identically for queue, inbox and execution readers."""
-    state = read_json_object(path)
     if not state:
         return {'version': 1, 'issues': {}, 'prs': {}}
 
@@ -89,7 +128,8 @@ def load_queue_state(path):
         except (AttributeError, TypeError, ValueError):
             return None
 
-    require(state.get('version') == 1, '不支持的队列版本')
+    require(isinstance(state, dict) and type(state.get('version')) is int
+            and state['version'] == 1, '不支持的队列版本')
     for section in ('issues', 'prs'):
         require(isinstance(state.get(section), dict), '队列缺少对象: ' + section)
         for key, entry in state[section].items():
@@ -166,31 +206,230 @@ def _decision(key, handled, issue, dispatch, now):
 
 
 class TaskStore:
-    """One decision boundary over dispatch, inbox disposition and queue stages.
+    """Snapshot reads and one lock/atomic replacement for all task mutations.
 
-    Reads are snapshots; acquiring execution rechecks all records under their locks.
-    Existing JSON formats remain readable and are only written by their own commands.
+    Legacy sources are frozen after migration. Their locks and fingerprints reject
+    old writers instead of silently merging an obsolete snapshot over new decisions.
     """
     ACTIVE = {'running', 'pr_opened', 'needs_fix', 'needs_verification'}
     TERMINAL = {'dropped', 'merged', 'closed'}
     RETRYABLE = {'pending', 'needs_repro', 'repro_failed', 'dry_run'}
 
-    def __init__(self, path=None):
-        self.path = Path(path) if path is not None else Path(__file__).resolve().parents[1] / 'dispatched.json'
-        self.root = self.path.parent
-        self.handled_path = self.root / 'tools/inbox_handled.json'
-        self.queue_path = self.root / 'work_queue.json'
+    def __init__(self, path=None, *, root=None, _handled_path=None, _queue_path=None):
+        if path is not None and root is not None:
+            raise ValueError('Specify root or a legacy dispatched path, not both')
+        self.root = Path(root if root is not None else Path(path).parent if path is not None
+                         else Path(__file__).resolve().parents[1]).resolve()
+        self.path = self.root / 'task_state.json'
+        self.source_paths = {
+            'dispatched': Path(path).resolve() if path is not None else self.root / 'dispatched.json',
+            'handled': Path(_handled_path).resolve() if _handled_path else self.root / 'tools/inbox_handled.json',
+            'queue': Path(_queue_path).resolve() if _queue_path else self.root / 'work_queue.json',
+        }
+        for source in self.source_paths.values():
+            self._relative(source)
         self._reload()
 
+    def _relative(self, path):
+        identity = _path_identity(path)
+        try:
+            relative = identity.relative_to(_path_identity(self.root))
+        except ValueError as exc:
+            raise ValueError('Legacy source must remain inside the task root') from exc
+        if not relative.parts or identity == _path_identity(self.path):
+            raise ValueError('Invalid legacy source path')
+        return relative.as_posix()
+
+    @staticmethod
+    def _bytes(path):
+        try:
+            return path.read_bytes()
+        except FileNotFoundError:
+            return None
+
+    @staticmethod
+    def _digest(raw):
+        return None if raw is None else hashlib.sha256(raw).hexdigest()
+
+    @staticmethod
+    def _parse(raw):
+        result = {} if raw is None else json.loads(raw.decode('utf-8-sig'))
+        if not isinstance(result, dict):
+            raise ValueError('Task state must be a JSON object')
+        return result
+
+    def _sources(self, ledger):
+        migration = ledger.get('migration')
+        if not isinstance(migration, dict) or not isinstance(migration.get('sources'), dict):
+            raise ValueError('Unified task state has no migration source fingerprints')
+        sources = migration['sources']
+        if set(sources) != {'dispatched', 'handled', 'queue'}:
+            raise ValueError('Invalid migration source partitions')
+        result = {}
+        for section, entry in sources.items():
+            if (not isinstance(entry, dict) or not isinstance(entry.get('path'), str)
+                    or 'sha256' not in entry
+                    or (entry['sha256'] is not None and
+                        (not isinstance(entry['sha256'], str)
+                         or not re.fullmatch('[0-9a-f]{64}', entry['sha256'])))):
+                raise ValueError('Invalid migration fingerprint: ' + section)
+            relative = Path(entry['path'])
+            if relative.is_absolute() or '..' in relative.parts:
+                raise ValueError('Invalid migration source path: ' + entry['path'])
+            source = self.root / relative
+            self._relative(source)
+            result[section] = source
+        if len({_path_identity(path) for path in result.values()}) != 3:
+            raise ValueError('Migration sources must be different files')
+        return result
+
+    def _validate_ledger(self, ledger):
+        if (not isinstance(ledger, dict) or type(ledger.get('version')) is not int
+                or ledger['version'] != 1):
+            raise ValueError('Unsupported unified task state version')
+        if any(not isinstance(ledger.get(section), dict) for section in ('dispatched', 'handled', 'queue')):
+            raise ValueError('Unified task state is missing a partition')
+        self._normalize(ledger['dispatched'])
+        _validate_handled(ledger['handled'])
+        if not ledger['queue']:
+            raise ValueError('Unified task queue is missing its schema')
+        _validate_queue(ledger['queue'])
+        self._sources(ledger)
+
+    def _check_sources(self, ledger):
+        for section, source in self._sources(ledger).items():
+            if self._digest(self._bytes(source)) != ledger['migration']['sources'][section]['sha256']:
+                raise RuntimeError(f'Legacy task source changed after migration: {source}. '
+                                   'Stop the old writer and reconcile the old data; do not re-import over task_state.json.')
+
+    def _install(self, ledger):
+        self._state = deepcopy(ledger)
+        self.data = self._normalize(deepcopy(ledger['dispatched']))
+        self.handled = _validate_handled(deepcopy(ledger['handled']))
+        self.queue = deepcopy(ledger['queue'])
+        self.issues = self.queue['issues']
+        self.handled_path = self.source_paths['handled']
+        self.queue_path = self.source_paths['queue']
+
     def _reload(self):
-        self.data = self._normalize(read_json_object(self.path))
-        self.handled = load_handled(self.handled_path)
-        self.issues = issue_states(self.root)
+        raw = self._bytes(self.path)
+        if raw is not None:
+            ledger = self._parse(raw)
+            self._validate_ledger(ledger)
+            self.source_paths = self._sources(ledger)
+            self._check_sources(ledger)
+            self._source_bytes = None
+        else:
+            self._source_bytes = {name: self._bytes(path) for name, path in self.source_paths.items()}
+            ledger = {name: self._parse(value) for name, value in self._source_bytes.items()}
+            ledger['queue'] = _validate_queue(ledger['queue'])
+            ledger.update(version=1, migration={'sources': {
+                name: {'path': self._relative(self.source_paths[name]), 'sha256': self._digest(value)}
+                for name, value in self._source_bytes.items()}})
+            self._validate_ledger(ledger)
+        self._install(ledger)
+
+    def _backup(self, ledger, original_bytes):
+        directory = self.root / 'task_state.backups' / uuid.uuid4().hex
+        directory.mkdir(parents=True)
+        for section, raw in original_bytes.items():
+            if raw is None:
+                continue
+            target = directory / 'legacy' / ledger['migration']['sources'][section]['path']
+            target.parent.mkdir(parents=True, exist_ok=True)
+            with target.open('xb') as handle:
+                handle.write(raw)
+                handle.flush()
+                os.fsync(handle.fileno())
+            if target.read_bytes() != raw:
+                raise OSError('Legacy backup verification failed: ' + str(target))
+        atomic_write_json(directory / 'manifest.json', {
+            'version': 1, 'sources': ledger['migration']['sources'],
+            'files': {name: 'legacy/' + ledger['migration']['sources'][name]['path']
+                      if value is not None else None for name, value in original_bytes.items()},
+            'created_at': datetime.now(timezone.utc).isoformat()})
+        return directory.relative_to(self.root).as_posix()
+
+    def _verify_migration(self, ledger):
+        """Check the exact serialized representation before publishing authority."""
+        restored = json.loads(json.dumps(ledger, ensure_ascii=False))
+        self._validate_ledger(restored)
+        now = datetime.now(timezone.utc)
+        old_data, new_data = self._normalize(ledger['dispatched']), self._normalize(restored['dispatched'])
+        old_handled, new_handled = _validate_handled(ledger['handled']), _validate_handled(restored['handled'])
+        keys = set(old_data) | set(old_handled) | set(ledger['queue']['issues'])
+        for key in keys:
+            before = _decision(key, old_handled, ledger['queue']['issues'].get(key, {}), old_data.get(key), now)
+            after = _decision(key, new_handled, restored['queue']['issues'].get(key, {}), new_data.get(key), now)
+            if before != after:
+                raise ValueError('Migration would change a task decision: ' + key)
+
+    @contextmanager
+    def transaction(self, *, _migrate=False):
+        with file_lock(self.path):
+            self._reload()
+            with ExitStack() as locks:
+                for section in ('dispatched', 'handled', 'queue'):
+                    locks.enter_context(file_lock(self.source_paths[section]))
+                self._reload()
+                original = deepcopy(self._state)
+                ledger = deepcopy(original)
+                original_bytes = self._source_bytes
+                try:
+                    yield ledger
+                    if ledger == original and not (_migrate and original_bytes is not None):
+                        return
+                    if ledger.get('migration') != original['migration']:
+                        raise ValueError('Transactions cannot replace migration provenance')
+                    self._validate_ledger(ledger)
+                    if original_bytes is not None:
+                        self._verify_migration(original)
+                        ledger['migration']['backup'] = self._backup(original, original_bytes)
+                        ledger['migration']['created_at'] = datetime.now(timezone.utc).isoformat()
+                    self._check_sources(ledger)
+                    atomic_write_json(self.path, ledger)
+                    self._source_bytes = None
+                    self._install(ledger)
+                except BaseException:
+                    self._install(original)
+                    raise
+
+    def migrate(self):
+        """Explicitly migrate once. Existing unified data is never re-imported."""
+        with self.transaction(_migrate=True):
+            changed = self._source_bytes is not None
+        return changed
+
+    def export_legacy(self, destination):
+        """Export latest partitions to a new directory; never roll back live data."""
+        destination = Path(destination).resolve()
+        with self.transaction() as ledger:
+            identity, root_identity = _path_identity(destination), _path_identity(self.root)
+            protected = [_path_identity(path) for path in (self.path, *self.source_paths.values())]
+            if (destination.exists() or identity == root_identity or identity in root_identity.parents
+                    or any(path.is_relative_to(identity) or identity.is_relative_to(path) for path in protected)):
+                raise ValueError('Export destination must be a new directory, not the running task root')
+            # A complete manifest is written last, so interrupted exports are identifiable.
+            destination.mkdir(parents=True)
+            files = {'dispatched': 'dispatched.json', 'handled': 'tools/inbox_handled.json',
+                     'queue': 'work_queue.json'}
+            for section, relative in files.items():
+                atomic_write_json(destination / relative, ledger[section])
+            atomic_write_json(destination / 'manifest.json', {
+                'version': 1, 'exported_at': datetime.now(timezone.utc).isoformat(),
+                'files': {name: {'path': relative, 'sha256': self._digest(self._bytes(destination / relative))}
+                          for name, relative in files.items()}})
+        return destination
 
     @staticmethod
     def _validate(data):
-        if any(not isinstance(value, dict) for value in data.values()):
+        if (not isinstance(data, dict)
+                or any(not isinstance(key, str) or not isinstance(value, dict)
+                       for key, value in data.items())):
             raise ValueError('Invalid dispatched state: each candidate must be an object')
+        if any(entry.get('status') is not None and not isinstance(entry['status'], str)
+               for entry in data.values()):
+            raise ValueError('Invalid dispatched state: status must be a string')
 
     @classmethod
     def _normalize(cls, data):
@@ -247,9 +486,7 @@ class TaskStore:
     def mark(self, key, status, *, only_if_inactive=False, expected=None, **extra):
         if status not in self.ACTIVE | self.TERMINAL | self.RETRYABLE | {'deferred'}:
             raise ValueError(f'Unknown candidate status: {status}')
-        # Queue refresh only takes the queue lock and never waits for the dispatch lock.
-        with file_lock(self.path), file_lock(self.handled_path), file_lock(self.queue_path):
-            self._reload()
+        with self.transaction() as ledger:
             current = self.data.get(key.lower())
             if ((only_if_inactive and self.is_active(key))
                     or (expected is not None and current != expected)):
@@ -257,9 +494,36 @@ class TaskStore:
             entry = {**(current or {}), 'status': status, 'ts': time.time(), **extra}
             if 'retry_after' not in extra:
                 entry.pop('retry_after', None)
-            self.data[key.lower()] = entry
-            atomic_write_json(self.path, self.data)
+            for alias in [alias for alias in ledger['dispatched'] if alias.lower() == key.lower()]:
+                del ledger['dispatched'][alias]
+            ledger['dispatched'][key.lower()] = entry
             return True
 
 
 DispatchedStore = TaskStore
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--root', type=Path, default=Path(__file__).resolve().parents[1])
+    commands = parser.add_subparsers(dest='command', required=True)
+    migrate = commands.add_parser('migrate', help='Back up legacy bytes and publish the unified ledger once')
+    export = commands.add_parser('export-legacy', help='Export latest state into a new rollback directory')
+    export.add_argument('destination', type=Path)
+    for command in (migrate, export):
+        command.add_argument('--root', type=Path, default=argparse.SUPPRESS)
+    args = parser.parse_args(argv)
+    try:
+        store = TaskStore(root=args.root)
+        if args.command == 'migrate':
+            print(('Migrated: ' if store.migrate() else 'Already migrated: ') + str(store.path))
+        else:
+            print('Exported: ' + str(store.export_legacy(args.destination)))
+        return 0
+    except (OSError, ValueError, RuntimeError) as exc:
+        print(str(exc), file=sys.stderr)
+        return 1
+
+
+if __name__ == '__main__':
+    raise SystemExit(main())
