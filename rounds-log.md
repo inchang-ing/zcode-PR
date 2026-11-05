@@ -3850,3 +3850,9 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - 判别性：2 个新回归测试 mock `console.print` 抛 UnicodeEncodeError('cp1252', ...)（与 issue 回溯逐字一致），**修前 2 fail（checkout origin/main 基线）/ 修后 25/25**；black 23.3.0/flake8 7.1.0/isort 5.12.0 pin 全净；**EVIDENCE_OK 推送前**。
 - 环境坑再记（规律 90 第四次）：A/B 时序又反 + stash 对已提交修复再次无效——「先 commit 后 A/B」必然踩坑，**基线一律 `git checkout origin/main -- <file>`**，本轮靠肌肉记忆 recovery。
 - STATE 68→69（#5952 登记），monitor_oss 69/69 盲点 0；review_sweep 2 ACTION 均为已处置状态。
+
+## 2026-11-06 11:1x 轮（第 66 轮，15 分钟间隔）— 0 新单；收件箱 7 条清零（含上轮 3 条泄漏纠正）
+
+- **账目纠正（规律 98 第三次）**：第 65 轮日志写「4 条 → 0 pending」但只处置了 aider#5951，openinference#4245、hub#5309、llama_index#23968 三条漏执行 `inbox done` 泄漏到本轮——实现 PR 当轮的收口最易漏，收口必须独立于实现动作单独执行并以工具计数核对。
+- 收件箱 7 条 → 0 pending（969 reported / 1048 done）：pydantic-ai ×3 禁投、qdrant#1678 竞品（#1679，issue 后 1 分钟）+ 3 条泄漏补记。dispositions 465→472。
+- 本轮 0 干净候选。monitor_oss 69/69 盲点 0；review_sweep 2 ACTION 均为已处置状态（md#1688 用户闭环、pygments#3467 噪音）。

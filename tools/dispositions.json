@@ -1857,5 +1857,33 @@
  "aider-ai/aider#5951": {
   "date": "2026-11-06",
   "reason": "已提交 PR #5952（assistant_output 镜像 _tool_message 的 ASCII 兜底；2 新回归测试修前 fail 修后 25/25，ruff/black/flake8/isort pin 净，EVIDENCE_OK 推送前）"
+ },
+ "pydantic/pydantic-ai#12647": {
+  "date": "2026-11-06",
+  "reason": "受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "pydantic/pydantic-ai#12646": {
+  "date": "2026-11-06",
+  "reason": "受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "pydantic/pydantic-ai#12645": {
+  "date": "2026-11-06",
+  "reason": "受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "qdrant/qdrant-client#1678": {
+  "date": "2026-11-06",
+  "reason": "竞品 PR #1679（issue 后 1 分钟）修同一 IPv6 literal 问题"
+ },
+ "arize-ai/openinference#4245": {
+  "date": "2026-11-06",
+  "reason": "same-repo cap: 该仓在飞 2 个（#3981/#3998，STATE.md 台账），硬上限 2（上轮漏收口补记）"
+ },
+ "huggingface/huggingface_hub#5309": {
+  "date": "2026-11-06",
+  "reason": "feature/设计共识面: MCPClient 动态模型切换为公共接口扩展，需维护者方向（上轮漏收口补记）"
+ },
+ "run-llama/llama_index#23968": {
+  "date": "2026-11-06",
+  "reason": "竞品 PR #23969（round 65 撞车扫描已证，漏收口补记）"
  }
 }
