@@ -1793,5 +1793,17 @@
  "arize-ai/phoenix#17676": {
   "date": "2026-11-06",
   "reason": "人工门禁: CONTRIBUTING 明写「An open issue is not an invitation to submit a PR」，须 maintainer 明确确认"
+ },
+ "arize-ai/phoenix#17680": {
+  "date": "2026-11-06",
+  "reason": "人工门禁: CONTRIBUTING 明写「An open issue is not an invitation to submit a PR」，须 maintainer 明确确认"
+ },
+ "arize-ai/phoenix#17678": {
+  "date": "2026-11-06",
+  "reason": "人工门禁: CONTRIBUTING 明写「An open issue is not an invitation to submit a PR」，须 maintainer 明确确认"
+ },
+ "langchain-ai/langgraph#9609": {
+  "date": "2026-11-06",
+  "reason": "assign 门禁仓: 须先分配给当前账号"
  }
 }
