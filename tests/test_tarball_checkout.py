@@ -17,7 +17,7 @@ import auto_run as a
 
 class TarballCheckoutTests(unittest.TestCase):
     def setUp(self):
-        self.root = Path(self.enterContext(tempfile.TemporaryDirectory()))
+        self.root = Path(self.enterContext(tempfile.TemporaryDirectory())).resolve()
         self.enterContext(patch.object(a, 'WORKDIR', str(self.root)))
 
     def archive(self, extra=(), root='project-main'):
@@ -33,8 +33,8 @@ class TarballCheckoutTests(unittest.TestCase):
         self.assertGreater(len(payload), 1000)
         return SimpleNamespace(returncode=0, stdout=payload)
 
-    def directories(self):
-        return sorted(path.name for path in self.root.iterdir() if path.is_dir())
+    def directories(self, root=None):
+        return sorted(path.name for path in (root or self.root).iterdir() if path.is_dir())
 
     def test_invalid_repositories_do_not_download_or_create_paths(self):
         for repo in ('../project', 'owner/.', 'owner/..', 'owner/project/extra',
@@ -109,14 +109,14 @@ class TarballCheckoutTests(unittest.TestCase):
         islink, realpath, readlink = os.path.islink, os.path.realpath, os.readlink
         def simulated_islink(path):
             return Path(path).name in {'link.py', 'a', 'nested-link.py'} or islink(path)
-        def simulated_realpath(path):
+        def simulated_realpath(path, *, strict=False):
             if Path(path).name == 'link.py':
-                return str(Path(path).with_name('source.py'))
+                path = Path(path).with_name('source.py')
             if Path(path).name == 'a':
-                return str(Path(path).parent)
+                path = Path(path).parent
             if Path(path).name == 'nested-link.py':
-                return str(Path(path).parent.parent / 'source.py')
-            return realpath(path)
+                path = Path(path).parent.parent / 'source.py'
+            return realpath(path, strict=strict)
         def simulated_readlink(path):
             return {'link.py': target, 'a': '.', 'nested-link.py': '../source.py'}.get(
                 Path(path).name) or readlink(path)
@@ -143,25 +143,31 @@ class TarballCheckoutTests(unittest.TestCase):
         except (OSError, NotImplementedError) as error:
             self.skipTest(f'Symlink creation is unavailable: {error}')
         probe.unlink()
-        for target, rejected in (('../project-main/source.py', True),
-                                 ('a/../project-main/source.py', True), ('source.py', False)):
+        for target in ('../project-main/source.py', 'a/../project-main/source.py', 'source.py'):
             member = tarfile.TarInfo('project-main/link.py')
             member.type, member.linkname = tarfile.SYMTYPE, target
             alias = tarfile.TarInfo('project-main/a')
             alias.type, alias.linkname = tarfile.SYMTYPE, '.'
             nested = tarfile.TarInfo('project-main/sub/nested-link.py')
             nested.type, nested.linkname = tarfile.SYMTYPE, '../source.py'
-            with self.subTest(target=target), patch.object(
+            with self.subTest(target=target), tempfile.TemporaryDirectory(dir=self.root) as folder, \
+                    patch.object(a, 'WORKDIR', str(Path(folder).resolve())), patch.object(
                     a.subprocess, 'run', return_value=self.archive(
                         ((member, None), (alias, None), (nested, None)))):
+                filtered_target = tarfile.data_filter(member, folder).linkname
+                # Newer data_filter versions normalize a/.. before creating the link.
+                rejected = target != 'source.py' and filtered_target == target
                 if rejected:
                     with self.assertRaisesRegex(RuntimeError, '链接越出'):
                         a._clone_via_tarball('owner/project')
-                    self.assertEqual(self.directories(), [])
+                    self.assertEqual(self.directories(Path(folder)), [])
                 else:
                     result = Path(a._clone_via_tarball('owner/project'))
                     self.assertTrue((result / 'link.py').is_symlink())
-                    self.assertEqual((result / 'link.py').resolve(), result / 'source.py')
+                    resolved = (result / 'link.py').resolve()
+                    self.assertTrue(resolved.is_relative_to(result))
+                    expected = result / ('source.py' if target == 'source.py' else 'project-main/source.py')
+                    self.assertEqual(resolved, expected)
                     self.assertEqual((result / 'sub/nested-link.py').resolve(), result / 'source.py')
 
     def test_target_created_during_download_is_preserved(self):

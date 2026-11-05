@@ -12,6 +12,8 @@ permissions:
 
 jobs:
   tests:
+    env:
+      PYTHONUTF8: '1'
     strategy:
       fail-fast: false
       matrix:
