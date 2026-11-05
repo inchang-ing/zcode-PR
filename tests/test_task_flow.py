@@ -53,6 +53,32 @@ class TaskFlowTests(unittest.TestCase):
         self.assertEqual(len(inbox.pending(self.comments, None)), 1)
         self.assertFalse(queue.refresh()[0]['hidden'])
 
+    def test_inbox_and_queue_commands_share_ledger_without_rewriting_legacy(self):
+        legacy = {
+            self.handled: {'other/repo#9': {'at': '2026-11-01T00:00:00Z', 'note': 'Already checked'}},
+            self.root / 'work_queue.json': {'version': 1, 'issues': {}, 'prs': {}},
+            self.root / 'dispatched.json': {'other/repo#8': {'status': 'needs_repro', 'ts': 1}},
+        }
+        for path, value in legacy.items():
+            path.write_text(json.dumps(value), encoding='utf-8')
+        before = {path: path.read_bytes() for path in legacy}
+        with patch.object(sys, 'argv', ['inbox.py', 'done', 'Owner/Repo#1', '--note', 'Already resolved']):
+            self.assertEqual(inbox.main(), 0)
+        path = self.root / 'task_state.json'
+        self.assertTrue(path.is_file(), 'inbox done must commit the unified ledger')
+        self.assertEqual(inbox.pending(self.comments, None), [])
+        queue.main(['stage', 'owner/repo#1', 'probe', '--note', 'New evidence', '--minutes', '5'])
+        ledger = json.loads(path.read_text(encoding='utf-8'))
+        self.assertEqual(ledger['handled']['owner/repo#1']['status'], 'done')
+        self.assertEqual(ledger['queue']['issues']['owner/repo#1']['stage'], 'probe')
+        self.assertEqual(ledger['queue']['issues']['owner/repo#1']['events'][0]['minutes'], 5)
+        self.assertEqual(ledger['dispatched']['other/repo#8']['status'], 'needs_repro')
+        self.assertEqual(len(inbox.pending(self.comments, None)), 1)
+        with patch.object(sys, 'argv', ['inbox.py', 'reopen', 'Owner/Repo#1', '--note', 'Recheck']):
+            self.assertEqual(inbox.main(), 0)
+        self.assertEqual(inbox.load_state()['owner/repo#1']['status'], 'open')
+        self.assertEqual({old: old.read_bytes() for old in legacy}, before)
+
     def test_summary_limit_preserves_complete_json(self):
         candidates = [rules.Candidate('owner/repo', n, 'Bug: failure', '', is_bug=True) for n in range(2, 82)]
         rules.enqueue_candidates(candidates, self.root)

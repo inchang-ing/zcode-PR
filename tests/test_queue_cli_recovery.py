@@ -32,9 +32,9 @@ class QueueCliRecoveryTests(unittest.TestCase):
             q.main(['stage', 'Example/Repo#1', 'stopped', '--note', 'Cannot reproduce',
                     '--minutes', '20'])
 
-        state_path = self.root / 'work_queue.json'
+        state_path = self.root / 'task_state.json'
         saved = state_path.read_bytes()
-        events = q.load_queue(state_path)['issues']['example/repo#1']['events']
+        events = json.loads(saved)['queue']['issues']['example/repo#1']['events']
         self.assertEqual(len(events), 1)
         self.assertEqual(events[0]['minutes'], 20)
         for name, contents in reports.items():
@@ -51,6 +51,7 @@ class QueueCliRecoveryTests(unittest.TestCase):
             q.main(['refresh'])
         self.assertNotIn('状态已保存', str(error.exception))
         self.assertFalse((self.root / 'work_queue.json').exists())
+        self.assertFalse((self.root / 'task_state.json').exists())
 
     def test_assess_stage_and_pr_action_save_and_refresh_normally(self):
         source = 'https://example.com/proof'
@@ -61,7 +62,10 @@ class QueueCliRecoveryTests(unittest.TestCase):
         q.main(['pr-action', 'Example/Repo#2', 'wait', '--source', source,
                 '--note', 'Await review', '--minutes', '2'])
 
-        state = q.load_queue(self.root / 'work_queue.json')
+        ledger = json.loads((self.root / 'task_state.json').read_text(encoding='utf-8'))
+        state = ledger['queue']
+        self.assertEqual(q.load_queue(self.root / 'work_queue.json'), state)
+        self.assertFalse((self.root / 'work_queue.json').exists())
         issue = state['issues']['example/repo#1']
         self.assertEqual(issue['stage'], 'probe')
         self.assertEqual(issue['signals']['policy']['source'], source)

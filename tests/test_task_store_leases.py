@@ -38,8 +38,11 @@ class TaskStoreTests(unittest.TestCase):
     def test_done_blocks_filter_and_runner_including_stale_store(self):
         stale = self.store()
         task_state.record_handled(self.handled, [self.key], 'Already resolved')
+        before = stale.path.read_bytes()
         self.assertEqual(filter_cands.fresh_candidates([self.candidate], self.store()), [])
         auto.run(self.candidate, stale)
+        self.assertEqual(stale.path.read_bytes(), before)
+        self.assertNotIn(self.key, self.store().data)
         self.assertFalse(self.path.exists())
 
     def test_reopen_overrides_old_dispatch_but_new_terminal_decision_wins(self):
@@ -64,16 +67,16 @@ class TaskStoreTests(unittest.TestCase):
             with self.subTest(status=status):
                 self.store().mark(self.key, status)
                 task_state.record_handled(self.handled, [self.key], 'Resume', 'open')
-                original = self.path.read_bytes()
+                original = self.store().path.read_bytes()
                 store = self.store()
                 self.assertTrue(store.is_active(self.key))
                 self.assertFalse(store.mark(self.key, 'running', only_if_inactive=True))
-                self.assertEqual(self.path.read_bytes(), original)
+                self.assertEqual(self.store().path.read_bytes(), original)
 
-    def test_compatible_reads_do_not_migrate_files(self):
+    def test_unified_reads_do_not_rewrite_state(self):
         self.store().mark(self.key, 'dropped')
         task_state.record_handled(self.handled, [self.key], 'Resume', 'open')
-        before = {p: p.read_bytes() for p in (self.path, self.handled)}
+        before = {self.store().path: self.store().path.read_bytes()}
         self.store().is_active(self.key)
         self.assertEqual(before, {p: p.read_bytes() for p in before})
 
@@ -186,6 +189,7 @@ class LeaseTests(unittest.TestCase):
             auto.run(candidate, store)
         clone.assert_not_called()
         self.assertFalse((self.root / 'dispatched.json').exists())
+        self.assertFalse(store.path.exists())
         self.assertTrue(claims.release(self.key, token))
 
     def test_auto_run_releases_claim_after_error_and_interrupt(self):

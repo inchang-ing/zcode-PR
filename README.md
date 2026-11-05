@@ -58,7 +58,7 @@ flowchart TD
     L --> M[quality_check 提交检查]
 ```
 
-`candidate_rules.py` 统一候选结构、贡献分类与筛选规则；`repository_policy.py`、`claim_rules.py` 负责仓库与认领门禁。`task_state.TaskStore` 统一收件箱、队列、过滤、终检和执行入口的完成/重开/派发判断，兼容读取原有三份状态，不重写历史；`pipeline_state.py` 提供文件锁和原子写入。生成视图不作为状态来源，`STATE.md` 仍负责声明需要跟踪哪些 PR。
+`candidate_rules.py` 统一候选结构、贡献分类与筛选规则；`repository_policy.py`、`claim_rules.py` 负责仓库与认领门禁。`task_state.TaskStore` 将收件箱处理、队列阶段和派发记录统一保存在根目录 `task_state.json`，所有写入使用同一文件锁与原子替换；原有完成/重开/派发判断不变。旧三份 JSON 只在迁移前兼容读取，迁移后保留作历史原件；备份、升级和回退步骤见 [QUEUE_GUIDE.md](QUEUE_GUIDE.md#统一状态存储与迁移)。生成视图不作为状态来源，`STATE.md` 仍负责声明需要跟踪哪些 PR。
 
 本地、精选、快轮询和 `repo-monitor` 的池用于不同扫描范围，数量由各配置决定。本地执行统一经过精确核验与提交门禁。当前云端定时扫描由主仓 `fresh-issue-poll` 承担；`repo-monitor` 保留独立通知代码与 CI，定时通知已停用，不承担本地任务调度。两边的 `notification_contract.py` 由测试校验源码一致性，仅忽略 Git 检出时的 LF/CRLF 换行差异；展示文本统一转义，机器事件使用带版本的编码载荷，旧评论仍可读取。
 

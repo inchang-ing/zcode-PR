@@ -18,10 +18,9 @@ the same entry every hour.
     python tools/inbox.py import              # pending entries -> local precise scan
     python tools/inbox.py stats
 
-State lives in tools/inbox_handled.json rather than work/, because work/ is
-gitignored: a judgement that only exists on one disk gets re-made by the next
-session. The inbox issue is the shared record; this file remembers what has
-already been judged.
+Task decisions live in the root task_state.json alongside queue and dispatch
+records. Legacy tools/inbox_handled.json remains readable until the first write
+backs it up and migrates all three ledgers together.
 """
 
 from __future__ import annotations
@@ -34,7 +33,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from pipeline_state import atomic_write_json, file_lock, read_json_object
 from candidate_rules import Candidate, contribution_kind, enqueue_candidates
-from task_state import load_handled, record_handled, TaskStore, timestamp
+from task_state import record_handled, TaskStore, timestamp
 from discovery_state import is_consumed, load_consumed
 from notification_contract import decode_events
 from github_read import output, GitHubReadError
@@ -168,23 +167,17 @@ def parse(rows: list[dict]) -> dict[str, dict]:
 
 
 def load_state() -> dict:
-    return load_handled(STATE)
+    return TaskStore(root=ROOT).handled
 
 
-def save_state(state: dict) -> None:
-    """Atomic snapshot; callers doing read-modify-write must hold its lock."""
-    atomic_write_json(STATE, state)
-
-
-def pending(rows: list[dict], hours: int | None) -> list[dict]:
-    done = load_state()
-    tasks = TaskStore(ROOT / 'dispatched.json')
+def pending(rows: list[dict], hours: int | None, *, tasks=None) -> list[dict]:
+    tasks = tasks if tasks is not None else TaskStore(root=ROOT)
     receipts = load_consumed(ROOT)
     now = datetime.now(TZ)
     cutoff = datetime.now(TZ) - timedelta(hours=hours) if hours else None
     out = []
     for key, entry in parse(rows).items():
-        decision = tasks.decision(key, now, handled=done)
+        decision = tasks.decision(key, now)
         if decision['blocked'] or is_consumed(receipts, key, entry, decision):
             continue
         if cutoff and entry["posted"]:
@@ -227,9 +220,10 @@ def main() -> int:
 
     if action == "list":
         rows = comments()
-        todo = pending(rows, hours)
+        tasks = TaskStore(root=ROOT)
+        todo = pending(rows, hours, tasks=tasks)
         total = len(parse(rows))
-        done = sum(entry.get('status', 'done') == 'done' for entry in load_state().values())
+        done = sum(entry.get('status', 'done') == 'done' for entry in tasks.handled.values())
         scope = f"last {hours}h" if hours else "all time"
         print(f"{len(todo)} pending of {total} reported ({done} marked done, {scope})")
         for entry in todo:
@@ -255,7 +249,8 @@ def main() -> int:
         keys = [a for a in rest if not a.startswith("-") and "#" in a]
         if not keys:
             raise SystemExit(f"{action} needs at least one owner/repo#num")
-        record_handled(STATE, keys, note, 'done' if action == 'done' else 'open')
+        record_handled(ROOT / 'tools/inbox_handled.json', keys, note,
+                       'done' if action == 'done' else 'open')
         for key in keys:
             print(f"{action} {key.lower()}  {note}")
         return 0
@@ -263,10 +258,10 @@ def main() -> int:
     if action == "stats":
         rows = comments()
         entries = parse(rows)
-        state = load_state()
-        done = sum(entry.get("status", "done") == "done" for entry in state.values())
-        print(f"reported {len(entries)}  done {done}  pending {len(pending(rows, None))}")
-        print(f"state file {STATE}")
+        tasks = TaskStore(root=ROOT)
+        done = sum(entry.get("status", "done") == "done" for entry in tasks.handled.values())
+        print(f"reported {len(entries)}  done {done}  pending {len(pending(rows, None, tasks=tasks))}")
+        print(f"state file {ROOT / 'task_state.json'}")
         return 0
 
     print(__doc__.strip().splitlines()[0])

@@ -24,7 +24,7 @@ python -S tools/work_queue.py refresh
 
 ## 少量核验记录
 
-下面使用示例编号，执行时换成真实任务和原始证据链接。`work_queue.json` 是持久状态，不要删除它来刷新报告。
+下面使用示例编号，执行时换成真实任务和原始证据链接。`task_state.json` 是持久状态，不要删除它来刷新报告；`work_queue_view.json` 和 Markdown 报告可重新生成。
 
 ```powershell
 python -S tools/work_queue.py assess owner/repo#123 policy yes --source https://github.com/owner/repo/blob/main/CONTRIBUTING.md --note "已阅读当前贡献及 AI 政策"
@@ -48,9 +48,34 @@ python -S tools/work_queue.py stage owner/repo#125 submitted --note "已提交 P
 
 `--minutes` 是本次新增的实际工时，不是累计数；重复录入会重复累计。停止和已提交任务不会因重新扫描复活。需要继续时显式改为 new/probe；延期到期后重新核验。阶段是工作记录，不能绕过执行前核验。每次操作追加事件，不删除历史。
 
-收件箱的 `inbox.py done owner/repo#123 --note "处理原因"` 同样会隐藏队列中的该任务；队列的 stopped/submitted 也会让收件箱不再推荐它。显式执行 `inbox.py reopen owner/repo#123 --note "新证据"` 或较新的 `work_queue.py stage ... new/probe` 才恢复候选。收件箱、队列、过滤、终检与执行入口均通过 TaskStore 按最新显式决策判断，不复制或删除旧记录；仍在执行的任务不会被重开操作覆盖。延期任务到期后恢复核验。
+收件箱的 `inbox.py done owner/repo#123 --note "处理原因"` 同样会隐藏队列中的该任务；队列的 stopped/submitted 也会让收件箱不再推荐它。显式执行 `inbox.py reopen owner/repo#123 --note "新证据"` 或较新的 `work_queue.py stage ... new/probe` 才恢复候选。收件箱、队列、过滤、终检与执行入口均通过 TaskStore 读取同一份状态快照，按最新显式决策判断；仍在执行的任务不会被重开操作覆盖。延期任务到期后恢复核验。
 
 若登记后的视图刷新失败，命令会明确提示状态已保存；修正错误后只运行 `refresh`，不要重复登记同一次工时。
+
+## 统一状态存储与迁移
+
+根目录 `task_state.json` 是任务状态的唯一写入位置，版本号为 1。文件内保留派发、收件箱处理、队列三个分区，因为它们分别记录执行结果、处理决定和核验/工时历史；PR 的反馈确认、证据及事件列表也完整保留。一次修改只在持有统一文件锁时重新读取、校验并原子保存，旧快照不能覆盖其它会话的新记录。
+
+升级时先结束正在运行的旧版本机流水线进程，换用新版代码，然后执行：
+
+```powershell
+python -S tools/task_state.py migrate
+python -S tools/work_queue.py refresh
+```
+
+迁移会同时锁定旧 `dispatched.json`、`tools/inbox_handled.json`、`work_queue.json`，校验后将原始字节和清单备份到 `task_state.backups/<唯一编号>/`，再原子生成新文件。旧文件保留原样；重复运行迁移不会重复导入或覆盖后续记录。仅查看状态不会触发迁移；未显式迁移时，第一次状态写入也会执行相同迁移流程。
+
+迁移后的入口只读取新文件，并核对旧文件的 SHA256。如果旧程序或手工编辑又改变了旧文件，会报错并停止，需先停止旧写入方、检查差异，再决定如何补录；不能通过删除新文件、修改指纹或重跑旧迁移来忽略差异。损坏或不支持版本的统一文件也不会回退到旧文件继续执行。
+
+需要退回旧版程序时，应先停止所有本机状态写入，并导出**最新**状态到一个尚不存在的目录：
+
+```powershell
+python -S tools/task_state.py export-legacy .tmp/task-state-rollback-new
+```
+
+导出不会修改当前状态。核对导出后，恢复旧版程序，将导出的三份文件放回其原路径，并将当前 `task_state.json` 单独归档，最后才恢复运行。迁移前备份仅用于恢复当时原件；迁移后已产生新记录时，应使用上述最新导出，避免丢掉新记录。该回退过程应在停机期间完成，不能让新旧程序混写。
+
+认领凭证 `session_claims.json`、发现消费记录 `discovery_state.json`、评论缓存和 `pr_state.json` 保持各自用途，不属于这三份任务记录的迁移范围。GitHub 仍只扫描和通知，本机负责实际任务。
 
 ## PR 反馈调度
 

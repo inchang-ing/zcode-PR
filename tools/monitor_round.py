@@ -10,7 +10,7 @@ from datetime import datetime, timezone
 
 from gh_checks import issue_errors, linked_prs, comment_bodies
 from pipeline_state import atomic_write_json, file_lock, read_json_object
-from task_state import load_handled, issue_states, TaskStore
+from task_state import TaskStore
 from discovery_state import is_consumed, load_consumed, record_consumed
 from claim_rules import SOFT, NOT_READY
 from repository_policy import policy_reason
@@ -225,16 +225,14 @@ def main(argv=None):
         with file_lock(args.out):
             with file_lock(inbox_path):
                 inbox = read_json_object(inbox_path)
-            handled = load_handled(root / 'tools/inbox_handled.json')
-            stages = issue_states(root)
             now = datetime.now(timezone.utc)
-            tasks = TaskStore(root / 'dispatched.json')
+            tasks = TaskStore(root=root)
             receipts = load_consumed(root)
             consumed_keys, newly_checked = set(), {}
             groups, failed_issues = {}, set()
             skipped = 0
             for key, item in inbox.items():
-                decision = tasks.decision(key, now, handled=handled, issue=stages.get(key.lower(), {}))
+                decision = tasks.decision(key, now)
                 if decision['blocked']:
                     skipped += 1
                     continue

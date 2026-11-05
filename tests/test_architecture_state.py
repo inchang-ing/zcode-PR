@@ -20,7 +20,8 @@ class StateBoundaryTests(unittest.TestCase):
     def setUp(self):
         self.root = Path(self.enterContext(tempfile.TemporaryDirectory()))
         self.enterContext(patch.object(claims, 'CLAIMS_PATH', self.root / 'claims.json'))
-        self.enterContext(patch.object(inbox, 'STATE', self.root / 'handled.json'))
+        self.enterContext(patch.object(inbox, 'ROOT', self.root))
+        self.enterContext(patch.object(inbox, 'STATE', self.root / 'tools/inbox_handled.json'))
         self.enterContext(patch.object(switch, 'FLAG', self.root / 'enabled'))
 
     def test_claim_is_exclusive_during_read_modify_write(self):
@@ -54,14 +55,21 @@ class StateBoundaryTests(unittest.TestCase):
         token = claims.claim('o/r#1', now=100 + 49 * 3600)
         self.assertTrue(claims.release('o/r#1', token))
 
-    def test_inbox_save_failure_preserves_old_file(self):
-        inbox.STATE.write_text('{"o/r#1":{"at":"2026-11-01T00:00:00Z","note":"old"}}')
-        before = inbox.STATE.read_bytes()
-        with patch('pipeline_state.os.replace', side_effect=PermissionError('busy')):
+    def test_inbox_done_failure_preserves_unified_ledger(self):
+        with patch.object(sys, 'argv', ['inbox.py', 'done', 'o/r#1', '--note', 'old']), \
+                contextlib.redirect_stdout(io.StringIO()):
+            self.assertEqual(inbox.main(), 0)
+        old = inbox.load_state()
+        path = self.root / 'task_state.json'
+        before = path.read_bytes()
+        with patch.object(sys, 'argv', ['inbox.py', 'done', 'o/r#2', '--note', 'new']), \
+                patch('pipeline_state.os.replace', side_effect=PermissionError('busy')):
             with self.assertRaises(PermissionError):
-                inbox.save_state({'new': {}})
-        self.assertEqual(inbox.STATE.read_bytes(), before)
-        inbox.STATE.write_text('{broken')
+                inbox.main()
+        self.assertEqual(path.read_bytes(), before)
+        self.assertEqual(inbox.load_state(), old)
+        self.assertFalse(inbox.STATE.exists())
+        path.write_text('{broken', encoding='utf-8')
         with self.assertRaises(ValueError):
             inbox.load_state()
 
