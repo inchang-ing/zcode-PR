@@ -1941,5 +1941,9 @@
  "openhands/openhands#19398": {
   "date": "2026-11-06",
   "reason": "人工门禁: PR 描述含真人专属段（HUMAN: ≥20 字符 + human-tested + e2e 证据）"
+ },
+ "arize-ai/phoenix#17692": {
+  "date": "2026-11-06",
+  "reason": "人工门禁: CONTRIBUTING 明写「An open issue is not an invitation to submit a PR」+ infra 部署 feature"
  }
 }
