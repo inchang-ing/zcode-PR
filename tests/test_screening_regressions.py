@@ -33,6 +33,8 @@ class ScreeningRegressions(unittest.TestCase):
     def setUp(self):
         tmp = self.enterContext(tempfile.TemporaryDirectory())
         self.store = DispatchedStore(str(Path(tmp) / "state.json"))
+        self.enterContext(patch.object(vet, 'live_capacity', return_value={'allowed': True}))
+        self.enterContext(patch.object(vet, 'DispatchedStore', return_value=self.store))
         self.enterContext(redirect_stdout(io.StringIO()))
         self.enterContext(patch.object(monitor_round.time, "sleep"))
 

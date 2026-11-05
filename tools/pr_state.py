@@ -147,12 +147,25 @@ def merge_observations(previous, observations):
     for key, observation in normalize_pr_records(observations).items():
         record = merged.setdefault(key, {})
         queried_at = observation.get("checked_at") or utc_now()
+        # Preserve interruptions after recovery; a later green check cannot restore
+        # the earlier claim that a PR waited continuously for seven days.
+        current = {**record, **observation}
+        interrupted = (observation.get('state') != 'OPEN'
+                       or observation.get('reviewDecision') == 'CHANGES_REQUESTED'
+                       or observation.get('mergeable') == 'CONFLICTING'
+                       or (record.get('headRefOid') and observation.get('headRefOid')
+                           and record['headRefOid'] != observation['headRefOid'])
+                       or ('ci' in observation and (
+                           ci_binding_error(current)
+                           or any(int(n) for n in re.findall(r'(\d+)(?:✗|…|ERR|UNKNOWN)', current['ci'])))))
+        if interrupted:
+            record['capacity_invalidated_at'] = queried_at
         if observation.get("state") not in VALID_STATES:
             record["query_error"] = observation.get("_err") or "PR query failed"
             record["query_error_at"] = queried_at
             continue
         record.update({k: v for k, v in observation.items()
-                       if k not in {"_err", "query_error", "query_error_at"}})
+                       if k not in {"_err", "query_error", "query_error_at", "capacity_invalidated_at"}})
         record["checked_at"] = queried_at
         record.pop("query_error", None)
         record.pop("query_error_at", None)

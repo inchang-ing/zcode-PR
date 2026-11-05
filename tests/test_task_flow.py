@@ -105,7 +105,9 @@ class TaskFlowTests(unittest.TestCase):
         candidate = rules.load_candidates(out)[0]
         self.assertEqual(candidate.kind, 'docs')
         self.assertTrue(rules.is_clean(candidate, DispatchedStore(str(self.root / 'dispatched.json')))[0])
-        with patch.object(vet, 'gh', side_effect=[json.dumps(live), '[[]]', '[[]]']) as api:
+        with patch.object(vet, 'gh', side_effect=[json.dumps(live), '[[]]', '[[]]']) as api, \
+             patch.object(vet, 'live_capacity', return_value={'allowed': True}), \
+             patch.object(vet, 'DispatchedStore', return_value=task_state.TaskStore(root=self.root)):
             self.assertEqual(vet.vet(candidate)[0], 'CLEAN')
             self.assertEqual(api.call_count, 3)
         row = next(row for row in queue.refresh() if row['key'] == 'other/repo#2')

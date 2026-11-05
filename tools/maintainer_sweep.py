@@ -1,7 +1,8 @@
 """Sweep the FULL pipeline pool (~390 repos) for maintainer-filed, unfixed bug issues.
 
 Filters: author is MEMBER/OWNER/COLLABORATOR, age 5-180 days, a bug-ish label,
-repos not blocked by repository_policy, and the repo has < 2 open PRs from us.
+repos not blocked by repository_policy, and shared cached capacity permits pre-screening.
+Submission still requires a live capacity check.
 
 Usage:
   python -S tools/maintainer_sweep.py                      # full pool
@@ -23,6 +24,8 @@ sys.path.insert(0, str(ROOT))
 from repository_policy import BLOCKED_OWNERS, BLOCKED_REPOS  # noqa: E402
 from pipeline_state import atomic_write_json  # noqa: E402
 from pr_state import load_pr_state  # noqa: E402
+from task_state import TaskStore  # noqa: E402
+from repo_capacity import cached_capacity  # noqa: E402
 
 GH = "C:/Program Files/GitHub CLI/gh.exe"
 NOW = datetime.now(timezone.utc)
@@ -46,18 +49,17 @@ def build_pool() -> list[str]:
     from monitor_fresh import build_tiers
 
     always, rotating = build_tiers()
-    pool = list(dict.fromkeys(always + rotating))
-
-    # Skip repos where we already have 2 open PRs (same-repo cap).
-    counts: dict[str, int] = {}
-    for key, v in load_pr_state(ROOT / "pr_state.json", ()).items():
-        if v.get("state") == "OPEN":
-            counts[key.rsplit("#", 1)[0].lower()] = counts.get(key.rsplit("#", 1)[0].lower(), 0) + 1
-    full = {r for r, c in counts.items() if c >= 2}
-
+    pool = {}
+    for repo in always + rotating:
+        pool.setdefault(repo.lower(), repo)
+    records = load_pr_state(ROOT / "pr_state.json", ())
+    store = TaskStore(root=ROOT)
+    now = datetime.now(timezone.utc)
     out = []
-    for repo in pool:
-        if repo in BLOCKED_REPOS or repo.split("/", 1)[0] in BLOCKED_OWNERS or repo in full:
+    for key, repo in pool.items():
+        if key in BLOCKED_REPOS or key.split("/", 1)[0] in BLOCKED_OWNERS:
+            continue
+        if not cached_capacity(key, store, records=records, now=now)['allowed']:
             continue
         out.append(repo)
     return out

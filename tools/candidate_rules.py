@@ -7,6 +7,7 @@ from pathlib import Path
 from pipeline_state import atomic_write_json, file_lock, read_json_object
 from repository_policy import policy_reason
 from task_state import task_key
+from repo_capacity import cached_capacity
 
 CANDIDATES = str(Path(__file__).resolve().parents[1] / 'round_candidates.json')
 KINDS = {'bug', 'docs', 'small_fix', 'tooling'}
@@ -95,27 +96,33 @@ def _is_real_bug(c: Candidate) -> bool:
     return bool(BUG_TITLE_RE.search(c.title))
 
 
-def is_clean(c: Candidate, store: "DispatchedStore", *, decision=None):
-    """干净判定(全部满足才算 clean):
-       ① 满足共享仓库限制 ② 属于允许的贡献类型
-       ③ issue/timeline/评论检测均已确认 ④ 尚未派发(dedup)
-       验证能力由队列核验与贡献证据另行确认。
-    返回 (bool, reason)。
-    """
+def clean_decision(c: Candidate, store: "DispatchedStore", *, decision=None, records=None, now=None):
+    """Explain pre-screening gates; cached capacity is never submission permission."""
     if c.key.lower() in MANUAL_DROP:
-        return False, f"人工裁定不投: {MANUAL_DROP[c.key.lower()]}"
+        return {'eligible': False, 'reason': f"人工裁定不投: {MANUAL_DROP[c.key.lower()]}", 'gate': 'policy'}
     reason = policy_reason(c.repo, c.labels, c.assignees, kind=c.kind)
     if reason:
-        return False, reason
+        return {'eligible': False, 'reason': reason, 'gate': 'policy'}
     reason = eligibility_reason(c)
     if reason:
-        return False, reason
+        return {'eligible': False, 'reason': reason, 'gate': 'kind'}
     if c.issue_unknown or c.pr_unknown or c.cmt_unknown:
-        return False, "issue/撞车/认领检测不确定, 保守跳过"
+        return {'eligible': False, 'reason': "issue/撞车/认领检测不确定, 保守跳过", 'gate': 'unknown'}
     blocked = store.is_active(c.key) if decision is None else decision['blocked']
     if blocked:
-        return False, decision['reason'] if decision is not None else f"已派发(dedup): {store.status_of(c.key)}"
-    return True, "clean: 通过共享筛选 + 非受限 + 未派发（验证能力须另行确认）"
+        reason = decision['reason'] if decision is not None else f"已派发(dedup): {store.status_of(c.key)}"
+        return {'eligible': False, 'reason': reason, 'gate': 'task'}
+    capacity = cached_capacity(c.repo, store, records=records, now=now)
+    if not capacity['allowed']:
+        return {'eligible': False, 'reason': capacity['reason'], 'gate': 'capacity', 'capacity': capacity}
+    return {'eligible': True, 'reason': "clean: 通过共享筛选 + 非受限 + 未派发（名额仅预筛，提交前须实时终检；验证能力须另行确认）",
+            'gate': 'clean', 'capacity': capacity}
+
+
+def is_clean(c: Candidate, store: "DispatchedStore", *, decision=None, records=None, now=None):
+    """Compatibility tuple for callers that only need acceptance and its reason."""
+    result = clean_decision(c, store, decision=decision, records=records, now=now)
+    return result['eligible'], result['reason']
 
 
 def load_candidates(path: str = CANDIDATES) -> list:

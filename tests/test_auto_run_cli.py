@@ -3,7 +3,7 @@ import contextlib
 import io
 from pathlib import Path
 import sys
-from types import SimpleNamespace
+import tempfile
 import unittest
 from unittest.mock import patch
 
@@ -34,7 +34,8 @@ class AutoRunCLITests(unittest.TestCase):
     def invoke(self, argv):
         candidates = [auto.Candidate(repo, number, "bug: crash", "")
                       for repo, number in (("a/b", 1), ("a/b", 2), ("c/d", 1), ("c/d", 2))]
-        store = SimpleNamespace(is_active=lambda key: False, repo_inflight=lambda repo: False)
+        root = Path(self.enterContext(tempfile.TemporaryDirectory()))
+        store = auto.DispatchedStore(root=root)
         with patch.object(auto, "load_candidates", return_value=candidates), \
                 patch.object(auto, "DispatchedStore", return_value=store), \
                 patch.dict(auto.REPROS, {c.key: lambda c, p: False for c in candidates}, clear=True), \
