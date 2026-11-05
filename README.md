@@ -34,7 +34,7 @@ E:\zcode-PR\
 │   ├── task_state.py / session_claims.py / discovery_state.py
 │   └── pipeline_state.py / pr_state.py / github_read.py / gh_checks.py
 ├── tests/               # 离线回归测试
-├── repo-monitor/        # Git 子模块:GitHub Actions 按工作流配置定时轮询
+├── repo-monitor/        # 私有 Git 子模块:独立通知程序与离线测试
 ├── work/                # 活跃工作台:克隆 / 复现 / 临时产物；仅保留扫描兼容入口
 ├── workspaces/          # 各仓库克隆 + venv(gitignore,可重建)
 └── archive/             # 归档的早期一次性脚本
@@ -60,7 +60,7 @@ flowchart TD
 
 `candidate_rules.py` 统一候选结构、贡献分类与筛选规则；`repository_policy.py`、`claim_rules.py` 负责仓库与认领门禁。`task_state.TaskStore` 统一收件箱、队列、过滤、终检和执行入口的完成/重开/派发判断，兼容读取原有三份状态，不重写历史；`pipeline_state.py` 提供文件锁和原子写入。生成视图不作为状态来源，`STATE.md` 仍负责声明需要跟踪哪些 PR。
 
-本地、精选、快轮询和 `repo-monitor` 的池用于不同扫描范围，数量由各配置决定。它们可以独立采集，但本地执行统一经过精确核验与提交门禁。`repo-monitor` 继续独立部署并负责通知，不承担本地任务调度。两边的 `notification_contract.py` 保持同字节并由测试校验；展示文本统一转义，机器事件使用带版本的编码载荷，旧评论仍可读取。
+本地、精选、快轮询和 `repo-monitor` 的池用于不同扫描范围，数量由各配置决定。本地执行统一经过精确核验与提交门禁。当前云端定时扫描由主仓 `fresh-issue-poll` 承担；`repo-monitor` 保留独立通知代码与 CI，定时通知已停用，不承担本地任务调度。两边的 `notification_contract.py` 由测试校验源码一致性，仅忽略 Git 检出时的 LF/CRLF 换行差异；展示文本统一转义，机器事件使用带版本的编码载荷，旧评论仍可读取。
 
 ## 跑一条流水线
 
@@ -159,16 +159,17 @@ python -S tools/pr_status.py <owner/repo> <pr_num>  # 查单个 PR
 - `pr_status.py` 完整分页读取评审、普通评论、行内评论、Check Runs 和传统 commit statuses，再显示最近反馈及检查汇总。任一读取失败标记 `UNKNOWN`，仍继续检查其余 PR，最后返回非零退出码。
 - `review_sweep.py` 完整读取评论、评审分页；`revival_scan.py` 完整读取时间线，并用来源仓库查询关联 PR。读取失败或作者身份不明会显示 `UNKNOWN` 并返回非零，继续检查其他条目；复查 JSON 的 `unknown` 列表记录未完成项。
 - `review_sweep.py --since` 接受带时区的 ISO 8601 时间，统一换算 UTC 比较。非法参数直接报错；PR 或活动时间损坏时标记该 PR 为 `UNKNOWN`，继续检查其他 PR。
-- `repo-monitor/` 是独立仓库,其 GitHub Actions 定时轮询新 issue 与在飞 PR 变化,只推通知、不动手。通知为 best-effort:飞书认证/发送失败不再使运行失败,状态照常落盘,未送达事件记入子仓 `undelivered.jsonl`(随 state 一起提交,保留最近 200 行)作兜底记录。频率以子仓库的 [工作流配置](https://github.com/inchang-ing/repo-monitor/blob/main/.github/workflows/monitor.yml) 为准；修改调度时间只需更新该配置。
+- `repo-monitor/` 是独立私有仓库，通知程序只推送新 issue 与在飞 PR 变化，不执行贡献任务。其定时监控工作流已停用，本次发布保留停用状态。通知为 best-effort：飞书认证/发送失败时状态仍落盘，未送达事件记入子仓 `undelivered.jsonl`（保留最近 200 行）作兜底记录。
 
 ## 离线验证
 
 ```powershell
 python -S -B -m unittest discover -s tests -v
+# 已初始化并有权限访问 repo-monitor 时，另跑子仓独立测试：
 python -S -B -m unittest discover -s repo-monitor/tests -v
 ```
 
-测试使用假 API 与临时状态，不扫描真实仓库、不发送通知。`.github/workflows/tests.yml` 配置 Windows/Linux 双平台回归；本地通过不代表云端工作流已执行。
+测试使用假 API 与临时状态，不扫描真实仓库、不发送通知。主仓 `.github/workflows/tests.yml` 在 Windows/Linux 上只运行主仓测试，不检出私有子模块。未初始化 `repo-monitor` 时，仅两项跨仓检查明确跳过（摘要输出与协议文件一致性），其余监控和协议测试照常运行；本地已检出子仓程序时，这两项自动执行，协议缺失或实现错误仍会失败。子仓自身的 `.github/workflows/tests.yml` 独立运行其测试。本地通过不代表云端工作流已执行。
 
 ## 飞书通知
 

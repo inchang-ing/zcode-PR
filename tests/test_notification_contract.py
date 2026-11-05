@@ -17,9 +17,12 @@ class NotificationContractTests(unittest.TestCase):
                 "labels": ["bug", "@team"], "url": "https://github.com/Owner/Repo/issues/12",
                 "created_at": "2026-10-25T09:00:00Z"}
 
+    @unittest.skipUnless((ROOT / "repo-monitor/monitor.py").is_file(),
+                         "repo-monitor is not initialized; cross-repository check skipped")
     def test_standalone_monitor_has_identical_contract(self):
-        self.assertEqual((ROOT / "tools/notification_contract.py").read_bytes(),
-                         (ROOT / "repo-monitor/notification_contract.py").read_bytes())
+        # Git checkouts may use CRLF on Windows; compare canonical source bytes.
+        self.assertEqual((ROOT / "tools/notification_contract.py").read_bytes().replace(b"\r\n", b"\n"),
+                         (ROOT / "repo-monitor/notification_contract.py").read_bytes().replace(b"\r\n", b"\n"))
 
     def test_roundtrip_preserves_data_and_canonicalizes_identity(self):
         event = self.event()

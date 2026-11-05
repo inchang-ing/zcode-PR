@@ -18,9 +18,12 @@ import monitor_scope as scope
 import pr_status
 import github_read
 
-spec = importlib.util.spec_from_file_location("notification_monitor", ROOT / "repo-monitor/monitor.py")
-notification = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(notification)
+MONITOR_PATH = ROOT / "repo-monitor/monitor.py"
+notification = None
+if MONITOR_PATH.is_file():
+    spec = importlib.util.spec_from_file_location("notification_monitor", MONITOR_PATH)
+    notification = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(notification)
 
 
 class MonitorStructureTests(unittest.TestCase):
@@ -67,6 +70,7 @@ class MonitorStructureTests(unittest.TestCase):
                 self.assertEqual(run.call_args.kwargs.get("encoding"), "utf-8")
                 self.assertIsNotNone(run.call_args.kwargs.get("timeout"))
 
+    @unittest.skipIf(notification is None, "repo-monitor is not initialized; cross-repository check skipped")
     def test_digest_does_not_publish_active_upstream_references(self):
         event = {"key": "owner/repo#1", "url": "https://github.com/owner/repo/issues/1",
                  "title": "Ask @other-person about other/repo#2"}

@@ -20,12 +20,8 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-        with:
-          submodules: true
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
       - name: Pipeline regressions
         run: python -S -B -m unittest discover -s tests -v
-      - name: Notification monitor regressions
-        run: python -S -B -m unittest discover -s repo-monitor/tests -v
