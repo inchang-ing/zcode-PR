@@ -29,6 +29,12 @@ LINKED_PR = {"event": "cross-referenced", "source": {"issue": {
 
 
 class VetTests(unittest.TestCase):
+    def setUp(self):
+        # These tests isolate issue vetting; repository capacity has its own
+        # live-adapter and end-to-end tests, with temporary ledgers.
+        self.enterContext(patch.object(vet, 'live_capacity', return_value={'allowed': True}))
+        self.enterContext(patch.object(vet, 'DispatchedStore'))
+
     def check(self, issue=ISSUE, timeline=EMPTY_PAGES, comments=EMPTY_PAGES):
         output = json.dumps(issue) if not isinstance(issue, str) else issue
         with patch.object(vet, "gh", side_effect=[output, timeline, comments]) as gh:
@@ -136,7 +142,7 @@ class VetTests(unittest.TestCase):
     def test_cli_candidate_override_and_unknown_exit(self):
         with patch.object(vet, "load_candidates", return_value=[CANDIDATE]) as load, \
                 patch.object(vet, "DispatchedStore"), \
-                patch.object(vet, "is_clean", return_value=(True, "clean")), \
+                patch.object(vet, "clean_decision", return_value={'eligible': True, 'reason': 'clean', 'gate': ''}), \
                 patch.object(vet, "vet", return_value=("UNKNOWN", "comments: 请求失败")), \
                 redirect_stdout(io.StringIO()) as output:
             status = vet.main(["--candidates", "custom.json"])
@@ -154,6 +160,7 @@ class VetTests(unittest.TestCase):
                     patch.object(vet, "vet") as live_vet, \
                     redirect_stdout(io.StringIO()) as output:
                 store.return_value.is_active.return_value = False
+                store.return_value.queue = {}
                 status = vet.main([])
             self.assertEqual(status, 1)
             self.assertIn("UNKNOWN=1", output.getvalue())

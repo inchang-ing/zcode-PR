@@ -75,11 +75,42 @@ class OperationalScanTests(unittest.TestCase):
                 report["candidates"] = json.loads(exact.read_text(encoding="utf-8"))
             return report, calls
 
-    def test_canonical_open_pr_overrides_empty_legacy_ledger(self):
+    def test_single_canonical_open_pr_still_allows_discovery(self):
         report, calls = self.scan_repo("example/repo", canonical={"example/repo#9": {"state": "OPEN"}})
-        self.assertEqual(report["skipped"], [["example/repo", "in-flight"]])
-        self.assertEqual(report["candidates"], [])
-        self.assertEqual(calls, [])
+        self.assertEqual([item["number"] for item in report["candidates"]], [1])
+        self.assertEqual(report["skipped"], [])
+        self.assertTrue(calls)
+
+    def test_two_or_three_open_prs_require_capacity_before_discovery(self):
+        for count in (2, 3):
+            with self.subTest(count=count):
+                records = {f"example/repo#{number}": {"state": "OPEN"}
+                           for number in range(9, 9 + count)}
+                report, calls = self.scan_repo("example/repo", canonical=records)
+                self.assertEqual(report["candidates"], [])
+                self.assertEqual(calls, [])
+                self.assertEqual(report["skipped"][0][0], "example/repo")
+                self.assertNotEqual(report["skipped"][0][1], "in-flight")
+
+    def test_shared_capacity_result_and_root_are_used_for_prescreening(self):
+        records = {"example/repo#9": {"state": "OPEN"},
+                   "example/repo#10": {"state": "OPEN"}}
+        for allowed in (True, False):
+            with self.subTest(allowed=allowed), patch.object(scan, "cached_capacity", create=True,
+                    return_value={"allowed": allowed, "count": 2,
+                                  "status": "ALLOW" if allowed else "HOLD",
+                                  "reason": "shared capacity decision"}) as capacity:
+                report, calls = self.scan_repo("example/repo", canonical=records)
+            capacity.assert_called_once()
+            self.assertEqual(capacity.call_args.args[0], "example/repo")
+            self.assertNotEqual(capacity.call_args.args[1].root, ROOT)
+            self.assertEqual(capacity.call_args.kwargs["records"], records)
+            if allowed:
+                self.assertEqual([item["number"] for item in report["candidates"]], [1])
+                self.assertTrue(calls)
+            else:
+                self.assertEqual(report["skipped"], [["example/repo", "shared capacity decision"]])
+                self.assertEqual(calls, [])
 
     def test_canonical_ended_pr_overrides_stale_legacy_ledger(self):
         for state in ("MERGED", "CLOSED"):
@@ -95,9 +126,11 @@ class OperationalScanTests(unittest.TestCase):
         self.assertEqual([item["number"] for item in report["candidates"]], [1])
         self.assertEqual(report["skipped"], [])
 
-    def test_absent_canonical_falls_back_to_legacy_ledger(self):
+    def test_legacy_repo_without_pr_identity_requires_refresh(self):
         report, calls = self.scan_repo("example/repo", legacy_repos=["example/repo"])
-        self.assertEqual(report["skipped"], [["example/repo", "in-flight"]])
+        self.assertEqual(report["skipped"][0][0], "example/repo")
+        self.assertIn("数量未知", report["skipped"][0][1])
+        self.assertIn("刷新", report["skipped"][0][1])
         self.assertEqual(calls, [])
 
     def test_bad_canonical_does_not_fall_back_query_or_overwrite_report(self):

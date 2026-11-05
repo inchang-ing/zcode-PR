@@ -16,6 +16,8 @@ from claim_rules import SOFT, NOT_READY, PLATFORM_ONLY, FIXED_IN_PR
 from gh_checks import paginated_items, issue_errors
 from pipeline_state import atomic_write_json, file_lock, read_json_object
 from pr_state import load_pr_state
+from repo_capacity import cached_capacity
+from task_state import TaskStore
 from repository_pools import load_quality_pool
 from repository_policy import issue_suppression, policy_reason
 from candidate_rules import Candidate, enqueue_candidates
@@ -83,14 +85,14 @@ def scan(days, maxc):
     blocked = {repo.lower() for repo in pool["blocked"]["repos"]}
     # Canonical state wins, including an empty cache; legacy is a missing-file fallback.
     canonical = ROOT / "pr_state.json"
+    records, legacy_unknown = {}, set()
     if canonical.exists():
-        inflight = {key.split('#')[0].lower() for key, pr in load_pr_state(canonical, ()).items()
-                    if pr.get("state") == "OPEN"}
+        records = load_pr_state(canonical, ())
     elif Path(LEDGER).exists():
-        inflight = {item["repository"]["nameWithOwner"].lower()
-                    for item in read_json_object(LEDGER)["external"]}
-    else:
-        inflight = set()
+        # This old report lacks PR identities; it cannot establish a count.
+        legacy_unknown = {item["repository"]["nameWithOwner"].lower()
+                          for item in read_json_object(LEDGER)["external"]}
+    store = TaskStore(root=ROOT)
 
     cutoff = (datetime.now(timezone.utc) - timedelta(days=days)).strftime("%Y-%m-%d")
     clean, skipped, unknown = [], [], []
@@ -103,8 +105,12 @@ def scan(days, maxc):
         if repo.lower() in blocked:
             skipped.append((repo, "blocked"))
             continue
-        if repo.lower() in inflight:
-            skipped.append((repo, "in-flight"))
+        if repo.lower() in legacy_unknown:
+            skipped.append((repo, "旧台账缺少 PR 明细，数量未知；请刷新 PR 状态"))
+            continue
+        capacity = cached_capacity(repo, store, records=records)
+        if not capacity["allowed"]:
+            skipped.append((repo, capacity["reason"]))
             continue
         scanned += 1
         issues = gh(f"repos/{repo}/issues?labels=bug&state=open&sort=created&direction=desc&per_page=8")

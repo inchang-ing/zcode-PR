@@ -17,7 +17,7 @@
   python auto_run.py              # 真实运行: 对所有 clean 候选触发 run()
                                   # 无「一轮只能一个」的全局上限, 能跑几个跑几个
   python auto_run.py --dry-run    # 演练: 只打印判定与触发决策, 不克隆/不提 PR/不写 dispatched
-  python auto_run.py --per-repo=1 # 默认: 同一仓库本轮最多触发 1 个(真实纪律=同仓在飞≤1, 硬上限2)
+  python auto_run.py --per-repo=1 # 默认: 同仓本轮准备 1 项；PR 名额另按 2 + 等待 7 天例外 1 个核验
   python auto_run.py --max=N      # 可选全局上限(默认不设); 一般不设
 """
 import argparse
@@ -243,7 +243,7 @@ def main(argv=None):
         ok, why = is_clean(c, store)
         c.clean, c.clean_reason = ok, why
         if ok:
-            # 同仓限流(跨轮在飞 or 本轮已触发)——不是"一轮只能一个"的全局限制
+            # 本地修复准备的并发限制独立于 GitHub PR 投递名额。
             repo_key = c.repo.lower()
             if store.repo_inflight(c.repo) or repo_n.get(repo_key, 0) >= per_repo:
                 print(f"  [per-repo] {c.key} 同仓已达上限 {per_repo}（{c.repo}）→ 留待下轮")

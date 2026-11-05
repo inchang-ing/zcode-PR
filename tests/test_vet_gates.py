@@ -13,6 +13,8 @@ import vet
 
 class VetGateTests(unittest.TestCase):
     def setUp(self):
+        self.enterContext(patch.object(vet, 'live_capacity', return_value={'allowed': True}))
+        self.enterContext(patch.object(vet, 'DispatchedStore'))
         self.candidate = Candidate("example/project", 7, "Bug: crash", "", is_bug=True)
         self.issue = {"number": 7, "title": "Bug: crash", "state": "OPEN",
                       "body": "Crash on empty input", "labels": [{"name": "bug"}], "assignees": []}

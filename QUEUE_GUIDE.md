@@ -77,6 +77,30 @@ python -S tools/task_state.py export-legacy .tmp/task-state-rollback-new
 
 认领凭证 `session_claims.json`、发现消费记录 `discovery_state.json`、评论缓存和 `pr_state.json` 保持各自用途，不属于这三份任务记录的迁移范围。GitHub 仍只扫描和通知，本机负责实际任务。
 
+## 同仓 PR 名额与等待例外
+
+常规同时最多 2 个 OPEN PR，仍要求不同子系统。满额后，两条均已核验无我方待办、连续等待维护者满 7 天，才允许第 3 个；实际 OPEN 总数达到 3 个后必须等已有 PR 合并或关闭，不能按周累加。旧 PR 一直保留跟进责任。这是本项目的调度策略，不是 GitHub 公布的账号安全阈值。
+
+先读取两条 PR 的完整评论、评审、行内讨论及验证依据，确认当前补丁和验证已完成，再登记等待：
+
+```powershell
+python -S tools/repo_capacity.py confirm-wait owner/repo --source https://github.com/owner/repo/pull/123 --source https://github.com/owner/repo/pull/456 --note "已逐条核验反馈、当前提交和验证，均无我方待办；具体依据及未决事项说明"
+```
+
+`confirm-wait` 是核验者的明确声明，不由机器人留言、我方最后一次回复或 PR 年龄自动推导。每条 PR 至少给一条对应证据链接，说明必须具体。首次计时从登记时刻开始，不追溯补填过去一周；重复确认同一组未变化的证据不会重置计时。当前仍有请求修改、冲突、失败或未完成 CI 时不自动放宽；这表示需要核验，不能据此断言失败由我方造成。
+
+本地已登记的 `small_fix`、`ci`、`discussion` 也是待办，未处理前不能登记等待。处理并验证后，先更新 `work_queue.py pr-action` 分类，再重新确认等待；`pr-action wait` 本身只负责反馈分类，不会启动或恢复七天计时。
+
+每次实际创建 PR 前运行实时检查：
+
+```powershell
+python -S tools/repo_capacity.py check owner/repo
+```
+
+`ALLOW` 仅表示本次名额检查通过，退出码为 0；`HOLD` 表示不满足条件，退出码为 2；`UNKNOWN` 表示查询或证据不完整，退出码为 1。仅 `ALLOW` 可继续其它提交检查；不同子系统、仓库政策、撞车终检和贡献质量要求仍有效。刚登记等待尚未满 7 天时仍会返回 `HOLD`，不代表已经可以投递。该检查完整分页读取仓库中本账号的 OPEN PR，不能用本地跟踪子集代替。同仓实际提交必须串行，每次创建前重新检查；检查本身不预留名额，也不创建 PR。
+
+等待记录和完整快照存入 `task_state.json` 的队列分区。新提交、新人类反馈（包括编辑和行内评论）、OPEN 集合改变、观测到未就绪或查询失败时，旧等待证明失效。恢复后需重新确认；仅机器人活动或我方普通回复不会构成新的维护者回应。扫描和队列使用最多 24 小时的完整快照预筛，提交终检始终实时查询；缺少完整快照时最多按已知记录保守预筛，不能当作提交许可。
+
 ## PR 反馈调度
 
 ```powershell

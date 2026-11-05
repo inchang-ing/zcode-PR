@@ -9,7 +9,7 @@ from pathlib import Path
 import re
 
 from task_state import TaskStore
-from candidate_rules import Candidate, is_clean, load_candidates, BLOCKING_LABELS
+from candidate_rules import Candidate, clean_decision, load_candidates, BLOCKING_LABELS
 from task_state import task_key, load_queue_state, SIGNALS, STAGES, ACTIONS
 from contributions import cell, load_records, load_queue_records, require, validate_https_url as evidence
 from pipeline_state import atomic_write_json, atomic_write_text, file_lock, read_json_object
@@ -74,11 +74,16 @@ def rank_candidates(candidates, state, store, cache, now, handled=None):
         entry = state["issues"].get(key, {})
         decision = store.decision(key, now, handled=handled, issue=entry)
         stage, completed = decision['stage'], decision['reason']
-        ok, reason = is_clean(replace(candidate, issue_unknown=False, pr_unknown=False, cmt_unknown=False),
-                              store, decision=decision)
+        screening = clean_decision(replace(candidate, issue_unknown=False, pr_unknown=False, cmt_unknown=False),
+                                   store, decision=decision, records=cache, now=now)
+        ok, reason = screening['eligible'], screening['reason']
+        capacity_blocked = screening['gate'] == 'capacity'
         unknown = candidate.issue_unknown or candidate.pr_unknown or candidate.cmt_unknown
         reasons, missing = [], []
         score = 0
+        capacity = screening.get('capacity')
+        if capacity and capacity['allowed'] and capacity['count'] >= 2:
+            reasons.append(capacity['reason'])
         if completed:
             missing.append("已处理: " + completed + "；需显式重开")
         if not ok:
@@ -117,8 +122,10 @@ def rank_candidates(candidates, state, store, cache, now, handled=None):
                 if not signal.get("value") or not fresh(signal.get("at"), now):
                     missing.append(name + " 需核验后再修复")
         hidden = stage in {"stopped", "submitted"} or (stage == "deferred" and any("延期" in m for m in missing))
+        visible_stage = ('capacity_hold' if capacity['status'] == 'HOLD' else 'capacity_unknown') if capacity_blocked else stage
         rows.append({"kind": "issue", "key": key, "score": score, "ready": not missing,
-                     "hidden": bool(completed) or hidden or not ok, "stage": stage, "contribution_kind": candidate.kind, "reasons": reasons,
+                     "hidden": bool(completed) or hidden or (not ok and not capacity_blocked),
+                     "stage": visible_stage, "contribution_kind": candidate.kind, "reasons": reasons,
                      "sources": sorted(set(sources)),
                      "missing": missing, "next": "; ".join(missing) if missing else
                      ("继续修复；超预算重新评估；提交前再次终检" if stage == "fixing" else "限时 20 分钟复现探路")})
@@ -263,7 +270,8 @@ def refresh(root=ROOT, limit=50):
         for row in displayed:
             repo, number = row['key'].split('#')
             url = f"https://github.com/{repo}/{'pull' if row['kind'] == 'pr' else 'issues'}/{number}"
-            label = row['stage'] if row['ready'] or row['stage'] == 'policy_hold' else '先核验'
+            label = {'capacity_hold': '待名额', 'capacity_unknown': '需核验'}.get(
+                row['stage'], row['stage'] if row['ready'] or row['stage'] == 'policy_hold' else '先核验')
             lines.append(f"| {row['kind']} | [{row['key']}]({url}) | {cell(label)} | {row['score']} | {cell(row['next'])} | {cell('; '.join(row['reasons']) or '无已核验加分')} |")
         lines += ['', f"展示 {len(displayed)}/{len(visible)} 个可见任务；全部结果见 work_queue_view.json；refresh --limit 0 展示全部。", f"隐藏已退出/延期/过滤任务：{len(rows) - len(visible)}；明细见 work_queue_view.json。",
                   '候选不在本轮快照时保留其历史状态，但不继续推荐。']

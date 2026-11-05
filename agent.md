@@ -25,4 +25,6 @@
 
 ## 换机恢复
 
+同仓投递采用 **常规 2 个、确认等待维护者满 7 天额外 1 个、实际 OPEN 最多 3 个**。提交前运行 `python -S tools/repo_capacity.py check owner/repo`；等待登记与失效条件见 `QUEUE_GUIDE.md`。缓存预筛、任务认领、`auto_run --per-repo` 都不等于 PR 名额许可。
+
 装 git + GitHub CLI → `gh auth login` → SSH 走 443 → 子模块 `git submodule update --init --recursive` → 按需重建 workspaces venv(`import <pkg>.__file__` 必须指向克隆目录)。长期保留:规则/台账/`contributions/` 记录与证据;克隆与 venv 可重建。

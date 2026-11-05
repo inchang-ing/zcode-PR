@@ -9,7 +9,8 @@ from dataclasses import replace
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from task_state import DispatchedStore
-from candidate_rules import load_candidates, is_clean, eligibility_reason, BLOCKING_LABELS  # noqa: E402
+from candidate_rules import load_candidates, clean_decision, eligibility_reason, BLOCKING_LABELS  # noqa: E402
+from repo_capacity import live_capacity
 from gh_checks import issue_errors, linked_prs, comment_bodies  # noqa: E402
 
 from claim_rules import SOFT as SOFT_EXT, NOT_READY
@@ -25,7 +26,7 @@ def gh(args):
     return p.stdout if p.returncode == 0 else None
 
 
-def vet(c):
+def vet(c, store=None):
     if type(c.number) is not int or c.number <= 0:
         return "UNKNOWN", "候选 number 必须为正整数"
     out = gh(["issue", "view", str(c.number), "--repo", c.repo,
@@ -86,6 +87,9 @@ def vet(c):
     hit = [l for l in labels if l.lower() in BLOCKING_LABELS]
     if hit:
         return "WARN", f"标签提示未 triage/受阻: {hit}"
+    capacity = live_capacity(c.repo, store if store is not None else DispatchedStore(), query=gh)
+    if not capacity['allowed']:
+        return ('UNKNOWN' if capacity['status'] == 'UNKNOWN' else 'WARN'), capacity['reason']
     return "CLEAN", ""
 
 
@@ -102,9 +106,11 @@ def main(argv=None):
         # Evaluate policy and dedup separately; the original unknown flags still block vet.
         policy_candidate = replace(c, issue_unknown=False, pr_unknown=False,
                                    cmt_unknown=False) if unknown else c
-        accepted, reason = is_clean(policy_candidate, store)
-        if not accepted:
-            print(f"  SKIP  {c.key}: {reason}", flush=True)
+        screened = clean_decision(policy_candidate, store)
+        # A cached capacity hold needs the live final check: closed PRs may have
+        # freed a slot since the last scan. Other gates still stop immediately.
+        if not screened['eligible'] and screened['gate'] != 'capacity':
+            print(f"  SKIP  {c.key}: {screened['reason']}", flush=True)
         elif unknown:
             why = "快照检查未完成，需重扫: " + "; ".join(
                 c.check_errors or [name for name in ("issue_unknown", "pr_unknown", "cmt_unknown")
@@ -115,7 +121,7 @@ def main(argv=None):
             clean.append(c)
     print(f"is_clean 通过: {len(clean)}", flush=True)
     for c in clean:
-        st, why = vet(c)
+        st, why = vet(c, store)
         res[st].append((c, why))
         print(f"  {st:5} {c.key}: {why}", flush=True)
     print("--- " + " ".join(f"{status}={len(items)}" for status, items in res.items()))
