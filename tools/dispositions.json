@@ -1741,5 +1741,17 @@
  "run-llama/llama_index#23963": {
   "date": "2026-11-06",
   "reason": "非代码任务: LlamaHub 外部工具上架请求（他人 PyPI 包的注册申请），不属本流水线投递面"
+ },
+ "kyegomez/swarms#3227": {
+  "date": "2026-11-06",
+  "reason": "维护者内部队列让位: kyegomez ai-generated 审计批量（同 #3197-#3224 模式）"
+ },
+ "langchain-ai/langchain#41718": {
+  "date": "2026-11-06",
+  "reason": "assign 门禁仓: 须先分配给当前账号；且 HSTC 是 #41716/#41717 的第三次重复提案（feature 需设计共识）"
+ },
+ "pydantic/pydantic-ai#12633": {
+  "date": "2026-11-06",
+  "reason": "受限/禁投仓库: pydantic/pydantic-ai"
  }
 }
