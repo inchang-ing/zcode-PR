@@ -1809,5 +1809,13 @@
  "huggingface/smolagents#3117": {
   "date": "2026-11-06",
   "reason": "三重让位: 既有 PR #2666 已覆盖该文档更新（XR 确认）+ issue 正文自陈须先获维护者 scope 决定 + #2679 accepted-issue 政策（未接受即动工会被关）"
+ },
+ "arize-ai/phoenix#17687": {
+  "date": "2026-11-06",
+  "reason": "人工门禁: CONTRIBUTING 明写「An open issue is not an invitation to submit a PR」，须 maintainer 明确确认"
+ },
+ "pydantic/pydantic-ai#12640": {
+  "date": "2026-11-06",
+  "reason": "受限/禁投仓库: pydantic/pydantic-ai"
  }
 }
