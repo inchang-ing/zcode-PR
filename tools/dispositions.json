@@ -1889,5 +1889,41 @@
  "run-llama/llama_index#23971": {
   "date": "2026-11-06",
   "reason": "已提交 run-llama/llama-agents#866（external_seeds 计入 StepFailedEvent，镜像同文件 boundary_in 表；issue 四组合复现修前 1 抛错修后全跑通，2 新回归测试 31/31，ruff 净，EVIDENCE_OK 推送前）"
+ },
+ "openhands/openhands#19396": {
+  "date": "2026-11-06",
+  "reason": "人工门禁: PR 描述含真人专属段（HUMAN: ≥20 字符 + human-tested + e2e 证据）"
+ },
+ "arize-ai/phoenix#17690": {
+  "date": "2026-11-06",
+  "reason": "人工门禁: CONTRIBUTING 明写「An open issue is not an invitation to submit a PR」（good student issue 标签属学生项目）"
+ },
+ "arize-ai/phoenix#17689": {
+  "date": "2026-11-06",
+  "reason": "人工门禁: CONTRIBUTING 明写「An open issue is not an invitation to submit a PR」（yellow theme 为 UI feature）"
+ },
+ "berriai/litellm#50270": {
+  "date": "2026-11-06",
+  "reason": "same-repo cap: 该仓在飞 2 个（#46262/#48309，STATE.md 台账），硬上限 2"
+ },
+ "berriai/litellm#50269": {
+  "date": "2026-11-06",
+  "reason": "same-repo cap: 该仓在飞 2 个（#46262/#48309，STATE.md 台账），硬上限 2"
+ },
+ "berriai/litellm#50266": {
+  "date": "2026-11-06",
+  "reason": "same-repo cap: 该仓在飞 2 个（#46262/#48309，STATE.md 台账），硬上限 2；且为 feature"
+ },
+ "langflow-ai/langflow#16207": {
+  "date": "2026-11-06",
+  "reason": "前端 TS 让位: Android PWA 导航栏遮挡为 React UI 层，本流水线只做可本机验证的 Python 修复"
+ },
+ "pydantic/pydantic-ai#12648": {
+  "date": "2026-11-06",
+  "reason": "受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "run-llama/llama_index#23972": {
+  "date": "2026-11-06",
+  "reason": "设计让位（fastmcp#6035 模式）: 修复需解码策略决定——保留 DictState 子类须在反序列化时导入用户类，而 decode_state 安全注释明写「type metadata intentionally not consulted, rows cannot drive module imports」；正确做法是镜像 typed-model 路径的 qualified-name 校验机制扩展到 DictState 子类并定旧 checkpoint 兼容策略，属语义/安全边界，无维护者方向不抢跑。根因已在 dispositions 留档（encode 走 _data 丢声明字段 + decode 硬编码 DictState）。"
  }
 }

@@ -3864,3 +3864,9 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - 判别性：issue 四组合（Direct/Recovered × validation on/off）修前 Recovered+validation 抛 WorkflowValidationError（逐字）修后全跑通返回 3；2 个新回归测试（校验不抛 + 端到端运行）**修前 2 fail / 修后全文件 31/31**（checkout origin/main 基线）；ruff check+format 净；**EVIDENCE_OK 推送前**。
 - 沉淀（规律 102-103，见当日记忆）。
 - STATE 69→70（#866 登记，workflows 代码在 llama-agents 仓，PR 按包源仓开）；monitor_oss 70/70 盲点 0；review_sweep 2 ACTION 均为已处置状态。
+
+## 2026-11-06 12:1x 轮（第 68 轮，15 分钟间隔）— 0 新单；收件箱 9 条清零
+
+- 收件箱 9 条 → 0 pending（979 reported / 1058 done）：openhands HUMAN、phoenix ×2 人工门禁、litellm ×3 上限、langflow 前端、pydantic-ai 禁投。dispositions 473→482。
+- **llama_index#23972（DictState 子类经 checkpoint 丢失声明字段）design-yield**：读了 state_store.py 全部相关代码后确认修复面是**解码策略决定**——保留子类须反序列化时导入用户类，而 decode_state 的安全注释明写「rows cannot drive module imports」；正确做法是镜像 typed-model 路径的 qualified-name 校验扩展到 DictState 子类 + 定旧 checkpoint 兼容策略。语义/安全边界无维护者方向不抢跑；根因与可行路径已留档 dispositions（同 fastmcp#6035 模式）。
+- 本轮 0 新单。monitor_oss 70/70 盲点 0；review_sweep 2 ACTION 均为已处置状态。
