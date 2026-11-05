@@ -1769,5 +1769,13 @@
  "kyegomez/swarms#3229": {
   "date": "2026-11-06",
   "reason": "维护者内部队列让位: kyegomez ai-generated 审计批量"
+ },
+ "crewaiinc/crewai#9140": {
+  "date": "2026-11-06",
+  "reason": "same-repo cap: 该仓在飞 2 个（#7795/#7981，STATE.md 台账），硬上限 2；且为文档 typo 类 feature-request（低竞争面不投个人库规则之外的仓级看板项）"
+ },
+ "livekit/agents#8406": {
+  "date": "2026-11-06",
+  "reason": "标准 CLA 须账号持有者网页签署（#8367/#8380/#8405 先例），无人值守护必卡 cla:no"
  }
 }
