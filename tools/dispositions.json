@@ -1777,5 +1777,21 @@
  "livekit/agents#8406": {
   "date": "2026-11-06",
   "reason": "标准 CLA 须账号持有者网页签署（#8367/#8380/#8405 先例），无人值守护必卡 cla:no"
+ },
+ "arize-ai/openinference#4239": {
+  "date": "2026-11-06",
+  "reason": "same-repo cap: 该仓在飞 2 个（#3981/#3998，STATE.md 台账），硬上限 2；且为 feature request"
+ },
+ "arize-ai/openinference#4238": {
+  "date": "2026-11-06",
+  "reason": "same-repo cap: 该仓在飞 2 个（#3981/#3998，STATE.md 台账），硬上限 2"
+ },
+ "arize-ai/openinference#4237": {
+  "date": "2026-11-06",
+  "reason": "same-repo cap: 该仓在飞 2 个（#3981/#3998，STATE.md 台账），硬上限 2"
+ },
+ "arize-ai/phoenix#17676": {
+  "date": "2026-11-06",
+  "reason": "人工门禁: CONTRIBUTING 明写「An open issue is not an invitation to submit a PR」，须 maintainer 明确确认"
  }
 }
