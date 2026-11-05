@@ -3908,3 +3908,10 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 ## 2026-11-06 16:1x 轮（第 76 轮，15 分钟间隔）— 0 新单；收件箱 0 pending
 
 - 收件箱 0 pending（987 reported / 1066 done）。monitor_oss 70/70 盲点 0；review_sweep 2 ACTION 均为基线残留（上轮推送问题已用显式 refspec 解决：git push origin HEAD:codex/pipeline-reliability）。
+
+## 2026-11-06 17:1x 轮（第 77 轮，15 分钟间隔）— #5952 追加 follow-up（db36771 覆盖 #5953）+ 收件箱 3 条清零
+
+- 收件箱 3 条 → 0 pending（987 reported / 1067 done）：openhands HUMAN、openai-agents BLOCKED、**aider#5953** = #5951 同类但不同站点（`tool_output`，repo-map 的 U+22EE）——正是 #5952 正文预留的暴露面。同仓 2 席已满 → **扩展现有 PR 分支**（db36771）而非开新单；正文追加 Follow-up 段 + `Closes #5953`。dispositions 486→491。
+- 判别性：tool_output 新回归测试（mock cp1252 异常）修前 fail（checkout origin/main 基线）/ 修后 26/26；pin lint 全净；**EVIDENCE_OK 推送前**（HEAD db36771）。
+- 流程坑三次连环（均在 quality_check 闭环内消化）：①prepare 重置 claims → 先 prepare 后填；②evidence 文件名沿用旧记录名（5951）时刷新的是新名（5953）→ 以记录引用的 ref 为准；③limitations 须与正文逐字一致 → 改 limitation 措辞时同步 gh pr edit。
+- monitor_oss 70/70 盲点 0（#5952 新 commit CI 重跑）；review_sweep 2 ACTION 均为已处置状态。

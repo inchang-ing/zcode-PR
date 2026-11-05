@@ -35,7 +35,7 @@
   "status": "recorded",
   "method": "regression",
   "case": "issue #5951 场景：console.print 抛 UnicodeEncodeError('cp1252', ...)（与 issue 回溯逐字一致）时 assistant_output 的 Text 路径与 Markdown/pretty 路径均不外逃；tests/basic/test_io.py 全量",
-  "summary": "修复前 2 个新回归测试 fail（异常外逃）；修复后 25/25 passed（23 存量 + 2 新增，含既有 _tool_message 兜底测试不回归）；black 23.3.0/flake8 7.1.0/isort 5.12.0 全净",
+  "summary": "修复前 2 个新回归测试 fail（异常外逃）；修复后 26/26 passed；black 23.3.0/flake8 7.1.0/isort 5.12.0 全净；follow-up db36771 把兜底扩展到 tool_output（issue #5953，repo-map U+22EE）",
   "base_commit": "5dc9490bb35f9729ef2c95d00a19ccd30c26339c",
   "before": {
    "commit": "5dc9490bb35f9729ef2c95d00a19ccd30c26339c",
@@ -53,23 +53,23 @@
    }
   },
   "after": {
-   "commit": "bbd8b8954c1a11cef021468d9ffb335bf3069587",
+   "commit": "db36771be8d7df48df5c4cf915d78a23b63198a6",
    "command": "pytest tests/basic/test_io.py",
    "environment": "Windows 10 (Git Bash), Python 3.12.4 venv, aider deps",
    "test_case": "issue #5951 场景：console.print 抛 UnicodeEncodeError('cp1252', ...)（与 issue 回溯逐字一致）时 assistant_output 的 Text 路径与 Markdown/pretty 路径均不外逃；tests/basic/test_io.py 全量",
-   "ran_at": "2026-11-05T20:56:47+00:00",
+   "ran_at": "2026-11-05T23:56:31+00:00",
    "exit_code": 0,
    "result": "passed",
    "scope": "project",
    "log": {
     "kind": "local",
     "ref": "contributions/evidence/aider--issue-5951--postfix-pytest.txt",
-    "sha256": "2d61364aba3b75551229d3a9cbc9cb87e80e2b103d1e8502a2797f8088ff2a36"
+    "sha256": "b096904851add7d623dc1c0a2ff888d62ddb76979ec700ed6ae7475c372c088e"
    }
   }
  },
  "feedback": {
-  "checked_at": "2026-11-05T20:57:18+00:00",
+  "checked_at": "2026-11-05T23:57:19+00:00",
   "items": []
  },
  "outcome": {
@@ -86,11 +86,11 @@
   }
  ],
  "submission": {
-  "head": "bbd8b8954c1a11cef021468d9ffb335bf3069587",
+  "head": "db36771be8d7df48df5c4cf915d78a23b63198a6",
   "body": {
    "kind": "local",
-   "ref": "contributions/evidence/aider-ai--aider--issue-5951--body-67b96c8766e94378601b38c65b8b4ea989fb5daee32850915ca5b04af5c3cecd.md",
-   "sha256": "67b96c8766e94378601b38c65b8b4ea989fb5daee32850915ca5b04af5c3cecd"
+   "ref": "contributions/evidence/aider-ai--aider--issue-5951--body-6bb0d4713f0f548a25bc66c7a3e27ea7778ffdf90abaafdf588d17ca1eed3e25.md",
+   "sha256": "6bb0d4713f0f548a25bc66c7a3e27ea7778ffdf90abaafdf588d17ca1eed3e25"
   },
   "claims": [
    {
@@ -100,12 +100,68 @@
    {
     "text": "Pinned lint clean on both touched files: `black 23.3.0 --line-length 100 --preview`, `flake8 7.1.0`, `isort 5.12.0` (the repo's pre-commit pins).",
     "run": "after"
+   },
+   {
+    "text": "the same fallback now guards that site too, with its own regression test.",
+    "run": "after"
    }
   ],
   "limitations": [
-   "The legacy-Windows render path itself (`legacy_windows_render` → `LegacyWindowsTerm`) only activates on a real legacy console, which CI's Linux runners (and this PR's test suite) do not exercise; the tests target the guard that survives it, and the mocked exception matches the issue's traceback byte-for-byte.",
-   "Other `console.print` call sites (`tool_output` and friends) have the same theoretical exposure; this PR keeps to the reported path to stay atomic."
+   "The legacy-Windows render path itself (`legacy_windows_render` → `LegacyWindowsTerm`) only activates on a real legacy console, which CI's Linux runners (and this PR's test suite) do not exercise; the tests target the guard that survives it, and the mocked exceptions match the issues' tracebacks byte-for-byte.",
+   "Remaining `console.print` call sites have the same theoretical exposure; the PR keeps to the two reported paths (`assistant_output`, `tool_output`) to stay atomic."
   ],
   "feedback": []
- }
+ },
+ "submission_history": [
+  {
+   "head": "bbd8b8954c1a11cef021468d9ffb335bf3069587",
+   "body": {
+    "kind": "local",
+    "ref": "contributions/evidence/aider-ai--aider--issue-5951--body-67b96c8766e94378601b38c65b8b4ea989fb5daee32850915ca5b04af5c3cecd.md",
+    "sha256": "67b96c8766e94378601b38c65b8b4ea989fb5daee32850915ca5b04af5c3cecd"
+   },
+   "claims": [
+    {
+     "text": "**Both fail on unpatched code (verified via stash A/B), 25/25 pass with the fix.**",
+     "run": "after"
+    },
+    {
+     "text": "Pinned lint clean on both touched files: `black 23.3.0 --line-length 100 --preview`, `flake8 7.1.0`, `isort 5.12.0` (the repo's pre-commit pins).",
+     "run": "after"
+    }
+   ],
+   "limitations": [
+    "The legacy-Windows render path itself (`legacy_windows_render` → `LegacyWindowsTerm`) only activates on a real legacy console, which CI's Linux runners (and this PR's test suite) do not exercise; the tests target the guard that survives it, and the mocked exception matches the issue's traceback byte-for-byte.",
+    "Other `console.print` call sites (`tool_output` and friends) have the same theoretical exposure; this PR keeps to the reported path to stay atomic."
+   ],
+   "feedback": []
+  },
+  {
+   "head": "db36771be8d7df48df5c4cf915d78a23b63198a6",
+   "body": {
+    "kind": "local",
+    "ref": "contributions/evidence/aider-ai--aider--issue-5951--body-5bd22dfe4ef646bf09a6a128468f3bd4c954f778b0aee8d296d71f8c83c36ff2.md",
+    "sha256": "5bd22dfe4ef646bf09a6a128468f3bd4c954f778b0aee8d296d71f8c83c36ff2"
+   },
+   "claims": [
+    {
+     "text": "**Both fail on unpatched code (verified via stash A/B), 25/25 pass with the fix.**",
+     "run": "after"
+    },
+    {
+     "text": "Pinned lint clean on both touched files: `black 23.3.0 --line-length 100 --preview`, `flake8 7.1.0`, `isort 5.12.0` (the repo's pre-commit pins).",
+     "run": "after"
+    },
+    {
+     "text": "the same fallback now guards that site too, with its own regression test.",
+     "run": "after"
+    }
+   ],
+   "limitations": [
+    "The legacy-Windows render path itself (`legacy_windows_render` → `LegacyWindowsTerm`) only activates on a real legacy console, which CI's Linux runners (and this PR's test suite) do not exercise; the tests target the guard that survives it, and the mocked exception matches the issues' tracebacks byte-for-byte.",
+    "Remaining `console.print` call sites have the same theoretical exposure; the PR keeps to the two reported paths (assistant_output, tool_output) to stay atomic."
+   ],
+   "feedback": []
+  }
+ ]
 }

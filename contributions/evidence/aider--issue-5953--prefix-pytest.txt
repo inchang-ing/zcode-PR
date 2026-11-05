@@ -1,0 +1,56 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+_______ TestInputOutputMultilineMode.test_tool_output_unicode_fallback ________
+
+self = <tests.basic.test_io.TestInputOutputMultilineMode testMethod=test_tool_output_unicode_fallback>
+
+    def test_tool_output_unicode_fallback(self):
+        """Repo-map output with U+22EE must survive legacy consoles (#5953)"""
+        io = InputOutput(pretty=False, fancy_input=False)
+    
+        with patch.object(io.console, "print") as mock_print:
+            mock_print.side_effect = [
+                UnicodeEncodeError("cp1252", "", 0, 1, "character maps to <undefined>"),
+                None,
+            ]
+    
+>           io.tool_output("map: a ⋮ b")
+
+tests\basic\test_io.py:373: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+aider\io.py:1012: in tool_output
+    self.console.print(*messages, style=style)
+D:\python\Lib\unittest\mock.py:1134: in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+D:\python\Lib\unittest\mock.py:1138: in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <MagicMock name='print' id='2988702060896'>
+args = (<text 'map: a ⋮ b' [] ''>,), kwargs = {'style': Style()}
+
+    def _execute_mock_call(self, /, *args, **kwargs):
+        # separate from _increment_mock_call so that awaited functions are
+        # executed separately from their call, also AsyncMock overrides this method
+    
+        effect = self.side_effect
+        if effect is not None:
+            if _is_exception(effect):
+                raise effect
+            elif not _callable(effect):
+                result = next(effect)
+                if _is_exception(result):
+>                   raise result
+E                   UnicodeEncodeError: 'cp1252' codec can't encode characters in position 0-0: character maps to <undefined>
+
+D:\python\Lib\unittest\mock.py:1197: UnicodeEncodeError
+---------------------------- Captured stdout call -----------------------------
+Can't initialize prompt toolkit: Found xterm-256color, while expecting a 
+Windows console. Maybe try to run this program using "winpty" or run it in 
+cmd.exe instead. Or otherwise, in case of Cygwin, use the Python executable 
+that is compiled for Cygwin.
+=========================== short test summary info ===========================
+FAILED tests/basic/test_io.py::TestInputOutputMultilineMode::test_tool_output_unicode_fallback
+1 failed, 25 deselected in 0.85s
