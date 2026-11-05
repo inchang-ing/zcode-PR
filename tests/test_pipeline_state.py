@@ -26,10 +26,46 @@ class StateTests(unittest.TestCase):
 
     def test_incomplete_write_keeps_previous_snapshot(self):
         atomic_write_json(self.path, {"old": "完整"})
-        with patch("pipeline_state.os.replace", side_effect=PermissionError("locked")):
+        with patch("pipeline_state.os.replace", side_effect=PermissionError("locked")) as replace, \
+                patch("time.sleep") as sleep:
             with self.assertRaises(PermissionError):
                 atomic_write_json(self.path, {"new": 1})
+        self.assertEqual(replace.call_count, 3)
+        self.assertEqual(sleep.call_count, 2)
         self.assertEqual(json.loads(self.path.read_text(encoding="utf-8")), {"old": "完整"})
+        self.assertEqual(list(self.path.parent.glob("*.tmp")), [])
+
+    def test_transient_replace_permission_error_recovers_without_exposing_partial_data(self):
+        import os
+        replace = os.replace
+        for failures in (1, 2):
+            with self.subTest(failures=failures):
+                atomic_write_json(self.path, {"old": "完整"})
+                original = self.path.read_bytes()
+                attempts = 0
+                def busy_replace(source, target):
+                    nonlocal attempts
+                    attempts += 1
+                    self.assertEqual(self.path.read_bytes(), original)
+                    if attempts <= failures:
+                        raise PermissionError("temporarily locked")
+                    replace(source, target)
+                with patch("pipeline_state.os.replace", side_effect=busy_replace), \
+                        patch("time.sleep") as sleep:
+                    atomic_write_json(self.path, {"new": "完整"})
+                self.assertEqual(attempts, failures + 1)
+                self.assertEqual(sleep.call_count, failures)
+                self.assertEqual(json.loads(self.path.read_text(encoding="utf-8")), {"new": "完整"})
+                self.assertEqual(list(self.path.parent.glob("*.tmp")), [])
+
+    def test_nonpermission_replace_error_is_not_retried(self):
+        atomic_write_json(self.path, {"old": 1})
+        with patch("pipeline_state.os.replace", side_effect=OSError("disk failure")) as replace, \
+                patch("time.sleep") as sleep, self.assertRaises(OSError):
+            atomic_write_json(self.path, {"new": 1})
+        self.assertEqual(replace.call_count, 1)
+        sleep.assert_not_called()
+        self.assertEqual(json.loads(self.path.read_text(encoding="utf-8")), {"old": 1})
         self.assertEqual(list(self.path.parent.glob("*.tmp")), [])
 
     def test_invalid_json_is_not_silently_reset(self):

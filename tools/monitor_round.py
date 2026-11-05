@@ -6,12 +6,16 @@
 """
 import argparse, subprocess, json, sys, time
 from pathlib import Path
+from datetime import datetime, timezone
 
 from gh_checks import issue_errors, linked_prs, comment_bodies
-from pipeline_state import atomic_write_json, file_lock
+from pipeline_state import atomic_write_json, file_lock, read_json_object
+from task_state import load_handled, issue_states, TaskStore
+from discovery_state import is_consumed, load_consumed, record_consumed
 from claim_rules import SOFT, NOT_READY
 from repository_policy import policy_reason
 from pr_state import utc_now
+from candidate_rules import contribution_kind
 
 CORE = [
     "BerriAI/litellm","chroma-core/chroma","mem0ai/mem0","sentence-transformers/sentence-transformers",
@@ -40,11 +44,16 @@ def gh(args, retries=4):
                 return p.stdout
             err = (p.stderr or "").lower()
             if "rate limit" in err or "abuse" in err or "secondary" in err or p.returncode == 62:
-                wait = min(60, 15*(i+1))
-                print(f"  [rate-limit backoff {wait}s]", file=sys.stderr); time.sleep(wait); continue
+                if i + 1 < retries:
+                    wait = min(60, 15*(i+1))
+                    print(f"  [rate-limit backoff {wait}s]", file=sys.stderr)
+                    time.sleep(wait)
+                continue
             return None
         except subprocess.TimeoutExpired:
-            print("  [timeout]", file=sys.stderr); time.sleep(10)
+            print("  [timeout]", file=sys.stderr)
+            if i + 1 < retries:
+                time.sleep(10)
         except (OSError, UnicodeError):
             return None
     return None
@@ -109,6 +118,7 @@ def scan(repos, out_path, issue_lists=None, failed_issues=()):
     previous = json.loads(Path(out_path).read_text(encoding="utf-8-sig")) if Path(out_path).exists() else []
     if not isinstance(previous, list):
         raise ValueError("Invalid candidate snapshot")
+    previous_kinds = {(c["repo"].lower(), c["number"]): c.get("kind", "bug") for c in previous}
     for repo in repos:
         issues = issue_lists.get(repo) if issue_lists is not None else get_issues(repo)
         if issues is None:
@@ -143,7 +153,8 @@ def scan(repos, out_path, issue_lists=None, failed_issues=()):
                       if isinstance(label, dict) and isinstance(label.get("name"), str)] \
                 if isinstance(raw_labels, list) else []
             names = [a["login"] for a in assignees] if not errors else []
-            if not errors and policy_reason(repo, labels, names):
+            kind = it.get('_kind') or previous_kinds.get((repo.lower(), it['number'])) or contribution_kind(labels)
+            if not errors and policy_reason(repo, labels, names, kind=kind):
                 continue
             n = it["number"]
             pr = has_linked_pr(repo, n)
@@ -160,6 +171,7 @@ def scan(repos, out_path, issue_lists=None, failed_issues=()):
                 check_errors.append("comments 请求或响应校验失败")
             shortlist.append({
                 "repo": repo, "number": n, "title": it["title"],
+                "kind": kind,
                 "checked_at": utc_now(),
                 "createdAt": it.get("createdAt"),
                 "is_bug": any("bug" in l for l in labels),
@@ -206,46 +218,75 @@ def main(argv=None):
     args = parser.parse_args(argv)
     canonical_output = Path(args.out).resolve() == default
     if args.pending:
-        from pipeline_state import read_json_object
-        inbox_path = Path(__file__).with_name("fresh_candidates.json")
-        with file_lock(inbox_path):
-            inbox = read_json_object(inbox_path)
-            groups = {}
-            failed_issues = set()
-            for item in inbox.values():
+        root = default.parent
+        inbox_path = root / "tools/fresh_candidates.json"
+        result = 0
+        # Serialize scans before any API work; discovery needs only the short inbox lock.
+        with file_lock(args.out):
+            with file_lock(inbox_path):
+                inbox = read_json_object(inbox_path)
+            handled = load_handled(root / 'tools/inbox_handled.json')
+            stages = issue_states(root)
+            now = datetime.now(timezone.utc)
+            tasks = TaskStore(root / 'dispatched.json')
+            receipts = load_consumed(root)
+            consumed_keys, newly_checked = set(), {}
+            groups, failed_issues = {}, set()
+            skipped = 0
+            for key, item in inbox.items():
+                decision = tasks.decision(key, now, handled=handled, issue=stages.get(key.lower(), {}))
+                if decision['blocked']:
+                    skipped += 1
+                    continue
+                if is_consumed(receipts, key, item, decision):
+                    consumed_keys.add(key)
+                    continue
                 repo = item['repo']
                 groups.setdefault(repo, [])
                 issue = get_issue(repo, item['number'])
                 if issue is None:
                     failed_issues.add((repo.lower(), item['number']))
                     continue
+                issue['_kind'] = item.get('kind')
                 groups[repo].append(issue)
-            if not groups:
-                return 0
-            # Include existing candidates so targeted checks cannot remove siblings.
-            with file_lock(args.out):
+            if skipped:
+                print(f"SKIP {skipped} 个已处理/延期任务，保留记录，等待显式重开或到期")
+            if groups:
+                # Include existing candidates so targeted checks cannot remove siblings.
                 result = scan(list(groups), args.out, groups, failed_issues)
                 snapshot = json.loads(Path(args.out).read_text(encoding='utf-8-sig'))
-            unknown = {(item['repo'].lower(), item['number']) for item in snapshot
-                       if any(item.get(flag) for flag in
-                              ('pr_unknown', 'cmt_unknown', 'issue_unknown', 'check_errors'))}
-            # An absent checked issue was definitively dropped (closed, claimed, policy, or PR).
-            checked = {(repo.lower(), item['number']) for repo, items in groups.items()
-                       for item in items}
-            resolved = checked - unknown
-            if canonical_output:
-                inbox = {k: v for k, v in inbox.items()
-                         if (v['repo'].lower(), v['number']) not in resolved}
-                atomic_write_json(inbox_path, inbox)
-            if failed_issues or checked & unknown:
-                print("PARTIAL. 未完成核验的 issue 已保留，可再次运行 --pending", file=sys.stderr)
-                result = 1
+                unknown = {(item['repo'].lower(), item['number']) for item in snapshot
+                           if any(item.get(flag) for flag in
+                                  ('pr_unknown', 'cmt_unknown', 'issue_unknown', 'check_errors'))}
+                checked = {(repo.lower(), item['number']) for repo, items in groups.items()
+                           for item in items}
+                resolved = checked - unknown
+                newly_checked = {key: item for key, item in inbox.items()
+                                 if (item['repo'].lower(), item['number']) in resolved}
+                if failed_issues or checked & unknown:
+                    print("PARTIAL. 未完成核验的 issue 已保留，可再次运行 --pending", file=sys.stderr)
+                    result = 1
+            if canonical_output and (newly_checked or consumed_keys):
+                with file_lock(inbox_path):
+                    current = read_json_object(inbox_path)
+                    removable = {key for key in newly_checked.keys() | consumed_keys
+                                 if current.get(key) == inbox[key]}
+                    # Receipt first: a failed deletion can be retried without network.
+                    record_consumed(root, {key: newly_checked[key] for key in removable
+                                           if key in newly_checked}, checked_at=now.isoformat())
+                    remaining = {key: item for key, item in current.items() if key not in removable}
+                    if remaining != current:
+                        atomic_write_json(inbox_path, remaining)
     else:
         with file_lock(args.out):
             result = scan(args.repos or POOL, args.out)
     if canonical_output:
         from work_queue import refresh
-        refresh()
+        try:
+            refresh()
+        except (ValueError, OSError, RuntimeError) as exc:
+            print(f'候选扫描已保存，队列视图刷新失败；运行 work_queue.py refresh 重试: {exc}', file=sys.stderr)
+            return result or 2
     return result
 
 if __name__ == "__main__":

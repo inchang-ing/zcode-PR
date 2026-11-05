@@ -1,0 +1,29 @@
+name: offline-tests
+
+on:
+  push:
+    paths: ['tools/**', 'tests/**', 'repo-monitor', '.github/workflows/**']
+  pull_request:
+    paths: ['tools/**', 'tests/**', 'repo-monitor', '.github/workflows/**']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    env:
+      PYTHONUTF8: '1'
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Pipeline regressions
+        run: python -S -B -m unittest discover -s tests -v

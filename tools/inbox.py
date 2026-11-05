@@ -14,6 +14,8 @@ the same entry every hour.
     python tools/inbox.py list                # pending entries, newest first
     python tools/inbox.py list --hours 6      # only what appeared recently
     python tools/inbox.py done foo/bar#12 --note "self-claimed in body"
+    python tools/inbox.py reopen foo/bar#12 --note "new evidence"
+    python tools/inbox.py import              # pending entries -> local precise scan
     python tools/inbox.py stats
 
 State lives in tools/inbox_handled.json rather than work/, because work/ is
@@ -25,13 +27,18 @@ already been judged.
 from __future__ import annotations
 
 import json
-import os
+import hashlib
 import re
-import shutil
-import subprocess
 import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from pipeline_state import atomic_write_json, file_lock, read_json_object
+from candidate_rules import Candidate, contribution_kind, enqueue_candidates
+from task_state import load_handled, record_handled, TaskStore, timestamp
+from discovery_state import is_consumed, load_consumed
+from notification_contract import decode_events
+from github_read import output, GitHubReadError
+from urllib.parse import urlencode
 
 REPO = "inchang-ing/zcode-PR"
 LABEL = "inbox:fresh"
@@ -51,11 +58,10 @@ LINE_RE = re.compile(
 
 
 def gh(*args: str) -> str:
-    exe = shutil.which("gh") or r"C:\Program Files\GitHub CLI\gh.exe"
-    proc = subprocess.run([exe, *args], capture_output=True, text=True, encoding="utf-8")
-    if proc.returncode != 0:
-        raise SystemExit(f"gh {' '.join(args[:3])} -> {proc.stderr.strip()[:300]}")
-    return proc.stdout
+    try:
+        return output(list(args), timeout=90)
+    except GitHubReadError as exc:
+        raise SystemExit(f"gh {' '.join(args[:3])} -> {exc}") from exc
 
 
 def inbox_number() -> int:
@@ -67,25 +73,39 @@ def inbox_number() -> int:
 
 
 def comments() -> list[dict]:
+    """Cache complete comments; fetch only updates since the last successful read."""
     number = inbox_number()
-    out = gh(
-        "api", "--paginate",
-        f"repos/{REPO}/issues/{number}/comments?per_page=100",
-        "--jq", ".[] | {body, created_at}",
-    )
-    rows = []
-    for line in out.splitlines():
-        line = line.strip()
-        if not line:
-            continue
-        try:
-            rows.append(json.loads(line))
-        except json.JSONDecodeError:
-            continue
-    return rows
+    path = ROOT / 'tools/inbox_comments.json'
+    with file_lock(path):
+        cache = read_json_object(path)
+        if cache and (cache.get('version') != 1 or not isinstance(cache.get('rows'), dict)):
+            raise ValueError('Invalid inbox comment cache')
+        if cache.get('issue') != number:
+            cache = {'version': 1, 'issue': number, 'rows': {}}
+        started = datetime.now(TZ).replace(microsecond=0) - timedelta(seconds=1)
+        query = {'per_page': 100}
+        if cache.get('since'):
+            timestamp(cache['since'])
+            query['since'] = cache['since']
+        out = gh('api', '--paginate',
+                 f'repos/{REPO}/issues/{number}/comments?' + urlencode(query),
+                 '--jq', '.[] | {id, body, created_at, updated_at}')
+        for line in out.splitlines():
+            if not line.strip():
+                continue
+            row = json.loads(line)
+            if (not isinstance(row, dict) or type(row.get('id')) is not int
+                    or row['id'] <= 0 or not isinstance(row.get('body'), str)):
+                raise ValueError('Invalid inbox comment')
+            timestamp(row['created_at'])
+            timestamp(row['updated_at'])
+            cache['rows'][str(row['id'])] = row
+        cache['since'] = started.isoformat()
+        atomic_write_json(path, cache)
+    return sorted(cache['rows'].values(), key=lambda row: (row['created_at'], row['id']))
 
 
-def parse(rows: list[dict]) -> dict[str, dict]:
+def _parse_legacy(rows: list[dict]) -> dict[str, dict]:
     """Flatten comment bodies into one entry per `repo#num`, newest wins."""
     entries: dict[str, dict] = {}
     for row in rows:
@@ -125,46 +145,47 @@ def parse(rows: list[dict]) -> dict[str, dict]:
     return entries
 
 
+def parse(rows: list[dict]) -> dict[str, dict]:
+    entries = {}
+    for row in rows:
+        events = decode_events(row.get('body') or '')
+        if events is None:
+            current = _parse_legacy([row])
+        else:
+            current = {event['key']: {
+                'key': event['key'], 'title': event['title'],
+                'labels': ', '.join(event['labels']),
+                'url': f"https://github.com/{event['repo']}/issues/{event['number']}",
+                'posted': row.get('created_at', ''), 'age': '',
+            } for event in events}
+        for key, entry in current.items():
+            identity = [row.get('id'), row.get('updated_at') or row.get('created_at'),
+                        key, entry['title'], entry['labels']]
+            entry['source_version'] = hashlib.sha256(
+                json.dumps(identity, ensure_ascii=False).encode()).hexdigest()
+            entries[key] = entry
+    return entries
+
+
 def load_state() -> dict:
-    if not STATE.exists():
-        return {}
-    try:
-        return json.loads(STATE.read_text(encoding="utf-8"))
-    except json.JSONDecodeError:
-        return {}
+    return load_handled(STATE)
 
 
 def save_state(state: dict) -> None:
-    """Write the ledger in one step, and never truncate in place.
-
-    Two reasons, one of them learned the hard way. Truncating first means a
-    crash between truncate and write leaves an empty ledger, which reads back as
-    "nothing was ever judged" -- every entry gets re-decided. And on Windows a
-    file that another process holds open rejects the truncate but accepts a
-    replace, so writing a sibling and renaming over it is what actually works.
-    """
-    STATE.parent.mkdir(parents=True, exist_ok=True)
-    payload = json.dumps(state, indent=1, sort_keys=True, ensure_ascii=False)
-    tmp = STATE.with_suffix(".json.tmp")
-    tmp.write_text(payload, encoding="utf-8")
-    try:
-        os.replace(tmp, STATE)
-    except PermissionError:
-        # A handle on the target blocks the rename. Drop it and move the new
-        # file into place; the content is already complete on disk.
-        try:
-            STATE.unlink()
-        except FileNotFoundError:
-            pass
-        os.replace(tmp, STATE)
+    """Atomic snapshot; callers doing read-modify-write must hold its lock."""
+    atomic_write_json(STATE, state)
 
 
 def pending(rows: list[dict], hours: int | None) -> list[dict]:
     done = load_state()
+    tasks = TaskStore(ROOT / 'dispatched.json')
+    receipts = load_consumed(ROOT)
+    now = datetime.now(TZ)
     cutoff = datetime.now(TZ) - timedelta(hours=hours) if hours else None
     out = []
     for key, entry in parse(rows).items():
-        if key in done:
+        decision = tasks.decision(key, now, handled=done)
+        if decision['blocked'] or is_consumed(receipts, key, entry, decision):
             continue
         if cutoff and entry["posted"]:
             try:
@@ -188,11 +209,27 @@ def main() -> int:
         except (IndexError, ValueError):
             raise SystemExit("--hours needs a number")
 
+    if action == "import":
+        candidates = []
+        for entry in pending(comments(), hours):
+            repo, number = entry['key'].split('#')
+            labels = [label.strip() for label in entry['labels'].split(',') if label.strip() != '-']
+            candidates.append(Candidate(
+                repo, int(number), entry['title'], entry['url'], labels=labels,
+                source_version=entry['source_version'],
+                kind=contribution_kind(labels), issue_unknown=True,
+                pr_unknown=True, cmt_unknown=True,
+                check_errors=['云端收件箱导入，待共享精确核验'],
+            ))
+        added = enqueue_candidates(candidates, ROOT)
+        print(f'imported {added} new pending entries; run tools/monitor_round.py --pending')
+        return 0
+
     if action == "list":
         rows = comments()
         todo = pending(rows, hours)
         total = len(parse(rows))
-        done = len(load_state())
+        done = sum(entry.get('status', 'done') == 'done' for entry in load_state().values())
         scope = f"last {hours}h" if hours else "all time"
         print(f"{len(todo)} pending of {total} reported ({done} marked done, {scope})")
         for entry in todo:
@@ -203,7 +240,7 @@ def main() -> int:
             print("\ntriage each one, then: python tools/inbox.py done <key> --note <why>")
         return 0
 
-    if action == "done":
+    if action in {"done", "reopen"}:
         # Strip --note and its value before collecting keys: a note like
         # "author opened #4503" contains a '#', so scanning the raw argument
         # list for '#' silently records the prose as a second entry.
@@ -217,20 +254,18 @@ def main() -> int:
             rest = rest[:index] + rest[index + 2:]
         keys = [a for a in rest if not a.startswith("-") and "#" in a]
         if not keys:
-            raise SystemExit("done needs at least one owner/repo#num")
-        state = load_state()
-        stamp = datetime.now(TZ).strftime("%Y-%m-%dT%H:%M:%SZ")
+            raise SystemExit(f"{action} needs at least one owner/repo#num")
+        record_handled(STATE, keys, note, 'done' if action == 'done' else 'open')
         for key in keys:
-            state[key.lower()] = {"at": stamp, "note": note}
-            print(f"done {key.lower()}  {note}")
-        save_state(state)
+            print(f"{action} {key.lower()}  {note}")
         return 0
 
     if action == "stats":
         rows = comments()
         entries = parse(rows)
         state = load_state()
-        print(f"reported {len(entries)}  done {len(state)}  pending {len(entries) - len(state & entries.keys())}")
+        done = sum(entry.get("status", "done") == "done" for entry in state.values())
+        print(f"reported {len(entries)}  done {done}  pending {len(pending(rows, None))}")
         print(f"state file {STATE}")
         return 0
 

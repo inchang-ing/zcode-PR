@@ -10,6 +10,63 @@ import auto_run as a
 
 
 class AutoRunQualityTests(unittest.TestCase):
+    def test_candidates_without_hooks_do_not_starve_preparation_limits(self):
+        for limit in ([], ['--max=1']):
+            with self.subTest(limit=limit), tempfile.TemporaryDirectory() as folder:
+                candidates = [a.Candidate(repo, number, 'bug: crash', '') for repo, number in
+                              (('a/b', 1), ('a/b', 2), ('a/b', 3), ('other/repo', 1))]
+                store = a.DispatchedStore(str(Path(folder) / 'dispatched.json'))
+                repros = {candidate.key: lambda c, p: False for candidate in candidates[1:]}
+                with patch.object(a, 'load_candidates', return_value=candidates), \
+                     patch.object(a, 'DispatchedStore', return_value=store), \
+                     patch.dict(a.REPROS, repros, clear=True), patch.dict(a.FIXERS, {}, clear=True), \
+                     patch.object(a, '_clone_via_tarball', return_value=folder) as clone, \
+                     patch.object(sys, 'argv', ['auto_run.py', *limit]), \
+                     patch.object(a.subprocess, 'run') as external:
+                    a.main()
+                external.assert_not_called()
+                self.assertEqual(store.status_of(candidates[0].key), 'needs_repro')
+                self.assertEqual(store.status_of(candidates[1].key), 'repro_failed')
+                self.assertEqual(store.status_of(candidates[2].key), 'none')
+                self.assertEqual([call.args[0] for call in clone.call_args_list],
+                                 ['a/b'] if limit else ['a/b', 'other/repo'])
+
+    def test_deleted_files_are_included_in_patch_changes(self):
+        for mode in ('delete_only', 'rename', 'mixed'):
+            with self.subTest(mode=mode), tempfile.TemporaryDirectory() as folder:
+                root = Path(folder)
+                checkout = root / 'checkout'
+                checkout.mkdir()
+                deleted = checkout / 'obsolete.py'
+                deleted.write_bytes(b'old code')
+                other = checkout / 'module.py'
+                other.write_bytes(b'unchanged')
+                renamed = checkout / 'renamed.py'
+                store = a.DispatchedStore(str(root / 'dispatched.json'))
+                candidate = a.Candidate('a/b', 1, 'bug', '')
+
+                def fix(c, path):
+                    if mode == 'rename':
+                        deleted.rename(renamed)
+                    else:
+                        deleted.unlink()
+                    if mode == 'mixed':
+                        other.write_bytes(b'fixed')
+
+                with patch.dict(a.REPROS, {candidate.key: lambda c, p: True}, clear=True), \
+                     patch.dict(a.FIXERS, {candidate.key: fix}, clear=True), \
+                     patch.object(a, '_clone_via_tarball', return_value=str(checkout)), \
+                     patch.object(a.subprocess, 'run') as external:
+                    a.run(candidate, store)
+                external.assert_not_called()
+                self.assertEqual(store.status_of(candidate.key), 'needs_verification')
+                expected = [str(deleted)]
+                if mode == 'rename':
+                    expected.append(str(renamed))
+                elif mode == 'mixed':
+                    expected.append(str(other))
+                self.assertEqual(store.data[candidate.key]['changed'], sorted(expected))
+
     def test_owner_can_record_normal_fix_and_error_outcomes(self):
         with tempfile.TemporaryDirectory() as folder:
             candidate = a.Candidate('a/b', 1, 'bug', '')
@@ -69,10 +126,8 @@ class AutoRunQualityTests(unittest.TestCase):
                  patch.object(a, '_clone_via_tarball', return_value=folder), \
                  patch.object(a, '_reproduce', return_value=True), \
                  patch.object(a, '_snapshot_hashes', side_effect=[{'a.py': 'old'}, {'a.py': 'new'}]), \
-                 patch.object(a, '_push_via_api') as push, \
                  patch.object(a.subprocess, 'run') as external:
                 a.run(candidate, store)
-            push.assert_not_called()
             external.assert_not_called()
             self.assertEqual(store.status_of(candidate.key), 'needs_verification')
             self.assertTrue(store.is_active(candidate.key))

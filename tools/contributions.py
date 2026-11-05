@@ -11,6 +11,7 @@ from urllib.parse import urlsplit, quote
 
 from pipeline_state import atomic_write_json, atomic_write_text, file_lock
 from pr_state import load_pr_state, utc_now
+from candidate_rules import KINDS
 
 ROOT = Path(__file__).resolve().parents[1]
 REPO = re.compile(r"[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+")
@@ -37,14 +38,16 @@ def record_id(repo, issue):
     return f"{repo.lower().replace('/', '--')}--issue-{issue}"
 
 
-def new_record(repo, issue, title, pr=None, problem_type="unknown", approach="unknown"):
+def new_record(repo, issue, title, pr=None, problem_type="unknown", approach="unknown", kind="bug"):
     return {
         "schema_version": 1, "id": record_id(repo, issue), "repo": repo,
-        "issue": issue, "pr": pr, "title": title, "problem_type": problem_type,
+        "issue": issue, "pr": pr, "title": title, "kind": kind, "problem_type": problem_type,
         "approach": approach, "created_at": utc_now(),
         "policy": {"status": "unverified", "checked_at": None, "summary": "", "sources": []},
         "collision": {"status": "unverified", "checked_at": None, "summary": "", "sources": []},
         "verification": {"status": "unverified", "case": "", "summary": "",
+                         "method": "documentation" if kind == "docs" else "regression",
+                         "base_commit": None,
                          "before": None, "after": None},
         "feedback": {"checked_at": None, "items": []},
         "outcome": {"reason_category": "unknown", "summary": "", "sources": []},
@@ -66,7 +69,7 @@ def validate_https_url(value):
     require(valid, message)
 
 
-def validate_sources(sources, root):
+def validate_sources(sources, root, *, verify_hashes=True):
     require(isinstance(sources, list), "sources 必须是列表")
     for source in sources:
         require(isinstance(source, dict), "证据必须是对象")
@@ -82,19 +85,23 @@ def validate_sources(sources, root):
             require(evidence.is_relative_to(root.resolve()) and path.is_relative_to(evidence),
                     "本地证据必须位于 contributions/evidence 内")
             require(path.is_file(), f"缺少证据文件: {ref}")
-            require(hashlib.sha256(path.read_bytes()).hexdigest() == source.get("sha256"),
-                    f"证据摘要不匹配: {ref}")
+            require(isinstance(source.get('sha256'), str) and
+                    re.fullmatch(r'[0-9a-f]{64}', source['sha256']), f'无效证据摘要: {ref}')
+            if verify_hashes:
+                require(hashlib.sha256(path.read_bytes()).hexdigest() == source['sha256'],
+                        f"证据摘要不匹配: {ref}")
 
 
-def validate(record, root=ROOT):
+def validate(record, root=ROOT, *, verify_hashes=True):
     require(isinstance(record, dict), "贡献记录必须是对象")
     require(type(record.get("schema_version")) is int and record['schema_version'] == 1, "不支持的记录版本")
     require(record.get("id") == record_id(record.get("repo"), record.get("issue")), "记录 ID 不匹配")
     require(record.get("pr") is None or (type(record["pr"]) is int and record["pr"] > 0), "无效 PR 编号")
     for key in ("title", "problem_type", "approach"):
         require(isinstance(record.get(key), str) and record[key].strip(), f"缺少 {key}")
+    require(record.get("kind", "bug") in KINDS, "无效贡献类型")
     timestamp(record.get("created_at"))
-    validate_sources(record.get("provenance"), root)
+    validate_sources(record.get("provenance"), root, verify_hashes=verify_hashes)
     required_sections = {
         'policy': {'status', 'checked_at', 'summary', 'sources'},
         'collision': {'status', 'checked_at', 'summary', 'sources'},
@@ -109,7 +116,7 @@ def validate(record, root=ROOT):
         require(isinstance(section, dict), f"缺少 {key}")
         require(section.get("status") in {"unverified", "verified"}, f"无效 {key} 状态")
         require(isinstance(section.get("summary"), str), f"缺少 {key} 摘要")
-        validate_sources(section.get("sources"), root)
+        validate_sources(section.get("sources"), root, verify_hashes=verify_hashes)
         if section.get("checked_at") is not None:
             timestamp(section["checked_at"])
         if section["status"] == "verified":
@@ -120,10 +127,18 @@ def validate(record, root=ROOT):
     require(verification.get("status") in {"unverified", "recorded"}, "无效测试证据状态")
     for key in ("case", "summary"):
         require(isinstance(verification.get(key), str), f"缺少 verification.{key}")
+    method = verification.get('method', 'regression')
+    require(method in {'regression', 'documentation'}, '无效验证方式')
+    docs = method == 'documentation'
+    require(not docs or record.get('kind') == 'docs', '文档验证仅适用于 docs 贡献')
+    if docs and verification['status'] == 'recorded':
+        require(isinstance(verification.get('base_commit'), str) and
+                re.fullmatch(r'[0-9a-f]{40}', verification['base_commit']), '文档验证须记录基线 SHA')
+        require(verification['summary'].strip(), '需说明文档原错误与验证方法')
     for phase in ("before", "after"):
         run = verification.get(phase)
         if run is None:
-            require(verification["status"] == "unverified", "完整验证必须同时包含修复前后运行")
+            require(verification["status"] == "unverified" or (docs and phase == "before"), "完整验证必须同时包含修复前后运行")
             continue
         require(isinstance(run, dict), "测试运行必须是对象")
         require(isinstance(run.get("commit"), str) and re.fullmatch(r"[0-9a-f]{40}", run['commit']),
@@ -134,18 +149,21 @@ def validate(record, root=ROOT):
         require(type(run.get("exit_code")) is int, "测试缺少退出码")
         require(run.get("result") in {"regression_failed", "passed", "environment_error"}, "缺少测试结果分类")
         if 'scope' in run:
-            require(isinstance(run['scope'], str) and run['scope'] in {'project', 'isolated', 'stub'}, "无效测试范围")
+            require(isinstance(run['scope'], str) and run['scope'] in {'project', 'documentation', 'isolated', 'stub'}, "无效测试范围")
         require(isinstance(run.get("log"), dict) and run["log"].get("kind") == "local", "须保存本地测试日志")
-        validate_sources([run["log"]], root)
+        validate_sources([run["log"]], root, verify_hashes=verify_hashes)
     if verification["status"] == "recorded":
         before, after = verification["before"], verification["after"]
         require(verification["case"].strip(), "缺少回归测试标识")
-        require(before["test_case"] == after["test_case"] == verification["case"], "前后必须验证同一回归用例")
-        require(before["environment"] == after["environment"], "前后测试环境不一致")
-        require(before["commit"] != after["commit"], "修复前后须记录不同提交")
-        require(before["exit_code"] != 0 and before["result"] == "regression_failed",
-                "修复前必须为回归失败，环境失败不能作为证据")
-        require(after["exit_code"] == 0 and after["result"] == "passed", "修复后必须通过")
+        require(after['test_case'] == verification['case'], '验证用例不匹配')
+        if before:
+            require(before['test_case'] == after['test_case'], '前后必须验证同一回归用例')
+            require(before['environment'] == after['environment'], '前后测试环境不一致')
+            require(before['commit'] != after['commit'], '修复前后须记录不同提交')
+        if not docs:
+            require(before['exit_code'] != 0 and before['result'] == 'regression_failed',
+                    '修复前必须为回归失败，环境失败不能作为证据')
+        require(after['exit_code'] == 0 and after['result'] == 'passed', '修复后必须通过')
     feedback = record.get("feedback")
     require(isinstance(feedback, dict) and isinstance(feedback.get("items"), list), "无效反馈")
     if feedback.get("checked_at") is not None:
@@ -162,7 +180,7 @@ def validate(record, root=ROOT):
     require(isinstance(outcome, dict) and outcome.get("reason_category") in
             {"unknown", "duplicate", "scope", "tests", "other"}, "无效结果原因分类")
     require(isinstance(outcome.get("summary"), str), "缺少结果摘要")
-    validate_sources(outcome.get("sources"), root)
+    validate_sources(outcome.get("sources"), root, verify_hashes=verify_hashes)
     if outcome["reason_category"] != "unknown":
         require(outcome["summary"].strip() and any(s["kind"] == "url" for s in outcome["sources"]),
                 "归因须有原始反馈链接，不能凭关闭状态猜测")
@@ -184,6 +202,32 @@ def load_records(root=ROOT):
     return records
 
 
+def load_queue_records(root=ROOT):
+    """Read display metadata independently; only feedback needs content verification.
+
+    Test logs still need valid paths and digests, but full content verification is
+    reserved for load_records/quality_check. Bad records remain visible as errors.
+    """
+    records, errors, prs = [], [], set()
+    for path in sorted((root / 'contributions/records').glob('*.json')):
+        key = None
+        try:
+            record = json.loads(path.read_text(encoding='utf-8-sig'))
+            if isinstance(record, dict) and isinstance(record.get('repo'), str) and type(record.get('pr')) is int:
+                key = f"{record['repo']}#{record['pr']}".lower()
+            validate(record, root, verify_hashes=False)
+            require(path.stem == record['id'], f'文件名与 ID 不一致: {path.name}')
+            if key:
+                if key in prs:
+                    records = [r for r in records if f"{r['repo']}#{r['pr']}".lower() != key]
+                    raise ValueError('重复 PR: ' + key)
+                prs.add(key)
+            records.append(record)
+        except (ValueError, TypeError, OSError) as exc:
+            errors.append({'record': path.name, 'pr_key': key, 'error': str(exc)})
+    return records, errors
+
+
 def cell(value):
     return html.escape(str(value), quote=False).replace("|", "\\|").replace("\r", "").replace("\n", "<br>")
 
@@ -193,6 +237,8 @@ def source_links(sources):
 
 
 def render(records, cache):
+    # Legacy records retain their original schema on disk.
+    records = [dict(record, kind=record.get('kind', 'bug')) for record in records]
     states = {}
     cache = {k.lower(): v for k, v in cache.items()}
     for record in records:
@@ -213,7 +259,7 @@ def render(records, cache):
                      f"{r['policy']['status']} / {r['collision']['status']} | {r['verification']['status']} |")
     lines += ["", "## 样本统计", "", "unknown 表示尚未核验；未结束的 PR 不计入已结束样本分母。",
               "本表按缓存统计，不据此自动推荐仓库；小样本不能推断贡献质量。", ""]
-    for field, label in (("repo", "仓库"), ("problem_type", "问题类型"), ("approach", "修复方式")):
+    for field, label in (("kind", "贡献类型"), ("repo", "仓库"), ("problem_type", "问题类型"), ("approach", "修复方式")):
         lines += ["", f"### 按{label}", "", "| 分组 | 样本 | MERGED | CLOSED | OPEN | 未知/查询失败 | 已结束样本合并比 |",
                   "| --- | --- | --- | --- | --- | --- | --- |"]
         for value in sorted({r[field] for r in records}):
@@ -237,7 +283,7 @@ def render(records, cache):
                       f"时间：{cell(section['checked_at'] or '未记录')}。{cell(section['summary'])} "
                       f"{source_links(section['sources'])}"]
         v = r['verification']
-        lines += ["", f"**测试**：{'未核验' if v['status'] == 'unverified' else '已记录 fail→pass 证据'}。{cell(v['summary'])}"]
+        lines += ["", f"**测试**：{'未核验' if v['status'] == 'unverified' else ('已记录文档验证证据' if v.get('method') == 'documentation' else '已记录 fail→pass 证据')}。{cell(v['summary'])}"]
         for phase in ('before', 'after'):
             run = v[phase]
             if run:
@@ -278,10 +324,11 @@ def main(argv=None):
     new.add_argument("--pr", type=int)
     new.add_argument("--problem-type", default="unknown")
     new.add_argument("--approach", default="unknown")
+    new.add_argument("--kind", choices=sorted(KINDS), default="bug")
     args = parser.parse_args(argv)
     try:
         if args.action == "new":
-            r = new_record(args.repo, args.issue, args.title, args.pr, args.problem_type, args.approach)
+            r = new_record(args.repo, args.issue, args.title, args.pr, args.problem_type, args.approach, args.kind)
             validate(r)
             path = ROOT / "contributions/records" / (r['id'] + ".json")
             with file_lock(ROOT / "contributions/records"):

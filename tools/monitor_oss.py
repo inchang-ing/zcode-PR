@@ -1,21 +1,22 @@
 # -*- coding: utf-8 -*-
 """OSS PR 体检: 只扫 STATE.md 的 OSS 段, 拉 state/mergeable/reviewDecision/CI 检查, 报 diff."""
-import re, subprocess, json, pathlib, time, sys
-import hashlib
+import re, subprocess, pathlib, sys
+
+import github_read
+import pr_monitor
+from pr_monitor import ci_summary, ci_failed, ci_fingerprint
 from concurrent.futures import ThreadPoolExecutor
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 from pipeline_state import atomic_write_text, file_lock
 from pr_state import (PR_STATE_PATH, PR_STATUS_PATH, LEGACY_PATHS,
-                      load_pr_state, save_observations, utc_now)
+                      load_pr_state, save_observations)
 
-GH = "C:/Program Files/GitHub CLI/gh.exe"
 STATE = str(pathlib.Path(__file__).resolve().parents[1] / "STATE.md")
 CANONICAL = PR_STATE_PATH
 REPORT = PR_STATUS_PATH
-CWD = "C:/Users/ROG"
 
-_ROW_RE = re.compile(r"github\.com/([^/\s]+)/([^/\s)]+)/pull/(\d+)")
+_ROW_RE = pr_monitor.PR_URL
 
 
 def _row_key(line):
@@ -65,165 +66,47 @@ def reconcile_state_ledger(cur, state_path=STATE):
 
 
 def audit_scope():
-    """Scope audit: search-authoritative OPEN set vs STATE.md rows.
-
-    Catches unregistered new PRs (blind spots — the registration gate's safety
-    net when a session forgets to register) and rows whose PR is no longer
-    open. One search call; best-effort, silent on query failure. Runs from
-    Python subprocess so the jq expression skips MSYS path conversion.
-    """
+    """Compare the complete authored OPEN set with registered ledger rows."""
     try:
-        r = subprocess.run(
-            [GH, "api",
-             "search/issues?q=author%3Ainchang-ing+type%3Apr+state%3Aopen&per_page=100",
-             "--jq",
-             '.items[] | select(.repository_url | contains("inchang-ing") | not) '
-             '| (.repository_url | sub("https://api.github.com/repos/";"")) '
-             '+ "#" + (.number|tostring)'],
-            capture_output=True, text=True, timeout=60, cwd=CWD)
-        if r.returncode != 0 or not r.stdout.strip():
-            return
-        open_now = {line.strip().lower() for line in r.stdout.splitlines() if line.strip()}
+        items = github_read.api(
+            "search/issues?q=author%3Ainchang-ing+type%3Apr+state%3Aopen&per_page=100",
+            paginate=True, item_key="items", search=True)
+        open_now = set()
+        for item in items:
+            repo_url, number = item.get("repository_url"), item.get("number")
+            if (not isinstance(repo_url, str)
+                    or not re.fullmatch(r"https://api.github.com/repos/[^/\s]+/[^/\s]+", repo_url)
+                    or type(number) is not int or number <= 0):
+                raise ValueError("Invalid search PR identity")
+            repo = repo_url.removeprefix("https://api.github.com/repos/").lower()
+            if not repo.startswith("inchang-ing/"):
+                open_now.add(f"{repo}#{number}")
         tracked = set()
         with open(STATE, encoding="utf-8") as fh:
             for line in fh:
-                m = _ROW_RE.search(line)
-                if m and "| [" in line:
-                    repo = f"{m.group(1)}/{m.group(2)}".lower()
-                    if repo.startswith("inchang-ing/"):
-                        continue
-                    tracked.add(f"{repo}#{int(m.group(3))}")
+                key = _row_key(line)
+                if key and not key.startswith("inchang-ing/"):
+                    tracked.add(key)
         blind = sorted(open_now - tracked)
         stale = sorted(tracked - open_now)
         print(f"范围自检: 盲点 {len(blind)}, 过期行 {len(stale)} "
               f"(权威 OPEN {len(open_now)} / 台账 {len(tracked)})")
         for key in blind:
             print(f"  BLIND: {key} —— 同轮补录 STATE.md")
-    except (OSError, ValueError, RuntimeError):
-        pass  # best-effort audit; never break the main sync
+    except (OSError, ValueError, RuntimeError, subprocess.SubprocessError, KeyError, TypeError) as exc:
+        print(f"范围自检: UNKNOWN ({exc})")
 
 
 def gh(args):
-    r = subprocess.run([GH] + args, capture_output=True, text=True, timeout=60, cwd=CWD)
-    if r.returncode != 0:
-        raise RuntimeError(f"gh {' '.join(args)} -> {r.stderr.strip()[:120]}")
-    return r.stdout.strip()
+    return github_read.output(args)
 
 
 def load_keys():
-    txt = pathlib.Path(STATE).read_text(encoding="utf-8", errors="ignore")
-    keys = {}
-    for line in txt.splitlines():
-        if "github.com" not in line or "/pull/" not in line:
-            continue
-        if not re.search(r"\bOPEN\b", line):   # 仅含 OPEN/OPEN( 状态的台账行
-            continue
-        if "原 OPEN(" in line:                # 历史备注,非当前在飞
-            continue
-        for m in re.finditer(r"github\.com/([^/]+)/([^/]+)/pull/(\d+)", line):
-            owner, repo, num = m.group(1), m.group(2), m.group(3)
-            keys[f"{owner}/{repo}#{num}".lower()] = {"repo": f"{owner}/{repo}", "num": int(num)}
-    return keys
-
-
-def ci_summary(roll):
-    if roll == []:
-        return "no-checks"
-    if not isinstance(roll, list):
-        return "1UNKNOWN"
-    counts = dict(ok=0, fail=0, pending=0, error=0, skip=0, unknown=0)
-    for check in roll:
-        value = None
-        if isinstance(check, dict):
-            if "status" in check:
-                value = check.get("conclusion") if check["status"] == "COMPLETED" else check["status"]
-            else:
-                value = check.get("state")  # Legacy StatusContext, not CheckRun.
-        if value == "SUCCESS":
-            kind = "ok"
-        elif value == "FAILURE":
-            kind = "fail"
-        elif value in ("ERROR", "TIMED_OUT", "CANCELLED", "ACTION_REQUIRED", "STARTUP_FAILURE", "STALE"):
-            kind = "error"
-        elif value in ("IN_PROGRESS", "QUEUED", "PENDING", "EXPECTED", "WAITING", "REQUESTED"):
-            kind = "pending"
-        elif value in ("SKIPPED", "NEUTRAL"):
-            kind = "skip"
-        else:
-            kind = "unknown"
-        counts[kind] += 1
-    return (f"{counts['ok']}✓/{counts['fail']}✗/{counts['pending']}…/{counts['error']}ERR"
-            f"/{counts['skip']}SKIP/{counts['unknown']}UNKNOWN")
-
-
-def ci_failed(ci):
-    # Unknown results need attention too; never silently count them as healthy.
-    return not isinstance(ci, str) or any(int(n) > 0 for n in re.findall(r"(\d+)(?:✗|ERR|UNKNOWN)", ci))
-
-
-def ci_fingerprint(roll):
-    """Identify the actual check observations, independent of API result order.
-
-    Counts cannot distinguish swapped failures or reruns. Unknown/malformed check
-    data has no acknowledgeable fingerprint, even when its summary looks healthy.
-    """
-    if not isinstance(roll, list):
-        return None
-    checks = []
-    for check in roll:
-        if not isinstance(check, dict) or "1UNKNOWN" in ci_summary([check]):
-            return None
-        if "status" in check:
-            if check.get("status") not in {"COMPLETED", "IN_PROGRESS", "QUEUED", "PENDING", "WAITING", "REQUESTED"}:
-                return None
-            kind, name = "CheckRun", check.get("name")
-            identity = (check.get("id"), check.get("detailsUrl"), check.get("startedAt"))
-            fields = ("id", "name", "workflowName", "detailsUrl", "status", "conclusion", "startedAt", "completedAt")
-        else:
-            if check.get("state") not in {"SUCCESS", "FAILURE", "ERROR", "PENDING", "EXPECTED"}:
-                return None
-            kind, name = "StatusContext", check.get("context")
-            identity = (check.get("id"), check.get("targetUrl"), check.get("createdAt"), check.get("startedAt"))
-            fields = ("id", "context", "targetUrl", "state", "createdAt", "startedAt")
-        if (not isinstance(name, str) or not name.strip()
-                or check.get("__typename", kind) != kind
-                or not any(isinstance(value, str) and value.strip() for value in identity)
-                or any(check.get(field) is not None and not isinstance(check[field], str) for field in fields)):
-            return None
-        checks.append({"type": kind, **{field: check.get(field) for field in fields}})
-    serialized = sorted(json.dumps(check, sort_keys=True, ensure_ascii=False, separators=(",", ":"))
-                        for check in checks)
-    return hashlib.sha256(json.dumps(serialized, ensure_ascii=False, separators=(",", ":")).encode("utf-8")).hexdigest()
+    return pr_monitor.load_keys(STATE)
 
 
 def fetch(key):
-    repo, num = key.split("#")
-    for attempt in range(2):
-        try:
-            d = json.loads(gh(["pr", "view", str(num), "--repo", repo, "--json",
-                                "state,createdAt,closedAt,mergedAt,updatedAt,mergeable,reviewDecision,statusCheckRollup,title,headRefOid"]))
-            if d.get("state") not in {"OPEN", "CLOSED", "MERGED"}:
-                raise ValueError("PR response has no valid state")
-            st = "MERGED" if d.get("mergedAt") else d["state"]
-            return {"state": st, "mergeable": d.get("mergeable") or "-",
-                    "reviewDecision": d.get("reviewDecision") or "-",
-                    "headRefOid": d.get("headRefOid"),
-                    "updatedAt": d.get("updatedAt"),
-                    "ci": ci_summary(d.get("statusCheckRollup")),
-                    "ci_head_oid": d.get("headRefOid"),
-                    "ci_fingerprint": ci_fingerprint(d.get("statusCheckRollup")),
-                    "ci_checked_at": utc_now(),
-                    "createdAt": d.get("createdAt"), "mergedAt": d.get("mergedAt"),
-                    "closedAt": d.get("closedAt"),
-                    "title": d.get("title", ""), "checked_at": utc_now()}
-        except FileNotFoundError as e:
-            last = str(e)
-            break
-        except Exception as e:
-            last = str(e)
-            if attempt == 0:
-                time.sleep(2)
-    return {"state": "QUERY_ERROR", "mergeable": "-", "reviewDecision": "-", "ci": "-", "title": "", "_err": last, "checked_at": utc_now()}
+    return pr_monitor.fetch(key, gh, ci_summary=ci_summary, ci_fingerprint=ci_fingerprint)
 
 
 def run_round():
@@ -250,26 +133,7 @@ def run_round():
 
     # diff
     if base:
-        ch = []
-        for k in sorted(cur):
-            v, b = cur[k], base.get(k, {})
-            if v["state"] == "QUERY_ERROR":
-                continue
-            if b.get("state") is None and v["state"] == "OPEN":
-                ch.append(f"[新增在飞] {k}")
-            elif v["state"] != "OPEN" and b.get("state") == "OPEN":
-                ch.append(f"[离场] {k}: {b.get('state')} -> {v['state']}")
-            elif v["state"] == "OPEN" and b.get("state") == "OPEN":
-                if v["reviewDecision"] != b.get("reviewDecision"):
-                    ch.append(f"[评审] {k}: {b.get('reviewDecision','-')} -> {v['reviewDecision']}")
-                # UNKNOWN is GitHub's transient mergeability computation; only
-                # definitive transitions are worth a change line.
-                if (v["mergeable"] != b.get("mergeable")
-                        and "UNKNOWN" not in (v["mergeable"], b.get("mergeable"))):
-                    ch.append(f"[mergeable] {k}: {b.get('mergeable','-')} -> {v['mergeable']}")
-                if v["ci"] != b.get("ci") or v.get("ci_fingerprint") != b.get("ci_fingerprint"):
-                    detail = "（检查或运行已变化）" if v["ci"] == b.get("ci") else ""
-                    ch.append(f"[CI] {k}: {b.get('ci')} -> {v['ci']}{detail}")
+        ch = pr_monitor.change_lines(base, cur, include_ci=True)
         print("-" * 90)
         print("本轮变化:" + ("\n  ".join([""] + ch) if ch else " 无(仅时间戳)"))
     else:

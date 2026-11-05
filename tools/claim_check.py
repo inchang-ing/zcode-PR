@@ -7,27 +7,12 @@ so a clean timeline is NOT evidence that an issue is free.
 Usage: python tools/claim_check.py owner/repo#123 [owner/repo#456 ...]
 Exit code 1 if any issue is already claimed.
 """
-import json
 import re
-import subprocess
+import github_read
 import sys
 
-GH = r"C:\Program Files\GitHub CLI\gh.exe"
-
-CLAIM_PATTERNS = [
-    r"i(?:'d| would) like to (?:take|work on|pick)",
-    r"i(?:'ll| will) (?:take|work on|do) (?:this|it)",
-    r"i can (?:take|do|work on)",
-    r"can i (?:take|work on)",
-    r"\bclaim(?:ing|ed)?\b",
-    r"please assign",
-    r"assign (?:this|it|me)",
-    r"waiting for (?:the )?assign",
-    r"(?:fix|patch|branch) (?:is )?ready",
-    r"i have a (?:fix|patch|pr)",
-    r"working on (?:this|it)",
-]
-
+from claim_rules import SOFT, NOT_READY
+from gh_checks import paginated_items
 
 def parse(ref):
     m = re.match(r"([^#]+)#(\d+)$", ref.strip())
@@ -37,13 +22,21 @@ def parse(ref):
 
 
 def comments(repo, n):
-    r = subprocess.run(
-        [GH, "api", f"repos/{repo}/issues/{n}/comments?per_page=100",
-         "--jq", '[.[]|{u:.user.login,t:.created_at,b:.body}]'],
-        capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=90)
-    if r.returncode != 0:
-        return None, (r.stderr or "")[:120]
-    return json.loads(r.stdout), None
+    try:
+        output = github_read.output(
+            ["api", f"repos/{repo}/issues/{n}/comments?per_page=100", "--paginate", "--slurp"], timeout=90)
+        items = paginated_items(output)
+        comments = []
+        for item in items:
+            user = item.get("user")
+            if (not isinstance(user, dict) or not isinstance(user.get("login"), str)
+                    or not user["login"].strip() or not isinstance(item.get("body"), str)
+                    or not isinstance(item.get("created_at"), str) or not item["created_at"]):
+                raise ValueError("comment body, author or timestamp missing/invalid")
+            comments.append({"u": user["login"], "t": item["created_at"], "b": item["body"]})
+        return comments, None
+    except (github_read.GitHubReadError, UnicodeError, ValueError) as exc:
+        return None, str(exc)[:120]
 
 
 def main():
@@ -60,13 +53,9 @@ def main():
             continue
         hits = []
         for c in cs:
-            if "bot" in c["u"].lower():
-                continue
-            low = c["b"].lower()
-            for p in CLAIM_PATTERNS:
-                if re.search(p, low):
-                    hits.append((c["u"], c["t"][:16], p))
-                    break
+            match = SOFT.search(c["b"]) or NOT_READY.search(c["b"])
+            if match:
+                hits.append((c["u"], c["t"][:16], match.group(0)))
         if hits:
             claimed_any = True
             who = "; ".join(f"{u}@{t}" for u, t, _ in hits)

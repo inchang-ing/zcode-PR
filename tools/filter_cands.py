@@ -7,7 +7,8 @@ import sys
 
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(BASE, "tools"))
-from auto_run import CANDIDATES, DispatchedStore, is_clean, load_candidates
+from task_state import DispatchedStore
+from candidate_rules import CANDIDATES, is_clean, load_candidates
 
 
 def fresh_candidates(candidates, store):

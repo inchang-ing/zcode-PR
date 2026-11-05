@@ -52,3 +52,6 @@ __pycache__/
 
 # 编辑器/工具
 /.vscode/
+
+# 可由云端重新下载的评论缓存（消费记录 discovery_state.json 需保留）
+/tools/inbox_comments.json

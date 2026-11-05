@@ -300,12 +300,13 @@ class SessionClaimsTests(unittest.TestCase):
 
     def test_claim_check_release_lifecycle(self):
         self.assertTrue(session_claims.check("o/r#1"))
-        self.assertTrue(session_claims.claim("o/r#1"))
+        token = session_claims.claim("o/r#1")
+        self.assertTrue(token)
         self.assertFalse(session_claims.check("o/r#1"))
         self.assertFalse(session_claims.claim("o/r#1"))  # busy
-        self.assertTrue(session_claims.release("o/r#1"))
+        self.assertTrue(session_claims.release("o/r#1", token))
         self.assertTrue(session_claims.check("o/r#1"))
-        self.assertFalse(session_claims.release("o/r#1"))
+        self.assertFalse(session_claims.release("o/r#1", token))
 
     def test_expired_claim_is_pruned_on_check(self):
         now = 1_000_000.0

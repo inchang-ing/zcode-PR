@@ -20,9 +20,9 @@ name: fresh-issue-poll
 # watching.
 #
 # Switch: setting the repository variable PIPELINE_ENABLED=false stops the lane
-# within one interval and prevents it from chaining, without editing this file.
-# The same flag is read by the hourly pipeline before it starts work, so one
-# command turns discovery and execution off together. Unset means on.
+# before new jobs start. Use pipeline_switch.py off to also cancel an active
+# shift. If Variables API access is unavailable, a shift uses its explicit
+# start-of-job value and --keep-running can let it finish. Unset means on.
 
 on:
   schedule:
@@ -82,10 +82,10 @@ jobs:
         id: shift
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # Minimum lookback; the script widens it to cover the gap since the
-          # previous poll, so a gap between shifts cannot lose issues.
+          # Bootstrap lookback only. Subsequent rounds resume each repository
+          # from its durable last success in the inbox body.
+          PIPELINE_ENABLED: ${{ vars.PIPELINE_ENABLED || 'true' }}
           WINDOW_MIN: "20"
-          WINDOW_MAX_MIN: "360"
           # 900s x 88 repos = 352 requests/hour, a third of the 1000/hour cap an
           # installation token gets per repository. Widening the window is free;
           # shortening the interval is what costs budget.
@@ -97,7 +97,7 @@ jobs:
           bash tools/poll_loop.sh
 
       - name: Chain the next shift
-        if: always()
+        if: ${{ !cancelled() && steps.shift.outputs.stopped != 'true' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REQUESTED_MIN: ${{ inputs.duration_min || '340' }}
@@ -112,9 +112,9 @@ jobs:
             exit 0
           fi
 
-          # Re-read the switch at the end of the shift rather than trusting the
-          # value from job start: the point of an off switch is that it stops
-          # things now, and a shift can be hours long.
+          # This is the workflow context value, not a live Variables API read.
+          # The next job checks its current variable before allocating a runner;
+          # cancelled shifts and poller-detected stops never reach this step.
           if [ "${ENABLED:-}" = "false" ]; then
             echo "PIPELINE_ENABLED=false, not chaining"
             exit 0
