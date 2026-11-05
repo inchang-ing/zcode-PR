@@ -3821,3 +3821,10 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - 收件箱 2 条 → 0 pending（957 reported / 1036 done）：openhands HUMAN 门禁、llama_index 第三方包上架请求。dispositions 458→460。
 - **pygments#3467 的 ACTION 定性为噪音**：评审（welcometothejungle2k26-collab）正文为空、行内评论仅回链 PR 正文自身，无任何实质请求 → 不回复（降低沟通负担）。该 PR 属并行会话，不越界。
 - 本轮 0 干净候选。monitor_oss 68/68 盲点 0。
+
+## 2026-11-06 08:1x 轮（第 61 轮，15 分钟间隔）— 收件箱 0 pending + md#1688 用户闭环
+
+- 收件箱 0 pending（957 reported / 1036 done）。
+- **md#1688 拼写事项由用户闭环**：远端分支已推 `17029a9`（Add CDATA to the spell dictionary，即我方 b878783 变体）+ `b31f189`（Use code spans for code terms instead of adding them to the spell dictionary——按 waylan 建议追加）。CI **15✓/0✗ 全绿**。待用户动作清零；review_sweep 的 ACTION 将随用户后续回复自然消解。
+- pygments#3467 ACTION 持续 = 上轮已定性噪音，不重复处理。
+- monitor_oss 68/68 盲点 0。
