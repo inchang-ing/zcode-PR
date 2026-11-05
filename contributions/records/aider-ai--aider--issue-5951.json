@@ -1,0 +1,111 @@
+{
+ "schema_version": 1,
+ "id": "aider-ai--aider--issue-5951",
+ "repo": "aider-ai/aider",
+ "issue": 5951,
+ "pr": 5952,
+ "title": "Give assistant_output the same ASCII fallback as _tool_message",
+ "kind": "bug",
+ "problem_type": "legacy Windows 控制台（cp1252）下 rich 的 legacy 渲染器对模型输出中的不可编码字符（如 U+25BA）抛 UnicodeEncodeError，assistant_output 无守卫，一个字符毁掉整个会话",
+ "approach": "镜像同文件 _tool_message 已有的 ASCII 兜底模式：errors=replace 编码后以纯 Text 重打；两条路径（Text/Markdown）均有回归测试",
+ "created_at": "2026-11-05T20:56:03+00:00",
+ "policy": {
+  "status": "verified",
+  "checked_at": "2026-11-05T20:56:22+00:00",
+  "summary": "CONTRIBUTING 无 AI 禁令、无 DCO；#5945 同仓先例（CLA 已由账号持有者签署，仓库贡献通道畅通）",
+  "sources": [
+   {
+    "kind": "url",
+    "ref": "https://github.com/Aider-AI/aider/blob/main/CONTRIBUTING.md"
+   }
+  ]
+ },
+ "collision": {
+  "status": "verified",
+  "checked_at": "2026-11-05T20:56:22+00:00",
+  "summary": "issue #5951 timeline 0 cross-ref、0 评论、无认领语言；邻近编号 #5949-#5953 无同题 PR；session_claims 原子认领（本轮工作前未做 issue 级动作，PR 开出前完成认领）",
+  "sources": [
+   {
+    "kind": "url",
+    "ref": "https://github.com/Aider-AI/aider/issues/5951"
+   }
+  ]
+ },
+ "verification": {
+  "status": "recorded",
+  "method": "regression",
+  "case": "issue #5951 场景：console.print 抛 UnicodeEncodeError('cp1252', ...)（与 issue 回溯逐字一致）时 assistant_output 的 Text 路径与 Markdown/pretty 路径均不外逃；tests/basic/test_io.py 全量",
+  "summary": "修复前 2 个新回归测试 fail（异常外逃）；修复后 25/25 passed（23 存量 + 2 新增，含既有 _tool_message 兜底测试不回归）；black 23.3.0/flake8 7.1.0/isort 5.12.0 全净",
+  "base_commit": "5dc9490bb35f9729ef2c95d00a19ccd30c26339c",
+  "before": {
+   "commit": "5dc9490bb35f9729ef2c95d00a19ccd30c26339c",
+   "command": "pytest tests/basic/test_io.py -k 'assistant_output_unicode_fallback or assistant_output_markdown'",
+   "environment": "Windows 10 (Git Bash), Python 3.12.4 venv, aider deps",
+   "test_case": "issue #5951 场景：console.print 抛 UnicodeEncodeError('cp1252', ...)（与 issue 回溯逐字一致）时 assistant_output 的 Text 路径与 Markdown/pretty 路径均不外逃；tests/basic/test_io.py 全量",
+   "ran_at": "2026-11-05T20:56:45+00:00",
+   "exit_code": 1,
+   "result": "regression_failed",
+   "scope": "project",
+   "log": {
+    "kind": "local",
+    "ref": "contributions/evidence/aider--issue-5951--prefix-pytest.txt",
+    "sha256": "8bc3c8e0502e641a0880012ee02fe37c756c805ade24109a0c58666c11bb87ae"
+   }
+  },
+  "after": {
+   "commit": "bbd8b8954c1a11cef021468d9ffb335bf3069587",
+   "command": "pytest tests/basic/test_io.py",
+   "environment": "Windows 10 (Git Bash), Python 3.12.4 venv, aider deps",
+   "test_case": "issue #5951 场景：console.print 抛 UnicodeEncodeError('cp1252', ...)（与 issue 回溯逐字一致）时 assistant_output 的 Text 路径与 Markdown/pretty 路径均不外逃；tests/basic/test_io.py 全量",
+   "ran_at": "2026-11-05T20:56:47+00:00",
+   "exit_code": 0,
+   "result": "passed",
+   "scope": "project",
+   "log": {
+    "kind": "local",
+    "ref": "contributions/evidence/aider--issue-5951--postfix-pytest.txt",
+    "sha256": "2d61364aba3b75551229d3a9cbc9cb87e80e2b103d1e8502a2797f8088ff2a36"
+   }
+  }
+ },
+ "feedback": {
+  "checked_at": "2026-11-05T20:57:18+00:00",
+  "items": []
+ },
+ "outcome": {
+  "reason_category": "unknown",
+  "summary": "",
+  "sources": []
+ },
+ "next_actions": [],
+ "provenance": [
+  {
+   "kind": "local",
+   "ref": "contributions/evidence/aider--issue-5951--provenance.txt",
+   "sha256": "f2502d63c5753a611a46bba170e7524d16f59206347a9ad8b7e9100ac4c1d5f9"
+  }
+ ],
+ "submission": {
+  "head": "bbd8b8954c1a11cef021468d9ffb335bf3069587",
+  "body": {
+   "kind": "local",
+   "ref": "contributions/evidence/aider-ai--aider--issue-5951--body-67b96c8766e94378601b38c65b8b4ea989fb5daee32850915ca5b04af5c3cecd.md",
+   "sha256": "67b96c8766e94378601b38c65b8b4ea989fb5daee32850915ca5b04af5c3cecd"
+  },
+  "claims": [
+   {
+    "text": "**Both fail on unpatched code (verified via stash A/B), 25/25 pass with the fix.**",
+    "run": "after"
+   },
+   {
+    "text": "Pinned lint clean on both touched files: `black 23.3.0 --line-length 100 --preview`, `flake8 7.1.0`, `isort 5.12.0` (the repo's pre-commit pins).",
+    "run": "after"
+   }
+  ],
+  "limitations": [
+   "The legacy-Windows render path itself (`legacy_windows_render` → `LegacyWindowsTerm`) only activates on a real legacy console, which CI's Linux runners (and this PR's test suite) do not exercise; the tests target the guard that survives it, and the mocked exception matches the issue's traceback byte-for-byte.",
+   "Other `console.print` call sites (`tool_output` and friends) have the same theoretical exposure; this PR keeps to the reported path to stay atomic."
+  ],
+  "feedback": []
+ }
+}

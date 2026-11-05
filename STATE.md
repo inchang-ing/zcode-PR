@@ -15,17 +15,19 @@
 
 | PR | 仓库 | 状态 | 摘要 |
 | --- | --- | --- | --- |
+| [#5952](https://github.com/Aider-AI/aider/pull/5952) | Aider-AI/aider | OPEN(2026-11-06) | fix: give assistant_output the same ASCII fallback as _tool_message |
+| [#34406](https://github.com/dagster-io/dagster/pull/34406) | dagster-io/dagster | OPEN(2026-11-05) | Fix Helm command flow sequence indentation in daemon and webserver deployments |
+| [#11784](https://github.com/pylint-dev/pylint/pull/11784) | pylint-dev/pylint | OPEN(2026-11-05) | Fix false positive for too-many-statements on empty function bodies |
+| [#3770](https://github.com/agentscope-ai/agentscope/pull/3770) | agentscope-ai/agentscope | OPEN(2026-11-05) | fix(app): re-establish the wakeup signal subscription when it ends |
+| [#3467](https://github.com/pygments/pygments/pull/3467) | pygments/pygments | OPEN(2026-11-05) | Fill in version_added for five lexers whose version line never rendered |
 | [#6310](https://github.com/browser-use/browser-use/pull/6310) | browser-use/browser-use | OPEN(2026-11-05) | fix: accept the advertised doctor flags instead of rejecting them |
 | [#3735](https://github.com/agentscope-ai/agentscope/pull/3735) | agentscope-ai/agentscope | OPEN(2026-11-05) | fix: honor tools/list_changed notifications in stateful MCP clients |
-| [#5305](https://github.com/huggingface/huggingface_hub/pull/5305) | huggingface/huggingface_hub | OPEN(2026-11-05) | Ignore empty user_agent entries when building the User-Agent header |
 | [#5945](https://github.com/Aider-AI/aider/pull/5945) | Aider-AI/aider | OPEN(2026-11-04) | fix: don't crash startup when litellm ships a new exception type |
-| [#9427](https://github.com/comet-ml/opik/pull/9427) | comet-ml/opik | OPEN(2026-11-04) | [issue-9376] [SDK] fix: invalidate dedup hash cache on failed insert |
 | [#6300](https://github.com/browser-use/browser-use/pull/6300) | browser-use/browser-use | OPEN(2026-11-04) | fix(cli): report the browser-use package version for --version |
 | [#3052](https://github.com/truera/trulens/pull/3052) | truera/trulens | OPEN(2026-11-03) | fix(dataset): keep parquet list columns as their elements when curating |
+| [#3057](https://github.com/truera/trulens/pull/3057) | truera/trulens | OPEN(2026-11-05) | fix(huggingface): score an empty statement as ungrounded, not nan |
 | [#2359](https://github.com/coveragepy/coveragepy/pull/2359) | coveragepy/coveragepy | OPEN(2026-11-04) | fix: don't treat a touched file as a conflicting tracer claim |
-| [#2879](https://github.com/567-labs/instructor/pull/2879) | 567-labs/instructor | OPEN(2026-11-03) | fix(dsl): lift AliasPath fields into partial streaming snapshots |
 | [#3981](https://github.com/Arize-ai/openinference/pull/3981) | Arize-ai/openinference | OPEN(2026-10-17) | Fix #3803: record attributes for tuple-valued and unsupported message content parts |
-| [#3998](https://github.com/Arize-ai/openinference/pull/3998) | Arize-ai/openinference | OPEN(2026-10-17) |  |
 | [#850](https://github.com/bashtage/linearmodels/pull/850) | bashtage/linearmodels | OPEN(2026-10-18) | BUG: Test the rank of the IV inputs after scaling the columns |
 | [#4633](https://github.com/traceloop/openllmetry/pull/4633) | traceloop/openllmetry | OPEN(2026-10-18) | fix(sdk): keep local dataset state when a delete request fails |
 | [#46262](https://github.com/BerriAI/litellm/pull/46262) | BerriAI/litellm | OPEN(2026-10-17) |  |
@@ -75,7 +77,6 @@
 | [#17429](https://github.com/Arize-ai/phoenix/pull/17429) | Arize-ai/phoenix | OPEN(2026-10-31) | fix(phoenix-otel): treat empty process env values as unset |
 | [#8588](https://github.com/pymc-devs/pymc/pull/8588) | pymc-devs/pymc | OPEN(2026-10-31) | fix(timeseries): scope the support_shape_offset to the steps dimension |
 | [#11770](https://github.com/pylint-dev/pylint/pull/11770) | pylint-dev/pylint | OPEN(2026-10-31) | Fix false-positive used-before-assignment for walrus in nested dict values |
-| [#5007](https://github.com/docling-project/docling/pull/5007) | docling-project/docling | OPEN(2026-10-25) | fix(docx): keep tables whose w:tblGrid is missing or under-d |
 | [#2350](https://github.com/coveragepy/coveragepy/pull/2350) | coveragepy/coveragepy | OPEN(2026-10-25) | fix: hold the data lock only to snapshot, and make it re-ent |
 | [#3074](https://github.com/vibrantlabsai/ragas/pull/3074) | vibrantlabsai/ragas | OPEN(2026-10-31) | docs: use Answer Relevancy consistently for the answer_relevance metric |
 | [#969](https://github.com/mozilla-ai/any-agent/pull/969) | mozilla-ai/any-agent | OPEN(2026-11-01) | fix(vendor): keep reasoning_content and extra_content through the LangChain tool loop |
@@ -83,7 +84,6 @@
 | [#5125](https://github.com/docling-project/docling/pull/5125) | docling-project/docling | OPEN(2026-11-01) | fix(datamodel): only accept a tar guess that the header confirms |
 | [#1473](https://github.com/huggingface/lighteval/pull/1473) | huggingface/lighteval | OPEN(2026-11-03) | Fill in the translation literals for Latvian, Lithuanian, Maltese and Slovenian |
 | [#5843](https://github.com/robotframework/robotframework/pull/5843) | robotframework/robotframework | OPEN(2026-11-02) | Handle cyclic exception chains when removing Robot traces |
-| [#7860](https://github.com/bytedance/deer-flow/pull/7860) | bytedance/deer-flow | OPEN(2026-11-03) | fix(skills): pair a skill read with the read call of its own turn |
 
 ## 个人 fork 在飞（21）
 

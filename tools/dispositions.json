@@ -1853,5 +1853,9 @@
  "pydantic/pydantic-ai#12643": {
   "date": "2026-11-06",
   "reason": "受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "aider-ai/aider#5951": {
+  "date": "2026-11-06",
+  "reason": "已提交 PR #5952（assistant_output 镜像 _tool_message 的 ASCII 兜底；2 新回归测试修前 fail 修后 25/25，ruff/black/flake8/isort pin 净，EVIDENCE_OK 推送前）"
  }
 }

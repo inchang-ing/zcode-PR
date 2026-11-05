@@ -3842,3 +3842,11 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 
 - 收件箱 1 条 → 0 pending（961 reported / 1040 done）：pydantic-ai#12643 禁投。dispositions 463→464。
 - 本轮 0 干净候选。monitor_oss 68/68 盲点 0；review_sweep 2 ACTION 均为已处置状态。
+
+## 2026-11-06 10:4x 轮（第 65 轮，15 分钟间隔）— 1 新 PR（aider#5952）+ 收件箱 1 条清零
+
+- 收件箱 4 条 → 0 pending（965 reported / 1041 done）：openinference ×3 同仓上限（#3981/#3998 占满）、hub#5309 feature（MCPClient 动态切换 = 设计共识面）。剩 aider#5951 干净（0 XR/0 评论）。
+- **产出 `Aider-AI/aider#5952`**（issue #5951）：legacy Windows 控制台（cp1252）下 rich 的 legacy 渲染器对模型输出中的 U+25BA 等字符抛 UnicodeEncodeError，`assistant_output` 无守卫 → 一个字符毁掉整个会话。修法 = **镜像同文件 `_tool_message` 已有的 ASCII 兜底模式**（仓内 sibling rule，机械修复），pretty 模式退化为无样式文本（与 tool-message 行为一致）。
+- 判别性：2 个新回归测试 mock `console.print` 抛 UnicodeEncodeError('cp1252', ...)（与 issue 回溯逐字一致），**修前 2 fail（checkout origin/main 基线）/ 修后 25/25**；black 23.3.0/flake8 7.1.0/isort 5.12.0 pin 全净；**EVIDENCE_OK 推送前**。
+- 环境坑再记（规律 90 第四次）：A/B 时序又反 + stash 对已提交修复再次无效——「先 commit 后 A/B」必然踩坑，**基线一律 `git checkout origin/main -- <file>`**，本轮靠肌肉记忆 recovery。
+- STATE 68→69（#5952 登记），monitor_oss 69/69 盲点 0；review_sweep 2 ACTION 均为已处置状态。

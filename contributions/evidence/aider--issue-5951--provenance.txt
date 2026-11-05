@@ -1,0 +1,6 @@
+provenance / toolchain for Aider-AI/aider PR (issue #5951)
+- fix authored by the ZCode automated pipeline (GLM model, inchang-ing account authorized), 2026-11-06
+- clone: E:/zcode-PR/work/aider @ origin/main 5dc9490bb35f, branch fix/assistant-output-ascii-fallback, head bbd8b8954c1a
+- venv: Python 3.12.4, aider deps (prompt_toolkit/rich/gitpython/oslex/configargparse/pathspec), pytest; lint pins black 23.3.0 (--line-length 100 --preview), flake8 7.1.0, isort 5.12.0
+- A/B: tests mock console.print raising UnicodeEncodeError('cp1252', ...) exactly as the issue's traceback; pre-fail via `git stash push aider/io.py` (fix uncommitted at A/B time)
+- sibling pattern: _tool_message already carries the identical ASCII fallback in the same file

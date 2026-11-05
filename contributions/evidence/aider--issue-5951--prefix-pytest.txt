@@ -1,0 +1,109 @@
+FF                                                                       [100%]
+================================== FAILURES ===================================
+_ TestInputOutputMultilineMode.test_assistant_output_markdown_unicode_fallback _
+
+self = <tests.basic.test_io.TestInputOutputMultilineMode testMethod=test_assistant_output_markdown_unicode_fallback>
+
+    def test_assistant_output_markdown_unicode_fallback(self):
+        """The pretty (Markdown) path falls back to ASCII text as well"""
+        io = InputOutput(pretty=True, fancy_input=False)
+    
+        with patch.object(io.console, "print") as mock_print:
+            mock_print.side_effect = [
+                UnicodeEncodeError("cp1252", "", 0, 1, "character maps to <undefined>"),
+                None,
+            ]
+    
+>           io.assistant_output("Decision: ► proceed", pretty=True)
+
+tests\basic\test_io.py:390: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+aider\io.py:1041: in assistant_output
+    self.console.print(show_resp)
+D:\python\Lib\unittest\mock.py:1134: in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+D:\python\Lib\unittest\mock.py:1138: in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <MagicMock name='print' id='2319790444272'>
+args = (<rich.markdown.Markdown object at 0x0000021C1E491E20>,), kwargs = {}
+
+    def _execute_mock_call(self, /, *args, **kwargs):
+        # separate from _increment_mock_call so that awaited functions are
+        # executed separately from their call, also AsyncMock overrides this method
+    
+        effect = self.side_effect
+        if effect is not None:
+            if _is_exception(effect):
+                raise effect
+            elif not _callable(effect):
+                result = next(effect)
+                if _is_exception(result):
+>                   raise result
+E                   UnicodeEncodeError: 'cp1252' codec can't encode characters in position 0-0: character maps to <undefined>
+
+D:\python\Lib\unittest\mock.py:1197: UnicodeEncodeError
+---------------------------- Captured stdout call -----------------------------
+Can't initialize prompt toolkit: Found xterm-256color, while expecting a 
+Windows console. Maybe try to run this program using "winpty" or run it in 
+cmd.exe instead. Or otherwise, in case of Cygwin, use the Python executable 
+that is compiled for Cygwin.
+_____ TestInputOutputMultilineMode.test_assistant_output_unicode_fallback _____
+
+self = <tests.basic.test_io.TestInputOutputMultilineMode testMethod=test_assistant_output_unicode_fallback>
+
+    def test_assistant_output_unicode_fallback(self):
+        """Legacy Windows consoles crash rich on chars like U+25BA; the
+        assistant output must survive via the ASCII fallback (issue #5951)"""
+        io = InputOutput(pretty=False, fancy_input=False)
+    
+        with patch.object(io.console, "print") as mock_print:
+            mock_print.side_effect = [
+                UnicodeEncodeError("cp1252", "", 0, 1, "character maps to <undefined>"),
+                None,
+            ]
+    
+>           io.assistant_output("Decision: ► proceed")
+
+tests\basic\test_io.py:374: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+aider\io.py:1041: in assistant_output
+    self.console.print(show_resp)
+D:\python\Lib\unittest\mock.py:1134: in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+D:\python\Lib\unittest\mock.py:1138: in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <MagicMock name='print' id='2319790906288'>
+args = (<text 'Decision: ► proceed' [] ''>,), kwargs = {}
+
+    def _execute_mock_call(self, /, *args, **kwargs):
+        # separate from _increment_mock_call so that awaited functions are
+        # executed separately from their call, also AsyncMock overrides this method
+    
+        effect = self.side_effect
+        if effect is not None:
+            if _is_exception(effect):
+                raise effect
+            elif not _callable(effect):
+                result = next(effect)
+                if _is_exception(result):
+>                   raise result
+E                   UnicodeEncodeError: 'cp1252' codec can't encode characters in position 0-0: character maps to <undefined>
+
+D:\python\Lib\unittest\mock.py:1197: UnicodeEncodeError
+---------------------------- Captured stdout call -----------------------------
+Can't initialize prompt toolkit: Found xterm-256color, while expecting a 
+Windows console. Maybe try to run this program using "winpty" or run it in 
+cmd.exe instead. Or otherwise, in case of Cygwin, use the Python executable 
+that is compiled for Cygwin.
+=========================== short test summary info ===========================
+FAILED tests/basic/test_io.py::TestInputOutputMultilineMode::test_assistant_output_markdown_unicode_fallback
+FAILED tests/basic/test_io.py::TestInputOutputMultilineMode::test_assistant_output_unicode_fallback
+2 failed, 23 deselected in 0.91s
