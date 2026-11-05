@@ -1937,5 +1937,9 @@
  "run-llama/llama_index#23973": {
   "date": "2026-11-06",
   "reason": "同报告者批量（yifanxiong272 Responses API 系列）+ llama-agents 在飞 #866 占席，本轮不扩"
+ },
+ "openhands/openhands#19398": {
+  "date": "2026-11-06",
+  "reason": "人工门禁: PR 描述含真人专属段（HUMAN: ≥20 字符 + human-tested + e2e 证据）"
  }
 }
