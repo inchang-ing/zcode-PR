@@ -1925,5 +1925,9 @@
  "run-llama/llama_index#23972": {
   "date": "2026-11-06",
   "reason": "设计让位（fastmcp#6035 模式）: 修复需解码策略决定——保留 DictState 子类须在反序列化时导入用户类，而 decode_state 安全注释明写「type metadata intentionally not consulted, rows cannot drive module imports」；正确做法是镜像 typed-model 路径的 qualified-name 校验机制扩展到 DictState 子类并定旧 checkpoint 兼容策略，属语义/安全边界，无维护者方向不抢跑。根因已在 dispositions 留档（encode 走 _data 丢声明字段 + decode 硬编码 DictState）。"
+ },
+ "modelcontextprotocol/servers#5482": {
+  "date": "2026-11-06",
+  "reason": "handoff-only: modelcontextprotocol/servers 修复推 fork 后请维护者代开 PR；且为 npm 发布状态问询类 issue"
  }
 }
