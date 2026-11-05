@@ -1805,5 +1805,9 @@
  "langchain-ai/langgraph#9609": {
   "date": "2026-11-06",
   "reason": "assign 门禁仓: 须先分配给当前账号"
+ },
+ "huggingface/smolagents#3117": {
+  "date": "2026-11-06",
+  "reason": "三重让位: 既有 PR #2666 已覆盖该文档更新（XR 确认）+ issue 正文自陈须先获维护者 scope 决定 + #2679 accepted-issue 政策（未接受即动工会被关）"
  }
 }
