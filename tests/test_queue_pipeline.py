@@ -14,6 +14,7 @@ import monitor_fresh as fresh
 import work_queue as queue
 from monitor_oss import ci_fingerprint, ci_summary
 from repository_policy import policy_reason
+from task_state import record_handled
 
 
 class PipelineTests(unittest.TestCase):
@@ -146,7 +147,7 @@ class PipelineTests(unittest.TestCase):
         for repo in ('PyCQA/bandit', 'sqlalchemy/alembic', 'frappe/frappe',
                      'geopandas/geopandas', 'modelcontextprotocol/python-sdk'):
             self.assertTrue(policy_reason(repo))
-        self.assertEqual(policy_reason('modelcontextprotocol/python-sdk', [], ['inchang-ing']), '')
+        self.assertIn('人工门禁', policy_reason('modelcontextprotocol/python-sdk', [], ['inchang-ing']))
 
     def test_autonomous_contribution_restrictions_block_new_and_existing_work(self):
         now = datetime.now(timezone.utc)
@@ -217,6 +218,7 @@ class PipelineTests(unittest.TestCase):
         for timeline, comments, unknown_flag in ((None, [], 'pr_unknown'),
                                                   (False, None, 'cmt_unknown')):
             with self.subTest(unknown_flag=unknown_flag):
+                record_handled(inbox.with_name('inbox_handled.json'), ['a/b#1'], 'Retry this scenario', 'open')
                 inbox.write_text(original, encoding='utf-8')
                 with patch.object(scan, 'gh', return_value=json.dumps(issue)), \
                      patch.object(scan, 'has_linked_pr', side_effect=[timeline, False]), \
@@ -260,6 +262,7 @@ class PipelineTests(unittest.TestCase):
                                            ({'assignees': [{'login': 'someone'}]}, False, []),
                                            ({}, True, []), ({}, False, ['I have a patch'])):
             with self.subTest(fields=fields, timeline=timeline, comments=comments):
+                record_handled(inbox.with_name('inbox_handled.json'), ['a/b#1'], 'Recheck changed evidence', 'open')
                 inbox.write_text(original, encoding='utf-8')
                 with patch.object(scan, 'gh', return_value=json.dumps(dict(issue, **fields))), \
                      patch.object(scan, 'has_linked_pr', return_value=timeline), \

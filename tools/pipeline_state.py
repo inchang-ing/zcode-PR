@@ -4,6 +4,7 @@ import json
 import os
 from pathlib import Path
 import tempfile
+import time
 
 
 @contextmanager
@@ -46,7 +47,15 @@ def atomic_write_text(path, text):
             handle.write(text)
             handle.flush()
             os.fsync(handle.fileno())
-        os.replace(temporary, path)
+        # Windows can briefly block replacement while another process holds the file.
+        for attempt in range(3):
+            try:
+                os.replace(temporary, path)
+                break
+            except PermissionError:
+                if attempt == 2:
+                    raise
+                time.sleep(0.02)
     finally:
         if os.path.exists(temporary):
             os.unlink(temporary)

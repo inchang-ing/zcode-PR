@@ -1,4 +1,4 @@
-"""Scan the focused repository pool; incomplete checks are UNKNOWN, never CLEAN.
+"""Scan the focused repository pool; discovery only; exact checks run after enqueue.
 
 Usage: python tools/scan_candidates.py [--days 2] [--max 6]
 Output: work/ledger/candidates.json (a separate screening report).
@@ -12,21 +12,18 @@ import subprocess
 import sys
 import time
 
-from claim_rules import SOFT, NOT_READY
-from gh_checks import comment_bodies, linked_prs, paginated_items, issue_errors
+from claim_rules import SOFT, NOT_READY, PLATFORM_ONLY, FIXED_IN_PR
+from gh_checks import paginated_items, issue_errors
 from pipeline_state import atomic_write_json, file_lock, read_json_object
 from pr_state import load_pr_state
-from repository_policy import policy_reason
+from repository_pools import load_quality_pool
+from repository_policy import issue_suppression, policy_reason
+from candidate_rules import Candidate, enqueue_candidates
 
 ROOT = Path(__file__).resolve().parents[1]
 POOL = ROOT / "tools/quality_repos.json"
 LEDGER = ROOT / "work/ledger/pr_states.json"
 OUT = ROOT / "work/ledger/candidates.json"
-FIXED_IN_PR = re.compile(
-    "|".join(re.escape(p) for p in (
-        "fixed by pr", "fixed by #", "resolved by pr", "resolved by #",
-        "fixed in pr", "fix reference", "already fixed", "pr that fixes"))
-    + r"|(?:pr|pull request) #\d+ fixes\b|(?<![\w/#])#\d+ fixes\b", re.IGNORECASE)
 ISSUE_REFERENCE = re.compile(
     r"(?P<url>https?://[^\s<>()\[\]]+)|"
     r"(?<![\w/.-])(?:(?P<repo>[\w.-]+/[\w.-]+))?#(?P<number>\d+)\b", re.IGNORECASE)
@@ -65,34 +62,39 @@ def checked_pages(endpoint, parse):
 
 
 def issue_policy_reason(repo, issue):
+    """Reject incomplete evidence separately from a known policy restriction."""
     labels, assignees = issue.get("labels"), issue.get("assignees")
     if not isinstance(labels, list) or any(
             not isinstance(label, dict) or not isinstance(label.get("name"), str)
             or not label["name"].strip() for label in labels):
-        return "labels missing/invalid; recheck required"
+        raise ValueError("labels missing/invalid; recheck required")
     if not isinstance(assignees, list) or any(
             not isinstance(user, dict) or not isinstance(user.get("login"), str)
             or not user["login"].strip() for user in assignees):
-        return "assignees missing/invalid; recheck required"
+        raise ValueError("assignees missing/invalid; recheck required")
     return policy_reason(repo, [label["name"] for label in labels],
                          [user["login"] for user in assignees])
 
 
 def scan(days, maxc):
-    pool = read_json_object(POOL)
+    pool = load_quality_pool(POOL)
     watch = [item["repo"] for item in pool["watch"]]
     heavy = {item["repo"].lower() for item in pool["watch"] if item.get("heavy") or item.get("rust")}
     blocked = {repo.lower() for repo in pool["blocked"]["repos"]}
-    # Old installations use the live account ledger; new clones have the canonical cache.
-    if Path(LEDGER).exists():
+    # Canonical state wins, including an empty cache; legacy is a missing-file fallback.
+    canonical = ROOT / "pr_state.json"
+    if canonical.exists():
+        inflight = {key.split('#')[0].lower() for key, pr in load_pr_state(canonical, ()).items()
+                    if pr.get("state") == "OPEN"}
+    elif Path(LEDGER).exists():
         inflight = {item["repository"]["nameWithOwner"].lower()
                     for item in read_json_object(LEDGER)["external"]}
     else:
-        inflight = {key.split('#')[0].lower() for key, pr in load_pr_state(ROOT / "pr_state.json", ()).items()
-                    if pr.get("state") == "OPEN"}
+        inflight = set()
 
     cutoff = (datetime.now(timezone.utc) - timedelta(days=days)).strftime("%Y-%m-%d")
     clean, skipped, unknown = [], [], []
+    discoveries = []
     scanned = 0
     for repo in watch:
         if repo.lower() in heavy:
@@ -116,7 +118,15 @@ def scan(days, maxc):
                 continue
             if "pull_request" in issue:
                 continue
-            reason = issue_policy_reason(repo, issue)
+            suppression = issue_suppression(repo, issue.get("number"), issue.get("updated_at"))
+            if suppression:
+                skipped.append((f"{repo}#{issue.get('number', '?')}", suppression))
+                continue
+            try:
+                reason = issue_policy_reason(repo, issue)
+            except ValueError as exc:
+                unknown.append((f"{repo}#{issue.get('number', '?')}", str(exc)))
+                continue
             if reason:
                 skipped.append((f"{repo}#{issue.get('number', '?')}", reason))
                 continue
@@ -129,6 +139,10 @@ def scan(days, maxc):
             if issue["state"] != "open" or issue["created_at"][:10] < cutoff:
                 continue
             body = issue["body"]
+            if PLATFORM_ONLY.search(issue["title"]):
+                skipped.append((f"{repo}#{issue['number']}",
+                                "非 Windows 平台专属，本机不可复现"))
+                continue
             if SOFT.search(body) or NOT_READY.search(body):
                 skipped.append((f"{repo}#{issue['number']}", "claimed/not ready"))
                 continue
@@ -153,22 +167,14 @@ def scan(days, maxc):
             key = f"{repo}#{number}"
             if number in recent_refs:
                 continue
-            try:
-                if checked_pages(f"repos/{repo}/issues/{number}/timeline?per_page=100", linked_prs):
-                    continue
-            except ValueError as exc:
-                unknown.append((key, f"timeline: {exc}"))
-                continue
-            try:
-                comments = checked_pages(f"repos/{repo}/issues/{number}/comments?per_page=100", comment_bodies)
-            except ValueError as exc:
-                unknown.append((key, f"comments: {exc}"))
-                continue
-            if any(SOFT.search(body) or NOT_READY.search(body) for body in comments):
-                continue
             clean.append({"repo": repo, "number": number, "title": issue["title"],
                           "created": issue["created_at"][:10], "comments": issue.get("comments", 0),
                           "url": f"https://github.com/{repo}/issues/{number}"})
+            discoveries.append(Candidate(repo, number, issue['title'], clean[-1]['url'],
+                createdAt=issue['created_at'], is_bug=True,
+                labels=[label['name'] for label in issue['labels']],
+                issue_unknown=True, pr_unknown=True, cmt_unknown=True,
+                check_errors=['精选初筛，待共享精确核验']))
             if len(clean) >= maxc:
                 break
         time.sleep(2)
@@ -178,9 +184,10 @@ def scan(days, maxc):
     atomic_write_json(OUT, {"scanned_at": datetime.now(timezone.utc).isoformat(), "days": days,
                             "scanned_repos": scanned, "skipped": skipped,
                             "unknown": unknown, "candidates": clean})
-    print(f"scanned {scanned} repos; clean candidates={len(clean)}; unknown={len(unknown)}")
+    enqueue_candidates(discoveries, ROOT)
+    print(f"scanned {scanned} repos; discovered candidates={len(clean)}; unknown={len(unknown)}")
     for candidate in clean:
-        print(f"  CLEAN {candidate['repo']}#{candidate['number']} {candidate['title'][:60]}")
+        print(f"  DISCOVERED {candidate['repo']}#{candidate['number']} {candidate['title'][:60]}")
     for key, reason in unknown:
         print(f"  UNKNOWN {key}: {reason}")
     print(f"-> {OUT}")

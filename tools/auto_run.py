@@ -20,16 +20,12 @@
   python auto_run.py --per-repo=1 # 默认: 同一仓库本轮最多触发 1 个(真实纪律=同仓在飞≤1, 硬上限2)
   python auto_run.py --max=N      # 可选全局上限(默认不设); 一般不设
 """
-import json, os, re, subprocess, sys, time
-import base64, shutil, hashlib, tarfile, io, tempfile
-import math
-from dataclasses import dataclass, field
-from datetime import datetime
-from pipeline_state import atomic_write_json, file_lock, read_json_object
-from repository_policy import policy_reason
-
-# 提交作者邮箱(须绑 GitHub, 否则 CLA-bot 认不出)
-EMAIL = "197932532+inchang-ing@users.noreply.github.com"
+import argparse
+import os, re, subprocess
+import hashlib, tarfile, io, tempfile
+from pipeline_state import file_lock
+from task_state import DispatchedStore
+import session_claims
 
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # 仓库根(本文件在 tools/)
 CANDIDATES = os.path.join(BASE, "round_candidates.json")   # monitor_round.py 的产物
@@ -40,190 +36,15 @@ WORKDIR = os.path.join(BASE, "work")                        # 仓库克隆目录
 # 1) 候选 / 干净的判定标准
 # ──────────────────────────────────────────────────────────────
 
-# 人工裁定不投: 复核发现正文/评论已自占或维护者明示暂不接受 PR,
-# 但扫描时的 SOFT 正则未覆盖到 → 在此固化判据, 避免每轮重复误判。
-# (例: optuna#6898 正文 "I would like to implement it as Ra1nhy";
-#      sklearn#35139 正文 "I will be pleased to help fix this bug, which will be my first commit"
-#      + 官方 "not yet ready for a PR" 横幅)
-MANUAL_DROP = {key.lower(): reason for key, reason in {
-    "optuna/optuna#6898": "正文自占(I would like to implement it as Ra1nhy)",
-    "scikit-learn/scikit-learn#35139": "正文自占 + 官方 not yet ready for a PR 横幅",
-    "mlflow/mlflow#26605": "正文自占(已有 fix + 分支, 只等 triage)",
-    "crewAIInc/crewAI#8111": "正文自占(I can submit a focused fix)",
-    "stanfordnlp/dspy#10639": "timeline 有关联 PR #10642",
-    "explosion/spaCy#14011": "站点/机器人故障, 非本仓代码 bug",
-}.items()}
-
-# 非 bug 标签: 命中即视为 feature/perf/docs/rfc, 不算"干净"候选
-NON_BUG_LABELS = {
-    "enhancement", "feature", "feature request", "new feature", "perf",
-    "performance", "rfc", "doc", "document", "documentation", "question",
-    "use case", "proposal", "roadmap", "maintenance", "need confirmation",
-    "help wanted", "api design", "needs discussion", "fr",
-}
-
-# 标题 bug 信号(无 bug 标签时, 靠标题推断是否真 bug)
-BUG_TITLE_RE = re.compile(
-    r"\b(bug|regression|panic|error|fail|failed|incorrect|broken|crash|"
-    r"wrong|unexpected|raise[sd]?|keyerror|valueerror|typeerror|"
-    r"attributeerror|indexerror|overflow|timeout|leak)\b", re.I)
-
-
-@dataclass
-class Candidate:
-    """候选对象: monitor_round.py 通过基础 v4 过滤后产出的 issue。"""
-    repo: str
-    number: int
-    title: str
-    url: str
-    createdAt: str = ""
-    is_bug: bool = False
-    labels: list = field(default_factory=list)
-    pr_unknown: bool = False      # timeline 验撞车是否失败(无法确定有无关联 PR)
-    cmt_unknown: bool = False     # 评论软认领检测是否失败
-    issue_unknown: bool = False   # issue 必需字段缺失或格式不完整
-    check_errors: list = field(default_factory=list)
-    clean: bool = False
-    clean_reason: str = ""
-    assignees: list = field(default_factory=list)  # login names; old snapshots have no evidence
-    checked_at: str = ""  # scan observation, not issue creation time
-
-    @property
-    def key(self) -> str:
-        return f"{self.repo}#{self.number}"
-
-
-def _has_non_bug_label(c: Candidate) -> bool:
-    return any(lb.lower() in NON_BUG_LABELS for lb in c.labels)
-
-
-def _is_real_bug(c: Candidate) -> bool:
-    """真 bug 判定: is_bug 标签, 或(无 feature 类标签 + 标题含 bug 信号)。"""
-    if c.is_bug:
-        return True
-    if _has_non_bug_label(c):
-        return False
-    return bool(BUG_TITLE_RE.search(c.title))
-
-
-def is_clean(c: Candidate, store: "DispatchedStore"):
-    """干净判定(全部满足才算 clean):
-       ① 满足共享仓库限制      ② 可本地测试
-       ③ 真 bug(非 feature 等) ④ timeline/评论检测均已确认(pr_unknown/cmt_unknown 均为 False)
-       ⑤ 尚未派发(dedup)
-    返回 (bool, reason)。
-    """
-    if c.key.lower() in MANUAL_DROP:
-        return False, f"人工裁定不投: {MANUAL_DROP[c.key.lower()]}"
-    reason = policy_reason(c.repo, c.labels, c.assignees)
-    if reason:
-        return False, reason
-    if not _is_real_bug(c):
-        return False, "非 bug(feature/perf/docs/rfc 等)"
-    if c.issue_unknown or c.pr_unknown or c.cmt_unknown:
-        return False, "issue/撞车/认领检测不确定, 保守跳过"
-    if store.is_active(c.key):
-        return False, f"已派发(dedup): {store.status_of(c.key)}"
-    return True, "clean: 通过 v4 + 非受限 + 可测 + 真 bug + 未派发"
-
+# Compatibility exports for existing imports; shared rules live independently.
+from candidate_rules import (Candidate, is_clean, load_candidates, _is_real_bug,
+                             _has_non_bug_label, MANUAL_DROP, NON_BUG_LABELS, BUG_TITLE_RE)
 
 # ──────────────────────────────────────────────────────────────
 # 2) 去重状态库(防重复触发)
 # ──────────────────────────────────────────────────────────────
 
-class DispatchedStore:
-    """持久化记录每个候选的派发状态, 跨 45 分钟多轮去重。
-    进行中/已提交/已排除不再派发；待复现、复现失败可重试。
-    deferred 通过 retry_after (UTC ISO 时间或 Unix 秒) 指定复查时间。
-    """
-
-    # needs_repro 不在此集合: 只是"还没人写复现", 非终态, 下轮可重试
-    ACTIVE = {"running", "pr_opened", "needs_fix", "needs_verification"}
-    TERMINAL = {"dropped", "merged", "closed"}
-    RETRYABLE = {"pending", "needs_repro", "repro_failed", "dry_run"}
-
-    def __init__(self, path: str = DISPATCHED):
-        self.path = path
-        self.data = self._normalize(read_json_object(path))
-
-    @staticmethod
-    def _validate(data):
-        if any(not isinstance(value, dict) for value in data.values()):
-            raise ValueError("Invalid dispatched state: each candidate must be an object")
-
-    @classmethod
-    def _normalize(cls, data):
-        cls._validate(data)
-        normalized, priorities = {}, {}
-        for key, entry in data.items():
-            key = key.lower()
-            status = entry.get("status")
-            # Legacy aliases must not revive finished work or hide an in-flight PR.
-            rank = (3 if status in cls.ACTIVE else
-                    2 if status not in cls.RETRYABLE | {"deferred"} else
-                    int(cls._entry_active(entry)))
-            stamp = entry.get("ts", 0)
-            if not isinstance(stamp, (int, float)) or not math.isfinite(stamp):
-                stamp = 0
-            priority = (rank, stamp)
-            if key not in normalized or priority > priorities[key]:
-                normalized[key], priorities[key] = entry, priority
-        return normalized
-
-    @classmethod
-    def _entry_active(cls, entry) -> bool:
-        if entry is None:
-            return False
-        status = entry.get("status")
-        if status in cls.ACTIVE or status in cls.TERMINAL:
-            return True
-        if status not in cls.RETRYABLE | {"deferred"}:
-            return True
-        retry_after = entry.get("retry_after")
-        if retry_after is not None:
-            try:
-                if isinstance(retry_after, str):
-                    date = datetime.fromisoformat(retry_after.replace("Z", "+00:00"))
-                    if date.tzinfo is None:
-                        return True
-                    retry_after = date.timestamp()
-                retry_after = float(retry_after)
-                return not math.isfinite(retry_after) or retry_after > time.time()
-            except (TypeError, ValueError, OverflowError):
-                return True
-        return status not in cls.RETRYABLE
-
-    def is_active(self, key: str) -> bool:
-        return self._entry_active(self.data.get(key.lower()))
-
-    def status_of(self, key: str) -> str:
-        return self.data.get(key.lower(), {}).get("status", "none")
-
-    def repo_inflight(self, repo: str) -> bool:
-        """该仓是否已有在飞(跨轮累计)。用于落实真实纪律「同仓在飞 ≤1」,
-        而不是「一轮只能跑一个」——后者并无此硬约束。"""
-        pre = f"{repo.lower()}#"
-        return any(k.startswith(pre) and v.get("status") in self.ACTIVE
-                   for k, v in self.data.items())
-
-    def mark(self, key: str, status: str, *, only_if_inactive=False, expected=None, **extra):
-        """Write under lock; dispatch and completion can guard the latest record."""
-        if status not in self.ACTIVE | self.TERMINAL | self.RETRYABLE | {"deferred"}:
-            raise ValueError(f"Unknown candidate status: {status}")
-        with file_lock(self.path):
-            data = self._normalize(read_json_object(self.path))
-            current = data.get(key.lower())
-            if ((only_if_inactive and self._entry_active(current))
-                    or (expected is not None and current != expected)):
-                self.data = data
-                return False
-            entry = {**(current or {}), "status": status, "ts": time.time(), **extra}
-            if "retry_after" not in extra:
-                entry.pop("retry_after", None)
-            data[key.lower()] = entry
-            atomic_write_json(self.path, data)
-            self.data = data
-            return True
+# DispatchedStore remains exported here for existing callers.
 
 
 # ──────────────────────────────────────────────────────────────
@@ -245,7 +66,7 @@ def _reproduce(c: Candidate, repo_path: str) -> bool:
     return False
 
 
-# ── 代理安全 I/O(本沙箱 git https 被代理拦 502, 故 clone/push 走 tarball+gh api) ──
+# ── 本地源码准备与快照 ──
 
 def _sha256_file(p: str) -> str:
     h = hashlib.sha256()
@@ -267,72 +88,53 @@ def _snapshot_hashes(root: str) -> dict:
 
 
 def _clone_via_tarball(repo: str) -> str:
-    """代理安全拉取 main 源码(tarball, 无 .git)。解压到 WORKDIR/{name},
-    与旧 git clone 路径约定一致, 故既有 FIXER 路径假设不变。"""
+    """拉取 main 源码到 WORKDIR/{name}，保留既有路径；仅清理本次 staging。"""
+    if (not isinstance(repo, str)
+            or not re.fullmatch(r"[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+", repo)
+            or any(part in {".", ".."} for part in repo.split("/"))):
+        raise ValueError("无效 GitHub owner/repo")
     name = repo.split("/")[1]
     dest = os.path.join(WORKDIR, name)
-    url = f"https://github.com/{repo}/archive/refs/heads/main.tar.gz"
-    p = subprocess.run(["curl", "-sL", "--max-time", "240", url],
-                       capture_output=True)
-    if p.returncode != 0 or len(p.stdout) < 1000:
-        raise RuntimeError(f"tarball 下载失败 {url} rc={p.returncode} len={len(p.stdout)}")
-    tmp = tempfile.mkdtemp(dir=WORKDIR)
-    with tarfile.open(fileobj=io.BytesIO(p.stdout), mode="r:gz") as tf:
-        tf.extractall(tmp)
-    subs = [d for d in os.listdir(tmp) if d.startswith(name + "-")]
-    if not subs:
-        raise RuntimeError("tarball 解压后无源码子目录")
-    srcdir = os.path.join(tmp, subs[0])
-    if os.path.isdir(dest):
-        shutil.rmtree(dest)
-    shutil.move(srcdir, dest)
-    shutil.rmtree(tmp, ignore_errors=True)
+    with file_lock(dest):
+        if os.path.lexists(dest):
+            raise FileExistsError(f"源码目标已存在，拒绝覆盖: {dest}")
+        url = f"https://github.com/{repo}/archive/refs/heads/main.tar.gz"
+        p = subprocess.run(["curl", "-sL", "--max-time", "240", url],
+                           capture_output=True)
+        if p.returncode != 0 or len(p.stdout) < 1000:
+            raise RuntimeError(f"tarball 下载失败 {url} rc={p.returncode} len={len(p.stdout)}")
+        with tempfile.TemporaryDirectory(dir=WORKDIR) as tmp:
+            with tarfile.open(fileobj=io.BytesIO(p.stdout), mode="r:gz") as tf:
+                tf.extractall(tmp, filter=tarfile.data_filter)
+            subs = os.listdir(tmp)
+            if len(subs) != 1 or subs[0].lower() != f"{name}-main".lower():
+                raise RuntimeError("tarball 必须只有一个对应仓库的 main 源码根目录")
+            srcdir = os.path.join(tmp, subs[0])
+            if not os.path.isdir(srcdir) or os.path.islink(srcdir):
+                raise RuntimeError("tarball 源码根必须是实际目录")
+            root = os.path.realpath(srcdir)
+            final_root = os.path.realpath(dest)
+            for directory, dirs, files in os.walk(srcdir):
+                for entry in dirs + files:
+                    path = os.path.join(directory, entry)
+                    if os.path.islink(path):
+                        target = os.readlink(path)
+                        prefix, crossed_link = directory, False
+                        for part in re.split(r"[\\/]", target):
+                            if part == ".." and crossed_link:
+                                raise RuntimeError("tarball 链接越出源码根目录: 链接之后包含 '..'")
+                            prefix = os.path.join(prefix, part)
+                            crossed_link = crossed_link or os.path.islink(prefix)
+                        relocated = os.path.abspath(os.path.join(
+                            final_root, os.path.relpath(directory, srcdir), target))
+                        if (os.path.commonpath([root, os.path.realpath(path)]) != root
+                                or os.path.commonpath([final_root, relocated]) != final_root):
+                            raise RuntimeError("tarball 链接越出源码根目录")
+            # Reserve the target atomically so a late directory cannot become a move container.
+            os.mkdir(dest)
+            for entry in os.listdir(srcdir):
+                os.rename(os.path.join(srcdir, entry), os.path.join(dest, entry))
     return dest
-
-
-def _push_via_api(repo: str, branch: str, base_commit: str, base_tree: str,
-                  changed_abs: list, commit_msg: str) -> str:
-    """代理安全推送: 建 blob→tree(overlay)→commit→ref 到 fork(inchang-ing/{name})。
-    仅 overlay 改动文件, 不截断仓库。返回 commit sha。"""
-    owner = "inchang-ing"
-    name = repo.split("/")[1]
-    if subprocess.run(["gh", "api", f"repos/{owner}/{name}"],
-                       capture_output=True, text=True).returncode != 0:
-        subprocess.run(["gh", "api", "-X", "POST", f"repos/{repo}/forks"],
-                       capture_output=True, text=True)
-    root = os.path.join(WORKDIR, name)
-    tree_items = []
-    for ap in changed_abs:
-        content = open(ap, "rb").read()
-        b = subprocess.run(
-            ["gh", "api", "-X", "POST", f"repos/{owner}/{name}/git/blobs", "--input", "-"],
-            input=json.dumps({"content": base64.b64encode(content).decode(),
-                              "encoding": "base64"}),
-            capture_output=True, text=True)
-        blob_sha = json.loads(b.stdout)["sha"]
-        rel = os.path.relpath(ap, root).replace(os.sep, "/")
-        tree_items.append({"path": rel, "mode": "100644", "type": "blob", "sha": blob_sha})
-    t = subprocess.run(
-        ["gh", "api", "-X", "POST", f"repos/{owner}/{name}/git/trees", "--input", "-"],
-        input=json.dumps({"base_tree": base_tree, "tree": tree_items}),
-        capture_output=True, text=True)
-    tree_sha = json.loads(t.stdout)["sha"]
-    c = subprocess.run(
-        ["gh", "api", "-X", "POST", f"repos/{owner}/{name}/git/commits", "--input", "-"],
-        input=json.dumps({"message": commit_msg, "tree": tree_sha, "parents": [base_commit]}),
-        capture_output=True, text=True)
-    commit_sha = json.loads(c.stdout)["sha"]
-    ref = f"heads/{branch}"
-    if subprocess.run(["gh", "api", f"repos/{owner}/{name}/git/ref/{ref}"],
-                      capture_output=True, text=True).returncode == 0:
-        subprocess.run(["gh", "api", "-X", "PATCH", f"repos/{owner}/{name}/git/ref/{ref}",
-                        "--input", "-"], input=json.dumps({"sha": commit_sha}),
-                       capture_output=True, text=True)
-    else:
-        subprocess.run(["gh", "api", "-X", "POST", f"repos/{owner}/{name}/git/refs",
-                        "--input", "-"], input=json.dumps({"ref": ref, "sha": commit_sha}),
-                       capture_output=True, text=True)
-    return commit_sha
 
 
 def run(c: Candidate, store: DispatchedStore, dry_run: bool = False):
@@ -345,88 +147,95 @@ def run(c: Candidate, store: DispatchedStore, dry_run: bool = False):
             print(f"  [dry-run] WOULD RUN {c.key}: {c.title}")
         return
 
-    no_hooks = c.key not in REPROS and c.key not in FIXERS
-    initial = "needs_repro" if no_hooks else "running"
-    extra = {"reason": "无注册 REPRO/FIXER, 待 agent 提供; 不克隆不消耗名额"} if no_hooks else {}
-    if not store.mark(c.key, initial, only_if_inactive=True, **extra):
-        print(f"  [dedup] SKIP {c.key} 已派发({store.status_of(c.key)})")
+    lease_path = store.root / 'work/ledger/session_claims.json'
+    token = session_claims.claim(c.key, 'auto_run', path=lease_path)
+    if token is None:
+        print(f"  [claimed] SKIP {c.key} 已由其他会话认领")
         return
-    if no_hooks:
-        print(f"  [run] {c.key} 无注册 REPRO/FIXER → needs_repro(不克隆, 下轮可重试)")
-        return
-
-    claimed = dict(store.data[c.key.lower()])
-
-    def finish(status, **fields):
-        if store.mark(c.key, status, expected=claimed, **fields):
-            return True
-        print(f"  [run] {c.key} 状态已被其他操作更新，保留最新记录")
-        return False
-
-    print(f"  [run] >> {c.key}: {c.title}")
-    repo_path = os.path.join(WORKDIR, c.repo.split("/")[1])
-
     try:
-        # (a) 代理安全拉源码(tarball, 覆盖式刷新到 main)
-        repo_path = _clone_via_tarball(c.repo)
-
-        # (b) 复现(判别力硬门槛: 撤修复→fail / 恢复→pass; 这里先要有 fail)
-        if not _reproduce(c, repo_path):
-            if finish("repro_failed", reason="无法本地复现, 不硬凑"):
-                print(f"  [run] {c.key} 复现失败 → repro_failed(不提 PR)")
+        no_hooks = c.key not in REPROS and c.key not in FIXERS
+        initial = "needs_repro" if no_hooks else "running"
+        extra = {"reason": "无注册 REPRO/FIXER, 待 agent 提供; 不克隆不消耗名额"} if no_hooks else {}
+        if not store.mark(c.key, initial, only_if_inactive=True, **extra):
+            print(f"  [dedup] SKIP {c.key} 已派发({store.status_of(c.key)})")
             return
-
-        # (c) 应用补丁(钩子)
-        fixer = FIXERS.get(c.key)
-        if fixer is None:
-            if finish("needs_fix", reason="已复现但无注册修复逻辑, 待 agent 实现补丁"):
-                print(f"  [run] {c.key} 已复现但无 FIXER → needs_fix(不伪造 PR)")
+        if no_hooks:
+            print(f"  [run] {c.key} 无注册 REPRO/FIXER → needs_repro(不克隆, 下轮可重试)")
             return
+        claimed = dict(store.data[c.key.lower()])
 
-        before = _snapshot_hashes(repo_path)
-        fixer(c, repo_path)
-        after = _snapshot_hashes(repo_path)
-        changed = [p for p in after if before.get(p) != after.get(p)]
-        if not changed:
-            if finish("needs_fix", reason="fixer 未改动任何文件, 不提 PR"):
-                print(f"  [run] {c.key} fixer 无改动 → needs_fix")
-            return
+        def require_lease():
+            if not session_claims.renew(c.key, token, path=lease_path):
+                raise RuntimeError('任务认领已失效，停止准备')
 
-        # A changed tarball is not a tested final Git commit or submission evidence.
-        if finish("needs_verification", changed=changed,
-                  reason="将补丁落入目标 Git checkout，完成回归及 quality_check.py 后按规则提交"):
-            print(f"  [run] {c.key} → needs_verification：完成最终提交与证据检查后再提交")
-    except Exception as e:  # 任何步骤失败都不留半成品 PR
-        if finish("repro_failed", reason=f"run 异常: {e}"):
-            print(f"  [run] {c.key} 异常 → {e}")
+        def finish(status, **fields):
+            if not session_claims.renew(c.key, token, path=lease_path):
+                print(f"  [run] {c.key} 认领已失效，保留现有状态")
+                return False
+            if store.mark(c.key, status, expected=claimed, **fields):
+                return True
+            print(f"  [run] {c.key} 状态已被其他操作更新，保留最新记录")
+            return False
+
+        print(f"  [run] >> {c.key}: {c.title}")
+        repo_path = os.path.join(WORKDIR, c.repo.split("/")[1])
+
+        try:
+            # (a) 拉取 main 源码，拒绝覆盖既有工作目录。
+            repo_path = _clone_via_tarball(c.repo)
+
+            require_lease()
+
+            # (b) 复现(判别力硬门槛: 撤修复→fail / 恢复→pass; 这里先要有 fail)
+            if not _reproduce(c, repo_path):
+                if finish("repro_failed", reason="无法本地复现, 不硬凑"):
+                    print(f"  [run] {c.key} 复现失败 → repro_failed(不提 PR)")
+                return
+
+            # (c) 应用补丁(钩子)
+            fixer = FIXERS.get(c.key)
+            if fixer is None:
+                if finish("needs_fix", reason="已复现但无注册修复逻辑, 待 agent 实现补丁"):
+                    print(f"  [run] {c.key} 已复现但无 FIXER → needs_fix(不伪造 PR)")
+                return
+
+            require_lease()
+            before = _snapshot_hashes(repo_path)
+            fixer(c, repo_path)
+            after = _snapshot_hashes(repo_path)
+            changed = [p for p in sorted(before.keys() | after.keys()) if before.get(p) != after.get(p)]
+            if not changed:
+                if finish("needs_fix", reason="fixer 未改动任何文件, 不提 PR"):
+                    print(f"  [run] {c.key} fixer 无改动 → needs_fix")
+                return
+
+            # A changed tarball is not a tested final Git commit or submission evidence.
+            if finish("needs_verification", changed=changed,
+                      reason="将补丁落入目标 Git checkout，完成回归及 quality_check.py 后按规则提交"):
+                print(f"  [run] {c.key} → needs_verification：完成最终提交与证据检查后再提交")
+        except BaseException as e:  # 任何步骤失败都不留半成品 PR
+            if finish("repro_failed", reason=f"run 异常: {e}"):
+                print(f"  [run] {c.key} 异常 → {e}")
+            if not isinstance(e, Exception):
+                raise
+
+    finally:
+        session_claims.release(c.key, token, path=lease_path)
 
 
 # ──────────────────────────────────────────────────────────────
 # 4) 主循环: 遍历候选, clean 的瞬间触发 run()
 # ──────────────────────────────────────────────────────────────
 
-def load_candidates(path: str = CANDIDATES) -> list:
-    if not os.path.exists(path):
-        return []
-    with open(path, encoding="utf-8") as f:
-        return [Candidate(**c) for c in json.load(f)]
-
-
-def main():
-    dry = "--dry-run" in sys.argv
-    max_n = None          # 可选全局上限, 默认不设(能跑几个跑几个)
-    per_repo = 1          # 真实纪律: 同仓在飞 ≤1(硬上限 2)
-    for a in sys.argv[1:]:
-        if a.startswith("--max="):
-            try:
-                max_n = int(a.split("=", 1)[1])
-            except ValueError:
-                pass
-        elif a.startswith("--per-repo="):
-            try:
-                per_repo = int(a.split("=", 1)[1])
-            except ValueError:
-                pass
+def main(argv=None):
+    parser = argparse.ArgumentParser(description=__doc__, allow_abbrev=False)
+    parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument("--max", type=int)
+    parser.add_argument("--per-repo", type=int, default=1)
+    args = parser.parse_args(argv)
+    if (args.max is not None and args.max < 0) or args.per_repo < 0:
+        parser.error("--max and --per-repo must be non-negative")
+    dry, max_n, per_repo = args.dry_run, args.max, args.per_repo
     cands = load_candidates()
     store = DispatchedStore()
     clean_n = 0
@@ -443,8 +252,9 @@ def main():
             if max_n is not None and clean_n >= max_n:
                 print(f"  [max] 已达全局上限 {max_n}, 余下留待下轮")
                 continue
-            clean_n += 1
-            repo_n[repo_key] = repo_n.get(repo_key, 0) + 1
+            if dry or c.key in REPROS or c.key in FIXERS:
+                clean_n += 1
+                repo_n[repo_key] = repo_n.get(repo_key, 0) + 1
             run(c, store, dry_run=dry)      # ← 满足条件的瞬间立即触发
         else:
             print(f"  skip {c.key}: {why}")

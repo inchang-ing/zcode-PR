@@ -30,6 +30,7 @@ poll_once() {
 }
 
 round=0
+last_rc=1
 while [ "$(date +%s)" -lt "$deadline" ]; do
     if [ "$max_rounds" -gt 0 ] && [ "$round" -ge "$max_rounds" ]; then
         break
@@ -37,14 +38,17 @@ while [ "$(date +%s)" -lt "$deadline" ]; do
     round=$((round + 1))
     echo "--- round $round at $(date -u +%Y-%m-%dT%H:%M:%SZ) ---"
     # A transient API error must not end a six-hour shift; the next round is
-    # one interval away and the lookback window covers whatever was missed.
+    # one interval away; failed repositories retain their previous checkpoints.
     poll_once "$@"
     rc=$?
+    last_rc="$rc"
     if [ "$rc" = "42" ]; then
         # 42 is the poller's "switch is off" code, not a failure: stop now
-        # rather than at the end of the shift, so turning the lane off takes
-        # effect within one interval instead of within six hours.
+        # rather than at the end of the shift. Without Variables API access,
+        # use pipeline_switch off to cancel the active run directly.
         echo "pipeline switch is off, ending shift early"
+        if [ -n "${GITHUB_OUTPUT:-}" ]; then echo "stopped=true" >> "$GITHUB_OUTPUT"; fi
+        last_rc=0
         break
     elif [ "$rc" != "0" ]; then
         echo "round $round failed ($rc), continuing"
@@ -66,3 +70,6 @@ while [ "$(date +%s)" -lt "$deadline" ]; do
 done
 
 echo "shift finished after $round round(s) at $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+
+# A final complete round covers earlier failures through per-repository checkpoints.
+exit "$last_rc"

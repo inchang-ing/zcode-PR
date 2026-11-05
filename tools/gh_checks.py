@@ -1,5 +1,5 @@
 """Validate GitHub responses before treating a candidate as checked."""
-import json
+import github_read
 
 
 def issue_errors(issue):
@@ -26,20 +26,10 @@ def issue_errors(issue):
 
 def paginated_items(output):
     """gh api --paginate --slurp returns one array containing every page."""
-    if output is None:
-        raise ValueError("请求失败或超时")
     try:
-        pages = json.loads(output)
-    except (ValueError, TypeError) as exc:
-        raise ValueError("返回无效 JSON") from exc
-    if not isinstance(pages, list) or not pages or any(
-        not isinstance(page, list) for page in pages
-    ):
-        raise ValueError("分页返回结构无效")
-    items = [item for page in pages for item in page]
-    if any(not isinstance(item, dict) for item in items):
-        raise ValueError("分页记录不是对象")
-    return items
+        return github_read.paginated_items(output)
+    except github_read.GitHubReadError as exc:
+        raise ValueError(str(exc)) from exc
 
 
 def linked_prs(output):

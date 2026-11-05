@@ -18,11 +18,12 @@ sys.path.insert(0, str(ROOT / "tools"))
 spec = importlib.util.spec_from_file_location("operational_scan", SCRIPT)
 scan = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(scan)
+import monitor_round
 
 
 class OperationalScanTests(unittest.TestCase):
     def scan_repo(self, repo, changes=None, missing=(), blocked=False, collision=False,
-                  responses=None):
+                  responses=None, expected_status=None, canonical=None, legacy_repos=(), precise=False):
         issue = {"number": 1, "title": "Bug: crash", "body": "A reproducible error",
                  "created_at": "9999-01-01T00:00:00Z", "comments": 0,
                  "html_url": f"https://github.com/{repo}/issues/1",
@@ -48,20 +49,81 @@ class OperationalScanTests(unittest.TestCase):
             pool, ledger, out = root / "pool.json", root / "ledger.json", root / "out.json"
             pool.write_text(json.dumps({"watch": [{"repo": repo}],
                 "blocked": {"repos": [repo] if blocked else []}}), encoding="utf-8")
-            ledger.write_text('{"external": []}', encoding="utf-8")
-            with patch.multiple(scan, POOL=str(pool), LEDGER=str(ledger), OUT=str(out)), \
+            ledger.write_text(json.dumps({"external": [
+                {"repository": {"nameWithOwner": repo}} for repo in legacy_repos]}), encoding="utf-8")
+            if canonical is not None:
+                (root / "pr_state.json").write_text(json.dumps(canonical), encoding="utf-8")
+            with patch.multiple(scan, ROOT=root, POOL=str(pool), LEDGER=str(ledger), OUT=str(out)), \
                     patch.object(sys, "argv", ["scan_candidates.py"]), \
                     patch.object(scan, "gh", side_effect=gh) as api, \
                     patch.object(scan.time, "sleep"), contextlib.redirect_stdout(io.StringIO()):
-                scan.main()
-            return json.loads(out.read_text(encoding="utf-8")), [c.args[0] for c in api.call_args_list]
+                status = scan.main()
+            if expected_status is not None:
+                self.assertEqual(status, expected_status)
+            report = json.loads(out.read_text(encoding="utf-8"))
+            calls = [c.args[0] for c in api.call_args_list]
+            if report["candidates"]:
+                pending = json.loads((root / "tools/fresh_candidates.json").read_text(encoding="utf-8"))
+                candidate = pending[f"{repo.lower()}#1"]
+                self.assertTrue(candidate["issue_unknown"] and candidate["pr_unknown"] and candidate["cmt_unknown"])
+            if precise and report["candidates"]:
+                exact = root / "round.json"
+                with patch.object(monitor_round, "gh", side_effect=lambda args: json.dumps(gh(args[1], *args[2:]))) as checks, \
+                     patch.object(monitor_round.time, "sleep"), contextlib.redirect_stdout(io.StringIO()):
+                    monitor_round.scan([repo], exact, {repo: [dict(issue, state="OPEN")]})
+                calls += [call.args[0][1] for call in checks.call_args_list]
+                report["candidates"] = json.loads(exact.read_text(encoding="utf-8"))
+            return report, calls
+
+    def test_canonical_open_pr_overrides_empty_legacy_ledger(self):
+        report, calls = self.scan_repo("example/repo", canonical={"example/repo#9": {"state": "OPEN"}})
+        self.assertEqual(report["skipped"], [["example/repo", "in-flight"]])
+        self.assertEqual(report["candidates"], [])
+        self.assertEqual(calls, [])
+
+    def test_canonical_ended_pr_overrides_stale_legacy_ledger(self):
+        for state in ("MERGED", "CLOSED"):
+            with self.subTest(state=state):
+                report, calls = self.scan_repo("example/repo",
+                    canonical={"example/repo#9": {"state": state}}, legacy_repos=["example/repo"])
+                self.assertEqual([item["number"] for item in report["candidates"]], [1])
+                self.assertEqual(report["skipped"], [])
+                self.assertTrue(calls)
+
+    def test_empty_canonical_overrides_stale_legacy_ledger(self):
+        report, _ = self.scan_repo("example/repo", canonical={}, legacy_repos=["example/repo"])
+        self.assertEqual([item["number"] for item in report["candidates"]], [1])
+        self.assertEqual(report["skipped"], [])
+
+    def test_absent_canonical_falls_back_to_legacy_ledger(self):
+        report, calls = self.scan_repo("example/repo", legacy_repos=["example/repo"])
+        self.assertEqual(report["skipped"], [["example/repo", "in-flight"]])
+        self.assertEqual(calls, [])
+
+    def test_bad_canonical_does_not_fall_back_query_or_overwrite_report(self):
+        for raw in ('{broken', '[]', '{"example/repo#9": {"state": "BROKEN"}}'):
+            with self.subTest(raw=raw), tempfile.TemporaryDirectory() as directory:
+                root = Path(directory)
+                pool, ledger, out = root / "pool.json", root / "ledger.json", root / "out.json"
+                pool.write_text(json.dumps({"watch": [{"repo": "example/repo"}], "blocked": {"repos": []}}))
+                ledger.write_text('{"external": []}')
+                (root / "pr_state.json").write_text(raw)
+                original = b'{"previous": "keep"}\n'
+                out.write_bytes(original)
+                with patch.multiple(scan, ROOT=root, POOL=pool, LEDGER=ledger, OUT=out), \
+                        patch.object(scan, "gh") as api, self.assertRaises(ValueError):
+                    scan.main([])
+                api.assert_not_called()
+                self.assertEqual(out.read_bytes(), original)
 
     def test_shared_repository_and_assignment_gates(self):
-        for repo in ("ansible/ansible", "Python-Markdown/markdown", "langchain-ai/langchain"):
+        for repo in ("ansible/ansible", "Python-Markdown/markdown", "langchain-ai/langchain",
+                     "modelcontextprotocol/servers"):
             with self.subTest(repo=repo):
-                report, calls = self.scan_repo(repo)
+                report, calls = self.scan_repo(repo, expected_status=0)
                 self.assertEqual(report["candidates"], [])
                 self.assertTrue(report["skipped"])
+                self.assertEqual(report["unknown"], [])
                 self.assertEqual(len(calls), 1)
 
     def test_allowed_repo_and_self_assignment_pass(self):
@@ -70,8 +132,8 @@ class OperationalScanTests(unittest.TestCase):
             with self.subTest(repo=repo):
                 report, calls = self.scan_repo(repo, changes)
                 self.assertEqual([c["number"] for c in report["candidates"]], [1])
-                self.assertTrue(any("/timeline?" in call for call in calls))
-                self.assertTrue(any("/comments" in call for call in calls))
+                self.assertFalse(any("/timeline?" in call for call in calls))
+                self.assertFalse(any("/comments" in call for call in calls))
 
     def test_missing_or_malformed_policy_fields_never_pass(self):
         cases = [({}, (field,)) for field in ("labels", "assignees")]
@@ -80,17 +142,21 @@ class OperationalScanTests(unittest.TestCase):
             cases += [({field: value}, ()) for value in values]
         for changes, missing in cases:
             with self.subTest(changes=changes, missing=missing):
-                report, calls = self.scan_repo("example/repo", changes, missing)
+                report, calls = self.scan_repo("example/repo", changes, missing, expected_status=1)
                 self.assertEqual(report["candidates"], [])
-                self.assertIn("recheck required", report["skipped"][0][1])
+                self.assertEqual(report["skipped"], [])
+                self.assertEqual(report["unknown"][0][0], "example/repo#1")
+                self.assertIn("recheck required", report["unknown"][0][1])
                 self.assertEqual(len(calls), 1)
 
     def test_other_assignee_and_required_label_are_preserved(self):
         for repo, changes in (("example/repo", {"assignees": [{"login": "someone-else"}]}),
                               ("mlflow/mlflow", {})):
             with self.subTest(repo=repo):
-                report, _ = self.scan_repo(repo, changes)
+                report, _ = self.scan_repo(repo, changes, expected_status=0)
                 self.assertEqual(report["candidates"], [])
+                self.assertTrue(report["skipped"])
+                self.assertEqual(report["unknown"], [])
 
     def test_local_block_and_collision_checks_still_apply(self):
         report, calls = self.scan_repo("example/repo", blocked=True)
@@ -111,7 +177,7 @@ class OperationalScanTests(unittest.TestCase):
                     pull[field] = f"Follow up on {reference}"
                     report, calls = self.scan_repo("example/repo", responses={"/pulls?": [[pull]]})
                     self.assertEqual([c["number"] for c in report["candidates"]], [1])
-                    self.assertTrue(any("/timeline?" in call for call in calls))
+                    self.assertFalse(any("/timeline?" in call for call in calls))
 
     def test_local_qualified_and_independent_references_still_block(self):
         for reference in ("#1", "example/repo#1", "EXAMPLE/REPO#1",
@@ -128,8 +194,8 @@ class OperationalScanTests(unittest.TestCase):
                 self.assertEqual(report["candidates"], [])
                 self.assertFalse(any("/timeline?" in call for call in calls))
 
-    def test_failed_collision_or_claim_check_is_unknown(self):
-        for endpoint in ("/pulls?", "/timeline?", "/comments"):
+    def test_failed_repository_collision_check_is_unknown(self):
+        for endpoint in ("/pulls?",):
             for response in ({"__error__": "HTTP 502"}, {"__ratelimit__": True}, None):
                 with self.subTest(endpoint=endpoint, response=response):
                     report, _ = self.scan_repo("example/repo", responses={endpoint: response})
@@ -149,11 +215,11 @@ class OperationalScanTests(unittest.TestCase):
                 [[{"body": "Confirmed"}], [{"body": "I can open a PR"}]],
                 [[{"body": "Confirmed"}], [{"body": "Do not open a PR"}]]):
             with self.subTest(comments=comments):
-                report, _ = self.scan_repo("example/repo", responses={"/comments": comments})
+                report, _ = self.scan_repo("example/repo", responses={"/comments": comments}, precise=True)
                 self.assertEqual(report["candidates"], [])
 
-    def test_malformed_check_pages_are_unknown(self):
-        for endpoint in ("/pulls?", "/timeline?", "/comments"):
+    def test_malformed_repository_pull_pages_are_unknown(self):
+        for endpoint in ("/pulls?",):
             for response in ([], {}, [[] , [None]], [[{}]]):
                 with self.subTest(endpoint=endpoint, response=response):
                     report, _ = self.scan_repo("example/repo", responses={endpoint: response})
@@ -164,7 +230,7 @@ class OperationalScanTests(unittest.TestCase):
         for body in ("Can I take it?", "I'll submit my fix tomorrow",
                      "I have a focused fix ready", "Please assign this issue to X"):
             with self.subTest(body=body):
-                report, _ = self.scan_repo("example/repo", responses={"/comments": [[{"body": body}]]})
+                report, _ = self.scan_repo("example/repo", responses={"/comments": [[{"body": body}]]}, precise=True)
                 self.assertEqual(report["candidates"], [])
 
     def test_numbered_pr_fix_claims_in_body_are_skipped(self):
@@ -176,19 +242,23 @@ class OperationalScanTests(unittest.TestCase):
                 report, _ = self.scan_repo("example/repo", changes={"body": body})
                 self.assertEqual(report["candidates"], [])
 
-    def test_complete_paginated_checks_allow_candidate(self):
+    def test_discovery_then_precise_scan_checks_comments_and_timeline_once(self):
         report, calls = self.scan_repo("example/repo", responses={
             "/pulls?": [[], [{"title": "Unrelated fix #2", "body": None}]],
             "/timeline?": [[{"event": "labeled"}], [{"event": "commented"}]],
             "/comments": [[{"body": "Confirmed"}], [{"body": "Thanks for the report"}]],
-        })
+        }, precise=True)
         self.assertEqual([c["number"] for c in report["candidates"]], [1])
         self.assertEqual(report["unknown"], [])
-        self.assertTrue(any("/comments?per_page=100" in call for call in calls))
+        self.assertEqual(sum("/comments?per_page=100" in call for call in calls), 1)
+        self.assertEqual(sum("/timeline?per_page=100" in call for call in calls), 1)
+        self.assertEqual(sum("/pulls?" in call for call in calls), 1)
+        self.assertFalse(report["candidates"][0]["pr_unknown"])
+        self.assertFalse(report["candidates"][0]["cmt_unknown"])
 
     def test_second_page_linked_pr_blocks(self):
         event = {"event": "cross-referenced", "source": {"issue": {"number": 9, "pull_request": {}}}}
-        report, _ = self.scan_repo("example/repo", responses={"/timeline?": [[], [event]]})
+        report, _ = self.scan_repo("example/repo", responses={"/timeline?": [[], [event]]}, precise=True)
         self.assertEqual(report["candidates"], [])
         self.assertEqual(report["unknown"], [])
 
@@ -197,18 +267,14 @@ class OperationalScanTests(unittest.TestCase):
             with self.subTest(error=error), patch.object(scan.subprocess, "run", side_effect=error):
                 self.assertIn("__error__", scan.gh("repos/a/b/issues"))
 
-    def test_pagination_options_reach_cli(self):
-        for parse, payload, expected in (
-                (scan.comment_bodies, [[{"body": "Confirmed"}], [{"body": "Later reply"}]],
-                 ["Confirmed", "Later reply"]),
-                (scan.linked_prs, [[], [{"event": "cross-referenced", "source": {"issue": {
-                    "number": 9, "pull_request": {}}}}]], [9])):
-            with self.subTest(parse=parse.__name__), patch.object(scan.subprocess, "run", return_value=
-                    subprocess.CompletedProcess(["gh"], 0, json.dumps(payload), "")) as run:
-                self.assertEqual(scan.checked_pages("repos/a/b/issues/1/comments?per_page=100", parse), expected)
-                args = run.call_args.args[0]
-                self.assertIn("--paginate", args)
-                self.assertIn("--slurp", args)
+    def test_pull_pagination_options_reach_cli(self):
+        payload = [[{"title": "First", "body": ""}], [{"title": "Second", "body": None}]]
+        with patch.object(scan.subprocess, "run", return_value=
+                subprocess.CompletedProcess(["gh"], 0, json.dumps(payload), "")) as run:
+            self.assertEqual(scan.checked_pages("repos/a/b/pulls?per_page=100", scan.paginated_items),
+                             payload[0] + payload[1])
+            self.assertIn("--paginate", run.call_args.args[0])
+            self.assertIn("--slurp", run.call_args.args[0])
 
     def test_unknown_report_returns_failure_without_clean_candidate(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -216,7 +282,7 @@ class OperationalScanTests(unittest.TestCase):
             pool, ledger, out = root / "pool.json", root / "ledger.json", root / "out.json"
             pool.write_text(json.dumps({"watch": [{"repo": "example/repo"}], "blocked": {"repos": []}}))
             ledger.write_text('{"external": []}')
-            with patch.multiple(scan, POOL=pool, LEDGER=ledger, OUT=out), \
+            with patch.multiple(scan, ROOT=root, POOL=pool, LEDGER=ledger, OUT=out), \
                  patch.object(scan, "gh", return_value={"__error__": "offline"}), \
                  contextlib.redirect_stdout(io.StringIO()):
                 self.assertEqual(scan.main([]), 1)
@@ -229,9 +295,11 @@ class OperationalScanTests(unittest.TestCase):
             root = Path(directory)
             tools = root / "tools"
             tools.mkdir()
-            for name in ("scan_candidates.py", "quality_repos.json", "claim_rules.py", "gh_checks.py",
-                         "pipeline_state.py", "pr_state.py", "repository_policy.py"):
-                shutil.copy2(ROOT / "tools" / name, tools / name)
+            # Copy source modules, not live business state or ignored workspaces.
+            # Shared module extraction must not require a hand-maintained import list.
+            for source in (ROOT / "tools").glob("*.py"):
+                shutil.copy2(source, tools / source.name)
+            shutil.copy2(ROOT / "tools/quality_repos.json", tools / "quality_repos.json")
             (root / "work").mkdir()
             shutil.copy2(ROOT / "work/scan_candidates.py", root / "work/scan_candidates.py")
             # Import and execute in a new process so the original checkout cannot supply dependencies.

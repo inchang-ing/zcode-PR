@@ -12,6 +12,7 @@ PR_STATUS_PATH = ROOT / "PR_STATUS.md"
 LEGACY_PATHS = (ROOT / ".trash" / "scope_baseline.json",
                 ROOT / ".trash" / "scope_oss_baseline.json")
 VALID_STATES = {"OPEN", "CLOSED", "MERGED"}
+CI_FIELDS = ("ci", "ci_head_oid", "ci_fingerprint", "ci_checked_at")
 
 
 def utc_now():
@@ -39,13 +40,87 @@ def ci_binding_error(record):
     return ""
 
 
+def normalize_pr_records(records):
+    """Use one identity per PR; resolve old aliases only with ordered evidence."""
+    groups = {}
+    for key, record in records.items():
+        if not isinstance(key, str) or not isinstance(record, dict):
+            raise ValueError("Expected PR identity and record object")
+        if record.get("state") not in (*VALID_STATES, None, "QUERY_ERROR"):
+            raise ValueError(f"Invalid PR state for {key}")
+        groups.setdefault(key.lower(), []).append(record)
+    normalized = {}
+    for key, aliases in groups.items():
+        if all(record == aliases[0] for record in aliases):
+            normalized[key] = dict(aliases[0])
+            continue
+        if (any(record.get("state") == "QUERY_ERROR" for record in aliases)
+                and any(record.get("state") != "QUERY_ERROR" for record in aliases)):
+            raise ValueError(f"Ambiguous PR aliases for {key}: mixed successful and failed query observations")
+
+        def timestamp(value):
+            try:
+                parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+                if parsed.tzinfo is not None:
+                    return parsed
+            except (AttributeError, ValueError):
+                pass
+            raise ValueError(f"Ambiguous PR aliases for {key}: missing or invalid observation time")
+
+        successful = [record for record in aliases if record.get("state") in VALID_STATES]
+        candidates = successful or aliases
+        ordered = sorted(((timestamp(record.get("checked_at") if successful else
+                                     record.get("query_error_at") or record.get("checked_at")), record)
+                          for record in candidates), key=lambda item: item[0])
+        merged, previous_time, previous_payload = {}, None, None
+        for observed_at, record in ordered:
+            payload = {field: value for field, value in record.items()
+                       if field not in {"query_error", "query_error_at"}}
+            comparable = {field: value for field, value in payload.items()
+                          if field != "checked_at" and field not in CI_FIELDS}
+            if observed_at == previous_time and comparable != previous_payload:
+                raise ValueError(f"Ambiguous PR aliases for {key}: conflicting observations at the same time")
+            merged.update(payload)
+            previous_time, previous_payload = observed_at, comparable
+
+        errors = sorted(((timestamp(record.get("query_error_at")), record["query_error"],
+                          record.get("query_error_at")) for record in aliases if record.get("query_error")),
+                        key=lambda item: item[0])
+        if errors:
+            error_at, message, original_time = errors[-1]
+            if (successful and error_at == previous_time
+                    or any(at == error_at and text != message for at, text, _ in errors)):
+                raise ValueError(f"Ambiguous PR aliases for {key}: conflicting error and recovery times")
+            if not successful or error_at > previous_time:
+                merged.update(query_error=message, query_error_at=original_time)
+        ci_groups = [{field: record[field] for field in CI_FIELDS if field in record}
+                     for record in aliases if any(field in record for field in CI_FIELDS)]
+        if ci_groups:
+            selected_ci = ci_groups[0]
+            if any(group != selected_ci for group in ci_groups):
+                ci_ordered = sorted(((timestamp(group.get("ci_checked_at")), group) for group in ci_groups),
+                                    key=lambda item: item[0])
+                previous_ci_time, previous_ci = None, None
+                for checked_at, group in ci_ordered:
+                    comparable = {field: value for field, value in group.items() if field != "ci_checked_at"}
+                    if checked_at == previous_ci_time and comparable != previous_ci:
+                        raise ValueError(f"Ambiguous PR aliases for {key}: conflicting CI at the same time")
+                    previous_ci_time, previous_ci = checked_at, comparable
+                selected_ci = ci_ordered[-1][1]
+            for field in CI_FIELDS:
+                merged.pop(field, None)
+            merged.update(selected_ci)
+        normalized[key] = merged
+    return normalized
+
+
 def _validate_records(records, path):
     for key, value in records.items():
         if not isinstance(value, dict):
             raise ValueError(f"Expected PR record object for {key} in {path}")
-        if value.get("state") not in VALID_STATES | {None}:
+        if value.get("state") not in (*VALID_STATES, None):
             raise ValueError(f"Invalid PR state for {key} in {path}")
-    return records
+    return normalize_pr_records(records)
 
 
 def load_pr_state(path=PR_STATE_PATH, legacy_paths=LEGACY_PATHS):
@@ -63,13 +138,13 @@ def load_pr_state(path=PR_STATE_PATH, legacy_paths=LEGACY_PATHS):
                 merged.setdefault(key, {})["query_error"] = value.get("_err") or "Legacy query failed"
             else:
                 raise ValueError(f"Invalid legacy PR state for {key} in {legacy}")
-    return merged
+    return _validate_records(merged, path)
 
 
 def merge_observations(previous, observations):
     """Keep fields an entry point did not fetch, and keep successful data on errors."""
-    merged = {key: dict(value) for key, value in previous.items()}
-    for key, observation in observations.items():
+    merged = normalize_pr_records(previous)
+    for key, observation in normalize_pr_records(observations).items():
         record = merged.setdefault(key, {})
         queried_at = observation.get("checked_at") or utc_now()
         if observation.get("state") not in VALID_STATES:
@@ -89,6 +164,7 @@ def _cell(value):
 
 
 def render_pr_status(records, generated_at=None):
+    records = normalize_pr_records(records)
     generated_at = generated_at or utc_now()
     lines = ["# PR 状态", "", f"生成时间：{generated_at}", "",
              "自动生成的只读展示，请勿手动编辑。权威数据：`pr_state.json`；跟踪范围仍由 `STATE.md` 选择。",

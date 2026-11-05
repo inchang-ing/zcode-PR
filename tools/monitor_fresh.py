@@ -5,8 +5,8 @@ Fired every ~15 min by the cron automation. Prints only issues CREATED
 since the previous check (state in tools/monitor_state.json).
 
 Tiering (rate-limit aware):
-  T1  scan_agent.CORE (agent core, ~51)        — every fire
-  T2  scan_agent.WATCH + scan_agent2.G (~47)   — every fire
+  T1  repository_pools.CORE (agent core, ~51)        — every fire
+  T2  repository_pools.WATCH + G (~47)   — every fire
   T3  secondary + pools A/B/C/D/E (~340)       — 1/3 rotating slice per
       fire (full coverage ~every 45 min); slice index persists in state.
 
@@ -26,6 +26,7 @@ from datetime import datetime, timedelta, timezone
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from pipeline_state import atomic_write_json, file_lock, read_json_object
+from candidate_rules import contribution_kind
 
 GH = r"C:\Program Files\GitHub CLI\gh.exe"
 STATE_PATH = str(Path(__file__).resolve().parent / "monitor_state.json")
@@ -35,91 +36,9 @@ T3_SLICES = 3
 ALWAYS_SLICES = 2  # rotate the always tier across fires (halves per-fire cost)
 NOISE_SUBSTRINGS = ("ScreenContextAgent",)
 
-# Secondary EXTENSION pool lives only in STATE.md section 5.
-EXTENSION_POOL = [
-    "tobymao/sqlglot",
-    "ipython/ipython",
-    "redis/redis-py",
-    "pypa/setuptools",
-    "strawberry-graphql/strawberry",
-    "python/mypy",
-    "python-attrs/attrs",
-    "python-websockets/websockets",
-    "tiangolo/typer",
-    "elastic/elasticsearch-py",
-    "agronholm/anyio",
-    "sqlalchemy/alembic",
-    "agronholm/apscheduler",
-]
-
-
-def _norm(repo: str) -> str | None:
-    """Normalise a pool entry; None = skip.
-
-    Applies DEAD_OR_RENAMED (stale 404 slugs -> canonical slug or None) and
-    drops policy-blocked / non-testable repos, so every pool builder that
-    consumes build_tiers inherits the same hygiene without per-tool lists.
-    """
-    sys.path.insert(0, str(Path(__file__).resolve().parent))
-    from repository_policy import (
-        BLOCKED_OWNERS,
-        BLOCKED_REPOS,
-        DEAD_OR_RENAMED,
-        NON_TESTABLE,
-    )
-
-    repo = repo.strip().rstrip("?")
-    if not repo or "/skip" in repo:
-        return None
-    repo = repo.lower()
-    repo = DEAD_OR_RENAMED.get(repo, repo)
-    if repo is None:
-        return None
-    if repo in NON_TESTABLE or repo in BLOCKED_REPOS:
-        return None
-    if repo.split("/", 1)[0] in BLOCKED_OWNERS:
-        return None
-    return repo
-
-
-def build_tiers() -> tuple[list[str], list[str]]:
-    """Return (always_scanned, rotating_pool) with dedupe, fastest wins."""
-    sys.path.insert(0, str(Path(__file__).resolve().parent))
-    from scan_agent import CORE, WATCH
-    from scan_agent2 import G
-    from scan_recon2 import NEW_POOL, MAIN_POOL
-    from scan_recon3 import POOL_B
-    from scan_recon4 import POOL_C
-    from scan_recon5 import POOL_D
-    from scan_recon6 import POOL_E
-
-    t1, seen = [], set()
-    for raw in CORE:
-        r = _norm(raw)
-        if r and r not in seen:
-            seen.add(r)
-            t1.append(r)
-    t2 = []
-    for raw in list(WATCH) + list(G):
-        r = _norm(raw)
-        if r and r not in seen:
-            seen.add(r)
-            t2.append(r)
-    t3 = []
-    for raw in (
-        list(MAIN_POOL)
-        + list(EXTENSION_POOL)
-        + list(NEW_POOL)
-        + list(POOL_B)
-        + list(POOL_C)
-        + list(POOL_D)
-        + list(POOL_E)
-    ):
-        r = _norm(raw)
-        if r and r not in seen:
-            seen.add(r)
-            t3.append(r)
-    return t1 + t2, t3
+# Compatibility exports for callers; the pool loader contains no scanner code.
+from repository_pools import build_tiers, normalize_repo as _norm, load_pool
+EXTENSION_POOL = load_pool("EXTENSION_POOL", normalize=False)
 
 
 def gh_api(path: str) -> str:
@@ -200,6 +119,7 @@ def persist_discoveries(items):
             key = f"{item['repo'].lower()}#{item['num']}"
             inbox.setdefault(key, {"repo": item['repo'], "number": item['num'],
                 "title": item['title'], "url": f"https://github.com/{item['repo']}/issues/{item['num']}",
+                "kind": contribution_kind(item['labels'].split(',')),
                 "labels": item['labels'].split(',') if item['labels'] else [],
                 "issue_unknown": True, "pr_unknown": True, "cmt_unknown": True,
                 "check_errors": ["新发现，尚未执行共享核验"]})

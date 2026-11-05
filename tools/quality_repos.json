@@ -123,8 +123,184 @@
    "note": "PR创建受限，勿投"
   },
   {
-   "repo": "psutil/psutil",
-   "note": "C为主，慎选"
+   "repo": "giampaolo/psutil",
+   "note": "C为主，慎选；原名 psutil/psutil 解析不到（2026-10-29 校正）"
+  },
+  {
+   "repo": "pylint-dev/pylint",
+   "note": "已合4个，maintainer接受"
+  },
+  {
+   "repo": "pylint-dev/astroid",
+   "note": "已合1个"
+  },
+  {
+   "repo": "statsmodels/statsmodels",
+   "note": "已合2个，纯Python统计"
+  },
+  {
+   "repo": "bokeh/bokeh",
+   "note": "已合1个，纯Python可视化"
+  },
+  {
+   "repo": "zauberzeug/nicegui",
+   "note": "已合1个"
+  },
+  {
+   "repo": "pydicom/pydicom",
+   "note": "已合1个，纯Python"
+  },
+  {
+   "repo": "Azure/PyRIT",
+   "note": "已合1个，MS系"
+  },
+  {
+   "repo": "pytest-dev/execnet",
+   "note": "已合1个，纯Python小仓"
+  },
+  {
+   "repo": "flet-dev/flet",
+   "note": "已合1个"
+  },
+  {
+   "repo": "bashtage/linearmodels",
+   "note": "已合1个，纯Python"
+  },
+  {
+   "repo": "python/mypy",
+   "note": "已合1个，类型检查器"
+  },
+  {
+   "repo": "apache/seatunnel",
+   "note": "已合1个"
+  },
+  {
+   "repo": "microsoft/semantic-kernel",
+   "note": "已合1个，MS系"
+  },
+  {
+   "repo": "UKPLab/sentence-transformers",
+   "note": "HF，纯Python层"
+  },
+  {
+   "repo": "pydantic/pydantic-ai",
+   "note": "注意与pydantic主仓区分"
+  },
+  {
+   "repo": "langflow-ai/langflow",
+   "note": "低代码LLM"
+  },
+  {
+   "repo": "gradio-app/gradio",
+   "note": "HF，纯Python"
+  },
+  {
+   "repo": "fastapi/fastapi",
+   "note": "热门Web框架"
+  },
+  {
+   "repo": "fastapi/typer",
+   "note": "CLI，纯Python"
+  },
+  {
+   "repo": "Kludex/starlette",
+   "note": "ASGI，纯Python"
+  },
+  {
+   "repo": "Kludex/uvicorn",
+   "note": "ASGI，纯Python"
+  },
+  {
+   "repo": "aio-libs/aiohttp",
+   "note": "在飞1，纯Python部分可投"
+  },
+  {
+   "repo": "tornadoweb/tornado",
+   "note": "纯Python"
+  },
+  {
+   "repo": "tortoise/tortoise-orm",
+   "note": "ORM，纯Python"
+  },
+  {
+   "repo": "explosion/spaCy",
+   "note": "注意Cython层issue不可修"
+  },
+  {
+   "repo": "cleanlab/cleanlab",
+   "note": "纯Python ML"
+  },
+  {
+   "repo": "huggingface/peft",
+   "note": "HF，纯Python"
+  },
+  {
+   "repo": "huggingface/transformers",
+   "note": "heavy，仅纯Python端bug"
+  },
+  {
+   "repo": "langfuse/langfuse",
+   "note": "LLM观测"
+  },
+  {
+   "repo": "Arize-ai/phoenix",
+   "note": "LLM观测，纯Python"
+  },
+  {
+   "repo": "vibrantlabsai/ragas",
+   "note": "LLM评测，纯Python"
+  },
+  {
+   "repo": "jupyter/notebook",
+   "note": "注意triage标签门禁"
+  },
+  {
+   "repo": "django/django",
+   "note": "大，纯Python但重"
+  },
+  {
+   "repo": "hydra-ecosystem/hydra",
+   "note": "配置框架，纯Python"
+  },
+  {
+   "repo": "guidance-ai/guidance",
+   "note": "LLM约束生成"
+  },
+  {
+   "repo": "astral-sh/ruff",
+   "note": "Rust核心，仅Python端bug"
+  },
+  {
+   "repo": "Textualize/rich",
+   "note": "纯Python终端输出"
+  },
+  {
+   "repo": "Textualize/textual",
+   "note": "纯Python TUI"
+  },
+  {
+   "repo": "agronholm/anyio",
+   "note": "纯Python异步兼容层"
+  },
+  {
+   "repo": "python-trio/trio",
+   "note": "纯Python异步"
+  },
+  {
+   "repo": "marshmallow-code/marshmallow",
+   "note": "纯Python序列化"
+  },
+  {
+   "repo": "python-attrs/cattrs",
+   "note": "纯Python"
+  },
+  {
+   "repo": "dateutil/dateutil",
+   "note": "纯Python小仓"
+  },
+  {
+   "repo": "psf/black",
+   "note": "格式化器，纯Python"
   }
  ],
  "blocked": {

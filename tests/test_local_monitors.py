@@ -57,6 +57,7 @@ class PRMonitorTests(unittest.TestCase):
                 patch.object(module, "REPORT", str(path.parent / "PR_STATUS.md")), \
                 patch.object(module, loader, return_value=dict.fromkeys(keys)), \
                 patch.object(module, "fetch", side_effect=lambda k: values[k]), \
+                patch.object(oss, "audit_scope"), \
                 contextlib.redirect_stdout(output):
             status = module.main()
         return output.getvalue(), status

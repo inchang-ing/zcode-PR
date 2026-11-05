@@ -9,6 +9,10 @@ import subprocess
 import sys
 import time
 from pathlib import Path
+from repository_pools import load_quality_pool, normalize_repos
+from claim_rules import SOFT, NOT_READY, FIXED_IN_PR
+from candidate_rules import Candidate, contribution_kind, enqueue_candidates
+from pipeline_state import atomic_write_json, file_lock
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "tools"))
@@ -49,17 +53,10 @@ def gh_json(args, retries=2):
 
 
 def load_repos():
-    d = json.loads((ROOT / "tools" / "quality_repos.json").read_text(encoding="utf-8"))
-    watch = d.get("watch", [])
-    names = [x if isinstance(x, str) else x.get("repo") for x in watch]
-    out = []
-    for n in names:
-        if not n:
-            continue
-        if pol.policy_reason(n):
-            continue
-        out.append(n)
-    return out
+    pool = load_quality_pool(ROOT / "tools" / "quality_repos.json")
+    blocked = set(pool["blocked"]["repos"])
+    return [item["repo"] for item in pool["watch"]
+            if item["repo"] not in blocked and not pol.policy_reason(item["repo"], kind="docs")]
 
 
 def interesting(issue):
@@ -75,12 +72,11 @@ def interesting(issue):
                 "needs design", "stale", "on hold", "blocked"):
         if bad in labels:
             return False, "label:" + bad
-    body = (issue.get("body") or "").lower()
-    for claim in ("i will open a pr", "i'll open a pr", "i have a patch", "i have a fix",
-                  "already fixed", "fixed by #", "opened #", "submitted pr",
-                  "i am working on", "i'm working on", "assigned to me"):
-        if claim in body:
-            return False, "claimed"
+    body = issue.get("body") or ""
+    if SOFT.search(body) or NOT_READY.search(body):
+        return False, "claimed"
+    if FIXED_IN_PR.search(body):
+        return False, "already-fixed"
     return True, ""
 
 
@@ -88,7 +84,7 @@ def main():
     limit = int(sys.argv[1]) if len(sys.argv) > 1 else 24
     extra = sys.argv[2].split(",") if len(sys.argv) > 2 and sys.argv[2] else []
     if extra:
-        repos = [r.strip() for r in extra if r.strip()]
+        repos = normalize_repos(extra)
     else:
         repos = load_repos()[:limit]
     found, skipped = [], []
@@ -103,15 +99,22 @@ def main():
                 if err == "rate-limited":
                     print("!! rate limited, stopping", flush=True)
                     dump(found, skipped, repos)
-                    return
+                    return 1
                 continue
             for it in data or []:
                 ok, why = interesting(it)
+                labels = [label["name"] for label in it.get("labels", [])]
+                kind = contribution_kind(labels)
+                reason = pol.policy_reason(repo, labels,
+                    [user["login"] for user in it.get("assignees", [])], kind=kind)
+                if reason:
+                    ok, why = False, reason
                 rec = {
                     "repo": repo,
-                    "n": it["number"],
+                    "number": it["number"],
                     "title": it["title"],
-                    "labels": labels[0],
+                    "labels": labels,
+                    "kind": kind,
                     "updated": it.get("updated_at"),
                     "comments": it.get("comments"),
                     "url": it["html_url"],
@@ -124,6 +127,7 @@ def main():
         print(f"{repo}: {'+' + str(len([f for f in found if f['repo'] == repo])) if got_any else '0'}", flush=True)
         time.sleep(0.4)
     dump(found, skipped, repos)
+    return int(any("err" in item for item in skipped))
 
 
 def dump(found, skipped, repos):
@@ -131,11 +135,13 @@ def dump(found, skipped, repos):
     payload = {"scanned": len(repos), "repos": repos,
                "candidates": found, "skipped": skipped,
                "ts": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
-    tmp = OUT.with_suffix(".tmp")
-    tmp.write_text(json.dumps(payload, ensure_ascii=False, indent=1), encoding="utf-8")
-    tmp.replace(OUT)
+    with file_lock(OUT):
+        atomic_write_json(OUT, payload)
+    enqueue_candidates([Candidate(item['repo'], item['number'], item['title'], item['url'],
+        labels=item['labels'], kind=item['kind'], issue_unknown=True, pr_unknown=True, cmt_unknown=True,
+        check_errors=['文档/小修初筛，待共享精确核验']) for item in found], ROOT)
     print(f"\ncandidates={len(found)} skipped={len(skipped)} -> {OUT}")
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

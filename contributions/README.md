@@ -21,7 +21,8 @@ python -S tools/contributions.py render
 ## 字段和证据
 
 - `policy`、`collision`：状态、最后核验时间、结论、来源。默认 `unverified`；改成 `verified` 必须有时间、摘要和来源。结构校验不能代替阅读政策或完成所有撞车检查。
-- `verification`：`unverified` 或 `recorded`；后者仅表示 fail→pass 证据字段和日志摘要齐全，不声称工具重新执行过测试。
+- `kind`：`bug / docs / small_fix / tooling`，缺失时按 bug 兼容。`new --kind docs` 可创建文档记录；类型不改变仓库准入与撞车要求。
+- `verification`：`unverified` 或 `recorded`；后者仅表示所选验证方式的证据字段和日志摘要齐全，不声称工具重新执行过测试。默认 `method=regression` 使用 fail→pass；纯文档可用下述 documentation 方式。
 - `feedback`：维护者原话/事实用 `fact`，自己的理解用 `interpretation`。事实必须附原始评论或评审链接；没有反馈条目不代表维护者没回复，须查看 `checked_at`。
 - `outcome`：记录原因及证据，类别为 `unknown / duplicate / scope / tests / other`。非 unknown 必须有原始链接和解释，不能从“关闭”推测拒绝原因。
 - `next_actions`：自己的建议待办，不冒充维护者指令。
@@ -63,6 +64,12 @@ python -S tools/contributions.py render
 
 修复前须是目标回归失败，修复后须退出码 0 且 `result=passed`；环境和用例标识须一致，提交号须不同。依赖安装失败等应记为 `environment_error`，不能凑成 fail→pass。修复前的测试提交应已经包含回归用例，但尚未包含修复。命令可以因工作目录不同而不同，须在日志中说明。
 
+## 纯文档验证
+
+`new --kind docs` 初始化 `verification.method=documentation`。记录 `base_commit`（PR 完整改动所基于的完整提交 SHA）、`summary`（原说明的问题与确认依据）、`case` 和成功的 `after` 运行。after 仍需命令、环境、时间、用例、当前提交 SHA 及原始日志，scope 可为 `documentation` 或 `project`；before 可为空，无需人为制造失败测试。
+
+实际运行相关示例、文档构建、渲染或链接检查，选择能证明修正的方式。提交检查要求基线是当前 HEAD 的祖先，并检查整个 `base_commit..HEAD`：仅允许 `.md/.markdown/.rst/.txt/.adoc/.mdx` 文件，且必须存在改动；requirements/constraints 清单、CMakeLists.txt 以及代码重命名为文档均不能走此路径。修改 Python docstring、可执行示例、CI 或工具链仍使用 regression 方式与前后对照证据，不能仅改 kind 绕过回归验证。基线必须覆盖整个 PR，工具不会替录入者从远端确认 PR 基线。
+
 ## 提交前与返工检查
 
 `quality_check.py` 复用本记录与日志，离线检查准备提交的具体版本。首次提交和每次评审返工使用相同流程。先完成最终 Git 提交、真实入口测试、政策和撞车核验；已有 PR 还须刷新原始反馈并逐项录入事实。远端配置中应包含记录仓库（通常为 upstream），工作区须干净，包括未跟踪文件。
@@ -93,7 +100,7 @@ python -S tools/quality_check.py check owner--repo--issue-123 --checkout E:/zcod
 
 这只是需要编辑的字段，保留 prepare 已生成的 head 和 body。没有反馈时 feedback 为 `[]`。每条事实反馈都需分类：`addressed` 关联本轮回归验证；`not_actionable` 说明无需代码修改的理由；`unresolved` 写明未解决原因并阻止通过。指纹绑定来源、摘要和观察时间，插入或修改反馈不能继承旧的“已处理”。维护者建议的行为要求仍须阅读理解，工具不替代这一判断。
 
-before/after 的 `scope` 如实录入 `project`（真实项目入口及依赖）、`isolated`（抽取代码或独立脚本）、`stub`（替代依赖）；后两者只算局部证据，不能通过本检查。after.commit 必须等于当前 HEAD，before 提交必须能在本地 Git 中解析；测试时间不可在未来或前后倒置。工具不重新执行测试，不自动确认导入路径、平台和依赖是否真实，录入者须核验日志。
+regression 方式下 before/after 的 `scope` 如实录入 `project`（真实项目入口及依赖）、`isolated`（抽取代码或独立脚本）、`stub`（替代依赖）；后两者只算局部证据，不能通过本检查。after.commit 必须等于当前 HEAD，before 提交必须能在本地 Git 中解析；测试时间不可在未来或前后倒置。工具不重新执行测试，不自动确认导入路径、平台和依赖是否真实，录入者须核验日志。
 
 policy、collision 需有 24 小时内的核验记录；标签/分配门禁仓还需在 policy 中记录 `labels`、`assignees` 字符串列表。共享禁投/暂缓规则照常执行，不能靠 verified 标记绕过。已有 PR 或已记录事实反馈时，feedback.checked_at 也须在 24 小时内；查看远端后如实更新，离线工具不会自动抓取新评论。
 
@@ -103,6 +110,6 @@ policy、collision 需有 24 小时内的核验记录；标签/分配门禁仓�
 
 ## 统计口径
 
-报告按仓库、问题类型、修复方式展示样本数量及缓存状态。`MERGED/(MERGED+CLOSED)` 只针对有核验时间、无查询错误的已结束样本；OPEN 和未知不进入分母。报告保留缓存时间，不把缓存冒充实时状态。
+报告按贡献类型、仓库、问题类型、修复方式展示样本数量及缓存状态，文档与 bug 分开统计。`MERGED/(MERGED+CLOSED)` 只针对有核验时间、无查询错误的已结束样本；OPEN 和未知不进入分母。报告保留缓存时间，不把缓存冒充实时状态。
 
 首批只有三个历史样本，尚不足以比较贡献质量；没有补造维护者反馈、归因或工作时长。后续有证据再补充。校验失败时生成命令退出非零，保留上一份报告，避免将坏数据替换成新台账。

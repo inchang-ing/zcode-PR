@@ -14,87 +14,45 @@
 
 gh 调用统一用 `--repo owner/repo NUM`,避免 `repo#num` 形式触发的 git 仓库解析错误。
 """
-import subprocess, json, re, pathlib, sys
+import pathlib, sys
+
+import github_read
+import pr_monitor
+from concurrent.futures import ThreadPoolExecutor
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 from pipeline_state import file_lock
 from pr_state import (PR_STATE_PATH, PR_STATUS_PATH, LEGACY_PATHS,
-                      load_pr_state, save_observations, utc_now)
+                      load_pr_state, save_observations)
 
-GH = "C:/Program Files/GitHub CLI/gh.exe"
 STATE = str(pathlib.Path(__file__).resolve().parents[1] / "STATE.md")
 CANONICAL = PR_STATE_PATH
 REPORT = PR_STATUS_PATH
-CWD = "C:/Users/ROG"  # 避免 gh 在 zcode-PR 下找 .git 报错
 
 
 def gh(args):
-    r = subprocess.run([GH] + args, capture_output=True, text=True, timeout=60, cwd=CWD)
-    if r.returncode != 0:
-        raise RuntimeError(f"gh {' '.join(args)} -> {r.stderr.strip()[:120]}")
-    return r.stdout.strip()
+    return github_read.output(args)
 
 
 def load_state_keys():
-    """返回 {'owner/repo#num': {'repo':..., 'num':...}} —— 仅含状态列含 OPEN( 的行。
-
-    排除 MERGED/CLOSED 行内历史文字"原 OPEN(...)"(如 agno #10654 / deer-flow #6048
-    的备注"原 OPEN(09-28..."),否则会被宽松的 OPEN( 匹配误抓。
-    """
-    txt = pathlib.Path(STATE).read_text(encoding="utf-8", errors="ignore")
-    keys = {}
-    row_re = re.compile(r"github\.com/([^/]+)/([^/]+)/pull/(\d+)")
-    for line in txt.splitlines():
-        if "OPEN(" not in line:
-            continue
-        if "原 OPEN(" in line:   # 历史备注,非当前在飞状态
-            continue
-        for m in row_re.finditer(line):
-            owner, repo, num = m.group(1), m.group(2), m.group(3)
-            keys[f"{owner}/{repo}#{num}"] = {"repo": f"{owner}/{repo}", "num": int(num)}
-    return keys
+    """Read the shared OPEN ledger scope, normalized by repository and number."""
+    return pr_monitor.load_keys(STATE)
 
 
 def fetch(key):
-    repo, num = key.split("#")
-    last_err = ""
-    for attempt in range(2):  # 单次重试,规避 gh 瞬时限流抖动
-        try:
-            out = gh(["pr", "view", str(num), "--repo", repo,
-                      "--json", "state,reviewDecision,mergeable,updatedAt,url,createdAt,mergedAt,closedAt,headRefOid"])
-            d = json.loads(out)
-            if d.get("state") not in {"OPEN", "CLOSED", "MERGED"}:
-                raise ValueError("PR response has no valid state")
-            return {
-                "state": (d.get("state") or "?").upper(),
-                "reviewDecision": d.get("reviewDecision") or "-",
-                    "headRefOid": d.get("headRefOid"),
-                "mergeable": d.get("mergeable") or "-",
-                "updatedAt": d.get("updatedAt") or "-",
-                "url": d.get("url") or "-",
-                "createdAt": d.get("createdAt"),
-                "mergedAt": d.get("mergedAt"),
-                "closedAt": d.get("closedAt"),
-                "checked_at": utc_now(),
-            }
-        except Exception as e:
-            last_err = str(e)
-            import time
-            time.sleep(2)
-    return {"state": "QUERY_ERROR", "reviewDecision": "-", "mergeable": "-",
-            "updatedAt": "-", "url": "-", "_err": last_err, "checked_at": utc_now()}
+    return pr_monitor.fetch(key, gh)
 
 
 def run_round():
     keys = load_state_keys()
     if not keys:
-        print("ERROR: STATE.md 未解析到任何 OPEN( 在飞行,检查台账格式")
-        return
+        print("ERROR: STATE.md 未解析到任何 OPEN 在飞行,检查台账格式")
+        return 1
 
     base = load_pr_state(CANONICAL, LEGACY_PATHS)
-    cur = {}
-    for key in sorted(keys):
-        cur[key] = fetch(key)
+    keys = sorted({key.lower() for key in keys})
+    with ThreadPoolExecutor(max_workers=4) as executor:
+        cur = dict(zip(keys, executor.map(fetch, keys)))
 
     open_n = len([k for k, v in cur.items() if v["state"] == "OPEN"])
     qerr_n = len([k for k, v in cur.items() if v["state"] == "QUERY_ERROR"])
@@ -105,36 +63,14 @@ def run_round():
     print("-" * 92)
     for key in sorted(cur):
         v = cur[key]
-        flag = ""
-        if key in base and v["state"] != "QUERY_ERROR":
-            b = base[key]
-            if b.get("state") == "OPEN" and v["state"] != "OPEN":
-                flag = "  << 离场/合并"
-            elif b.get("reviewDecision") != v["reviewDecision"] and v["state"] == "OPEN":
-                flag = f"  << 评审 {b.get('reviewDecision','-')}->{v['reviewDecision']}"
-            elif b.get("mergeable") != v["mergeable"] and v["state"] == "OPEN":
-                flag = f"  << mergeable {b.get('mergeable','-')}->{v['mergeable']}"
-        print(f"{key:52} {v['state']:9} {v['reviewDecision']:16} {v['mergeable']}{flag}")
+        print(f"{key:52} {v['state']:9} {v['reviewDecision']:16} {v['mergeable']}")
 
     # diff 报告(仅变化时提示)
     if not base:
         print("-" * 92)
         print(f"首次查询({len(cur)} 个 key)，成功结果将写入 pr_state.json")
     else:
-        changes = []
-        for key in sorted(cur):
-            v, b = cur[key], base.get(key, {})
-            if v["state"] == "QUERY_ERROR":
-                continue  # 瞬时限流/抖动,不误报离场
-            if b.get("state") is None and v["state"] == "OPEN":
-                changes.append(f"[新增在飞] {key}")
-            elif v["state"] != "OPEN" and b.get("state") == "OPEN":
-                changes.append(f"[离场/合并] {key}: {b.get('state')} -> {v['state']}")
-            elif v["state"] == "OPEN" and b.get("state") == "OPEN":
-                if v["reviewDecision"] != b.get("reviewDecision"):
-                    changes.append(f"[评审变化] {key}: {b.get('reviewDecision','-')} -> {v['reviewDecision']}")
-                if v["mergeable"] != b.get("mergeable"):
-                    changes.append(f"[mergeable] {key}: {b.get('mergeable','-')} -> {v['mergeable']}")
+        changes = pr_monitor.change_lines(base, cur)
         print("-" * 92)
         if changes:
             print("本轮变化:")
@@ -146,11 +82,13 @@ def run_round():
     if not save_observations(CANONICAL, base, cur, REPORT):
         print("本轮无成功查询，未初始化 pr_state.json；旧基线保留")
 
+    return 1 if qerr_n else 0
+
 
 def main():
     with file_lock(CANONICAL):
-        run_round()
+        return run_round()
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

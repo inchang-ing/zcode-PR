@@ -8,18 +8,16 @@ import json
 from pathlib import Path
 import re
 
-from auto_run import Candidate, DispatchedStore, is_clean, load_candidates
-from contributions import cell, load_records, require, validate_https_url as evidence
+from task_state import DispatchedStore
+from candidate_rules import Candidate, is_clean, load_candidates, BLOCKING_LABELS
+from task_state import task_key, load_handled, load_queue_state, SIGNALS, STAGES, ACTIONS
+from contributions import cell, load_records, load_queue_records, require, validate_https_url as evidence
 from pipeline_state import atomic_write_json, atomic_write_text, file_lock, read_json_object
-from pr_state import ci_binding_error, load_pr_state, utc_now
+from pr_state import ci_binding_error, load_pr_state
 from repository_policy import ACCOUNT, INTERACTION_HOLDS
-from monitor_oss import ci_failed
-from vet import BLOCKING_LABELS
+from pr_monitor import ci_failed
 
 ROOT = Path(__file__).resolve().parents[1]
-SIGNALS = {"policy", "collision", "intent", "reproduced", "testable", "small"}
-STAGES = {"new", "probe", "fixing", "submitted", "stopped", "deferred"}
-ACTIONS = {"small_fix": 100, "ci": 80, "discussion": 20, "wait": 0, "done": 0}
 REVIEW_STATES = ("-", "APPROVED", "CHANGES_REQUESTED", "REVIEW_REQUIRED")
 
 
@@ -37,38 +35,22 @@ def fresh(value, now, hours=24):
 
 
 def valid_key(key):
-    require(isinstance(key, str) and re.fullmatch(r"[\w.-]+/[\w.-]+#[1-9]\d*", key, re.ASCII), "无效 owner/repo#编号")
-    require(all(p not in {'.', '..'} for p in key.split('#')[0].split('/')), "无效仓库")
+    task_key(key)
 
 
 def load_queue(path):
-    state = read_json_object(path)
-    if not state:
-        return {"version": 1, "issues": {}, "prs": {}}
-    require(state.get("version") == 1, "不支持的队列版本")
+    state = load_queue_state(path)
     for section in ("issues", "prs"):
-        require(isinstance(state.get(section), dict), "队列缺少对象: " + section)
-        for key, entry in state[section].items():
-            valid_key(key)
-            require(key == key.lower() and isinstance(entry, dict), "无效队列记录")
-            require(isinstance(entry.get("events"), list), "缺少事件列表")
-            for event in entry["events"]:
-                require(isinstance(event, dict) and date(event.get("at")), "无效事件时间")
-                require(type(event.get("minutes")) is int and event["minutes"] >= 0, "无效工时")
+        for entry in state[section].values():
             if section == "issues":
-                require(entry.get("stage") in STAGES, "无效处理阶段")
-                require(isinstance(entry.get("signals"), dict), "无效核验信息")
-                for name, signal in entry["signals"].items():
-                    require(name in SIGNALS and isinstance(signal, dict), "无效信号")
-                    require(type(signal.get("value")) is bool and date(signal.get("at")), "无效信号值")
+                for signal in entry["signals"].values():
                     evidence(signal.get("source"))
             else:
-                require(entry.get("action") in ACTIONS and date(entry.get("at")), "无效 PR 待办")
                 evidence(entry.get("source"))
     return state
 
 
-def rank_candidates(candidates, state, store, cache, now):
+def rank_candidates(candidates, state, store, cache, now, handled=None):
     rows, seen = [], set()
     merged = Counter(k.split('#')[0].lower() for k, v in cache.items()
                      if v.get("state") == "MERGED" and not v.get("query_error"))
@@ -81,15 +63,21 @@ def rank_candidates(candidates, state, store, cache, now):
                     ('is_bug', 'issue_unknown', 'pr_unknown', 'cmt_unknown')), '候选检查状态必须为布尔值')
         key = candidate.key.lower()
         valid_key(key)
+        if key.split('/')[0] == ACCOUNT.lower():
+            continue
         if key in seen:
             continue
         seen.add(key)
         entry = state["issues"].get(key, {})
-        stage = entry.get("stage", "new")
-        ok, reason = is_clean(replace(candidate, issue_unknown=False, pr_unknown=False, cmt_unknown=False), store)
+        decision = store.decision(key, now, handled=handled, issue=entry)
+        stage, completed = decision['stage'], decision['reason']
+        ok, reason = is_clean(replace(candidate, issue_unknown=False, pr_unknown=False, cmt_unknown=False),
+                              store, decision=decision)
         unknown = candidate.issue_unknown or candidate.pr_unknown or candidate.cmt_unknown
         reasons, missing = [], []
         score = 0
+        if completed:
+            missing.append("已处理: " + completed + "；需显式重开")
         if not ok:
             missing.append(reason)
         if unknown:
@@ -127,7 +115,7 @@ def rank_candidates(candidates, state, store, cache, now):
                     missing.append(name + " 需核验后再修复")
         hidden = stage in {"stopped", "submitted"} or (stage == "deferred" and any("延期" in m for m in missing))
         rows.append({"kind": "issue", "key": key, "score": score, "ready": not missing,
-                     "hidden": hidden or not ok, "stage": stage, "reasons": reasons,
+                     "hidden": bool(completed) or hidden or not ok, "stage": stage, "contribution_kind": candidate.kind, "reasons": reasons,
                      "sources": sorted(set(sources)),
                      "missing": missing, "next": "; ".join(missing) if missing else
                      ("继续修复；超预算重新评估；提交前再次终检" if stage == "fixing" else "限时 20 分钟复现探路")})
@@ -150,23 +138,34 @@ def observation_ack(pr, now=None, feedback_items=()):
             or pr.get("reviewDecision") not in REVIEW_STATES):
         return None
     return {"version": 3, "feedback_fingerprint": feedback_fingerprint(feedback_items),
+            "merge_conflict": pr.get("mergeable") == "CONFLICTING",
             **{key: pr.get(key) for key in
             ("updatedAt", "reviewDecision", "headRefOid", "ci", "ci_head_oid", "ci_fingerprint")}}
 
 
-def pr_tasks(cache, state, records, now):
+def pr_tasks(cache, state, records, now, record_errors=()):
     rows = []
     known = {f"{r['repo']}#{r['pr']}".lower(): r for r in records if r.get("pr")}
+    invalid = {entry['pr_key']: entry['error'] for entry in record_errors if entry.get('pr_key')}
+    unmapped_errors = any(not entry.get('pr_key') for entry in record_errors)
     for key, pr in cache.items():
         if pr.get("state") != "OPEN" and not (pr.get("state") is None and pr.get("query_error")):
             continue
         saved_action = state['prs'].get(key, {})
         feedback_items = known[key]['feedback']['items'] if key in known else []
-        current_ack = observation_ack(pr, now, feedback_items)
+        current_ack = None if key in invalid or unmapped_errors else observation_ack(pr, now, feedback_items)
+        saved_ack = saved_action.get("ack")
+        if isinstance(saved_ack, dict):
+            # Older judgements did not record conflicts; retain them only without one.
+            saved_ack = {"merge_conflict": False, **saved_ack}
         # All manual categories expire on new observations, including discussion.
-        action = saved_action if current_ack is not None and saved_action.get("ack") == current_ack else {}
+        action = saved_action if current_ack is not None and saved_ack == current_ack else {}
         reason, score = action.get("note", ""), ACTIONS.get(action.get("action"), 0)
         uncertainty = []
+        if key in invalid:
+            uncertainty.append('贡献记录异常，先修复证据: ' + invalid[key])
+        elif unmapped_errors and saved_action:
+            uncertainty.append('存在无法关联 PR 的损坏贡献记录，旧反馈确认暂不可用')
         if pr.get("query_error") or not fresh(pr.get("checked_at"), now):
             uncertainty.append("状态过期或查询失败，先刷新 PR 状态")
         if pr.get("reviewDecision") not in REVIEW_STATES:
@@ -180,7 +179,9 @@ def pr_tasks(cache, state, records, now):
         if action.get("action") in {"wait", "done"} and not uncertain:
             continue
         if not score:
-            if pr.get("reviewDecision") == "CHANGES_REQUESTED":
+            if pr.get("mergeable") == "CONFLICTING":
+                score, reason = 90, "存在已确认的合并冲突；同步分支后重新验证"
+            elif pr.get("reviewDecision") == "CHANGES_REQUESTED":
                 score, reason = 85, "评审状态要求修改；先读原文确认作者与范围"
             elif ci_failed(pr.get("ci", "")):
                 score, reason = 70, "CI 有失败/错误/未知，先判断是否由本 PR 引入"
@@ -215,7 +216,9 @@ def weekly(cache, state, now):
     counts = Counter(v.get('state') for v in cohort.values())
     merged = sum(v.get('state') == 'MERGED' and in_week(v.get('mergedAt')) for v in successful.values())
     missing = sum(v.get('state') == 'MERGED' and not date(v.get('mergedAt')) for v in successful.values())
-    events = [e for section in ('issues', 'prs') for v in state[section].values() for e in v['events'] if in_week(e['at'])]
+    events = [e for section in ('issues', 'prs') for key, entry in state[section].items()
+              if key.split('/')[0].lower() != ACCOUNT.lower()
+              for e in entry['events'] if in_week(e['at'])]
     minutes = sum(e['minutes'] for e in events)
     exits = Counter(e.get('note', '') for e in events if e.get('stage') == 'stopped')
     decided = counts['MERGED'] + counts['CLOSED']
@@ -230,7 +233,8 @@ def weekly(cache, state, now):
             "试运行期间记录每次实际投入；七天后检查候选误报、重复劳动及探路耗时，再调整分值。"]
 
 
-def refresh(root=ROOT):
+def refresh(root=ROOT, limit=50):
+    require(type(limit) is int and limit >= 0, "展示上限必须为非负整数，0 表示全部")
     now = datetime.now(timezone.utc)
     path = root / 'work_queue.json'
     with file_lock(path):
@@ -241,9 +245,10 @@ def refresh(root=ROOT):
         candidates += [Candidate(**v) for k, v in inbox.items() if k.lower() not in existing]
         cache = {k.lower(): v for k, v in load_pr_state(root / 'pr_state.json', ()).items()
                  if k.split('/')[0].lower() != ACCOUNT.lower()}
-        records = load_records(root)
-        rows = rank_candidates(candidates, state, DispatchedStore(str(root / 'dispatched.json')), cache, now)
-        rows += pr_tasks(cache, state, records, now)
+        records, record_errors = load_queue_records(root)
+        handled = load_handled(root / 'tools/inbox_handled.json')
+        rows = rank_candidates(candidates, state, DispatchedStore(str(root / 'dispatched.json')), cache, now, handled)
+        rows += pr_tasks(cache, state, records, now, record_errors)
         rows.sort(key=lambda r: (r['hidden'], not r['ready'], -r['score'], r['key']))
         lines = ['# 贡献工作队列', '', f'生成时间：{now.isoformat()}', '',
                  '分数是调度规则，不是合并概率；缺关键核验时只能进入核验队列。来源核验有效期 24 小时。',
@@ -252,14 +257,20 @@ def refresh(root=ROOT):
                  f"缓存 OPEN 数：{sum(v.get('state') == 'OPEN' for v in cache.values())}（仅跟踪范围；不是实时提交许可）。", '',
                  '| 类型 | 任务 | 阶段 | 分数 | 下一步 | 依据 |', '| --- | --- | --- | --- | --- | --- |']
         visible = [r for r in rows if not r['hidden']]
-        for row in visible:
+        displayed = visible[:limit] if limit else visible
+        for row in displayed:
             repo, number = row['key'].split('#')
             url = f"https://github.com/{repo}/{'pull' if row['kind'] == 'pr' else 'issues'}/{number}"
             label = row['stage'] if row['ready'] or row['stage'] == 'policy_hold' else '先核验'
             lines.append(f"| {row['kind']} | [{row['key']}]({url}) | {cell(label)} | {row['score']} | {cell(row['next'])} | {cell('; '.join(row['reasons']) or '无已核验加分')} |")
-        lines += ['', f"隐藏已退出/延期/过滤任务：{len(rows) - len(visible)}；明细见 work_queue_view.json。",
+        lines += ['', f"展示 {len(displayed)}/{len(visible)} 个可见任务；全部结果见 work_queue_view.json；refresh --limit 0 展示全部。", f"隐藏已退出/延期/过滤任务：{len(rows) - len(visible)}；明细见 work_queue_view.json。",
                   '候选不在本轮快照时保留其历史状态，但不继续推荐。']
-        atomic_write_json(root / 'work_queue_view.json', {"generated_at": now.isoformat(), "tasks": rows})
+        if record_errors:
+            lines += ['', '贡献记录异常（不阻断其他任务；异常记录不作为已核验证据）：']
+            lines += [f"- {cell(entry['record'])}: {cell(entry['error'])}" for entry in record_errors]
+        lines += ['', '队列仅校验记录结构、证据路径及用于反馈确认的来源；提交前仍须执行完整证据检查。']
+        atomic_write_json(root / 'work_queue_view.json', {"generated_at": now.isoformat(), "tasks": rows,
+                                                       "record_errors": record_errors})
         atomic_write_text(root / 'WORK_QUEUE.md', '\n'.join(lines) + '\n')
         atomic_write_text(root / 'WEEKLY_CONTRIBUTIONS.md', '\n'.join(weekly(cache, state, now)) + '\n')
     return rows
@@ -268,7 +279,8 @@ def refresh(root=ROOT):
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest='command', required=True)
-    sub.add_parser('refresh')
+    refresh_parser = sub.add_parser('refresh')
+    refresh_parser.add_argument('--limit', type=int, default=50, help='报告行数，0 表示全部')
     assess = sub.add_parser('assess', help='录入证据检查结果；不代表真人审阅')
     assess.add_argument('key')
     assess.add_argument('signal', choices=sorted(SIGNALS))
@@ -289,7 +301,7 @@ def main(argv=None):
     if args.command != 'refresh':
         valid_key(args.key)
         require(args.note.strip() and args.minutes >= 0, '需说明理由；工时不得为负')
-        key, now = args.key.lower(), utc_now()
+        key, now = args.key.lower(), datetime.now(timezone.utc).isoformat()
         path = ROOT / 'work_queue.json'
         with file_lock(path):
             state = load_queue(path)
@@ -317,7 +329,12 @@ def main(argv=None):
                     event['stage'] = args.stage
             entry['events'].append(event)
             atomic_write_json(path, state)
-    rows = refresh()
+    try:
+        rows = refresh(limit=args.limit) if args.command == 'refresh' else refresh()
+    except (ValueError, OSError, RuntimeError) as exc:
+        if args.command != 'refresh':
+            raise RuntimeError('状态已保存，视图未刷新；用 refresh 重试，勿重复登记') from exc
+        raise
     print(f"生成 WORK_QUEUE.md / WEEKLY_CONTRIBUTIONS.md；{len(rows)} 项（包含隐藏项）")
 
 

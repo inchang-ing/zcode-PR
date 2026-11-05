@@ -144,6 +144,62 @@ class QueueTests(unittest.TestCase):
         cache[key]['updatedAt'] = (self.now + timedelta(seconds=1)).isoformat()
         self.assertEqual(len(q.pr_tasks(cache, self.state, [], self.now)), 1)
 
+    def test_confirmed_merge_conflict_enters_work_queue(self):
+        pr = dict(self.pr(), mergeable='CONFLICTING')
+        rows = q.pr_tasks({'a/b#1': pr}, self.state, [], self.now)
+        self.assertEqual([(row['key'], row['score'], row['ready']) for row in rows],
+                         [('a/b#1', 90, True)])
+        self.assertIn('冲突', rows[0]['next'])
+        pr['reviewDecision'] = 'CHANGES_REQUESTED'
+        self.assertEqual(q.pr_tasks({'a/b#1': pr}, self.state, [], self.now)[0]['score'], 90)
+        pr['query_error'] = 'offline'
+        self.assertEqual(q.pr_tasks({'a/b#1': pr}, self.state, [], self.now)[0]['score'], 10)
+        with patch.dict(q.INTERACTION_HOLDS, {'a/b': 'Policy hold'}):
+            row = q.pr_tasks({'a/b#1': pr}, self.state, [], self.now)[0]
+            self.assertEqual((row['score'], row['ready'], row['stage']), (0, False, 'policy_hold'))
+
+    def test_new_conflict_reopens_wait_and_done_but_same_conflict_stays_acknowledged(self):
+        key, pr = 'a/b#1', dict(self.pr(), mergeable='MERGEABLE')
+        conflicting = dict(pr, mergeable='CONFLICTING')
+        for action in ('wait', 'done'):
+            with self.subTest(action=action):
+                self.state['prs'][key] = {'action': action, 'ack': q.observation_ack(pr, self.now)}
+                row = q.pr_tasks({key: conflicting}, self.state, [], self.now)[0]
+                self.assertEqual((row['score'], row['stage']), (90, 'review'))
+                self.state['prs'][key]['ack'] = q.observation_ack(conflicting, self.now)
+                self.assertEqual(q.pr_tasks({key: conflicting}, self.state, [], self.now), [])
+
+    def test_nonconflicting_mergeability_does_not_reopen_wait_and_done(self):
+        key, pr = 'a/b#1', dict(self.pr(), mergeable='MERGEABLE')
+        for action in ('wait', 'done'):
+            self.state['prs'][key] = {'action': action, 'ack': q.observation_ack(pr, self.now)}
+            for mergeable in ('UNKNOWN', 'MERGEABLE', '-', None):
+                with self.subTest(action=action, mergeable=mergeable):
+                    current = dict(pr, mergeable=mergeable)
+                    self.assertEqual(q.pr_tasks({key: current}, self.state, [], self.now), [])
+                    self.assertEqual(q.pr_tasks({key: current}, {'prs': {}}, [], self.now), [])
+
+    def test_resolved_or_unknown_conflict_requires_reconfirmation_without_conflict_priority(self):
+        key, pr = 'a/b#1', dict(self.pr(), mergeable='CONFLICTING')
+        for action in ('wait', 'done'):
+            self.state['prs'][key] = {'action': action, 'ack': q.observation_ack(pr, self.now)}
+            for mergeable in ('MERGEABLE', 'UNKNOWN'):
+                with self.subTest(action=action, mergeable=mergeable):
+                    row = q.pr_tasks({key: dict(pr, mergeable=mergeable)}, self.state, [], self.now)[0]
+                    self.assertEqual((row['score'], row['stage']), (15, 'review'))
+                    self.assertNotIn('冲突', row['next'])
+
+    def test_legacy_ack_without_conflict_binding_only_covers_nonconflicting_state(self):
+        key, pr = 'a/b#1', dict(self.pr(), mergeable='MERGEABLE')
+        ack = q.observation_ack(pr, self.now)
+        ack.pop('merge_conflict', None)
+        for action in ('wait', 'done'):
+            with self.subTest(action=action):
+                self.state['prs'][key] = {'action': action, 'ack': ack}
+                self.assertEqual(q.pr_tasks({key: pr}, self.state, [], self.now), [])
+                rows = q.pr_tasks({key: dict(pr, mergeable='CONFLICTING')}, self.state, [], self.now)
+                self.assertEqual([row['score'] for row in rows], [90])
+
     def test_local_feedback_changes_reopen_wait_and_done(self):
         key, pr = 'a/b#1', self.pr()
         record = new_record('a/b', 2, 'Regression', 1)

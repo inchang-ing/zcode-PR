@@ -72,14 +72,29 @@ def check(record, checkout, body, root=ROOT, now=None):
     labels, assignees = policy.get('labels', []), policy.get('assignees', [])
     require(all(isinstance(items, list) and all(isinstance(x, str) and x.strip() for x in items)
                 for items in (labels, assignees)), 'policy.labels/assignees 必须是字符串列表')
-    reason = policy_reason(record['repo'], labels, assignees)
+    reason = policy_reason(record['repo'], labels, assignees, kind=record.get('kind', 'bug'))
     need(not reason, '共享政策门禁：' + reason)
 
     verification = record['verification']
-    need(verification['status'] == 'recorded', '缺少修复前失败／修复后通过的证据')
+    docs = verification.get('method') == 'documentation'
+    need(verification['status'] == 'recorded', '缺少当前贡献类型的验证证据')
+    if docs and verification['status'] == 'recorded':
+        base = verification['base_commit']
+        git(checkout, 'cat-file', '-e', base + '^{commit}')
+        git(checkout, 'merge-base', '--is-ancestor', base, head)
+        paths = [Path(path) for path in git(checkout, 'diff', '--no-renames', '--name-only',
+                                          '-z', base, head).split('\0') if path]
+        need(bool(paths) and all(Path(path).suffix.lower() in
+             {'.md', '.markdown', '.rst', '.txt', '.adoc', '.mdx'}
+             and path.name.lower() != 'cmakelists.txt'
+             and not path.name.lower().startswith(('requirements', 'constraints')) for path in paths),
+             '文档验证仅允许纯文档文件；代码/docstring/工具链改动仍须回归证据')
     runs = [verification[phase] for phase in ('before', 'after')]
     for phase, run in zip(('before', 'after'), runs):
-        need(isinstance(run, dict) and run.get('scope') == 'project',
+        if docs and phase == 'before' and run is None:
+            continue
+        need(isinstance(run, dict) and run.get('scope') in
+             ({'project', 'documentation'} if docs else {'project'}),
              phase + ' 缺少真实项目入口验证；isolated/stub 仅为局部证据')
         if run:
             ran_at = datetime.fromisoformat(run['ran_at'].replace('Z', '+00:00'))
@@ -88,6 +103,7 @@ def check(record, checkout, body, root=ROOT, now=None):
         git(checkout, 'cat-file', '-e', runs[0]['commit'] + '^{commit}')
         need(datetime.fromisoformat(runs[0]['ran_at'].replace('Z', '+00:00')) <=
              datetime.fromisoformat(runs[1]['ran_at'].replace('Z', '+00:00')), '前后测试时间顺序错误')
+    if runs[1]:
         need(runs[1]['commit'] == head, '修复后测试不属于当前 HEAD，修改后须重新验证')
 
     submission = record.get('submission')

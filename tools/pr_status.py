@@ -3,40 +3,17 @@
 
 Usage: python pr_status.py <owner/repo> <pr_num> [<pr_num> ...]
 """
-import json
 import subprocess
 import sys
 
-GH = r"C:\Program Files\GitHub CLI\gh.exe"
+import github_read
 
 
 def api(path, accept="application/vnd.github+json", *, paginate=False, item_key=None):
-    cmd = [GH, "api", "-H", f"Accept: {accept}"]
-    if paginate:
-        cmd += ["--paginate", "--slurp"]
-    cmd.append(path)
     try:
-        r = subprocess.run(cmd, capture_output=True, text=True, errors="replace", timeout=60)
-    except (OSError, subprocess.TimeoutExpired):
-        return {"__error__": "GitHub CLI unavailable or request timed out"}
-    if r.returncode != 0:
-        return {"__error__": r.stderr.strip()[:300]}
-    try:
-        data = json.loads(r.stdout)
-    except ValueError:
-        return {"__error__": "Invalid JSON response"}
-    if not paginate:
-        return data if isinstance(data, dict) else {"__error__": "Expected an object response"}
-    if not isinstance(data, list) or not data:
-        return {"__error__": "Missing paginated response"}
-    items = []
-    for page in data:
-        if item_key is not None:
-            page = page.get(item_key) if isinstance(page, dict) else None
-        if not isinstance(page, list) or any(not isinstance(item, dict) for item in page):
-            return {"__error__": "Invalid page response"}
-        items.extend(page)
-    return items
+        return github_read.api(path, accept, paginate=paginate, item_key=item_key)
+    except (github_read.GitHubReadError, OSError, subprocess.TimeoutExpired) as exc:
+        return {"__error__": str(exc)}
 
 
 def check(repo, num):
@@ -91,8 +68,22 @@ def check(repo, num):
               f"pending={sum(1 for r in runs if r.get('status')!='completed')}")
         for r in bad:
             print(f"     !! {r.get('name')} -> {r.get('conclusion')} ({r.get('html_url')})")
+    # The combined status endpoint returns the latest result for each CI context.
+    statuses = listing("STATUSES", f"repos/{repo}/commits/{head}/status", "statuses")
+    if statuses is not None and any(
+            not isinstance(s.get('context'), str) or not s['context'].strip()
+            or s.get('state') not in ('success', 'failure', 'error', 'pending') for s in statuses):
+        print("   STATUSES: UNKNOWN incomplete context or state")
+        statuses = None
+    if statuses is not None:
+        print(f"   STATUSES: total={len(statuses)} "
+              f"ok={sum(s['state'] == 'success' for s in statuses)} "
+              f"pending={sum(s['state'] == 'pending' for s in statuses)}")
+        for status in statuses:
+            if status['state'] in ('failure', 'error'):
+                print(f"     !! {status['context']} -> {status['state']} ({status.get('target_url')})")
     print()
-    return all(result is not None for result in (rv, cm, rc, runs))
+    return all(result is not None for result in (rv, cm, rc, runs, statuses))
 
 
 if __name__ == "__main__":

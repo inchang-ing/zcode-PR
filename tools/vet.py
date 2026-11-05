@@ -8,14 +8,12 @@ import argparse, json, os, subprocess, sys
 from dataclasses import replace
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from auto_run import load_candidates, is_clean, _is_real_bug, DispatchedStore  # noqa: E402
+from task_state import DispatchedStore
+from candidate_rules import load_candidates, is_clean, eligibility_reason, BLOCKING_LABELS  # noqa: E402
 from gh_checks import issue_errors, linked_prs, comment_bodies  # noqa: E402
 
 from claim_rules import SOFT as SOFT_EXT, NOT_READY
 from repository_policy import policy_reason
-
-BLOCKING_LABELS = {"needs triage", "needs investigation", "status:blocked",
-                   "blocked", "needs discussion", "wontfix", "invalid"}
 
 
 def gh(args):
@@ -28,6 +26,8 @@ def gh(args):
 
 
 def vet(c):
+    if type(c.number) is not int or c.number <= 0:
+        return "UNKNOWN", "候选 number 必须为正整数"
     out = gh(["issue", "view", str(c.number), "--repo", c.repo,
               "--json", "number,title,state,assignees,labels,body"])
     if not out:
@@ -37,6 +37,8 @@ def vet(c):
     except (ValueError, TypeError):
         return "UNKNOWN", "issue 返回无效 JSON"
     errors = issue_errors(d)
+    if isinstance(d, dict) and (type(d.get("number")) is not int or d["number"] != c.number):
+        errors.append("number 缺失、无效或与请求不一致")
     if isinstance(d, dict) and (not isinstance(d.get("title"), str) or not d["title"].strip()):
         errors.append("title 缺失或无效")
     if errors:
@@ -45,9 +47,19 @@ def vet(c):
         return "DROP", f"issue 非 open({d['state']})"
     body = d["body"]
     labels = [l["name"] for l in d["labels"]]
-    reason = policy_reason(c.repo, labels, [a["login"] for a in d["assignees"]])
+    reason = policy_reason(c.repo, labels, [a["login"] for a in d["assignees"]], kind=c.kind)
     if reason:
         return "DROP", reason
+    if SOFT_EXT.search(body):
+        return "DROP", "正文软认领/自占"
+    if NOT_READY.search(body):
+        return "DROP", "仓内标注 not ready for PR"
+    # Match monitor_round's label evidence; the snapshot's is_bug may be stale.
+    live_candidate = replace(c, title=d["title"], labels=labels,
+                             is_bug=any("bug" in label.lower() for label in labels))
+    reason = eligibility_reason(live_candidate)
+    if reason:
+        return "DROP", "实时标题/标签不符合贡献类型: " + reason
 
     tl = gh(["api", f"repos/{c.repo}/issues/{c.number}/timeline?per_page=100",
              "--paginate", "--slurp"])
@@ -65,19 +77,12 @@ def vet(c):
         comments = comment_bodies(cm)
     except ValueError as exc:
         errors.append(f"comments: {exc}")
-    if SOFT_EXT.search(body):
-        return "DROP", "正文软认领/自占"
     if any(SOFT_EXT.search(x or "") for x in comments):
         return "DROP", "评论软认领"
-    if NOT_READY.search(body) or any(NOT_READY.search(comment) for comment in comments):
+    if any(NOT_READY.search(comment) for comment in comments):
         return "DROP", "仓内标注 not ready for PR"
     if errors:
         return "UNKNOWN", "; ".join(errors)
-    # Match monitor_round's label evidence; the snapshot's is_bug may be stale.
-    live_candidate = replace(c, title=d["title"], labels=labels,
-                             is_bug=any("bug" in label.lower() for label in labels))
-    if not _is_real_bug(live_candidate):
-        return "DROP", "实时标题/标签不再符合 bug 候选条件"
     hit = [l for l in labels if l.lower() in BLOCKING_LABELS]
     if hit:
         return "WARN", f"标签提示未 triage/受阻: {hit}"

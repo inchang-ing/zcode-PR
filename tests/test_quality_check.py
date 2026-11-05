@@ -22,6 +22,7 @@ class QualityCheckTests(unittest.TestCase):
         self.checkout = self.root / 'checkout'
         self.checkout.mkdir()
         self.git('init', '-q')
+        self.git('config', 'commit.gpgsign', 'false')
         self.git('remote', 'add', 'upstream', 'https://github.com/owner/repo.git')
         self.git('-c', 'user.name=Test', '-c', 'user.email=test@example.org',
                  'commit', '-q', '--allow-empty', '-m', 'before')
@@ -180,6 +181,74 @@ class QualityCheckTests(unittest.TestCase):
             with self.assertRaises(SystemExit) as exc:
                 q.main(['check', self.record['id'], '--checkout', str(self.checkout), '--body', str(self.body)])
         self.assertEqual(exc.exception.code, 1)
+
+    def documentation_record(self):
+        self.record['kind'] = 'docs'
+        v = self.record['verification']
+        v.update(method='documentation', base_commit=v['before']['commit'], before=None,
+                 case='docs_example', summary='Corrected an inaccurate example; ran the documented example.')
+        (self.checkout / 'README.md').write_text('Updated example', encoding='utf-8')
+        self.git('add', 'README.md')
+        self.git('-c', 'user.name=Test', '-c', 'user.email=test@example.org', 'commit', '-q', '-m', 'docs')
+        self.head = self.git('rev-parse', 'HEAD')
+        v['after'].update(commit=self.head, scope='documentation', test_case='docs_example',
+                          command='python -m doctest README.md')
+        self.body.write_bytes(b'Documentation example passed.\nWindows was not tested.\n')
+        self.record['submission'].update(head=self.head,
+            body=self.evidence('body.md', self.body.read_text()),
+            claims=[dict(text='Documentation example passed.', run='after')])
+
+    def test_documentation_evidence_uses_current_head_without_fake_failed_test(self):
+        self.documentation_record()
+        self.assertEqual(self.check(), 1)
+        self.assertIn('已记录文档验证证据', c.render([self.record], {}))
+        self.record['verification']['after']['commit'] = self.record['verification']['base_commit']
+        with self.assertRaisesRegex(ValueError, '不属于当前 HEAD'):
+            self.check()
+
+    def test_documentation_policy_exception_reaches_submission_check(self):
+        self.documentation_record()
+        self.record.update(repo='python/mypy', id=c.record_id('python/mypy', 1))
+        self.git('remote', 'set-url', 'upstream', 'https://github.com/python/mypy.git')
+        self.assertEqual(self.check(), 1)
+
+    def test_documentation_exemption_rejects_code_and_other_contribution_kinds(self):
+        self.documentation_record()
+        self.record['kind'] = 'small_fix'
+        with self.assertRaisesRegex(ValueError, '仅适用于 docs'):
+            self.check()
+        self.record['kind'] = 'docs'
+        (self.checkout / 'library.py').write_text('value = 1', encoding='utf-8')
+        self.git('add', 'library.py')
+        self.git('-c', 'user.name=Test', '-c', 'user.email=test@example.org', 'commit', '-q', '-m', 'code')
+        self.head = self.git('rev-parse', 'HEAD')
+        self.record['submission']['head'] = self.head
+        self.record['verification']['after']['commit'] = self.head
+        with self.assertRaisesRegex(ValueError, '纯文档文件'):
+            self.check()
+
+    def test_documentation_exemption_rejects_dependency_text_and_renamed_code(self):
+        (self.checkout / 'library.py').write_bytes(b'value = 1\n')
+        self.git('add', 'library.py')
+        self.git('-c', 'user.name=Test', '-c', 'user.email=test@example.org', 'commit', '-q', '-m', 'baseline')
+        base = self.git('rev-parse', 'HEAD')
+        self.documentation_record()
+        self.record['verification']['base_commit'] = base
+        self.git('mv', 'library.py', 'library.md')
+        self.git('-c', 'user.name=Test', '-c', 'user.email=test@example.org', 'commit', '-q', '-m', 'rename')
+        self.record['submission']['head'] = self.git('rev-parse', 'HEAD')
+        self.record['verification']['after']['commit'] = self.record['submission']['head']
+        with self.assertRaisesRegex(ValueError, '纯文档文件'):
+            self.check()
+        # Exclude the rename from this separate check of a .txt toolchain input.
+        self.record['verification']['base_commit'] = self.record['submission']['head']
+        (self.checkout / 'requirements.txt').write_bytes(b'example==1.0\n')
+        self.git('add', 'requirements.txt')
+        self.git('-c', 'user.name=Test', '-c', 'user.email=test@example.org', 'commit', '-q', '-m', 'dependency')
+        self.record['submission']['head'] = self.git('rev-parse', 'HEAD')
+        self.record['verification']['after']['commit'] = self.record['submission']['head']
+        with self.assertRaisesRegex(ValueError, '纯文档文件'):
+            self.check()
 
 
 if __name__ == '__main__':
