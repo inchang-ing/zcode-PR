@@ -3856,3 +3856,11 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - **账目纠正（规律 98 第三次）**：第 65 轮日志写「4 条 → 0 pending」但只处置了 aider#5951，openinference#4245、hub#5309、llama_index#23968 三条漏执行 `inbox done` 泄漏到本轮——实现 PR 当轮的收口最易漏，收口必须独立于实现动作单独执行并以工具计数核对。
 - 收件箱 7 条 → 0 pending（969 reported / 1048 done）：pydantic-ai ×3 禁投、qdrant#1678 竞品（#1679，issue 后 1 分钟）+ 3 条泄漏补记。dispositions 465→472。
 - 本轮 0 干净候选。monitor_oss 69/69 盲点 0；review_sweep 2 ACTION 均为已处置状态（md#1688 用户闭环、pygments#3467 噪音）。
+
+## 2026-11-06 11:4x 轮（第 67 轮，15 分钟间隔）— 1 新 PR（llama-agents#866）+ 收件箱清零
+
+- 收件箱 7 条 → 0 pending（974 reported / 1053 done）：pydantic-ai ×3、phoenix、langflow 前端、openinference/hub/llama_index 上限或竞品（#23968→#23969）。dispositions 472→473。
+- **产出 `run-llama/llama-agents#866`**（llama_index issue #23971）：`_validate_multi_slot_levels` 的 top-level 种子只收 HumanResponseEvent，漏了 runtime 直送 `@catch_error` handler 的 `StepFailedEvent` → handler 下游所有 multi-slot join 被误拒（disable_validation 却能跑）。修法 = **镜像同文件 `_validate_event_connectivity` 的边界输入表**（StepFailedEvent 已在其中），把 accepted 的 StepFailedEvent 子类计入 external_seeds。
+- 判别性：issue 四组合（Direct/Recovered × validation on/off）修前 Recovered+validation 抛 WorkflowValidationError（逐字）修后全跑通返回 3；2 个新回归测试（校验不抛 + 端到端运行）**修前 2 fail / 修后全文件 31/31**（checkout origin/main 基线）；ruff check+format 净；**EVIDENCE_OK 推送前**。
+- 沉淀（规律 102-103，见当日记忆）。
+- STATE 69→70（#866 登记，workflows 代码在 llama-agents 仓，PR 按包源仓开）；monitor_oss 70/70 盲点 0；review_sweep 2 ACTION 均为已处置状态。

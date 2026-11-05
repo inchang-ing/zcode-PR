@@ -1,0 +1,283 @@
+bringing up nodes...
+bringing up nodes...
+
+FF                                                                       [100%]
+================================== FAILURES ===================================
+________ test_catch_error_handler_feeds_top_level_for_multi_slot_join _________
+[gw0] win32 -- Python 3.12.4 E:\zcode-PR\work\li_venv\Scripts\python.exe
+
+    def test_catch_error_handler_feeds_top_level_for_multi_slot_join() -> None:
+        """StepFailedEvent is delivered to @catch_error handlers from outside the
+        graph, so a multi-slot join downstream of such a handler must validate
+        (issue #23971)."""
+    
+        from workflows import catch_error
+    
+        class Fork(Event):
+            pass
+    
+        class Left(Event):
+            pass
+    
+        class Right(Event):
+            pass
+    
+        class LeftDone(Event):
+            value: int
+    
+        class RightDone(Event):
+            value: int
+    
+        class WF(Workflow):
+            @step
+            async def begin(self, ev: StartEvent) -> StopEvent:
+                raise RuntimeError("fails")  # only the handler below produces Fork
+    
+            @catch_error(for_steps=["begin"])
+            async def recover(self, ev: StepFailedEvent) -> Fork:
+                return Fork()
+    
+            @step
+            async def fan(self, ev: Fork, ctx: Context) -> Left | Right | None:
+                ctx.send_event(Left())
+                ctx.send_event(Right())
+                return None
+    
+            @step
+            async def left(self, ev: Left) -> LeftDone:
+                return LeftDone(value=1)
+    
+            @step
+            async def right(self, ev: Right) -> RightDone:
+                return RightDone(value=2)
+    
+            @step
+            async def join(self, first: LeftDone, second: RightDone) -> StopEvent:
+                return StopEvent(result=first.value + second.value)
+    
+>       WF()._validate()  # must not raise
+        ^^^^^^^^^^^^^^^^
+
+packages\llama-index-workflows\tests\test_collect_algebra.py:662: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+packages\llama-index-workflows\src\workflows\workflow.py:503: in _validate
+    result = _validate_workflow(
+packages\llama-index-workflows\src\workflows\representation\validate.py:661: in _validate_workflow
+    _validate_multi_slot_levels(steps, start_event_class)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+steps = {'begin': StepConfig(accepted_events=[<class 'workflows.events.StartEvent'>], event_name='ev', return_types=[<class 'w...olicy=None, role='step', catch_error_for_steps=None, catch_error_max_recoveries=1, accept_event_subclasses=False), ...}
+start_event_class = <class 'workflows.events.StartEvent'>
+
+    def _validate_multi_slot_levels(
+        steps: dict[str, StepConfig],
+        start_event_class: type[StartEvent],
+    ) -> None:
+        """Reject multi-slot joins whose slots cannot fill at one stream level.
+    
+        A multi-slot step fires when one event of each declared type has arrived,
+        and its output continues at the scope of its inputs. That is only
+        well-defined when every slot type is producible at a common stream level
+        (the top level, or one returned-list producer's stream). Mixing levels
+        would strand work items: a slot filled at one level waits forever for a
+        slot that only fills at another.
+    
+        Rejected shape:
+    
+            fan_out(StartEvent) -> list[A]      # A is inside fan_out's stream
+            emit_b(StartEvent) -> B             # B is top-level
+            join(a: A, b: B) -> C               # no single level contains A and B
+        """
+        multi_slot = {
+            name: cfg.collect_params
+            for name, cfg in steps.items()
+            if cfg.collect_params is not None
+        }
+        if not multi_slot:
+            return
+    
+        external_seeds = [
+            event_type
+            for cfg in steps.values()
+            for event_type in cfg.accepted_events
+            if isinstance(event_type, type) and issubclass(event_type, HumanResponseEvent)
+        ]
+        levels: dict[str, set[type[Event]]] = {
+            "the top level": same_level_types(
+                steps, [start_event_class, *external_seeds], frozenset()
+            )
+        }
+        for producer, level_types in stream_level_types_by_producer(steps).items():
+            levels[f"the stream of step '{producer}'"] = level_types
+    
+        errors: list[str] = []
+        for step_name, slots in multi_slot.items():
+            slot_types = {slot_type for _, slot_type in slots or []}
+            if any(slot_types <= level_types for level_types in levels.values()):
+                continue
+            slot_levels = "; ".join(
+                f"'{param_name}' ({slot_type.__name__}) is produced at "
+                + (
+                    ", ".join(
+                        sorted(
+                            level_name
+                            for level_name, level_types in levels.items()
+                            if slot_type in level_types
+                        )
+                    )
+                    or "no level"
+                )
+                for param_name, slot_type in slots or []
+            )
+            errors.append(
+                f"Step '{step_name}' joins event parameters that are never produced "
+                f"at a common stream level: {slot_levels}. A multi-slot join only "
+                "fires when all of its inputs originate at the same level. To gate "
+                "in-stream work on input from another level, use ctx.wait_for_event "
+                "inside the producing step instead."
+            )
+        if errors:
+>           raise WorkflowValidationError("\n".join(errors))
+E           workflows.errors.WorkflowValidationError: Step 'join' joins event parameters that are never produced at a common stream level: 'first' (LeftDone) is produced at no level; 'second' (RightDone) is produced at no level. A multi-slot join only fires when all of its inputs originate at the same level. To gate in-stream work on input from another level, use ctx.wait_for_event inside the producing step instead.
+
+packages\llama-index-workflows\src\workflows\representation\validate.py:632: WorkflowValidationError
+______ test_catch_error_handler_feeds_top_level_for_multi_slot_join_run _______
+[gw1] win32 -- Python 3.12.4 E:\zcode-PR\work\li_venv\Scripts\python.exe
+
+    async def test_catch_error_handler_feeds_top_level_for_multi_slot_join_run() -> None:
+        """And the validated workflow actually runs end to end."""
+    
+        class Fork(Event):
+            pass
+    
+        class Left(Event):
+            pass
+    
+        class Right(Event):
+            pass
+    
+        class LeftDone(Event):
+            value: int
+    
+        class RightDone(Event):
+            value: int
+    
+        class WF(Workflow):
+            @step
+            async def begin(self, ev: StartEvent) -> StopEvent:
+                raise RuntimeError("fails")
+    
+            @catch_error(for_steps=["begin"])
+            async def recover(self, ev: StepFailedEvent) -> Fork:
+                return Fork()
+    
+            @step
+            async def fan(self, ev: Fork, ctx: Context) -> Left | Right | None:
+                ctx.send_event(Left())
+                ctx.send_event(Right())
+                return None
+    
+            @step
+            async def left(self, ev: Left) -> LeftDone:
+                return LeftDone(value=1)
+    
+            @step
+            async def right(self, ev: Right) -> RightDone:
+                return RightDone(value=2)
+    
+            @step
+            async def join(self, first: LeftDone, second: RightDone) -> StopEvent:
+                return StopEvent(result=first.value + second.value)
+    
+>       result = await WF(timeout=10).run()
+                       ^^^^^^^^^^^^^^^^^^^^
+
+packages\llama-index-workflows\tests\test_collect_algebra.py:710: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+packages\llama-index-workflows\src\workflows\workflow.py:427: in run
+    self._validate()
+packages\llama-index-workflows\src\workflows\workflow.py:503: in _validate
+    result = _validate_workflow(
+packages\llama-index-workflows\src\workflows\representation\validate.py:661: in _validate_workflow
+    _validate_multi_slot_levels(steps, start_event_class)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+steps = {'begin': StepConfig(accepted_events=[<class 'workflows.events.StartEvent'>], event_name='ev', return_types=[<class 'w...olicy=None, role='step', catch_error_for_steps=None, catch_error_max_recoveries=1, accept_event_subclasses=False), ...}
+start_event_class = <class 'workflows.events.StartEvent'>
+
+    def _validate_multi_slot_levels(
+        steps: dict[str, StepConfig],
+        start_event_class: type[StartEvent],
+    ) -> None:
+        """Reject multi-slot joins whose slots cannot fill at one stream level.
+    
+        A multi-slot step fires when one event of each declared type has arrived,
+        and its output continues at the scope of its inputs. That is only
+        well-defined when every slot type is producible at a common stream level
+        (the top level, or one returned-list producer's stream). Mixing levels
+        would strand work items: a slot filled at one level waits forever for a
+        slot that only fills at another.
+    
+        Rejected shape:
+    
+            fan_out(StartEvent) -> list[A]      # A is inside fan_out's stream
+            emit_b(StartEvent) -> B             # B is top-level
+            join(a: A, b: B) -> C               # no single level contains A and B
+        """
+        multi_slot = {
+            name: cfg.collect_params
+            for name, cfg in steps.items()
+            if cfg.collect_params is not None
+        }
+        if not multi_slot:
+            return
+    
+        external_seeds = [
+            event_type
+            for cfg in steps.values()
+            for event_type in cfg.accepted_events
+            if isinstance(event_type, type) and issubclass(event_type, HumanResponseEvent)
+        ]
+        levels: dict[str, set[type[Event]]] = {
+            "the top level": same_level_types(
+                steps, [start_event_class, *external_seeds], frozenset()
+            )
+        }
+        for producer, level_types in stream_level_types_by_producer(steps).items():
+            levels[f"the stream of step '{producer}'"] = level_types
+    
+        errors: list[str] = []
+        for step_name, slots in multi_slot.items():
+            slot_types = {slot_type for _, slot_type in slots or []}
+            if any(slot_types <= level_types for level_types in levels.values()):
+                continue
+            slot_levels = "; ".join(
+                f"'{param_name}' ({slot_type.__name__}) is produced at "
+                + (
+                    ", ".join(
+                        sorted(
+                            level_name
+                            for level_name, level_types in levels.items()
+                            if slot_type in level_types
+                        )
+                    )
+                    or "no level"
+                )
+                for param_name, slot_type in slots or []
+            )
+            errors.append(
+                f"Step '{step_name}' joins event parameters that are never produced "
+                f"at a common stream level: {slot_levels}. A multi-slot join only "
+                "fires when all of its inputs originate at the same level. To gate "
+                "in-stream work on input from another level, use ctx.wait_for_event "
+                "inside the producing step instead."
+            )
+        if errors:
+>           raise WorkflowValidationError("\n".join(errors))
+E           workflows.errors.WorkflowValidationError: Step 'join' joins event parameters that are never produced at a common stream level: 'first' (LeftDone) is produced at no level; 'second' (RightDone) is produced at no level. A multi-slot join only fires when all of its inputs originate at the same level. To gate in-stream work on input from another level, use ctx.wait_for_event inside the producing step instead.
+
+packages\llama-index-workflows\src\workflows\representation\validate.py:632: WorkflowValidationError
+=========================== short test summary info ===========================
+FAILED packages\llama-index-workflows\tests\test_collect_algebra.py::test_catch_error_handler_feeds_top_level_for_multi_slot_join
+FAILED packages\llama-index-workflows\tests\test_collect_algebra.py::test_catch_error_handler_feeds_top_level_for_multi_slot_join_run
+2 failed in 6.97s

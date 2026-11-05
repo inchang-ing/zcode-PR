@@ -1885,5 +1885,9 @@
  "run-llama/llama_index#23968": {
   "date": "2026-11-06",
   "reason": "竞品 PR #23969（round 65 撞车扫描已证，漏收口补记）"
+ },
+ "run-llama/llama_index#23971": {
+  "date": "2026-11-06",
+  "reason": "已提交 run-llama/llama-agents#866（external_seeds 计入 StepFailedEvent，镜像同文件 boundary_in 表；issue 四组合复现修前 1 抛错修后全跑通，2 新回归测试 31/31，ruff 净，EVIDENCE_OK 推送前）"
  }
 }

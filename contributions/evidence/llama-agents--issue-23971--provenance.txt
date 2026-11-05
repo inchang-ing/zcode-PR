@@ -1,0 +1,6 @@
+provenance / toolchain for run-llama/llama-agents PR (llama_index issue #23971)
+- fix authored by the ZCode automated pipeline (GLM model, inchang-ing account authorized), 2026-11-06
+- clone: E:/zcode-PR/work/llama-agents @ origin/main a457071342dd, branch fix/catch-error-multi-slot-validation, head 71d057f57a0d
+- venv: Python 3.12.4, llama-index-workflows editable + pytest/pytest-asyncio/xdist/timeout; lint ruff (repo config)
+- repro runner: contributions/evidence/llama-agents--issue-23971--repro_runner.py (issue's script, all four Direct/Recovered x validation on/off combinations)
+- A/B via `git checkout origin/main -- validate.py` then restore from HEAD; NOTE: the test file first had a wrong fan return annotation (None instead of Left | Right | None) - stream-level static analysis tracks production from return types, so the annotation must declare what ctx.send_event emits

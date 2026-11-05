@@ -1,0 +1,119 @@
+{
+ "schema_version": 1,
+ "id": "run-llama--llama-agents--issue-23971",
+ "repo": "run-llama/llama-agents",
+ "issue": 23971,
+ "pr": 866,
+ "title": "Count StepFailedEvent handlers as top-level producers in multi-slot validation",
+ "kind": "bug",
+ "problem_type": "multi-slot 校验的 top-level 种子漏了 StepFailedEvent（runtime 直送 @catch_error handler），handler 下游所有 multi-slot join 被误拒（disable_validation 却能跑通）",
+ "approach": "镜像同文件 _validate_event_connectivity 的边界输入表，把 accepted 的 StepFailedEvent 子类计入 external_seeds",
+ "created_at": "2026-11-05T21:29:37+00:00",
+ "policy": {
+  "status": "verified",
+  "checked_at": "2026-11-05T21:29:57+00:00",
+  "summary": "workflows 代码位于 run-llama/llama-agents（llama-index-workflows 包源仓）；无 AI 禁令、无 DCO；issue 实际开在 llama_index 仓，PR 按包源仓惯例开在 llama-agents",
+  "sources": [
+   {
+    "kind": "url",
+    "ref": "https://github.com/run-llama/llama-agents/blob/main/README.md"
+   }
+  ]
+ },
+ "collision": {
+  "status": "verified",
+  "checked_at": "2026-11-05T21:29:57+00:00",
+  "summary": "issue #23971 timeline 0 cross-ref、仅 dosubot[bot] 回复、无认领语言；姊妹 issue #23972（DictState 子类）未动（下轮候选）；邻近编号 #23969-#23973 无同题 PR",
+  "sources": [
+   {
+    "kind": "url",
+    "ref": "https://github.com/run-llama/llama_index/issues/23971"
+   }
+  ]
+ },
+ "verification": {
+  "status": "recorded",
+  "method": "regression",
+  "case": "issue #23971 场景：begin 抛错 -> @catch_error handler -> fan-out -> multi-slot join 的四种组合（Direct/Recovered x validation on/off）全部可跑；tests/test_collect_algebra.py 全量",
+  "summary": "修复前：Recovered validation=True 抛 WorkflowValidationError（与 issue 逐字一致）、2 个新回归测试 fail；修复后：四种组合全部返回 3、31/31 passed；ruff check + format 净",
+  "base_commit": "a457071342dd1b0fe4eabb28ad80b73c9c4219c1",
+  "before": {
+   "commit": "a457071342dd1b0fe4eabb28ad80b73c9c4219c1",
+   "command": "pytest packages/llama-index-workflows/tests/test_collect_algebra.py -k catch_error_handler_feeds",
+   "environment": "Windows 10 (Git Bash), Python 3.12.4 venv, llama-index-workflows editable",
+   "test_case": "issue #23971 场景：begin 抛错 -> @catch_error handler -> fan-out -> multi-slot join 的四种组合（Direct/Recovered x validation on/off）全部可跑；tests/test_collect_algebra.py 全量",
+   "ran_at": "2026-11-05T21:30:23+00:00",
+   "exit_code": 1,
+   "result": "regression_failed",
+   "scope": "project",
+   "log": {
+    "kind": "local",
+    "ref": "contributions/evidence/llama-agents--issue-23971--prefix-pytest.txt",
+    "sha256": "70bb834ab88fd7c23b8eb7964c40143035cc5c6355df2d95ba312cf6fb55d17a"
+   }
+  },
+  "after": {
+   "commit": "71d057f57a0da2392bd46a17f84e29a009c2c41f",
+   "command": "pytest packages/llama-index-workflows/tests/test_collect_algebra.py",
+   "environment": "Windows 10 (Git Bash), Python 3.12.4 venv, llama-index-workflows editable",
+   "test_case": "issue #23971 场景：begin 抛错 -> @catch_error handler -> fan-out -> multi-slot join 的四种组合（Direct/Recovered x validation on/off）全部可跑；tests/test_collect_algebra.py 全量",
+   "ran_at": "2026-11-05T21:30:31+00:00",
+   "exit_code": 0,
+   "result": "passed",
+   "scope": "project",
+   "log": {
+    "kind": "local",
+    "ref": "contributions/evidence/llama-agents--issue-23971--postfix-pytest.txt",
+    "sha256": "f84687e5bb275adb5e54e68116404e8e3245c8bb0239eb3736386c528cd59a49"
+   }
+  }
+ },
+ "feedback": {
+  "checked_at": "2026-11-05T21:31:13+00:00",
+  "items": []
+ },
+ "outcome": {
+  "reason_category": "unknown",
+  "summary": "",
+  "sources": []
+ },
+ "next_actions": [],
+ "provenance": [
+  {
+   "kind": "local",
+   "ref": "contributions/evidence/llama-agents--issue-23971--provenance.txt",
+   "sha256": "fd6a602c17dfa20971b7c27c1d788d2df15956509af36836c6f016e8e4eba74b"
+  },
+  {
+   "kind": "local",
+   "ref": "contributions/evidence/llama-agents--issue-23971--repro_runner.py",
+   "sha256": "ad2f7818ae131f7b19a56143253b0b6a898fdfc79401ae72b95d4c3e98e9563c"
+  }
+ ],
+ "submission": {
+  "head": "71d057f57a0da2392bd46a17f84e29a009c2c41f",
+  "body": {
+   "kind": "local",
+   "ref": "contributions/evidence/run-llama--llama-agents--issue-23971--body-64dd18b8d08abaef92c6eddaef713b21d4022f16fc048007583c5fae02cccd55.md",
+   "sha256": "64dd18b8d08abaef92c6eddaef713b21d4022f16fc048007583c5fae02cccd55"
+  },
+  "claims": [
+   {
+    "text": "before the fix, validation raises `WorkflowValidationError` with the issue's message verbatim while `disable_validation=True` returns the right result; after the fix, all four combinations (Direct/Recovered × validation on/off) run and return `3`.",
+    "run": "after"
+   },
+   {
+    "text": "**both fail on unpatched code (verified via `git checkout origin/main --` A/B), full file 31/31 passes with the fix.**",
+    "run": "after"
+   },
+   {
+    "text": "`ruff check` + `ruff format --check` clean on both touched files.",
+    "run": "after"
+   }
+  ],
+  "limitations": [
+   "Verified with a local editable install of `llama-index-workflows` (Python 3.12, Windows); the package's full matrix runs in CI."
+  ],
+  "feedback": []
+ }
+}

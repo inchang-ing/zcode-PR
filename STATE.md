@@ -11,11 +11,12 @@
 > | 项目说明 / 目录 / 流程 / 飞书 / 换机 | **`README.md`** |
 > | 历史轮次 / 已合并 PR 验证记录 | **`rounds-log.md`**、**`STATE-archive.md`** |
 
-## OSS 贡献在飞（69）
+## OSS 贡献在飞（70）
 
 | PR | 仓库 | 状态 | 摘要 |
 | --- | --- | --- | --- |
 | [#5952](https://github.com/Aider-AI/aider/pull/5952) | Aider-AI/aider | OPEN(2026-11-06) | fix: give assistant_output the same ASCII fallback as _tool_message |
+| [#866](https://github.com/run-llama/llama-agents/pull/866) | run-llama/llama-agents | OPEN(2026-11-06) | fix: count StepFailedEvent handlers as top-level producers in multi-slot validation |
 | [#34406](https://github.com/dagster-io/dagster/pull/34406) | dagster-io/dagster | OPEN(2026-11-05) | Fix Helm command flow sequence indentation in daemon and webserver deployments |
 | [#11784](https://github.com/pylint-dev/pylint/pull/11784) | pylint-dev/pylint | OPEN(2026-11-05) | Fix false positive for too-many-statements on empty function bodies |
 | [#3770](https://github.com/agentscope-ai/agentscope/pull/3770) | agentscope-ai/agentscope | OPEN(2026-11-05) | fix(app): re-establish the wakeup signal subscription when it ends |
