@@ -1753,5 +1753,21 @@
  "pydantic/pydantic-ai#12633": {
   "date": "2026-11-06",
   "reason": "受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "berriai/litellm#50224": {
+  "date": "2026-11-06",
+  "reason": "same-repo cap: 该仓在飞 2 个（#46262/#48309，STATE.md 台账），硬上限 2"
+ },
+ "kyegomez/swarms#3233": {
+  "date": "2026-11-06",
+  "reason": "维护者内部队列让位: kyegomez ai-generated 审计批量（同 #3197-#3227 模式）"
+ },
+ "kyegomez/swarms#3231": {
+  "date": "2026-11-06",
+  "reason": "维护者内部队列让位: kyegomez ai-generated 审计批量"
+ },
+ "kyegomez/swarms#3229": {
+  "date": "2026-11-06",
+  "reason": "维护者内部队列让位: kyegomez ai-generated 审计批量"
  }
 }
