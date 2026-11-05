@@ -149,7 +149,14 @@ class CapacityEntrypointTests(unittest.TestCase):
         read = builtins.open
 
         def count_reads(mock):
-            return sum(Path(call.args[0]) == self.path for call in mock.call_args_list
+            def is_cache(path):
+                try:
+                    # Windows runner temp paths can use a short-name alias;
+                    # TaskStore resolves it before opening the same file.
+                    return Path(path).samefile(self.path)
+                except OSError:
+                    return False
+            return sum(is_cache(call.args[0]) for call in mock.call_args_list
                        if call.args and isinstance(call.args[0], (str, Path)))
 
         with patch('builtins.open', wraps=read) as opened:
