@@ -1829,5 +1829,13 @@
  "huggingface/peft#4125": {
   "date": "2026-11-06",
   "reason": "assign 门禁仓: 须先分配给当前账号"
+ },
+ "openhands/openhands#19391": {
+  "date": "2026-11-06",
+  "reason": "人工门禁: PR 描述含真人专属段（HUMAN: ≥20 字符 + human-tested + e2e 证据），真人声明不能代签"
+ },
+ "run-llama/llama_index#23966": {
+  "date": "2026-11-06",
+  "reason": "非代码任务: 第三方包（complyee-agent-guard）的 integrations 目录上架请求，不属本流水线投递面（同 #23963 先例）"
  }
 }
