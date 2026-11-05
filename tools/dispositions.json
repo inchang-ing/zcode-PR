@@ -1697,5 +1697,49 @@
  "livekit/agents#8405": {
   "date": "2026-11-06",
   "reason": "标准 CLA 须账号持有者网页签署（#8367/#8380 先例），无人值守护必卡 cla:no；且 realtime span 语义需真机验证"
+ },
+ "arize-ai/phoenix#17675": {
+  "date": "2026-11-06",
+  "reason": "gate: 人工门禁: CONTRIBUTING 明写「An open issue is not an invitation to submit a PR」，须 maintainer 明确确认后才可开工"
+ },
+ "arize-ai/phoenix#17673": {
+  "date": "2026-11-06",
+  "reason": "gate: 人工门禁: CONTRIBUTING 明写「An open issue is not an invitation to submit a PR」，须 maintainer 明确确认后才可开工"
+ },
+ "arize-ai/phoenix#17672": {
+  "date": "2026-11-06",
+  "reason": "gate: 人工门禁: CONTRIBUTING 明写「An open issue is not an invitation to submit a PR」，须 maintainer 明确确认后才可开工"
+ },
+ "arize-ai/phoenix#17671": {
+  "date": "2026-11-06",
+  "reason": "gate: 人工门禁: CONTRIBUTING 明写「An open issue is not an invitation to submit a PR」，须 maintainer 明确确认后才可开工"
+ },
+ "arize-ai/phoenix#17669": {
+  "date": "2026-11-06",
+  "reason": "gate: 人工门禁: CONTRIBUTING 明写「An open issue is not an invitation to submit a PR」，须 maintainer 明确确认后才可开工"
+ },
+ "berriai/litellm#50219": {
+  "date": "2026-11-06",
+  "reason": "same-repo cap: 该仓在飞 2 个（STATE.md 台账），硬上限 2"
+ },
+ "bytedance/deer-flow#7927": {
+  "date": "2026-11-06",
+  "reason": "needs-triage 未分诊 + deer-flow 需 LLM 服务端到端验证，无人值守不可验证"
+ },
+ "docling-project/docling#5199": {
+  "date": "2026-11-06",
+  "reason": "same-repo cap: 该仓在飞 2 个（STATE.md 台账），硬上限 2"
+ },
+ "langchain-ai/langchain#41717": {
+  "date": "2026-11-06",
+  "reason": "gate: assign 门禁仓: 须先分配给当前账号"
+ },
+ "langchain-ai/langchain#41716": {
+  "date": "2026-11-06",
+  "reason": "gate: assign 门禁仓: 须先分配给当前账号"
+ },
+ "run-llama/llama_index#23963": {
+  "date": "2026-11-06",
+  "reason": "非代码任务: LlamaHub 外部工具上架请求（他人 PyPI 包的注册申请），不属本流水线投递面"
  }
 }
