@@ -3624,3 +3624,128 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 
 - 收件箱 6 条 → 0 pending（745 reported / 822 done）：deer-flow needs-triage、langchain assign、pydantic-ai 禁投 3 条本地刀；3 候选全是 **ChrystianSchutz 1-2 分钟 issue+PR 成对闭环**（lm-eval#4533→#4534、lighteval#1476→#1478、#1475→#1477，正文自陈 AI 起草）——继 Fahmid-Arman 后第二个高频闭环报告者。dispositions 375→380。
 - 本轮 0 干净候选。monitor_oss 69/69 盲点 0；review_sweep 0 ACTION。
+
+## 2026-11-05 手动积压推进（Codex）
+
+- 权威外部账号统计：在飞67、累计合并38、关闭未合并61；最终全量监控与账号搜索核对67=67，无盲点/过期行。
+- 只读确认OpenInference #3995、#3998已合并；本轮未执行合并。用户明确同意后关闭DeerFlow #7860重复项，保留5bc25ca分支/补丁/测试。
+- markdown-it-py #443：用户明确批准现有gh通道后，修正误填本地路径的正文，远端读回一致，代码head不变。
+- Pylint #11770：修复原PR误抑制真实E0601的回归。同fixture生产基线缺7诊断，最终4d6c810测试42通过2跳过；21独立真实用例符合预期。coverage.py可见变动行/分支无缺口，原生sys.monitoring补测18/18方向。真实三方fixture证明更早#11661未覆盖本题。
+- Pylint当前政策/五项碰撞/反馈/精确正文/最终SHA质量门禁通过；连接器正文保存403后停止，用户另明确批准现有gh保存正文并继续推进。普通FF6282dd1→4d6c810，正文和远端4个blob读回一致，新CI运行中。未发评论、未force-push、未宣称远端CI全绿。
+- Xarray #11759本地8c1ad9e：3条评审返工及异变量/坐标chunks问题修复；新增64通过，完整rolling3828通过79跳过，独审补充64例通过。仓库要求本人实际审阅和本人表达正文理由；用户只要求通俗表达，未将其当作审阅声明，未推送。
+- DeepEval #3529准确上游base/同Ubuntu镜像证据确认Black、SQLite、MCP三类既有失败，相关benchmark本地15通过。Core secrets路径不同，如实记录。LiteLLM #48309同base已有3条OSV；aiohttp #14017必需Backport标签待维护者处理，patch部分分支仍未覆盖。
+- OpenInference #3981保留真实instrumentor/语义规范差异及归属阻塞证据；Opik #9427、LiteLLM #46262沿用真实旧验证，仍分别缺本人审阅/live-provider E2E及归属确认。
+- 贡献档案16项结构和证据摘要有效；队列/STATE/PR_STATUS/CONTRIBUTIONS已更新。仅释放本会话的Xarray和Pylint3条claim，未触及其他会话Opik认领；根工作区既有改动保留，未提交根仓库。
+- 完整材料：work/backlog-20261105/report.md、summary.json、monitor-final-summary.json、ci/pylint-publication.json。
+
+## 2026-11-05 13:4x 轮（开关 ON，自动流水线）— 投出 deer-flow#7913；收件箱 48 条清零
+
+- 触发：定时轮次。`pipeline_switch.py status` = ON（shift 41947123289）。
+- 第 0 步：收件箱 **48 条全部当轮 disposition**，收尾 0 pending（794 reported / 871 done）。三刀砍掉大半：**仓库政策层一次性筛掉 25 条**（mcp/servers 12 条 handoff-only、openhands 4 条须 HUMAN 真人段、mem0 3 条缺 `accepted`、phoenix 2 条 Issues-First、pydantic-ai 2 条禁投、langchain assign 门禁、fastmcp 无自助通道）；**同仓在飞满额 5 条**（litellm 3 + crewai 2）；**竞品 PR 5 条**（agentscope 3744/3742/3740 分别在 3/11/9 分钟内被 #3745/#3743/#3741 抢、deer-flow 7911→7912、7908→7909、semantic-kernel 14723→+1）；agno#11480 被 Kylinny 认领；lancedb 10 条由维护者 wjones127 自提（内部批次）+ Rust 内核不可本机验。
+- 第 1 步 `monitor_fresh --all`：仅作补充（收件箱已覆盖），未另出新候选。
+- **产出 PR `bytedance/deer-flow#7913`**（issue #7910）：`BrowserlessClient.fetch_html_with_status()` 与 `capture_screenshot()` 在协程内构造 `httpx.AsyncClient`，httpcore 在 transport 构造期建 SSL context → `ssl.create_default_context()`（证书库加载）跑在 agent 事件循环线程上。改为 `async with await asyncio.to_thread(httpx.AsyncClient, timeout=self.timeout_s) as client:`，与仓内 RAGFlow/LightRAG/You.com/GroundRoute/Webz 既有写法一致，并把 Browserless 补进 `backend/AGENTS.md` 的同一条不变式。
+- 实证：`httpx 0.28.1` 上构造 `AsyncClient(timeout=30)` 会调 `ssl.create_default_context()` **3 次**，全在构造线程 —— 因此「构造阻塞循环」不是推测。判别性：撤源码留测试 → 2 failed（`TLS trust loading blocks the event loop`，且调用返回 `Error: Browserless fetch failed: ...`）；恢复 → 2 passed。回归：`test_browserless_client.py` + 捕获名保留 + 新测试 + 既有 `test_retrieval_client_ssl.py` 共 **67 passed**；ruff 0.17.3 check/format 干净。
+- CI：`pr-labels` pass、`license/cla` pass（本 org 已签）、`issue-triage`/`reviewing` skipping；mergeable=MERGEABLE / mergeStateStatus=BLOCKED（待评审）。
+- 第 2 步：**68 在飞 OPEN**（新 PR 同轮补录 STATE.md，盲点 1→0）。第 3 步 `review_sweep`：5 PR 更新、0 人类活动、**0 ACTION** → 无回复。第 4 步 `--slice 15`：114 仓 ok/1 failed、34 候选全部已处置，rotator 15→16。
+- 预算：约 55 分钟（政策批量筛 + 单候选全流程 + 日志）。
+
+## 2026-11-05 14:0x–14:5x 轮（用户手动「推进一下」，开关 ON）— 投出 sqlglot#8909；收件箱 2 条清零
+
+- 触发：用户主动推进。`pipeline_switch.py status` = ON。
+- 第 0 步：收件箱 2 条全部当轮 disposition，收尾 0 pending（796 reported / 873 done）。`pydantic/pydantic-ai#12587` 仓级禁投；`lancedb/lancedb#4860` 是 Rust `lance` 内核 ANNSubIndex HNSW 查询路径，需 110M 行数据与 Rust 工具链，本机不可验。
+- 第 1 步 `monitor_fresh --all`：全池 352 仓、444 条 NEW（多为 watermark 追平产生的历史积压，不是 inbox 快车道新货）。按「积压 >50 先批量降维」四刀：政策层砍 120、标签门禁 34、feature/proposal 24 → 剩 266；再挑 32 条「纯 Python 层、可本机验、同仓在飞未满」的逐条核撞车。
+- **竞品密度极高**：22 条里 14 条在 issue 开出数分钟到数小时内被占（通常是 +1/+2 号 PR），典型如 `inspect_ai#6327` 有 `accepted` 标签但同时已有 #6328 PR + AI agent 认领评论、`sqlglot#8903` 已有 #8905 + 认领评论、`llama_index#23941` → #23942、`tortoise#2404` → #2405、`statsmodels#10670` → #10671、`yaml/pyyaml#1000` → #1001。剩几条弃因分别是方案未定（`trulens#3054` 正文在问「confidence 到底用哪个定义」且既有测试把旧行为钉成契约；`sanic#3207` 正文在问「该不该改、会不会破坏既有调用方」）、需浏览器复现（`reflex#7736` 的 XHR progress event、`nicegui#6472`）、作者已自陈计划（`darts#3334` 评论「I'm planning to...」）。
+- **产出 PR `tobymao/sqlglot#8909`**（issue #8907）：`optimize()` 每次对 14 条默认规则各调一次 `inspect.getfullargspec`。改为 import 期解析一次、自定义规则保留逐次解析；用 `id()` 作键 + `is None` 回退，避免不可哈希 callable 实例在 `.get()` 上抛 TypeError，并为该边界加了测试。
+- 判别性：撤源码留测试 → 两次 `optimize()` 在 main 上产生 **28 次** `getfullargspec`（断言 `[]` 失败）；恢复 → **0 次**、3 条新测通过。全量 `SKIP_INTEGRATION=1 python -m unittest`：**1580 tests OK (60 skipped)**；ruff check/format 干净。CI 7 个 Python 版本 pending、integration tests skipping；mergeable=MERGEABLE / UNSTABLE（检查未完）。
+- 踩坑（复现了记忆里的规律）：用 Python `write_text` 改 `tests/test_optimizer.py`，Windows 上把整份 LF 写成 CRLF，diff 从 66 行膨胀到 9900 行。改回「`git show` 取原始字节 + `write_bytes` 写回」后恢复。**写已有源码文件优先用 Edit，或用字节级读写并显式断言无 `\r\n`**。
+- 第 2 步：69 在飞（新 PR 同轮补 STATE.md）。第 3 步 `review_sweep`：6 PR 更新、0 人类活动、0 ACTION → 无回复。第 4 步本轮未跑（时间用于候选核查与写码；rotator 仍为 16）。
+- 轮末 15 分钟投递又到 4 条，同轮全部处置：`agno#11483`（Cookbook 提案非缺陷且缺 ready）、`litellm#50176`（[Feature] + 同仓在飞满额）、`huggingface/trl#8121`（已 assign 且已有同修 #8122）、`agentscope#3746`（**干净候选**，自带离线复现、纯 Python 可验，但同仓我方在飞 1 个守 ≤1 纪律，登记 `待回捞` 未硬开）。收尾 **0 pending（800 reported / 877 done）**。
+
+## 2026-11-05 15:1x 轮（开关 ON，自动流水线 417db721）— 0 新单；deer-flow#7913 按两份评审补齐取消安全
+
+- 触发：每小时轮次。`pipeline_switch.py status` = ON（shift 41983555525）。
+- 第 0 步：收件箱 **3 条全部当轮 disposal**，收尾 0 pending（803 reported / 880 done）。`pydantic-ai#12588` 仓级禁投；`crewai#9101` 同仓在飞 2 个＝硬上限且是 feature；`langgraph#9602` 撞 assign 门禁（该仓无自助通道，历史三连栽）。
+- 第 1 步 `monitor_fresh --all`：352 仓 / 10 条 NEW，**0 干净候选**，9 条当轮登记 `tools/dispositions.json`（380→389）。分布：`tox#4387` 正文质量最高但 issue 开出即被 #4388 抢；`docling#5184`（create_file_hash 不 rewind）是本轮质量最高的代码候选，但同仓我方在飞 3 个（#4439/#5007/#5125）超硬上限；`mlflow#27506` 缺 `ready`；`pydantic#14228` 正文末自陈愿提 PR + 根因在 pydantic-core（Rust）；`transformers#50381`/`trl#8123` 同源且作者是 HF 员工、已自答「非回归」；`agentscope#3746` 上一轮登记「待回捞」，本轮 06:30 已被 Tong-bit-art 认领；`mcp/servers#5481` 是 dependabot 且该仓 handoff-only；`ray#67858` 是 RFC。
+- **本轮产出 = 存量 PR 维护**：`bytedance/deer-flow#7913` 收到两条独立评审（Copilot 🟡 + willem-bd P2），同一缺陷：`async with await asyncio.to_thread(httpx.AsyncClient, ...)` 在**构造期被取消**时，await 被放弃而工作线程照旧返回一个活 client，永远进不了 `async with`，`is_closed` 保持 False → 每次取消泄漏一个连接池。修法 = 新增 `_open_client()` 把构造变成 task，取消时用 `_settle()`（shield-until-done，与仓内 `jina_client.py` 同款）等线程收尾、关闭它造出来的 client，再让取消向外传播；关闭失败只记日志，不许掩盖取消。两处调用点统一走这一个 helper。
+- 判别性验证：新测试把构造卡在 threading.Event 上 → 取消 → 之后才放行工作线程（确保 client 是「取消之后」才造出来的），再断言 `is_closed`，并断言该路径没发出任何请求。**撤源码留测试 → 2 failed（`the client built after the cancellation was leaked`，fetch/screenshot 各一条）；恢复 → 4 passed**。回归：`tests/blocking_io` 373 passed / 8 skipped；四个 browserless/retrieval 模块 99 passed；ruff check/format 干净。推送 `ed365f197..239ea6ad1`（fast-forward，无 force）。
+- PR 正文按新实现重写（原正文还贴着旧的 `to_thread` 写法），并加一句 AI 参与披露；评审线程一次性回复两位评审，写明根因、修法、测试如何保证取消落点、以及全量数字。
+- 第 2 步 `monitor_oss`：**69 在飞 OPEN**，盲点 0 / 过期 0，唯一变化 `sqlglot#8909` 的 CI 由 1✓/7… 变 8✓。第 3 步 `review_sweep`：6 PR 更新、1 人类活动、**1 ACTION = deer-flow#7913**（已处置）。第 4 步 `--slice 16`：115 仓 / 23 候选，补登 2 条（`jupyterlab#20323` 评论区软认领 + 维护者仍在议 v1/v2 迁移、`reflex#7252` 有 Linear linkback＝内部同步），rotator 16→17。
+- 预算：约 70 分钟（大半花在复现两份评审指出的取消泄漏与判别性验证）。
+- 轮末补记（真冲突）：推送后 GitHub 判定 `CONFLICTING`（main 前进了 10 个 commit）。本地合 `bytedance/deer-flow` main，**唯一冲突正是 `backend/AGENTS.md`**——上游新增 Crawl4AI 并把 Browserless 列进「仍在 loop 上构造、之后要改」的名单，与本 PR「把 Browserless 挪出 loop」直接对撞（印证规律 87 预判的代价）。解法= Browserless 移入第一句清单，并补上「构造以 task 方式持有，取消时仍会关闭它造出的 client」这条新不变式。合并后 `tests/blocking_io` 的 browserless 两文件 56 passed、ruff 干净，推送 `239ea6ad1..0bb68cab8`（fast-forward），`mergeable=MERGEABLE / BLOCKED`（待评审）。教训：**同批 series 改同一份文档时，冲突不是意外，应把它算进首次提交的成本**，并让文档句同时承载新修法的不变式，否则解冲突只能二选一。
+- 轮内又到 4 条，同轮清零（收尾 **0 pending / 807 reported / 884 done**）：`agentscope#3748` 已被 golitter 用 `/assign` 机器人占（claim 至 11-19）、`lancedb#4864` 是项目维护者状态讨论非缺陷、`docling#5184` 与 `trl#8123` 复投（已在第 1 步判过，同因再记一次）。本轮合计处置 **7 条**。
+
+## 2026-11-05 16:3x 轮（开关 ON，自动流水线 417db721）— 1 新 PR（pygments#3467）+ 1 PR 结案 + 收件箱 17 条清零
+
+- 触发：每小时轮次。`pipeline_switch.py status` = ON（shift 41983555525）。
+- 第 0 步：收件箱 **17 条全部当轮 disposition**，收尾 0 pending（824 reported / 901 done）。弃因分布：仓级禁投或人工门禁 7（`openai-agents-python#5529` 不收非 collaborator、`pydantic-ai#12593/#12594/#12595` 整仓禁投、`langgraph#9603` 须先 approval/assign、`phoenix#17662` Issues-First、`inspect_ai#6332` 须 accepted）、竞品 PR 抢先 3（`cleanlab#1359`→#1360 差 5 分钟、`metagpt#2191`→#2192 差 2 分钟、`deer-flow#7915` 作者本人撤回）、AI 政策禁投 3（`peft#4117/#4118` 须 `/peft-triage approved` 且明禁纯 agent PR、`trl#8127` 首投者的全 AI PR 不予评审）、`ready` 门禁 1（`agno#11486`）、同仓在飞上限 1（`litellm#50185`）、方案待定/软认领 2（`pymilvus#3925` question 模板在问要不要告警、`langroid#1286` 作者自陈已有带 3 测试的分支）。
+- 第 1 步 `monitor_fresh --all`：352 仓 / 33 条 NEW（`boltons` query incomplete，水位未动）。逐条核查后取 **`pygments/pygments#3466`**（2220 星、非个人库、五项全清：0 评论 / 无 cross-ref / 同仓 open PR 无对应项 / 无 assignee / 无标签）。次选全被挡：`sktime#11709/#11710/#11711` 三条已被同作者的 #11712 一并占掉、`poetry#11208` 4 分钟内被 #11209 抢、`metaflow#3432` 的 `AGENTS_EXTERNAL.md` 明写「PRs without a linked, maintainer-acknowledged issue will be closed」而该 issue 无维护者回复、`mlflow#27510` 带 `has-closing-pr`、`airflow#76529/76530` 须 breeze/Docker、`transformers#50382/50383` 禁投、`jupyterlab#20393/20394` 与 `dash#4121` 是前端 JS/TS、`superset#46032` 是 oxfmt 格式化。
+- **产出 PR `pygments/pygments#3467`**：5 个 lexer（`CleanLexer`/`EarlGreyLexer`/`NodeConsoleLexer`/`PromQLLexer`/`SaviLexer`）把版本号写在单冒号 `.. versionadded: X`（docutils 当注释丢弃），且 `version_added = ''`，导致 lexers 文档页没有「Added in version」行。修法=按各自 docstring 记录的版本填 `version_added`、删掉死注释行，并在 `test_lexer_classes` 加一条通用断言「任何 lexer 的 docstring 都不得残留单冒号 `.. versionadded: `」。
+- 判别性验证：撤 lexer 源码、留测试 → **`5 failed, 597 passed`**，失败项正是这 5 个类；恢复 → `602 passed`。整文件 `2449 passed, 8 skipped`；全量（除需要 `wcag-contrast-ratio` 的 `tests/contrast`）`5329 passed, 15 skipped` + `test_latex_formatter::test_valid_output`（本机无 `latex` 二进制）。`ruff check --ignore UP031 .` / `check_sources.py` / `check_crlf.py` / `detect_missing_analyse_text.py` 全清（ruff 用仓库 pin 的 0.15.2 语义，本地 0.9.9 结果一致）。
+- **踩过的坑（已修）**：①用 `pathlib.write_text` 改源码把 4 个 LF 文件写成 CRLF，`git diff` 变成 2100+ 行整份重写——改回字节级 `read_bytes/write_bytes` 后 diff 降到 11 增 15 删；②`cp -r src dst` 在 dst 已存在时会把目录套进 dst 里（多出 `pygments/lexers/lexers/`），差点把撤修复的旧文件当新文件跑。
+- 第 2 步 `monitor_oss`：**68 在飞 OPEN**，盲点 0 / 过期 0。实质变化 3 条：`bytedance/deer-flow#7913` **OPEN → MERGED**（上一轮补齐取消安全后合入）；`docling#5007` MERGEABLE → CONFLICTING；`litellm#48309` 检查计数变动（非我方）。
+- **`docling#5007` 处置 = 结案而非解冲突**。本地合 `origin/main` 后冲突落在 `_handle_tables` 的 `num_cols` 推导，上游 #5179 当天用「直接从 `w:tblGrid` 数 `w:gridCol`，缺失记 0，再与逐行 `gridBefore+gridSpan+gridAfter` 取 max」取代了我的 `try/except InvalidXmlError` 回退，实现更干净。**判据不是读 diff，而是把我的 7 个回归测试原样跑在上游代码上：8 passed / 1 failed** —— 唯一失败的 `test_table_without_any_cells_adds_no_table` 暴露残留缺口：无 `w:tc` 的行会让 `num_cols == 0`，此时仍会 append 一个 `num_cols=0` 的空 `TableItem`（`xml/uspto_backend.py` 对 `num_cols == 0` 是直接 skip 的）。issue #5006 已被 #5179 关为 COMPLETED，故不再开第二个 PR：留言说明「代码无剩余 delta + 该退化分支建议按 uspto 先例早退」后关闭 #5007。未 force-push、未推合并 commit。
+- **自家 PR 的真红（非继承）**：`python-markdown/markdown#1688` 的 `lint (checkspelling)` 失败，日志指向我新加的两个测试 docstring（`test_cdata_unclosed` / `test_cdata_spaced_close`）里的 `CDATA`。按仓内既有做法把 `CDATA` 加进 `.spell-dict`（与 `XHTML`/`xhtml` 同处），提交 `17029a9` 推送 `0532a4e..17029a9`（fast-forward，无 `+`），并在 PR 里说明。
+- CI 回认：脚本标 **14 条 ⚠CI**（口径=脚本 `grep "⚠CI"` 全量输出，非人工枚举）。逐条看：`browser-use#6300/#6310` 的 `browser-use skill sync` 用「同仓他人 PR 对照」判继承——`#6312`（HhH666-ux，非我方）同样只失败这一项；`coveragepy#2359` 仍是 4 个 macOS job `steps` 为空后被 cancel 的连带；`markdown#1688` 本轮已由自家修复清掉；`dd-trace-py#20877` 是 `devflow/mergegate`（合并门禁非测试红）；其余 `aiohttp#14017`（backport 标签）、`litellm#48309`（osv-scan）、`deepeval#3529`（旧 sha）、`dask#12636`（nightly）、`docling#4439`（Mergify 评审门禁）、`nbconvert#2332`（enforce-label）、`any-agent#969`（旧重跑残留）与自有仓两条（sleep 项）均与前几轮结论一致。
+- 第 3 步 `review_sweep`：6 PR 更新、**0 人类活动、0 ACTION**。第 4 步 `--slice 17 --slices 3`：115 仓 / 18 候选，全部已 disposition（无新增可处置项），rotator 17→18。
+- 新 PR 的 CI 为 `action_required`（首次外部贡献待批准），`gh pr checks` 只显示 "no checks reported"，与本仓 workflow 无失败无关。
+- 预算：约 95 分钟（大半在 pygments 的 CRLF 返工与 docling 的「上游已修」判定）。
+
+## 2026-11-05 18:0x 轮（开关 ON，自动流水线 417db721）— 1 新 PR（trulens#3057）+ 1 认领（agentscope#3753）+ 收件箱 26 条清零
+
+- 触发：每小时轮次。`pipeline_switch.py status` = ON（shift 41983555525）。
+- 第 0 步：收件箱 **26 条全部当轮处置**，收尾 0 pending（852 reported / 930 done）。四刀砍掉 23 条：`pydantic-ai` 4 条（整仓 BLOCKED，写入通道被封）、`crewai` 9 条（同仓在飞 2 个＝硬上限）、`python-genai` 4 条（正文是 Android root/Shizuku 垃圾广告，非缺陷）、`agentscope` 6 条（4 条已被 rome-xi / fusenning119 认领，2 条 issue 已 CLOSED）、`trl#8130`（人工门禁：首投者全 AI PR 不评审）、`openhands#19357`（`ready-for-dev` 同族门禁 + tech debt 重构）、`pipecat#6561`（作者 1 分钟内自开 #6562，正文自陈「正在准备修复」）。剩 1 条 `agentscope#3753` 进写码流程（见下）。
+- 第 1 步 `monitor_fresh --all`：352 仓 / 30 条 NEW，多数已在收件箱。可开工项只有 `truera/trulens#3056`；其余 `psf/black#5663`、`python-trio/trio#3578`、`spec-first/connexion#2157/#2158` 留待下轮（本轮预算已用于两条任务），`scikit-learn#35317` 带 `Needs Decision`、`polars#30599` 在 Rust 层、`watchdog#1411` 在 macOS C 扩展、`twisted#12909/#12910` 是维护者本人的特性工作、`wagtail#14797` 是 triage 自动化配置。
+- **产出 PR `truera/trulens#3057`**（issue #3056）：`groundedness_measure_with_nli` 对空/纯空白 statement 走 `np.mean([])` 返回 `nan` 并发 "Mean of empty slice"，`nan` 在 pandas 聚合里被跳过而不是计为 0，等于空答案不计分。修法=tokenize 后 `if not hypotheses: return 0.0, {"reasons": "No non-trivial statements to evaluate"}`（保留本方法的 `reasons` 键；`feedback/computer.py` 的 `_EXPLANATION_KEYS` 同时接受 reason/reasons）。
+- 判别性：撤源码留测试 → `3 failed, 1 passed`（三条空输入参数化全挂）；恢复 → `4 passed`。整文件 `13 failed / 16 passed` 修前修后**失败集合逐条同名**（13 条是本机缺 torch/transformers 的环境失败）。`ruff 0.16.3`（仓库 pin）check + format 干净，PR 的 `Lint & format (pre-commit)` 已 pass。
+- **认领产出 `agentscope-ai/agentscope#3753`**：`WakeupDispatcher._loop` 一次性订阅，pub/sub 掉线后 `_loop` 返回且无人重订阅，durable trigger 队列直到进程重启才恢复消费（`_fallback_loop` 的 30s 定时信号本身没错，缺的是重订阅）。修法=`_loop` 内 while 重订阅 + 封顶指数退避（成功 SUBSCRIBE 时复位）+ `_serving` 门控——启动期掉线仍是启动失败，保住既有 `test_startup_rejects_listener_ending_after_ready` 的契约。判别性：撤源码 → 2 failed（干净结束 / 抛错各一）+ 1 passed；恢复 → 3 passed；整文件 `57 passed`。black 23.3.0(79) + flake8 6.1.0 + pylint 错误级 10.00 干净。本地分支 `fix/wakeup-resubscribe`（af9ae6a，**未推送**）。
+- 该仓 CONTRIBUTING 要求「先评论认领再动手」，故本轮只发认领评论（`issue-claim` 机器人 45 秒内 assign 成功，assignee=inchang-ing，claim 至 11-19），**按纪律不在同一轮既认领又开 PR**，下轮推送。
+- 第 2 步 `monitor_oss`：**68 在飞 OPEN**（新 PR 同轮补入 STATE.md，盲点 0 / 过期 0）；`comet-ml/opik#9427` OPEN → CLOSED 离场，台账自动清理 1 行。第 3 步 `review_sweep`：7 PR 更新、**0 人类活动、0 ACTION**。第 4 步 `--slice 18`：114 仓 / 36 候选全部已 disposition（无新增），rotator 18→19。
+- **踩坑（第二次同类）**：`pathlib.write_text` 在 Windows 把 LF 写成 CRLF，trulens 测试文件 diff 从 +53 行膨胀到 869 行、agentscope 测试文件 5054 行。两次都靠「先 `git checkout --` 还原，再按原行尾 `read_bytes` + `write_bytes` 追加」修回；规律里早有这条，但**用 Python 拼字符串改文件时仍会复发**，改成一律走字节级。
+- 预算：约 75 分钟（两条独立任务：trulens 复现+验证约 35 分钟，agentscope 认领+实现+验证约 30 分钟）。
+
+## 2026-11-05 20:1x 轮（开关 ON，自动流水线 417db721）— 1 新 PR（agentscope#3770）；收件箱 28 条清零
+
+- 触发：每小时轮次。`pipeline_switch.py status` = ON（shift 41983555525），UTC 12:11 起跑。
+- 第 0 步：收件箱 25 条 + 轮内新到 3 条 = **28 条全部当轮 disposition**，收尾 0 pending（880 reported / 958 done）。四刀砍掉 25 条：仓级门禁 15（adk-python 2 条 Google CLA 须本人签、langchain 3 + langgraph 1 的 assign 门禁、inspect_ai 3 缺 `accepted`、openhands 6 条 HUMAN 真人段）、同仓竞品 PR 5（docling 5187/5189/5191/5193/5194 → 5188/5190/5192/5195/5196；docling 我方在飞 2＝硬上限）、软认领与自陈补丁 4（opik 9461/9462 正文 `prepared the patch and regression tests`、agno 11489 评论 `Taking this`、agno 11488 缺 `ready`）、pipecat 6563 → 竞品 6564。轮内先后新到 3 条并同轮处置：`deer-flow#7920` 正文自陈 `I have a focused fix` 且明写 `I will link a draft PR`（支持包含本地修复分支）→ 弃；收尾 12:26Z 又到 `livekit/agents#8400`（`enhancement` 特性请求，且该 org 首投卡标准 CLA 网页签署）与 `modelcontextprotocol/python-sdk#3821`（仓级人工门禁：须 maintainer 先 assign、明令禁 agent 认领/自主 PR）→ 均弃。
+- 第 1 步 `monitor_fresh --all`：352 仓 / 45 条 NEW（boltons `query incomplete`，watermark 未动）。绝大多数已在收件箱判过；余者为仓级禁投（transformers 3）、不可本机验（xgboost NCCL、polars Rust、streamlit 前端）、维护者内部批次或提案（pydantic 3 条同作者、frappe 2、watchdog CI 议题、wagtail 基建提案、celery flaky test）。**本轮 0 新认领**：唯一开工项是上轮已认领、已 assign 的 `agentscope#3753`。
+- **产出 PR `agentscope-ai/agentscope#3770`**（issue #3753）：`WakeupDispatcher._loop` 一次性订阅，pub/sub 掉线后 durable trigger 队列无消费者直到重启。修法=`_loop` 内 while 重订阅 + 封顶指数退避（成功 SUBSCRIBE 复位）+ `_serving` 门控（启动期掉线仍是启动失败）。本轮动作=核远端 head（`782bd43` 与本地 base 一致、浅克隆）、重跑判别性（撤源码留测试 → 2 failed / 1 passed，恢复 → 3 passed，整文件 57 passed + 10 subtests）、按仓库 hook 实参修 lint 并追加 1 commit、推 fork、开 PR。
+- **lint 假绿纠正**：本地 black 23.3.0 与仓库 pin 同版，但用了默认 88 列，而 hook 实参是 `--line-length=79` → 误报「既有行需重排」；pylint 裸跑 9.66/10，按 hook 的 `--disable=` 列表跑才暴露我自己新增的 `except asyncio.CancelledError: raise`（W0706）。`CancelledError` 继承 `BaseException`，本就不被 `except Exception` 捕获，删掉该冗余分支后按 79 列的 black / flake8 / mypy 全清、pylint 10.00/10，判别性与整文件重跑仍全绿。
+- 推送与开 PR：`git push fork HEAD:refs/heads/fix/wakeup-resubscribe` 直推成功（新分支、无 force）；`gh pr create` 的 GraphQL 端点连接超时，先确认未创建（`gh pr list --head` 为空）再改 REST `POST /repos/{r}/pulls --input` 成功 → #3770。两个 commit 均为 noreply 邮箱；PR 正文先由 Python 写成工作区文件再传 `--input`/`--body-file`，只含本仓 `#3753`，无跨仓裸链接；AI 参与如实披露，未写人工审阅声明。
+- CI：notify / on-push `pending`、on-review `skipping`（首次外部贡献待批准，非失败）；MERGEABLE / BLOCKED 待评审。认领队列表已回填 PR 列与状态；会话 claim 台账条目是旧版无 token 字段，`--release` 报「requires the token」，按本地台账维护直接清理（未改脚本、未反复重试）。
+- 第 2 步 `monitor_oss`：**68 在飞 OPEN**，盲点 0 / 过期 0（加本轮新 PR 为 69，STATE.md 已补录）。⚠CI 全量 13 条逐条归类，无一属我方：新增 `dd-trace-py#20877` 的 `devflow/mergegate` = 评审/合并门禁（与 Mergify 同族）；`browser-use#6310` 与 #6300 同为继承 main 的 `skill sync` 红；其余为 backport 标签、osv-scan、black 漂移、nightly、enforce-label、codecov/patch、旧重跑残留、自有仓长睡项。第 3 步 `review_sweep`：7 PR 更新 / 0 人类活动 / **0 ACTION**，无回复、不催。
+- 第 4 步 `--slice 19 --slices 3`：rotator 停在奇数，按历史「奇偶规则会永久卡死」的教训强制跑一次，115 仓 / 18 候选全部已 disposition、无新增，索引 19→20。
+- 产出：**1 PR / 0 新认领 / 0 评审回复 / 0 解冲突**。预算主要用于一条完整 PR 的跨会话复验与 lint 对齐。
+
+
+
+## 2026-11-05 21:29 轮（第 33 轮，开关 ON）— 1 新 PR（pylint#11784）+ 1 存量 PR 真红修复（markdown#1688）；收件箱 19 条清零
+- 触发：每小时轮次。`pipeline_switch.py status` = ON（shift 42029520078），UTC 13:29 起跑。
+- 第 0 步：收件箱 9 条 + 轮内新到 10 条 = **19 条全部当轮 disposition**，收尾 0 pending（899 reported / 978 done）。首轮 9 条：pydantic-ai 4（整仓 BLOCKED，写入通道被封）、openhands 2（ready-for-dev + HUMAN 真人段）、haystack#13570（已有 assignee sjrl）、lighteval#1479（作者自陈「would like to add HRM8K ... and open a PR」+ 数据集不可本机验）、crewai#9129 四重命中（reporter 自开竞品 #9130、timeline 同仓 cross-ref、正文自陈补丁已就绪、本仓我方在飞 2＝硬上限）。轮末新到 10 条同源降维：openhands 3、trl 3（人工门禁 + #8134 已 assign 维护者）、pydantic-ai 2、docling#5198（同仓 2 在飞满额 + VLM/GPU 不可验）、lighteval#1481（数据集提案待维护者定契约）。
+- 第 1 步 `monitor_fresh --all`：352 仓 / 24 条 NEW（boltons query incomplete）。四刀降维后**唯一干净候选 `pylint-dev/pylint#11783`**（`Needs triage`、无 assignee、AGENTS.md Step1/2/3 全清、本仓我方在飞 1 有额度）。pillow#10429 与 airflow#76542 均自陈愿提 PR；sentry-python 内部任务已 CLOSED；peewee 两条 CVSS 模板连发；polars/ray 不可本机验；transformers/python-sdk/frappe 仓级门禁。
+- **产出 PR `pylint-dev/pylint#11784`**（issue #11783）：`MisdesignChecker.visit_functiondef` 预置 1（函数定义本身）+ `visit_default` 对 `Pass` 加 1 → `def func(): pass` 报 `Too many statements (2/1)`。既有功能测试把「def 算一条」钉成契约（`long_function_with_inline_def` 期望 62/5），故取最窄判据：body 恰为一个 `nodes.Pass` 时预置 0，其余保持 1；与契约共存，且同仓 `#11396`（broad_try_clause 扩展「忽略语法必需的 sole pass」）是修法先例。
+- 验证：venv 装 pylint 4.1.3/astroid 4.3.4（Py 3.13.14）复现成功，工作副本 main（4.2.0-dev0）同样复现 → 非 3.14 特有；新 functional 测试（sync+async sole pass + 两个对照）改前 2 条意外消息 FAIL、改后 2 passed，撤源码留测试复现失败、恢复通过；端到端修后 exit 0、有真实语句的函数仍报 2/1；`unittest_design.py` 3 passed、全 `too_many_*` 26 passed；全量 functional 938 passed/46 skipped/10 failed，10 条与纯净基线**逐条同名**（typing/import-order/recursion/timeout 环境既有），`comm -13` 无我方新增；AGENTS.md 的 100% patch/branch 覆盖：新行 619/620/622/624/626 全执行，`[619→620]`/`[619→622]` 两侧均覆盖；ruff 0.17.3（测试对照的 PIE790 加行内 noqa）、black 26.10.1 全清。
+- 交付：CRLF 坑（checkout 为 CRLF，LF 片段匹配 0 次）→ 改字节级 CRLF 替换，diff 9+/2− 无整份重写；新建 3 文件用 `write_bytes` 保 LF；分支从 main 起、直推 fork 新分支（无 force）、`--body-file` 建 PR；newsfragment `11783.false_positive`；AI 参与如实披露、未写人工审阅声明；PR 正文对本仓以外编号一律反引号包裹、无裸外部链接。CI 全 pending（首投待批准），MERGEABLE/BLOCKED。
+- **存量真红修复 `python-markdown/markdown#1688`**：`checkspelling` 上轮只补了 `CDATA`，本轮仍红于测试 docstring 的 `IndentedRawHtml`/`etree`；维护者 waylan 13:53Z 具体建议「代码词用 code span 而非进词典，因注释会进自动生成 API 文档」。按此把新增注释/docstring 里 CDATA/etree/IndentedRawHtml 全包 code span、把 `.spell-dict` 恢复上游（移除 CDATA）；相关测试 123 passed；本地 b878783 与远端 17029a9 分叉 → `reset --hard` 以远端为准，push `17029a9..b31f189`（无 + = FF）。该仓禁 agent 评论，只推代码、未发评论，ACTION 以代码回应。
+- 第 2 步 `monitor_oss`：权威 OPEN 69 / 台账 68，盲点 1 即新 PR（脚本声称补录但 STATE.md 实际未写 → 本轮手动补录、标题 68→69，复核 69 行）；`sqlglot#8909` OPEN→CLOSED 离场（脚本自动清理 1 行）。第 3 步 `review_sweep`：7 PR 更新 / 1 人类活动 / 1 ACTION（markdown#1688，已以代码回应，无文字回复、不催）。
+- 第 4 步 `--slice 20 --slices 3`：113 仓 / 32 候选全部已 disposition，1 仓 query incomplete；rotator 原子写回 21。
+- 产出：**1 新 PR / 1 存量 PR 真红修复 / 0 认领 / 0 文字评审回复**。预算主要给两条完整 PR 的验证与评审响应。
+
+## 2026-11-05 23:07 轮（第 34 轮，开关 ON）— 1 新 PR（dagster#34406）+ 解 litellm#46262 真冲突；收件箱 13 条清零
+- 触发：每小时轮次。`pipeline_switch.py status` = ON（shift 42029520078），UTC 15:08 起跑；`date -u` 对齐时间戳。
+- 第 0 步：收件箱 11 条 + 轮内新到 2 条 = **13 条全部当轮 disposition**，收尾 0 pending（912 reported / 991 done）。三刀降维：pydantic-ai 5 条整仓 BLOCKED（写入通道被 403 Blocked，pr-guard 须 assign 而我方无法评论请求 assign）；crewai 4 条同仓在飞 2 个＝硬上限（#7981/#7795）；aider 2 条自动崩溃上报。轮内新到 openai-agents-python#5534（仓级禁投）与 pipecat#6565（reporter 自开 #6566，timeline 同仓 cross-ref）。aider#5949 是 macOS scipy `_spropack` .so `dlopen` 失败（第三方环境、无修复点、不可本机验）；aider#5948 虽在 Py3.13 复现 `Path.glob('C:foo')` 抛 NotImplementedError，但正文仅 traceback 无输入样本，且 aider ICLA 走标准 CLAassistant 须账号持有者网页 OAuth（我方 #5945 已卡 `not_signed`）→ 弃。
+- 第 1 步 `monitor_fresh --all`：352 仓 / 29 条 NEW（boltons query incomplete，EXIT=1 不影响其余）。逐条四刀降维 + 关键项细查后登记 23 条 disposition（台账 391→414）。质量最高的 `apache/iceberg-python#4291` 五项全清、会话 FREE、本机复现脚本跑通（`k=2` 行被错误复活），但判不做：AI 批量扫出的跨仓同源 bug（同作者 kdn36 相隔 5 分钟在 polars#30616 发同题，历史上大量 issue+自提 PR 成对）、正文已附完整复现与修法建议（软认领）、修复面是 `plan_files` 的 delete-file 索引语义重构、AGENTS.md 要求 `make lint` + `make test`（全量、需构建 Cython）而本机仅 wheel 环境 → 按「不降标准凑数」判弃。其余：docling#5198 已被 Kylinny 认领、mlflow#27519 被 bot 认领+缺 ready、openhands#19379 撞 #19382、pdm#3995 作者自陈愿提+已有 #3996/#3997、frappe 两条 vouched 门禁、duckdb/polars 非 Python 不可验、trl×3 人工门禁、lighteval/freqtrade/chardet/sentry 非缺陷或内部任务。
+- **产出 PR `dagster-io/dagster#34406`**（issue #34405）：Helm chart 两个 Deployment 的多行 flow 式 `command` 序列以与 `command` key 同缩进（10 空格）的 `]` 收尾，违反 YAML 1.2.2 §8.2.3，严格解析器拒绝渲染出的 manifest。修法=两处 `]` 缩进到 12 空格，每文件 diff 精确 1 行（字节级替换，无 CRLF 改写）。判别性用 issue 指定的严格解析器 YAMLrocks 0.7.0 `OPT_PYYAML_COMPAT`、按真实模板绝对缩进层级重建渲染片段：修前两份均 REJECTED（`flow content must be indented more than its block context`）/ 修后两份均 ACCEPTED 且命令列表不变；PyYAML 6.0.3 修前修后都接受且结果相同 = 纯缩进。本机无 helm，正文写明用渲染片段对照。走 Git Data API 建分支（blobs→tree→单父 commit，force=false，noreply 邮箱），compare 2 files/+1/−1。CI `buildkite/unit-tests` fail 经同仓他人 PR #34402/#34400 横向对照判继承 main，非我方，不重复评论、不推空 commit。MERGEABLE/BLOCKED 待评审。
+- **维护产出：解 `BerriAI/litellm#46262` 真实冲突**（10-17 老 PR，落后 upstream/main 457 提交，mergeState=DIRTY）。`git fetch` 比对确认本地 HEAD == fork 远端 head（无分叉）→ merge 双亲提交（禁止 force-push，故不用 rebase）。`git merge-tree` 预测冲突仅 `streaming_handler.py` 一处；上游把代码平移行号且删了我方旧 base 上的两行注释，第一处修复自动合并、第二处手工取我方 import 段。关键证据：**合并结果相对 upstream/main 的净改动与原始 PR diff 逐字完全一致**（173 insertions / 5 deletions，4 文件），证明未引入或丢失任何修复内容；AST 通过、四文件无残留标记。判别性：辅助函数 6 用例全过；撤修复（上游 str-only 累积）→ `""` 内容全丢 / 恢复 → `"Hello, world!"`。push `4680775911..f750249725` 无 `+` = fast-forward；GitHub 侧 CONFLICTING/DIRTY → MERGEABLE（BLOCKED 仅待评审）。本地 venv 是旧版 litellm 包与工作副本新版 main 内部不一致（`STREAM_CHUNK_CHOICE_FIELDS` 缺失），判为环境不匹配而非代码问题，已恢复被覆盖的 venv 文件。
+- 第 2 步 `monitor_oss`：权威 OPEN 69 / 台账 69，盲点 0、过期 0；本轮变化仅新增 pylint#11784 与 markdown#1688 的 CI 计数。第 3 步 `review_sweep`：8 PR 更新 / 1 人类活动 / 1 ACTION = markdown#1688，维护者 waylan 13:53Z 建议「代码词用 code span 而非进词典」——**上一轮已用 `b31f189`（14:01Z，晚于 review）以代码回应**，commit message 明确 following the review suggestion，当前分支 `.spell-dict` 已无 CDATA；该仓禁 agent 评论，按「同一事项合并成一次回复」不重复动作。
+- 第 4 步：时间紧，跳过额外 maintainer_sweep，`sweep_rotator.txt` 保持 21。
+- STATE.md 补录新 PR，标题 69→70；会话认领 dagster#34405 已 `--release`；弃单台账清理了 3 个误写的重复/错误 slug key（污染会误杀未来候选）。
+- 产出：**1 新 PR / 1 存量 PR 真冲突解决 / 0 认领 / 0 文字评审回复**。
+
+## 2026-11-06 00:4x 轮（第 46 轮，automation-ad2012ad 已改 15 分钟间隔；合并执行积压）— 收件箱 9 条清零 + hub#5305 被关 + md#1688 评审待用户
+
+- **调度变更**：用户指令「时间缩短到 15min」→ automation-ad2012ad 已 CronUpdate 为 `*/15`（标题同步「每15分钟清收件箱并推进在飞PR」，runCount 25）。
+- 收件箱 9 条 → 0 pending（921 reported / 1000 done）：litellm 上限、swarms ai-generated ×4、deer-flow needs-triage、openhands HUMAN、pydantic-ai；agentscope#3771 双信号（ccclucky /assign + 10 分钟 XR #3772 + ACCEPT_EDITS 安全敏感面）。dispositions 380→423。
+- **🔴 hub#5305 被关（未合并）**：Wauplin 关闭 issue #5304 并连带关 PR——"this is not a real bug. Please let me know if it happens in a real use case scenario, not a dummy theoretical snippet"（认为 kernels 侧已修、issue 复现为理论性片段）。判输不申诉（instructor#2717 先例）；STATE 行已自动清理，在飞口径回落（+dagster#34406 -hub#5305 持平 69）。
+- **⚠ md#1688（用户本人 PR）waylan 行内评审**：对 .spell-dict 收 CDATA 提出更优形态——「CDATA 是代码词，写成 code span 则无需进词典（code span 不拼写检查，API 文档自动生成场景尤其重要）」。**证据核查：该建议对 .py 不成立**——被标记的行（blockprocessors.py:185/225）本来就带反引号 `` `CDATA` ``，python 矩阵用 `pyspelling.filters.python` 抽 docstring 为纯文本，反引号不构成 code span。词典方案是当前配置下唯一有效机制。该仓禁 agent 评论 + PR 归用户 → 备好证据说明（下条 memory），推送/回复权在用户。
+- **dagster#34406（author=inchang-ing）**：并行会话新开的 PR，monitor 自动收录（69/69 对账含它）。
+- monitor_oss 69/69 盲点 0；review_sweep 1 ACTION（md#1688 归用户裁决）。

@@ -3722,5 +3722,881 @@
     "note": "受限/禁投仓库: pydantic/pydantic-ai",
     "status": "done",
     "history": []
+  },
+  "bytedance/deer-flow#7910": {
+    "at": "2026-11-05T05:48:39.554245+00:00",
+    "note": "PR #7913",
+    "status": "done",
+    "history": []
+  },
+  "bytedance/deer-flow#7911": {
+    "at": "2026-11-05T05:48:44.292221+00:00",
+    "note": "作者本人已开同修 PR（+1/+2 号）",
+    "status": "done",
+    "history": []
+  },
+  "bytedance/deer-flow#7908": {
+    "at": "2026-11-05T05:48:44.646075+00:00",
+    "note": "作者本人已开同修 PR（+1/+2 号）",
+    "status": "done",
+    "history": []
+  },
+  "crewaiinc/crewai#9095": {
+    "at": "2026-11-05T05:48:45.004297+00:00",
+    "note": "同仓我方在飞 2 个 PR，达硬上限",
+    "status": "done",
+    "history": []
+  },
+  "crewaiinc/crewai#9093": {
+    "at": "2026-11-05T05:48:45.351113+00:00",
+    "note": "同仓我方在飞 2 个 PR，达硬上限",
+    "status": "done",
+    "history": []
+  },
+  "berriai/litellm#50167": {
+    "at": "2026-11-05T05:48:45.697698+00:00",
+    "note": "同仓我方在飞 2 个 PR，达硬上限",
+    "status": "done",
+    "history": []
+  },
+  "berriai/litellm#50158": {
+    "at": "2026-11-05T05:48:46.051664+00:00",
+    "note": "同仓我方在飞 2 个 PR，达硬上限",
+    "status": "done",
+    "history": []
+  },
+  "berriai/litellm#50156": {
+    "at": "2026-11-05T05:48:46.396859+00:00",
+    "note": "同仓我方在飞 2 个 PR，达硬上限",
+    "status": "done",
+    "history": []
+  },
+  "agentscope-ai/agentscope#3744": {
+    "at": "2026-11-05T05:48:46.759242+00:00",
+    "note": "已被竞品 PR 占据（issue 号 +1/+2）",
+    "status": "done",
+    "history": []
+  },
+  "agentscope-ai/agentscope#3742": {
+    "at": "2026-11-05T05:48:47.113262+00:00",
+    "note": "已被竞品 PR 占据（issue 号 +1/+2）",
+    "status": "done",
+    "history": []
+  },
+  "agentscope-ai/agentscope#3740": {
+    "at": "2026-11-05T05:48:47.482834+00:00",
+    "note": "已被竞品 PR 占据（issue 号 +1/+2）",
+    "status": "done",
+    "history": []
+  },
+  "microsoft/semantic-kernel#14723": {
+    "at": "2026-11-05T05:48:47.834781+00:00",
+    "note": "已有同修 PR（+1 号同标题）",
+    "status": "done",
+    "history": []
+  },
+  "agno-agi/agno#11480": {
+    "at": "2026-11-05T05:48:48.180395+00:00",
+    "note": "已被 Kylinny 认领",
+    "status": "done",
+    "history": []
+  },
+  "lancedb/lancedb#4857": {
+    "at": "2026-11-05T05:48:48.531372+00:00",
+    "note": "维护者 wjones127 自提的内部批次 + Rust 内核层不可本机验",
+    "status": "done",
+    "history": []
+  },
+  "lancedb/lancedb#4850": {
+    "at": "2026-11-05T05:48:48.886154+00:00",
+    "note": "维护者 wjones127 自提的内部批次 + Rust 内核层不可本机验",
+    "status": "done",
+    "history": []
+  },
+  "lancedb/lancedb#4849": {
+    "at": "2026-11-05T05:48:49.234407+00:00",
+    "note": "维护者 wjones127 自提的内部批次 + Rust 内核层不可本机验",
+    "status": "done",
+    "history": []
+  },
+  "lancedb/lancedb#4848": {
+    "at": "2026-11-05T05:48:49.563536+00:00",
+    "note": "维护者 wjones127 自提的内部批次 + Rust 内核层不可本机验",
+    "status": "done",
+    "history": []
+  },
+  "lancedb/lancedb#4847": {
+    "at": "2026-11-05T05:48:49.914659+00:00",
+    "note": "维护者 wjones127 自提的内部批次 + Rust 内核层不可本机验",
+    "status": "done",
+    "history": []
+  },
+  "lancedb/lancedb#4846": {
+    "at": "2026-11-05T05:48:50.265033+00:00",
+    "note": "维护者 wjones127 自提的内部批次 + Rust 内核层不可本机验",
+    "status": "done",
+    "history": []
+  },
+  "lancedb/lancedb#4845": {
+    "at": "2026-11-05T05:48:50.607855+00:00",
+    "note": "维护者 wjones127 自提的内部批次 + Rust 内核层不可本机验",
+    "status": "done",
+    "history": []
+  },
+  "lancedb/lancedb#4844": {
+    "at": "2026-11-05T05:48:50.959173+00:00",
+    "note": "维护者 wjones127 自提的内部批次 + Rust 内核层不可本机验",
+    "status": "done",
+    "history": []
+  },
+  "lancedb/lancedb#4843": {
+    "at": "2026-11-05T05:48:51.295290+00:00",
+    "note": "维护者 wjones127 自提的内部批次 + Rust 内核层不可本机验",
+    "status": "done",
+    "history": []
+  },
+  "lancedb/lancedb#4842": {
+    "at": "2026-11-05T05:48:51.648228+00:00",
+    "note": "维护者 wjones127 自提的内部批次 + Rust 内核层不可本机验",
+    "status": "done",
+    "history": []
+  },
+  "langchain-ai/langchain#41704": {
+    "at": "2026-11-05T05:49:01.021781+00:00",
+    "note": "assign 门禁仓，无自助通道",
+    "status": "done",
+    "history": []
+  },
+  "modelcontextprotocol/servers#5471": {
+    "at": "2026-11-05T05:49:01.378578+00:00",
+    "note": "handoff-only：本账号 POST /pulls 404",
+    "status": "done",
+    "history": []
+  },
+  "modelcontextprotocol/servers#5468": {
+    "at": "2026-11-05T05:49:01.731758+00:00",
+    "note": "handoff-only：本账号 POST /pulls 404",
+    "status": "done",
+    "history": []
+  },
+  "modelcontextprotocol/servers#5463": {
+    "at": "2026-11-05T05:49:02.079275+00:00",
+    "note": "handoff-only：本账号 POST /pulls 404",
+    "status": "done",
+    "history": []
+  },
+  "modelcontextprotocol/servers#5457": {
+    "at": "2026-11-05T05:49:02.445875+00:00",
+    "note": "handoff-only：本账号 POST /pulls 404",
+    "status": "done",
+    "history": []
+  },
+  "modelcontextprotocol/servers#5445": {
+    "at": "2026-11-05T05:49:02.805437+00:00",
+    "note": "handoff-only：本账号 POST /pulls 404",
+    "status": "done",
+    "history": []
+  },
+  "modelcontextprotocol/servers#5444": {
+    "at": "2026-11-05T05:49:03.135872+00:00",
+    "note": "handoff-only：本账号 POST /pulls 404",
+    "status": "done",
+    "history": []
+  },
+  "modelcontextprotocol/servers#5443": {
+    "at": "2026-11-05T05:49:03.483733+00:00",
+    "note": "handoff-only：本账号 POST /pulls 404",
+    "status": "done",
+    "history": []
+  },
+  "modelcontextprotocol/servers#5442": {
+    "at": "2026-11-05T05:49:03.832952+00:00",
+    "note": "handoff-only：本账号 POST /pulls 404",
+    "status": "done",
+    "history": []
+  },
+  "modelcontextprotocol/servers#5441": {
+    "at": "2026-11-05T05:49:04.162005+00:00",
+    "note": "handoff-only：本账号 POST /pulls 404",
+    "status": "done",
+    "history": []
+  },
+  "modelcontextprotocol/servers#5440": {
+    "at": "2026-11-05T05:49:04.491391+00:00",
+    "note": "handoff-only：本账号 POST /pulls 404",
+    "status": "done",
+    "history": []
+  },
+  "modelcontextprotocol/servers#5439": {
+    "at": "2026-11-05T05:49:04.842155+00:00",
+    "note": "handoff-only：本账号 POST /pulls 404",
+    "status": "done",
+    "history": []
+  },
+  "modelcontextprotocol/servers#5438": {
+    "at": "2026-11-05T05:49:05.189917+00:00",
+    "note": "handoff-only：本账号 POST /pulls 404",
+    "status": "done",
+    "history": []
+  },
+  "openhands/openhands#19353": {
+    "at": "2026-11-05T05:49:05.511870+00:00",
+    "note": "PR 须 HUMAN 真人段 + human-tested + e2e 证据，不能代签",
+    "status": "done",
+    "history": []
+  },
+  "openhands/openhands#19346": {
+    "at": "2026-11-05T05:49:05.844688+00:00",
+    "note": "PR 须 HUMAN 真人段 + human-tested + e2e 证据，不能代签",
+    "status": "done",
+    "history": []
+  },
+  "openhands/openhands#19345": {
+    "at": "2026-11-05T05:49:06.176511+00:00",
+    "note": "PR 须 HUMAN 真人段 + human-tested + e2e 证据，不能代签",
+    "status": "done",
+    "history": []
+  },
+  "openhands/openhands#19343": {
+    "at": "2026-11-05T05:49:06.522544+00:00",
+    "note": "PR 须 HUMAN 真人段 + human-tested + e2e 证据，不能代签",
+    "status": "done",
+    "history": []
+  },
+  "mem0ai/mem0#7837": {
+    "at": "2026-11-05T05:49:06.855101+00:00",
+    "note": "缺 accepted 标签，pr-gate 会自动关单",
+    "status": "done",
+    "history": []
+  },
+  "mem0ai/mem0#7836": {
+    "at": "2026-11-05T05:49:07.185339+00:00",
+    "note": "缺 accepted 标签，pr-gate 会自动关单",
+    "status": "done",
+    "history": []
+  },
+  "mem0ai/mem0#7835": {
+    "at": "2026-11-05T05:49:07.537484+00:00",
+    "note": "缺 accepted 标签，pr-gate 会自动关单",
+    "status": "done",
+    "history": []
+  },
+  "prefecthq/fastmcp#6316": {
+    "at": "2026-11-05T05:49:07.883506+00:00",
+    "note": "须 maintainer 先 assign，且禁发认领评论",
+    "status": "done",
+    "history": []
+  },
+  "arize-ai/phoenix#17646": {
+    "at": "2026-11-05T05:49:08.216836+00:00",
+    "note": "CONTRIBUTING：open issue 不等于可提 PR，须维护者确认",
+    "status": "done",
+    "history": []
+  },
+  "arize-ai/phoenix#17639": {
+    "at": "2026-11-05T05:49:08.556784+00:00",
+    "note": "CONTRIBUTING：open issue 不等于可提 PR，须维护者确认",
+    "status": "done",
+    "history": []
+  },
+  "pydantic/pydantic-ai#12576": {
+    "at": "2026-11-05T05:49:08.909022+00:00",
+    "note": "仓级禁投（组织屏蔽本账号写入）",
+    "status": "done",
+    "history": []
+  },
+  "pydantic/pydantic-ai#12574": {
+    "at": "2026-11-05T05:49:09.238468+00:00",
+    "note": "仓级禁投（组织屏蔽本账号写入）",
+    "status": "done",
+    "history": []
+  },
+  "berriai/litellm#50173": {
+    "at": "2026-11-05T05:49:17.999931+00:00",
+    "note": "同仓我方在飞 2 个 PR，达硬上限",
+    "status": "done",
+    "history": []
+  },
+  "pydantic/pydantic-ai#12587": {
+    "at": "2026-11-05T06:09:03.151502+00:00",
+    "note": "仓级禁投（本账号被组织屏蔽写入）",
+    "status": "done",
+    "history": []
+  },
+  "lancedb/lancedb#4860": {
+    "at": "2026-11-05T06:09:03.586583+00:00",
+    "note": "Rust lance 内核 ANNSubIndex HNSW 查询路径，需 110M 行数据与 Rust 工具链复现，本机不可验",
+    "status": "done",
+    "history": []
+  },
+  "agno-agi/agno#11483": {
+    "at": "2026-11-05T06:30:02.295812+00:00",
+    "note": "Cookbook 示例提案，非缺陷；且该仓缺 ready 标签",
+    "status": "done",
+    "history": []
+  },
+  "berriai/litellm#50176": {
+    "at": "2026-11-05T06:30:02.732479+00:00",
+    "note": "[Feature] 提案非缺陷；且同仓我方在飞 2 个 PR 达硬上限",
+    "status": "done",
+    "history": []
+  },
+  "huggingface/trl#8121": {
+    "at": "2026-11-05T06:30:03.165890+00:00",
+    "note": "已 assign 给 albertvillanova 且已有同修 PR #8122",
+    "status": "done",
+    "history": []
+  },
+  "agentscope-ai/agentscope#3746": {
+    "at": "2026-11-05T06:30:03.598956+00:00",
+    "note": "五项核查全清（干净候选），但同仓我方在飞 1 个（#3735），守「同仓 ≤1」纪律暂不开工；登记待回捞",
+    "status": "done",
+    "history": []
+  },
+  "pydantic/pydantic-ai#12588": {
+    "at": "2026-11-05T07:05:56.225982+00:00",
+    "note": "仓级禁投（BLOCKED_REPOS: 组织屏蔽写入）",
+    "status": "done",
+    "history": []
+  },
+  "crewaiinc/crewai#9101": {
+    "at": "2026-11-05T07:05:56.511327+00:00",
+    "note": "同仓在飞 2 个=硬上限；且为 feature request 非缺陷",
+    "status": "done",
+    "history": []
+  },
+  "langchain-ai/langgraph#9602": {
+    "at": "2026-11-05T07:05:56.789239+00:00",
+    "note": "assign 门禁仓：须先分配给本账号，无自助通道（历史三连栽）",
+    "status": "done",
+    "history": []
+  },
+  "agentscope-ai/agentscope#3748": {
+    "at": "2026-11-05T07:30:05.251201+00:00",
+    "note": "已被 golitter 通过 /assign 机器人认领（claim 至 2026-11-19）",
+    "status": "done",
+    "history": []
+  },
+  "lancedb/lancedb#4864": {
+    "at": "2026-11-05T07:30:05.538954+00:00",
+    "note": "项目归属/维护者状态讨论，非缺陷；该仓无对应可提 PR 的代码改动",
+    "status": "done",
+    "history": []
+  },
+  "docling-project/docling#5184": {
+    "at": "2026-11-05T07:30:05.812441+00:00",
+    "note": "同仓我方在飞 3 个（#4439/#5007/#5125）超硬上限 2",
+    "status": "done",
+    "history": []
+  },
+  "huggingface/trl#8123": {
+    "at": "2026-11-05T07:30:06.095275+00:00",
+    "note": "assignee=作者本人（HF 员工）且已自答「非回归」= 内部处置",
+    "status": "done",
+    "history": []
+  },
+  "langchain-ai/langgraph#9603": {
+    "at": "2026-11-05T08:36:49.607778+00:00",
+    "note": "仓级需先获 approval/assign，AGENTS.md 未留自助通道",
+    "status": "done",
+    "history": []
+  },
+  "langroid/langroid#1286": {
+    "at": "2026-11-05T08:36:49.888071+00:00",
+    "note": "作者自陈已有含 3 测试的分支可贴（软认领）",
+    "status": "done",
+    "history": []
+  },
+  "milvus-io/pymilvus#3925": {
+    "at": "2026-11-05T08:36:50.172672+00:00",
+    "note": "question 模板，作者在问维护者该不该告警，方案未定",
+    "status": "done",
+    "history": []
+  },
+  "openai/openai-agents-python#5529": {
+    "at": "2026-11-05T08:36:50.485560+00:00",
+    "note": "仓级禁投：不收非 collaborator 的 PR",
+    "status": "done",
+    "history": []
+  },
+  "pydantic/pydantic-ai#12593": {
+    "at": "2026-11-05T08:36:50.774769+00:00",
+    "note": "仓级 BLOCKED：pydantic-ai 禁自主投稿",
+    "status": "done",
+    "history": []
+  },
+  "pydantic/pydantic-ai#12594": {
+    "at": "2026-11-05T08:36:51.063666+00:00",
+    "note": "仓级 BLOCKED：pydantic-ai 禁自主投稿",
+    "status": "done",
+    "history": []
+  },
+  "pydantic/pydantic-ai#12595": {
+    "at": "2026-11-05T08:36:51.369195+00:00",
+    "note": "仓级 BLOCKED：pydantic-ai 禁自主投稿",
+    "status": "done",
+    "history": []
+  },
+  "agno-agi/agno#11486": {
+    "at": "2026-11-05T08:36:51.980292+00:00",
+    "note": "无 ready 标签，pr-lint 会直接关单",
+    "status": "done",
+    "history": []
+  },
+  "cleanlab/cleanlab#1359": {
+    "at": "2026-11-05T08:36:52.256036+00:00",
+    "note": "已有同题 PR #1360（issue 后 5 分钟）",
+    "status": "done",
+    "history": []
+  },
+  "huggingface/peft#4117": {
+    "at": "2026-11-05T08:36:52.560104+00:00",
+    "note": "仓级政策禁纯 agent PR：须 /peft-triage approved + 指派，且要求人类提交者能逐行辩护",
+    "status": "done",
+    "history": []
+  },
+  "huggingface/peft#4118": {
+    "at": "2026-11-05T08:36:52.852757+00:00",
+    "note": "同上：peft 须维护者 /peft-triage approved 且禁纯 agent PR",
+    "status": "done",
+    "history": []
+  },
+  "huggingface/trl#8127": {
+    "at": "2026-11-05T08:36:53.131627+00:00",
+    "note": "AI 政策：首投者的全 AI PR 不予评审；该仓 100+ open PR",
+    "status": "done",
+    "history": []
+  },
+  "arize-ai/phoenix#17662": {
+    "at": "2026-11-05T08:36:53.414502+00:00",
+    "note": "Issues-First：open issue 不是提 PR 的邀请",
+    "status": "done",
+    "history": []
+  },
+  "berriai/litellm#50185": {
+    "at": "2026-11-05T08:36:53.702173+00:00",
+    "note": "同仓我方在飞 2 个＝硬上限",
+    "status": "done",
+    "history": []
+  },
+  "bytedance/deer-flow#7915": {
+    "at": "2026-11-05T08:36:54.002570+00:00",
+    "note": "作者已主动撤回该 issue 与投稿意向；同一问题已由已合并的 #7913 修复",
+    "status": "done",
+    "history": []
+  },
+  "geekan/metagpt#2191": {
+    "at": "2026-11-05T08:36:54.284754+00:00",
+    "note": "已有同题 PR #2192（issue 后 2 分钟）",
+    "status": "done",
+    "history": []
+  },
+  "ukgovernmentbeis/inspect_ai#6332": {
+    "at": "2026-11-05T08:36:54.599445+00:00",
+    "note": "社区示例投稿，该仓须 accepted 标签才可动",
+    "status": "done",
+    "history": []
+  },
+  "foundationagents/metagpt#2191": {
+    "at": "2026-11-05T08:38:04.181080+00:00",
+    "note": "已有同题 PR #2192（issue 后 2 分钟）",
+    "status": "done",
+    "history": []
+  },
+  "googleapis/python-genai#3276": {
+    "at": "2026-11-05T10:01:50.047475+00:00",
+    "note": "issue 内容为 Android root/Shizuku 垃圾广告，非本项目缺陷",
+    "status": "done",
+    "history": []
+  },
+  "googleapis/python-genai#3277": {
+    "at": "2026-11-05T10:01:50.379751+00:00",
+    "note": "issue 内容为 Android root/Shizuku 垃圾广告，非本项目缺陷",
+    "status": "done",
+    "history": []
+  },
+  "googleapis/python-genai#3278": {
+    "at": "2026-11-05T10:01:50.722077+00:00",
+    "note": "issue 内容为 Android root/Shizuku 垃圾广告，非本项目缺陷",
+    "status": "done",
+    "history": []
+  },
+  "googleapis/python-genai#3279": {
+    "at": "2026-11-05T10:01:51.085997+00:00",
+    "note": "issue 内容为 Android root/Shizuku 垃圾广告，非本项目缺陷",
+    "status": "done",
+    "history": []
+  },
+  "pydantic/pydantic-ai#12596": {
+    "at": "2026-11-05T10:01:51.419519+00:00",
+    "note": "该仓在 BLOCKED_REPOS（账号写入通道被封），整仓不可投",
+    "status": "done",
+    "history": []
+  },
+  "pydantic/pydantic-ai#12597": {
+    "at": "2026-11-05T10:01:51.753081+00:00",
+    "note": "该仓在 BLOCKED_REPOS（账号写入通道被封），整仓不可投",
+    "status": "done",
+    "history": []
+  },
+  "huggingface/trl#8130": {
+    "at": "2026-11-05T10:01:52.081497+00:00",
+    "note": "仓级人工门禁：不接受 first-time contributor 的全 AI PR，且本账号在该仓无已合记录",
+    "status": "done",
+    "history": []
+  },
+  "openhands/openhands#19357": {
+    "at": "2026-11-05T10:01:52.424301+00:00",
+    "note": "带 ready-for-dev 标签（同族 ready 门禁）+ tech debt 重构类，见标签即弃",
+    "status": "done",
+    "history": []
+  },
+  "crewaiinc/crewai#9106": {
+    "at": "2026-11-05T10:01:55.691311+00:00",
+    "note": "同仓我方已有 2 个 open PR = 硬上限，本仓暂停接单",
+    "status": "done",
+    "history": []
+  },
+  "crewaiinc/crewai#9107": {
+    "at": "2026-11-05T10:01:56.044826+00:00",
+    "note": "同仓我方已有 2 个 open PR = 硬上限，本仓暂停接单",
+    "status": "done",
+    "history": []
+  },
+  "crewaiinc/crewai#9108": {
+    "at": "2026-11-05T10:01:56.386415+00:00",
+    "note": "同仓我方已有 2 个 open PR = 硬上限，本仓暂停接单",
+    "status": "done",
+    "history": []
+  },
+  "crewaiinc/crewai#9112": {
+    "at": "2026-11-05T10:01:56.724348+00:00",
+    "note": "同仓我方已有 2 个 open PR = 硬上限，本仓暂停接单",
+    "status": "done",
+    "history": []
+  },
+  "crewaiinc/crewai#9113": {
+    "at": "2026-11-05T10:01:57.057805+00:00",
+    "note": "同仓我方已有 2 个 open PR = 硬上限，本仓暂停接单",
+    "status": "done",
+    "history": []
+  },
+  "crewaiinc/crewai#9114": {
+    "at": "2026-11-05T10:01:57.385041+00:00",
+    "note": "同仓我方已有 2 个 open PR = 硬上限，本仓暂停接单",
+    "status": "done",
+    "history": []
+  },
+  "crewaiinc/crewai#9115": {
+    "at": "2026-11-05T10:01:57.718306+00:00",
+    "note": "同仓我方已有 2 个 open PR = 硬上限，本仓暂停接单",
+    "status": "done",
+    "history": []
+  },
+  "crewaiinc/crewai#9116": {
+    "at": "2026-11-05T10:01:58.063591+00:00",
+    "note": "同仓我方已有 2 个 open PR = 硬上限，本仓暂停接单",
+    "status": "done",
+    "history": []
+  },
+  "crewaiinc/crewai#9123": {
+    "at": "2026-11-05T10:01:58.390787+00:00",
+    "note": "同仓我方已有 2 个 open PR = 硬上限，本仓暂停接单",
+    "status": "done",
+    "history": []
+  },
+  "pipecat-ai/pipecat#6561": {
+    "at": "2026-11-05T10:02:30.863086+00:00",
+    "note": "作者同分钟自开 PR pipecat#6562 且正文自陈正在准备修复，撞车",
+    "status": "done",
+    "history": []
+  },
+  "agentscope-ai/agentscope#3751": {
+    "at": "2026-11-05T10:02:48.155182+00:00",
+    "note": "已被 rome-xi 认领（assignee + 认领评论）",
+    "status": "done",
+    "history": []
+  },
+  "agentscope-ai/agentscope#3752": {
+    "at": "2026-11-05T10:02:48.494532+00:00",
+    "note": "已被 rome-xi 认领（assignee + 认领评论）",
+    "status": "done",
+    "history": []
+  },
+  "agentscope-ai/agentscope#3754": {
+    "at": "2026-11-05T10:02:48.833473+00:00",
+    "note": "已被 rome-xi 认领（assignee + 认领评论）",
+    "status": "done",
+    "history": []
+  },
+  "agentscope-ai/agentscope#3755": {
+    "at": "2026-11-05T10:02:49.165218+00:00",
+    "note": "issue 已 CLOSED，且与已认领的 #3757 是同一缺陷的重复投递",
+    "status": "done",
+    "history": []
+  },
+  "agentscope-ai/agentscope#3756": {
+    "at": "2026-11-05T10:02:49.508937+00:00",
+    "note": "issue 已 CLOSED（同作者超 5 issue 限额被批量关闭）",
+    "status": "done",
+    "history": []
+  },
+  "agentscope-ai/agentscope#3757": {
+    "at": "2026-11-05T10:02:49.848775+00:00",
+    "note": "已被 fusenning119 认领（assignee + 认领评论）",
+    "status": "done",
+    "history": []
+  },
+  "truera/trulens#3056": {
+    "at": "2026-11-05T10:12:11.224068+00:00",
+    "note": "PR #3057",
+    "status": "done",
+    "history": []
+  },
+  "pydantic/pydantic-ai#12603": {
+    "at": "2026-11-05T10:13:29.730748+00:00",
+    "note": "该仓在 BLOCKED_REPOS（账号写入通道被封）",
+    "status": "done",
+    "history": []
+  },
+  "pydantic/pydantic-ai#12604": {
+    "at": "2026-11-05T10:13:30.066013+00:00",
+    "note": "该仓在 BLOCKED_REPOS（账号写入通道被封）",
+    "status": "done",
+    "history": []
+  },
+  "agentscope-ai/agentscope#3753": {
+    "at": "2026-11-05T12:24:48.962729+00:00",
+    "note": "PR #3770",
+    "status": "done",
+    "history": [
+      {
+        "at": "2026-11-05T10:20:27.734280+00:00",
+        "note": "已认领成功（assignee=inchang-ing），修复本地已验证，下轮提 PR",
+        "status": "done"
+      }
+    ]
+  },
+  "google/adk-python#7998": {
+    "at": "2026-11-05T12:14:35.855572+00:00",
+    "note": "Google CLA 须本人网页签 + 非 GFI 须先征询维护者(MANUAL_GATES)",
+    "status": "done",
+    "history": []
+  },
+  "google/adk-python#7997": {
+    "at": "2026-11-05T12:14:36.135849+00:00",
+    "note": "Google CLA 须本人网页签 + 非 GFI 须先征询维护者(MANUAL_GATES)",
+    "status": "done",
+    "history": []
+  },
+  "langchain-ai/langchain#41710": {
+    "at": "2026-11-05T12:14:36.409890+00:00",
+    "note": "assign 门禁仓须先分配; 且与另两条同标题重复播报",
+    "status": "done",
+    "history": []
+  },
+  "comet-ml/opik#9462": {
+    "at": "2026-11-05T12:14:36.677916+00:00",
+    "note": "正文自陈已备好补丁与回归测试, 仓库 bot 已在跟方案",
+    "status": "done",
+    "history": []
+  },
+  "comet-ml/opik#9461": {
+    "at": "2026-11-05T12:14:36.963147+00:00",
+    "note": "正文自陈已备好补丁与回归测试, 仓库 bot 已在跟方案",
+    "status": "done",
+    "history": []
+  },
+  "langchain-ai/langchain#41709": {
+    "at": "2026-11-05T12:14:37.242525+00:00",
+    "note": "assign 门禁仓须先分配; 三条同标题重复播报",
+    "status": "done",
+    "history": []
+  },
+  "agno-agi/agno#11489": {
+    "at": "2026-11-05T12:14:37.525547+00:00",
+    "note": "评论区已被 Wang-MuFF 认领 Taking this",
+    "status": "done",
+    "history": []
+  },
+  "agno-agi/agno#11488": {
+    "at": "2026-11-05T12:14:37.795330+00:00",
+    "note": "缺 ready 标签, pr-lint 门禁会关单",
+    "status": "done",
+    "history": []
+  },
+  "docling-project/docling#5194": {
+    "at": "2026-11-05T12:14:38.074438+00:00",
+    "note": "已有竞品 PR 5196 + 同仓我方在飞 2 达硬上限",
+    "status": "done",
+    "history": []
+  },
+  "docling-project/docling#5193": {
+    "at": "2026-11-05T12:14:38.357771+00:00",
+    "note": "已有竞品 PR 5195 + 同仓我方在飞 2 达硬上限",
+    "status": "done",
+    "history": []
+  },
+  "langchain-ai/langchain#41708": {
+    "at": "2026-11-05T12:14:38.634017+00:00",
+    "note": "assign 门禁仓须先分配; 三条同标题重复播报",
+    "status": "done",
+    "history": []
+  },
+  "langchain-ai/langgraph#9607": {
+    "at": "2026-11-05T12:14:38.916644+00:00",
+    "note": "assign 门禁仓须先 approval issue",
+    "status": "done",
+    "history": []
+  },
+  "ukgovernmentbeis/inspect_ai#6335": {
+    "at": "2026-11-05T12:14:39.210376+00:00",
+    "note": "缺 accepted 标签, issue-readiness 门禁",
+    "status": "done",
+    "history": []
+  },
+  "ukgovernmentbeis/inspect_ai#6334": {
+    "at": "2026-11-05T12:14:39.497147+00:00",
+    "note": "缺 accepted 标签, issue-readiness 门禁",
+    "status": "done",
+    "history": []
+  },
+  "openhands/openhands#19364": {
+    "at": "2026-11-05T12:14:39.788136+00:00",
+    "note": "PR 模板 HUMAN 真人段 + e2e 证据门禁, 不可代签",
+    "status": "done",
+    "history": []
+  },
+  "openhands/openhands#19363": {
+    "at": "2026-11-05T12:14:40.070564+00:00",
+    "note": "PR 模板 HUMAN 真人段门禁; 且为前端 UI 缺陷",
+    "status": "done",
+    "history": []
+  },
+  "openhands/openhands#19362": {
+    "at": "2026-11-05T12:14:40.355098+00:00",
+    "note": "PR 模板 HUMAN 真人段门禁; 且为前端 UI 缺陷",
+    "status": "done",
+    "history": []
+  },
+  "openhands/openhands#19361": {
+    "at": "2026-11-05T12:14:40.635035+00:00",
+    "note": "PR 模板 HUMAN 真人段门禁; 且为前端 UI 缺陷",
+    "status": "done",
+    "history": []
+  },
+  "openhands/openhands#19360": {
+    "at": "2026-11-05T12:14:40.920130+00:00",
+    "note": "ready-for-dev 标签 + HUMAN 真人段双重门禁",
+    "status": "done",
+    "history": []
+  },
+  "openhands/openhands#19359": {
+    "at": "2026-11-05T12:14:41.202302+00:00",
+    "note": "ready-for-dev 标签 + HUMAN 真人段双重门禁",
+    "status": "done",
+    "history": []
+  },
+  "pipecat-ai/pipecat#6563": {
+    "at": "2026-11-05T12:14:41.485227+00:00",
+    "note": "已有竞品 PR 6564 且作者勾选愿自行贡献",
+    "status": "done",
+    "history": []
+  },
+  "ukgovernmentbeis/inspect_ai#6333": {
+    "at": "2026-11-05T12:14:41.780749+00:00",
+    "note": "缺 accepted 标签; macOS 专属 make test 不可本机验",
+    "status": "done",
+    "history": []
+  },
+  "docling-project/docling#5191": {
+    "at": "2026-11-05T12:14:42.067121+00:00",
+    "note": "已有竞品 PR 5192 + 同仓我方在飞 2 达硬上限",
+    "status": "done",
+    "history": []
+  },
+  "docling-project/docling#5189": {
+    "at": "2026-11-05T12:14:42.347138+00:00",
+    "note": "已有竞品 PR 5190 + 同仓我方在飞 2 达硬上限",
+    "status": "done",
+    "history": []
+  },
+  "docling-project/docling#5187": {
+    "at": "2026-11-05T12:14:42.624175+00:00",
+    "note": "已有竞品 PR 5188 + 同仓我方在飞 2 达硬上限",
+    "status": "done",
+    "history": []
+  },
+  "bytedance/deer-flow#7920": {
+    "at": "2026-11-05T12:15:15.482261+00:00",
+    "note": "作者自陈已有 focused fix 且明写将自提 draft PR, 支持包含本地修复分支",
+    "status": "done",
+    "history": []
+  },
+  "livekit/agents#8400": {
+    "at": "2026-11-05T12:27:54.482536+00:00",
+    "note": "enhancement 特性请求非缺陷; livekit org 首投卡标准 CLAassistant 网页签署",
+    "status": "done",
+    "history": []
+  },
+  "modelcontextprotocol/python-sdk#3821": {
+    "at": "2026-11-05T12:27:54.799725+00:00",
+    "note": "仓级人工门禁: 须 maintainer 先 assign 且明令禁 agent 认领/自主 PR",
+    "status": "done",
+    "history": []
+  },
+  "openhands/openhands#19376": {
+    "at": "2026-11-05T13:31:50.530400+00:00",
+    "note": "ready-for-dev 门禁 + PR 模板须真人 HUMAN 段声明，无自助通道",
+    "status": "done",
+    "history": []
+  },
+  "openhands/openhands#19375": {
+    "at": "2026-11-05T13:31:50.845514+00:00",
+    "note": "ready-for-dev 门禁 + PR 模板须真人 HUMAN 段声明，无自助通道",
+    "status": "done",
+    "history": []
+  },
+  "pydantic/pydantic-ai#12617": {
+    "at": "2026-11-05T13:31:51.163550+00:00",
+    "note": "整仓 BLOCKED：写入通道被封 + pr-guard 须 assign，禁投",
+    "status": "done",
+    "history": []
+  },
+  "pydantic/pydantic-ai#12616": {
+    "at": "2026-11-05T13:31:51.479682+00:00",
+    "note": "整仓 BLOCKED：写入通道被封 + pr-guard 须 assign，禁投",
+    "status": "done",
+    "history": []
+  },
+  "pydantic/pydantic-ai#12615": {
+    "at": "2026-11-05T13:31:51.798429+00:00",
+    "note": "整仓 BLOCKED，且带 pydanty:is-working 标签",
+    "status": "done",
+    "history": []
+  },
+  "pydantic/pydantic-ai#12609": {
+    "at": "2026-11-05T13:31:52.119561+00:00",
+    "note": "整仓 BLOCKED：写入通道被封 + pr-guard 须 assign，禁投",
+    "status": "done",
+    "history": []
+  },
+  "deepset-ai/haystack#13570": {
+    "at": "2026-11-05T13:31:52.427653+00:00",
+    "note": "已有 assignee sjrl（维护者），内部测试缺陷",
+    "status": "done",
+    "history": []
+  },
+  "huggingface/lighteval#1479": {
+    "at": "2026-11-05T13:31:52.741137+00:00",
+    "note": "作者自陈将与协作者开 PR；新增韩语数据集 feature 无法本机验",
+    "status": "done",
+    "history": []
+  },
+  "crewaiinc/crewai#9129": {
+    "at": "2026-11-05T13:31:53.074081+00:00",
+    "note": "作者自开竞品 PR #9130（timeline 同仓 cross-ref）+ 自陈补丁已就绪；本仓我方在飞 2=硬上限",
+    "status": "done",
+    "history": []
   }
 }
