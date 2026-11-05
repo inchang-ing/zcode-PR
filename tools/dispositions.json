@@ -1929,5 +1929,13 @@
  "modelcontextprotocol/servers#5482": {
   "date": "2026-11-06",
   "reason": "handoff-only: modelcontextprotocol/servers 修复推 fork 后请维护者代开 PR；且为 npm 发布状态问询类 issue"
+ },
+ "berriai/litellm#50273": {
+  "date": "2026-11-06",
+  "reason": "same-repo cap: 该仓在飞 2 个（#46262/#48309，STATE.md 台账），硬上限 2"
+ },
+ "run-llama/llama_index#23973": {
+  "date": "2026-11-06",
+  "reason": "同报告者批量（yifanxiong272 Responses API 系列）+ llama-agents 在飞 #866 占席，本轮不扩"
  }
 }
