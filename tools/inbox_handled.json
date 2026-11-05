@@ -3686,5 +3686,41 @@
     "note": "same-repo cap: 该仓在飞 2 个（#7795/#7981，STATE.md 台账），硬上限 2；且为 FEATURE 提案",
     "status": "done",
     "history": []
+  },
+  "bytedance/deer-flow#7901": {
+    "at": "2026-11-05T00:43:57.527278+00:00",
+    "note": "needs-triage 未分诊 + deer-flow 需 LLM 服务端到端验证，无人值守不可验证（同 #7881-#7886 先例）",
+    "status": "done",
+    "history": []
+  },
+  "eleutherai/lm-evaluation-harness#4533": {
+    "at": "2026-11-05T00:43:57.723033+00:00",
+    "note": "报告者闭环: ChrystianSchutz issue 后 1 分钟自开 PR #4534（正文自陈 AI 起草补丁）",
+    "status": "done",
+    "history": []
+  },
+  "huggingface/lighteval#1476": {
+    "at": "2026-11-05T00:43:57.914928+00:00",
+    "note": "报告者闭环: ChrystianSchutz issue 后 2 分钟自开 PR #1478（自陈 Found and prepared with AI assistance）",
+    "status": "done",
+    "history": []
+  },
+  "huggingface/lighteval#1475": {
+    "at": "2026-11-05T00:43:58.106383+00:00",
+    "note": "报告者闭环: ChrystianSchutz issue 后 2 分钟自开 PR #1477",
+    "status": "done",
+    "history": []
+  },
+  "langchain-ai/langchain#41699": {
+    "at": "2026-11-05T00:43:58.297776+00:00",
+    "note": "assign 门禁仓: 须先分配给当前账号（[internal] 标签为维护者内部项）",
+    "status": "done",
+    "history": []
+  },
+  "pydantic/pydantic-ai#12571": {
+    "at": "2026-11-05T00:43:58.485142+00:00",
+    "note": "受限/禁投仓库: pydantic/pydantic-ai",
+    "status": "done",
+    "history": []
   }
 }

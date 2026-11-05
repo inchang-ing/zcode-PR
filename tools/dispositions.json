@@ -1493,5 +1493,29 @@
  "crewaiinc/crewai#9089": {
   "date": "2026-11-05",
   "reason": "same-repo cap: 该仓在飞 2 个（#7795/#7981，STATE.md 台账），硬上限 2"
+ },
+ "bytedance/deer-flow#7901": {
+  "date": "2026-11-05",
+  "reason": "needs-triage 未分诊 + deer-flow 需 LLM 服务端到端验证，无人值守不可验证（同 #7881-#7886 先例）"
+ },
+ "eleutherai/lm-evaluation-harness#4533": {
+  "date": "2026-11-05",
+  "reason": "报告者闭环: ChrystianSchutz issue 后 1 分钟自开 PR #4534（正文自陈 AI 起草补丁）"
+ },
+ "huggingface/lighteval#1476": {
+  "date": "2026-11-05",
+  "reason": "报告者闭环: ChrystianSchutz issue 后 2 分钟自开 PR #1478（自陈 Found and prepared with AI assistance）"
+ },
+ "huggingface/lighteval#1475": {
+  "date": "2026-11-05",
+  "reason": "报告者闭环: ChrystianSchutz issue 后 2 分钟自开 PR #1477"
+ },
+ "langchain-ai/langchain#41699": {
+  "date": "2026-11-05",
+  "reason": "assign 门禁仓: 须先分配给当前账号（[internal] 标签为维护者内部项）"
+ },
+ "pydantic/pydantic-ai#12571": {
+  "date": "2026-11-05",
+  "reason": "受限/禁投仓库: pydantic/pydantic-ai"
  }
 }
