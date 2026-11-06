@@ -3915,3 +3915,8 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - 判别性：tool_output 新回归测试（mock cp1252 异常）修前 fail（checkout origin/main 基线）/ 修后 26/26；pin lint 全净；**EVIDENCE_OK 推送前**（HEAD db36771）。
 - 流程坑三次连环（均在 quality_check 闭环内消化）：①prepare 重置 claims → 先 prepare 后填；②evidence 文件名沿用旧记录名（5951）时刷新的是新名（5953）→ 以记录引用的 ref 为准；③limitations 须与正文逐字一致 → 改 limitation 措辞时同步 gh pr edit。
 - monitor_oss 70/70 盲点 0（#5952 新 commit CI 重跑）；review_sweep 2 ACTION 均为已处置状态。
+
+## 2026-11-06 18:1x 轮（第 78 轮，15 分钟间隔）— 0 新单；收件箱 5 条清零
+
+- 收件箱 5 条 → 0 pending（993 reported / 1072 done）：openhands HUMAN ×3、phoenix 人工门禁、openai-agents 禁投。dispositions 491→496。
+- 本轮 0 干净候选。monitor_oss 70/70 盲点 0；review_sweep 2 ACTION 均为已处置状态。

@@ -1961,5 +1961,25 @@
  "aider-ai/aider#5953": {
   "date": "2026-11-06",
   "reason": "已由 PR #5952 的 follow-up db36771 覆盖（tool_output 的 ASCII 兜底；repo-map U+22EE 场景；26/26 测试，EVIDENCE_OK 推送前）"
+ },
+ "openhands/openhands#19405": {
+  "date": "2026-11-06",
+  "reason": "人工门禁: PR 描述含真人专属段（HUMAN: ≥20 字符 + human-tested + e2e 证据）"
+ },
+ "openhands/openhands#19403": {
+  "date": "2026-11-06",
+  "reason": "人工门禁: PR 描述含真人专属段（HUMAN: ≥20 字符 + human-tested + e2e 证据）"
+ },
+ "openhands/openhands#19399": {
+  "date": "2026-11-06",
+  "reason": "人工门禁: PR 描述含真人专属段（HUMAN: ≥20 字符 + human-tested + e2e 证据）"
+ },
+ "arize-ai/phoenix#17699": {
+  "date": "2026-11-06",
+  "reason": "人工门禁: CONTRIBUTING 明写「An open issue is not an invitation to submit a PR」"
+ },
+ "openai/openai-agents-python#5545": {
+  "date": "2026-11-06",
+  "reason": "受限/禁投仓库: openai/openai-agents-python（零外部 PR 通道）"
  }
 }
