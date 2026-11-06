@@ -2601,5 +2601,9 @@
  "crewaiinc/crewai#9199": {
   "date": "2026-11-07",
   "reason": "same-repo cap: 该仓在飞 2 个，硬上限 2"
+ },
+ "unstructured-io/unstructured#4670": {
+  "date": "2026-11-07",
+  "reason": "竞品 PR #4671（issue 同分钟）覆盖同一 email multipart CR 破坏问题"
  }
 }
