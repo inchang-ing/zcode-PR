@@ -2001,5 +2001,217 @@
  "pydantic/pydantic-ai#12662": {
   "date": "2026-11-06",
   "reason": "受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "dbt-labs/dbt-core#17055": {
+  "date": "2026-11-06",
+  "reason": "默认分支已 Rust 重写（Fusion v2 引擎），SQL 静态分析规则不在本机可跑的 Python 路径"
+ },
+ "facebookresearch/hydra#3619": {
+  "date": "2026-11-06",
+  "reason": "维护者 omry 自开的 Nox 环境清理 maintenance 提案，非缺陷"
+ },
+ "flet-dev/flet#7053": {
+  "date": "2026-11-06",
+  "reason": "feature request（首次使用一次性准备流程），非缺陷"
+ },
+ "frappe/frappe#46582": {
+  "date": "2026-11-06",
+  "reason": "已 CLOSED + 人工门禁 vouched 资格未核验"
+ },
+ "frappe/frappe#46587": {
+  "date": "2026-11-06",
+  "reason": "release hygiene 自动生成内部看板 + 人工门禁 vouched 资格未核验"
+ },
+ "huggingface/lighteval#1483": {
+  "date": "2026-11-06",
+  "reason": "作者自陈 I'll open + 竞品 PR #1484 已开（Closes #1483）"
+ },
+ "jlowin/fastmcp#6322": {
+  "date": "2026-11-06",
+  "reason": "旧 slug 实为 PrefectHQ/fastmcp，人工门禁（须 assign 且禁认领评论）；已入 DEAD_OR_RENAMED"
+ },
+ "jupyterlab/jupyterlab#20415": {
+  "date": "2026-11-06",
+  "reason": "前端 TS 缺陷 + 竞品 PR #20416 已开"
+ },
+ "mahmoud/boltons#739": {
+  "date": "2026-11-06",
+  "reason": "作者自陈 I can send + 竞品 PR #740 已开（Fixes #739）"
+ },
+ "modelscope/agentscope#3794": {
+  "date": "2026-11-06",
+  "reason": "已 assign 给 97Three + /assign 与 I have pr 软认领"
+ },
+ "nedbat/coveragepy#2362": {
+  "date": "2026-11-06",
+  "reason": "SIGINT 子进程退出码回归，需 Python 3.13 patch=subprocess 真机信号语义，Windows 不可验；repo_capacity UNKNOWN"
+ },
+ "numpy/numpy#33235": {
+  "date": "2026-11-06",
+  "reason": "已 CLOSED"
+ },
+ "pydantic/pydantic#14237": {
+  "date": "2026-11-06",
+  "reason": "根因在 pydantic-core 的 Rust 层（validation_exception.rs GC tp_traverse），需 Python 3.14 + Rust 重编译，本机不可验"
+ },
+ "pypa/pipx#2424": {
+  "date": "2026-11-06",
+  "reason": "文档措辞澄清提问（Question），非缺陷"
+ },
+ "python-markdown/markdown#1693": {
+  "date": "2026-11-06",
+  "reason": "人工门禁：禁止 agent 自主提交/评论，须作者本人参与"
+ },
+ "scipy/scipy#26630": {
+  "date": "2026-11-06",
+  "reason": "竞品 PR #26633 已开 + C/Fortran 编译层不可本机验"
+ },
+ "scipy/scipy#26631": {
+  "date": "2026-11-06",
+  "reason": "竞品 PR #26632 已开 + C/Fortran 编译层不可本机验"
+ },
+ "yt-dlp/yt-dlp#18004": {
+  "date": "2026-11-06",
+  "reason": "仓级硬禁投 NO AI/NO LLM POLICY（已入 BLOCKED_REPOS）"
+ },
+ "zauberzeug/nicegui#6483": {
+  "date": "2026-11-06",
+  "reason": "Snap Chromium 环境相关 + 竞品 PR #6484 已开"
+ },
+ "embedchain/embedchain#7846": {
+  "date": "2026-11-06",
+  "reason": "已 CLOSED + 作者自陈已有 PR"
+ },
+ "embedchain/embedchain#7847": {
+  "date": "2026-11-06",
+  "reason": "mem0 改名仓重复；该仓须 accepted 标签门禁"
+ },
+ "nvidia-nemo/guardrails#2564": {
+  "date": "2026-11-06",
+  "reason": "feature 请求（enhancement, needs triage）：缩小 HF 分类器锁范围的吞吐/延迟探索，需模型推理实测本机不可验；为 PR #2545 评审 follow-up，非明确缺陷"
+ },
+ "pydantic/pydantic-ai#12695": {
+  "date": "2026-11-06",
+  "reason": "仓级禁投（受限池）；作者已自开 PR #12696 修正该文档段并在评论自陈，窗口已被占"
+ },
+ "bytedance/deer-flow#7962": {
+  "date": "2026-11-07",
+  "reason": "needs-triage 未分诊 + deer-flow 需 LLM 服务端到端验证，无人值守不可验证"
+ },
+ "kyegomez/swarms#3253": {
+  "date": "2026-11-07",
+  "reason": "维护者内部队列让位: kyegomez ai-generated 审计批量（规律 55）"
+ },
+ "kyegomez/swarms#3250": {
+  "date": "2026-11-07",
+  "reason": "维护者内部队列让位: kyegomez ai-generated 审计批量（规律 55）"
+ },
+ "openhands/openhands#19427": {
+  "date": "2026-11-07",
+  "reason": "gate: 人工门禁: PR 描述含真人专属段：模板首行必须是 `HUMAN:`，`.github/scripts/check_pr_description.py` 要求该段 ≥20 字符并勾选 human-tested，且模板明写「Just running unit tests is NOT sufficient」须 e2e 证据（日志/截图）。真人声明不能代签"
+ },
+ "openhands/openhands#19425": {
+  "date": "2026-11-07",
+  "reason": "gate: 人工门禁: PR 描述含真人专属段：模板首行必须是 `HUMAN:`，`.github/scripts/check_pr_description.py` 要求该段 ≥20 字符并勾选 human-tested，且模板明写「Just running unit tests is NOT sufficient」须 e2e 证据（日志/截图）。真人声明不能代签"
+ },
+ "berriai/litellm#50405": {
+  "date": "2026-11-07",
+  "reason": "same-repo cap: 该仓在飞 2 个（STATE.md 台账），硬上限 2"
+ },
+ "bytedance/deer-flow#7960": {
+  "date": "2026-11-07",
+  "reason": "needs-triage 未分诊 + deer-flow 需 LLM 服务端到端验证，无人值守不可验证"
+ },
+ "arize-ai/openinference#4248": {
+  "date": "2026-11-07",
+  "reason": "feature: 新增 llm.provider 枚举值（doubleword）为公共接口扩展，需维护者接受"
+ },
+ "arize-ai/phoenix#17706": {
+  "date": "2026-11-07",
+  "reason": "gate: 人工门禁: CONTRIBUTING 明写「An open issue is not an invitation to submit a PR」，须 maintainer 明确确认后才可开工"
+ },
+ "pydantic/pydantic-ai#12721": {
+  "date": "2026-11-07",
+  "reason": "gate: 受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "pydantic/pydantic-ai#12720": {
+  "date": "2026-11-07",
+  "reason": "gate: 受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "pydantic/pydantic-ai#12719": {
+  "date": "2026-11-07",
+  "reason": "gate: 受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "pydantic/pydantic-ai#12718": {
+  "date": "2026-11-07",
+  "reason": "gate: 受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "pydantic/pydantic-ai#12717": {
+  "date": "2026-11-07",
+  "reason": "gate: 受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "pydantic/pydantic-ai#12716": {
+  "date": "2026-11-07",
+  "reason": "gate: 受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "pydantic/pydantic-ai#12715": {
+  "date": "2026-11-07",
+  "reason": "gate: 受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "pydantic/pydantic-ai#12714": {
+  "date": "2026-11-07",
+  "reason": "gate: 受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "pydantic/pydantic-ai#12713": {
+  "date": "2026-11-07",
+  "reason": "gate: 受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "pydantic/pydantic-ai#12712": {
+  "date": "2026-11-07",
+  "reason": "gate: 受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "pydantic/pydantic-ai#12711": {
+  "date": "2026-11-07",
+  "reason": "gate: 受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "pydantic/pydantic-ai#12709": {
+  "date": "2026-11-07",
+  "reason": "gate: 受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "pydantic/pydantic-ai#12708": {
+  "date": "2026-11-07",
+  "reason": "gate: 受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "openhands/openhands#19422": {
+  "date": "2026-11-07",
+  "reason": "gate: 人工门禁: PR 描述含真人专属段：模板首行必须是 `HUMAN:`，`.github/scripts/check_pr_description.py` 要求该段 ≥20 字符并勾选 human-tested，且模板明写「Just running unit tests is NOT sufficient」须 e2e 证据（日志/截图）。真人声明不能代签"
+ },
+ "comet-ml/opik#9491": {
+  "date": "2026-11-07",
+  "reason": "设计让位: [Escalated request][FR] cooldown caps 的 opt-out 属 SDK 语义设计，Escalated 标签=维护者内部讨论"
+ },
+ "openhands/openhands#19420": {
+  "date": "2026-11-07",
+  "reason": "gate: 人工门禁: PR 描述含真人专属段：模板首行必须是 `HUMAN:`，`.github/scripts/check_pr_description.py` 要求该段 ≥20 字符并勾选 human-tested，且模板明写「Just running unit tests is NOT sufficient」须 e2e 证据（日志/截图）。真人声明不能代签"
+ },
+ "arize-ai/openinference#4247": {
+  "date": "2026-11-07",
+  "reason": "竞品 PR #7625（issue 后 1 分钟）覆盖同一 google-adk span 问题"
+ },
+ "nvidia-nemo/guardrails#2570": {
+  "date": "2026-11-07",
+  "reason": "质量红线: 越狱检测启发式属安全敏感面设计与实现"
+ },
+ "crewaiinc/crewai#9181": {
+  "date": "2026-11-07",
+  "reason": "same-repo cap: 该仓在飞 2 个（STATE.md 台账），硬上限 2"
+ },
+ "prefecthq/fastmcp#6330": {
+  "date": "2026-11-07",
+  "reason": "gate: 人工门禁: 贡献门禁要求外部 PR 必须同时「链接 issue」且「作者已被 assign」（除非 issue 带 `prs welcome`），否则 bot 自动关闭；同一页又明令「Do not post comments just to claim an issue or ask to be assigned」+「The issue reporter has first claim」→ 无自助通道，须 maintainer 主动 assign 才能落地"
+ },
+ "bytedance/deer-flow#7953": {
+  "date": "2026-11-07",
+  "reason": "needs-triage 未分诊 + deer-flow 需 LLM 服务端到端验证，无人值守不可验证"
  }
 }

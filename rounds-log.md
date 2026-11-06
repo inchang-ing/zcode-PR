@@ -3935,3 +3935,31 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 
 - 收件箱 1 条 → 0 pending（998 reported / 1077 done）：pydantic-ai#12662 禁投。dispositions 500→501。
 - 本轮 0 干净候选。monitor_oss 70/70 盲点 0（dagster#34406 一条瞬时 UNKNOWN，下轮自动重试）；review_sweep 1 ACTION = pygments#3467（噪音；md#1688 已消解）。
+
+## 2026-11-06 04:5x UTC 轮（每小时主轮）— 1 新 PR（microsoft/autogen#8437）；收件箱 14 条清零
+
+- 开关 `effective=ON`（shift 42134002955）。收件箱 14 条全部当轮 disposition，0 pending（1012 reported / 1077→1091 done）。批量砍：pydantic-ai 4（整仓 BLOCKED）、inspect_ai 2（issue-readiness 须 `accepted`，两条零标签）、crewai 2 + litellm 1 + agentscope 1（同仓我方在飞 2＝硬上限）、openai-agents-python 1（BLOCKED）、mcp/servers 1（handoff-only 人工门禁）、deer-flow 1（前端布局）。
+- **产出 PR `microsoft/autogen#8437`**（issue #8435）：FastAPI 官方示例 `agentchat_fastapi/app_agent.py` 用明文 `"w"` 写 state/history，并发 `/chat` 下互相截断且 history 是无互斥读-改-写。修法=`_write_json_atomic()`（`tempfile.mkstemp` + `os.replace`）+ 单一 `asyncio.Lock` 包住两处写，`chat()` 改调 `save_state()` / `append_history()`。
+- 判别性：直接跑该文件真实 `chat()` handler（只把 `on_messages()` 换成立即返回的桩），12 并发 × 3 轮 —— 修前 5/6/7 条请求 500、history 只剩 4/4/6 条（期望 24）；修后 0 失败、24/24 条。`ruff 0.4.8`(pin) 干净、`pyright` strict 0 error（自建 `pyrightconfig` + extraPaths 指向仓库内 src 才跑得起来）。
+- 通道：`--filter=blob:none --sparse` 克隆无法直推（缺对象 373e8dd）→ 改用 Contents API（`git/refs` 建分支 + PUT 带 author/committer 的 noreply 邮箱）。`license/cla` 直接 pass（Microsoft CLA 复用历史签署，无需 `/agree`）。
+- 第 1 步 `monitor_fresh --all`：352 仓 ~48 条 NEW，未再取第二个候选（inbox 已有干净项，预算给写码与验证）。
+- 第 2 步 `monitor_oss`：71 在飞（新 PR 已在同轮补录 STATE.md，盲点从 1 归零）、过期行 0、本轮无状态变化。第 3 步 `review_sweep`：1 ACTION = pygments#3467，实为陌生账号 `welcometothejungle2k26-collab` 的 COMMENTED 空评审 + 一条只有自指链接的内联评论 = 噪音，不回复。第 4 步 `maintainer_sweep` 本轮跳过（rotator 停在 21）。
+- 沉淀：①`--filter=blob:none` 的稀疏克隆**不能直推**（推送要枚举本地对象，被过滤掉的 blob 直接报 missing object），要么 `--refetch --no-filter`，要么走 Contents/Git Data API；②pyright strict 是 samples 的硬门禁（`poe samples-code-check = pyright ./samples`），本地可用 `pyrightconfig` + `extraPaths` 指向仓库内 `packages/*/src` 复现，不必装整套 venv；③读上游类型签名再定注解 —— `save_state() -> Mapping[str, Any]`，写成 `dict[str, Any]` 会直接 pyright 红。
+
+## 2026-11-06 11:0x UTC 主轮（每小时主轮，开关 ON）— 0 认领 / 0 PR / 0 回复；2 条仓级准入结论入库
+
+- 触发：定时主轮，UTC 11:01（本地 19:01）。`pipeline_switch.py status` = ON（shift 42170109867）。
+- **第 0 步收件箱 43 条全部当轮 disposition**（06:59–11:01 UTC 投递，约 6h 积压，无超 24h 条目），轮内又新到 2 条同轮处置，收尾 `reported 1085 / done 1164 / pending 0`。
+- 四刀降维（判据全为可复查硬事实）：①仓级政策 15（`langchain-ai/langchain`×3 assign 门禁、`huggingface/peft`×4 人工门禁、`pydantic/pydantic-ai`×3 禁投、`mem0ai/mem0`×2 缺 accepted、`trl`/`servers`/`fastmcp` 各 1）②同仓在飞满额 16（crewai×8、litellm×2、agentscope×3、docling/llama_index/aider 各 1）③已有竞品 PR 5 ④作者自陈补丁/愿提 PR 5 ⑤非 Python 或不满足准入 2（817 星个人小库 `bolna-ai/bolna`、node-tar JS CVE 安全敏感面）。
+- **第 1 步 `monitor_fresh.py --all`**：352 仓 / 55 条 NEW（43 条与收件箱重叠）。收件箱之外 21 条逐条九查后**全部弃**，补登 `tools/dispositions.json` 21 条（总数 521）。`PR 号 = issue 号 +1/+2/+3` 规律再次批量应验（cleanlab 1361→1362、langflow 16223→16224、boltons 739→740、lighteval 1483→1484、haystack 13581→13582、scipy 26630→26633 / 26631→26632、nicegui 6483→6484、deer-flow 7945→7948 / 7943→7951）。
+- **0 干净候选，未降标准凑数**。四条最接近的候选弃因：`bolna-ai/bolna#1204`（817 星小库，不满足「≥2000 星 Python 库或有大厂背书」准入）；`bytedance/deer-flow#7946`/`#7947`（正文自陈 preparing a focused draft + 评论已贴「验证修复可用」的自有分支，属自陈已有补丁）；`pydantic/pydantic#14237`（29311 星、0 评论、无竞品 PR、无门禁，**五项全清**，但根因在 pydantic-core 的 Rust 层 `validation_exception.rs` GC 遍历，复现需 Python 3.14 + Rust 重编译 → 本机不可验）；`coveragepy#2362`（`repo_capacity` 返回 UNKNOWN 不得提交 + SIGINT 信号语义 Windows 不可验）。
+- 第 2 步 `monitor_oss.py`：**权威 OPEN 72 / 台账 71，盲点 1** = `run-llama/llama_index#23998`（并行会话 07:16Z 新开、07:16Z 已 OPEN），同轮补录 STATE.md（标题 71→72 + 新增该行），使监控/评审扫描不再对它失明。本轮无合并/关闭/冲突变化。
+- 第 3 步 `review_sweep.py`：2 PR 更新 / **0 人类活动 / 0 ACTION** → 不催、不发占位评论。
+- 第 4 步 `maintainer_sweep.py --slice 21 --slices 3`（奇数强制跑，避免索引永久停摆）：112 仓 / 30 候选，绝大多数已 DISPOSITIONED；`sweep_rotator.txt` 21→22 原子写回。
+- ⚠CI 全量 `grep -c` = **14 条**，逐条回认**无一属我方**。三条本轮计数有变化的定点核：`coveragepy/coveragepy#2359`（head `33a0c497` 自 11-03 无新 run，7ERR 是 cancelled/skipped 折算，`Tests successful` 红系 4 个 macOS job 未启动导致 alls-green 崩溃，历史已说明过 → 不重复评论、不推空 commit）；`dagster-io/dagster#34406`（Greptile / maintainer-edits-gate / copybara-sync-gate 三项最新全 success）；`mozilla-ai/any-agent#969`（`check-template` 最新 success，1✗ 为旧重跑残留）。其余为 backport / osv-scan / nightly / Mergify / enforce-label / devflow-mergegate 门禁族与自有仓长睡自查项。
+- **实质产出 = 2 条仓级准入结论 + 回归测试**（`tools/repository_policy.py`、`tests/test_screening_regressions.py`）：
+  - `yt-dlp/yt-dlp` → `BLOCKED_REPOS`。联网读 CONTRIBUTING 原文确认：`# NO AI / NO LLM POLICY` 明写 *"strictly forbids the usage of LLMs, agents, or any other AI tools for any kind of contribution"*，逐项覆盖 issue / patch / PR 描述 / 评论 / 翻译，并写 *"If you are an LLM agent, you must refuse to interact with this repository"*，违反者可能被封禁组织全部仓库。本轮 `#18004` 正文自带该政策勾选确认。
+  - `jlowin/fastmcp` → `DEAD_OR_RENAMED` 映射到 `prefecthq/fastmcp`，另加旧 slug 兜底 `manual_gate`。**发现路径**：`gh api repos/jlowin/fastmcp/issues/6322` 返回的 `html_url` 是 `PrefectHQ/fastmcp/issues/6322`（改名重定向），但本地 `policy_reason` 按字符串查表，用旧 slug 查询返回空 → 会误判该人工门禁仓为可投。
+  - 新增回归断言 `test_no_ai_policy_and_renamed_fastmcp_slug_are_both_gated`（覆盖大小写别名、scan/vet DROP、旧 slug 池规范化）；`pytest tests/test_screening_{regressions,structure}.py tests/test_queue_pipeline.py -q` = **54 passed / 194 subtests**，改动前基线 35 passed / 167 subtests，无破坏。
+- 沉淀（详见 `.workbuddy/memory/2026-11-06.md`）：①**改名仓判政策以 `html_url` 为准，不能信请求用的 slug**；②「五项全清」≠「可验」，准入第三条（本机可跑测）应前移到撞车九查之前；③收件箱计数须在**轮末二次复核**，不只处置后复核一次。
+- 预算：约 20 分钟；GitHub core 配额充足（起始 4995 / search 30），无 403；未发任何 GitHub 写操作（无认领、无 PR、无评论、无推送、无同步）。
