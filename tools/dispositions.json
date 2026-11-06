@@ -2417,5 +2417,37 @@
  "langchain-ai/langchain#41734": {
   "date": "2026-11-07",
   "reason": "assign 门禁仓: 须先分配给当前账号"
+ },
+ "openhands/openhands#19435": {
+  "date": "2026-11-07",
+  "reason": "人工门禁: PR 描述含真人专属段（HUMAN: ≥20 字符 + human-tested + e2e 证据）"
+ },
+ "openhands/openhands#19434": {
+  "date": "2026-11-07",
+  "reason": "人工门禁: PR 描述含真人专属段（HUMAN: ≥20 字符 + human-tested + e2e 证据）"
+ },
+ "openhands/openhands#19433": {
+  "date": "2026-11-07",
+  "reason": "人工门禁: PR 描述含真人专属段（HUMAN: ≥20 字符 + human-tested + e2e 证据）"
+ },
+ "arize-ai/phoenix#17712": {
+  "date": "2026-11-07",
+  "reason": "人工门禁: CONTRIBUTING 明写「An open issue is not an invitation to submit a PR」"
+ },
+ "prefecthq/fastmcp#6336": {
+  "date": "2026-11-07",
+  "reason": "人工门禁: 外部 PR 须 issue 已 assign + 禁发认领评论 + reporter 优先权 → 无自助通道（MANUAL_GATES）"
+ },
+ "livekit/agents#8427": {
+  "date": "2026-11-07",
+  "reason": "标准 CLA 须账号持有者网页签署（#8367/#8380/#8405 先例）+ Responses API 语义扩展"
+ },
+ "livekit/agents#8426": {
+  "date": "2026-11-07",
+  "reason": "标准 CLA 须账号持有者网页签署 + rime Prism 真机会话不可本地验证"
+ },
+ "nvidia-nemo/guardrails#2574": {
+  "date": "2026-11-07",
+  "reason": "feature + 安全敏感面: 第三方安全 rail 接入 guardrail catalog 为公共目录扩展，需维护者方向"
  }
 }
