@@ -4081,3 +4081,8 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - 判别性：issue repro 修前 sampler.batches 变 [[0,1,0,1]]、修后保持 [[0,1]] 且原始 loader 不变；1 新回归测试 **修前 1 fail（checkout 基线）/ 修后 28 passed 13 skipped**；ruff format 净 + check 持平；**EVIDENCE_OK 推送前**。
 - 流程坑（规律 90 第六次）：stash 对已提交修复再次无效——**A/B 三步固化为肌肉记忆**：stash/checkout 基线跑 prefix → 恢复跑 postfix → 都落盘后才 commit。
 - STATE 75→76（#4507 登记，accelerate 同仓第 2 席恰好占满）；monitor_oss 76/76 盲点 0；review_sweep 1 ACTION = trulens#3052（基线残留）。
+
+## 2026-11-07 18:1x 轮（第 105 轮，15 分钟间隔）— 0 新单；收件箱 3 条清零
+
+- 收件箱 3 条 → 0 pending（1208 reported / 1287 done）：pydantic-ai ×2 禁投、llama_index 上限 + Documentation 类。dispositions 640→642。
+- 本轮 0 干净候选。monitor_oss 76/76 盲点 0；review_sweep 1 ACTION = trulens#3052（基线残留）。

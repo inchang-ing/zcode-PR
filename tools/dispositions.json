@@ -2553,5 +2553,17 @@
  "huggingface/accelerate#4505": {
   "date": "2026-11-07",
   "reason": "已提交 PR #4507（两处填充突变点改重绑定，prepared 视图不变而 sampler 列表不被触碰；issue repro A/B + 1 新回归测试 28/28，EVIDENCE_OK 推送前）"
+ },
+ "pydantic/pydantic-ai#12749": {
+  "date": "2026-11-07",
+  "reason": "受限/禁投仓库: pydantic/pydantic-ai + 新 provider feature"
+ },
+ "pydantic/pydantic-ai#12747": {
+  "date": "2026-11-07",
+  "reason": "受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "run-llama/llama_index#24043": {
+  "date": "2026-11-07",
+  "reason": "same-repo cap: llama_index 在飞 2 个（#23876/#24020），硬上限 2 + Documentation 类"
  }
 }
