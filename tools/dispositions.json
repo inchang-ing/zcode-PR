@@ -2581,5 +2581,25 @@
  "openhands/openhands#19450": {
   "date": "2026-11-07",
   "reason": "人工门禁: PR 描述含真人专属段（HUMAN: ≥20 字符 + human-tested + e2e 证据）"
+ },
+ "arize-ai/phoenix#17723": {
+  "date": "2026-11-07",
+  "reason": "人工门禁: CONTRIBUTING 明写「An open issue is not an invitation to submit a PR」+ UI 层"
+ },
+ "berriai/litellm#50465": {
+  "date": "2026-11-07",
+  "reason": "same-repo cap: 该仓在飞 2 个（STATE.md 台账），硬上限 2"
+ },
+ "chroma-core/chroma#7998": {
+  "date": "2026-11-07",
+  "reason": "Rust core 让位: HNSW 召回正确性属核心引擎问题（复现纯 Python 但修复点在 Rust hnswf），正确性敏感面不投"
+ },
+ "crewaiinc/crewai#9200": {
+  "date": "2026-11-07",
+  "reason": "same-repo cap: 该仓在飞 2 个，硬上限 2 + feature"
+ },
+ "crewaiinc/crewai#9199": {
+  "date": "2026-11-07",
+  "reason": "same-repo cap: 该仓在飞 2 个，硬上限 2"
  }
 }
