@@ -2293,5 +2293,45 @@
  "huggingface/accelerate#4503": {
   "date": "2026-11-07",
   "reason": "已提交 PR #4504（save_state 持久化窗口中段 param.grad 为 gradients_{i}.bin，load 按参数名恢复；issue 复现逐位一致 + 2 新回归测试 A/B + ruff 持平，EVIDENCE_OK 推送前）"
+ },
+ "modelcontextprotocol/servers#5485": {
+  "date": "2026-11-07",
+  "reason": "人工门禁: handoff-only：修复推 fork 后请维护者代开 PR"
+ },
+ "openai/openai-agents-python#5567": {
+  "date": "2026-11-07",
+  "reason": "受限/禁投仓库: openai/openai-agents-python"
+ },
+ "openhands/openhands#19429": {
+  "date": "2026-11-07",
+  "reason": "人工门禁: PR 描述含真人专属段（HUMAN: ≥20 字符 + human-tested + e2e 证据）"
+ },
+ "berriai/litellm#50414": {
+  "date": "2026-11-07",
+  "reason": "same-repo cap: 该仓在飞 2 个（STATE.md 台账），硬上限 2"
+ },
+ "mem0ai/mem0#7852": {
+  "date": "2026-11-07",
+  "reason": "issue-readiness 门禁仓: 缺少 accepted 标签"
+ },
+ "qdrant/qdrant-client#1680": {
+  "date": "2026-11-07",
+  "reason": "竞品 PR #1681（issue 同分钟）覆盖同一 RRF 副作用问题"
+ },
+ "ukgovernmentbeis/inspect_ai#6361": {
+  "date": "2026-11-07",
+  "reason": "issue-readiness 门禁仓: 缺少 accepted 标签"
+ },
+ "ukgovernmentbeis/inspect_ai#6360": {
+  "date": "2026-11-07",
+  "reason": "issue-readiness 门禁仓: 缺少 accepted 标签"
+ },
+ "berriai/litellm#50411": {
+  "date": "2026-11-07",
+  "reason": "probe (closing) = 测试探针 issue，非可修复缺陷"
+ },
+ "pydantic/pydantic-ai#12732": {
+  "date": "2026-11-07",
+  "reason": "受限/禁投仓库: pydantic/pydantic-ai"
  }
 }
