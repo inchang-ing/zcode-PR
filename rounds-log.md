@@ -4073,3 +4073,11 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 
 - 收件箱 2 条 → 0 pending（1204 reported / 1283 done）：agno ready-gate + MLX feature（Apple Silicon 本机不可验证）、crewai 上限 + docs feature。dispositions 636→638。
 - 本轮 0 干净候选。monitor_oss 75/75 盲点 0；review_sweep 1 ACTION = trulens#3052（基线残留）。
+
+## 2026-11-07 17:4x 轮（第 104 轮，15 分钟间隔）— 1 新 PR（accelerate#4507）+ 收件箱 2 条清零
+
+- 收件箱 2 条 → 0 pending（1205 reported / 1285 done）：agno ready-gate + MLX feature、crewai 上限 + docs feature。dispositions 638→640。
+- **产出 `huggingface/accelerate#4507`**（issue #4505，davrens101 报告）：BatchSamplerShard 填充时原地变更 sampler 持有的批次列表（`initial_data = batch` 绑定首批次后 `+=` 自倍增；`batch +=` 扩展未重置的 yielded batch）→ prepare 一遍即改变原始 loader 的后续产出（[0,1] → [0,1,0,1]）。修法 = 两处突变点改重绑定，prepared 视图不变。
+- 判别性：issue repro 修前 sampler.batches 变 [[0,1,0,1]]、修后保持 [[0,1]] 且原始 loader 不变；1 新回归测试 **修前 1 fail（checkout 基线）/ 修后 28 passed 13 skipped**；ruff format 净 + check 持平；**EVIDENCE_OK 推送前**。
+- 流程坑（规律 90 第六次）：stash 对已提交修复再次无效——**A/B 三步固化为肌肉记忆**：stash/checkout 基线跑 prefix → 恢复跑 postfix → 都落盘后才 commit。
+- STATE 75→76（#4507 登记，accelerate 同仓第 2 席恰好占满）；monitor_oss 76/76 盲点 0；review_sweep 1 ACTION = trulens#3052（基线残留）。

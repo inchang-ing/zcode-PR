@@ -1,0 +1,119 @@
+{
+ "schema_version": 1,
+ "id": "huggingface--accelerate--issue-4505",
+ "repo": "huggingface/accelerate",
+ "issue": 4505,
+ "pr": 4507,
+ "title": "Stop BatchSamplerShard padding from mutating sampler-owned batches",
+ "kind": "bug",
+ "problem_type": "BatchSamplerShard 填充时原地变更 sampler 持有的批次列表（initial_data 绑定首批次后 += 自倍增；batch += 扩展未重置的 yielded batch），prepare 一遍即改变原始 loader 的后续产出",
+ "approach": "两处突变点改为重绑定（initial_data = initial_data + initial_data；batch = batch + ...），prepared 视图不变而 sampler 列表不再被触碰",
+ "created_at": "2026-11-06T21:54:59+00:00",
+ "policy": {
+  "status": "verified",
+  "checked_at": "2026-11-06T21:55:24+00:00",
+  "summary": "CONTRIBUTING 无 AI 禁令、无 DCO；#4504 同仓先例（通道畅通）；fork 分支命名需绕开 fix/* 冲突",
+  "sources": [
+   {
+    "kind": "url",
+    "ref": "https://github.com/huggingface/accelerate/blob/main/CONTRIBUTING.md"
+   }
+  ]
+ },
+ "collision": {
+  "status": "verified",
+  "checked_at": "2026-11-06T21:55:24+00:00",
+  "summary": "issue #4505 timeline 0 cross-ref、0 评论、无认领语言；邻近编号 #4504 为我方另一子系统 PR；session_claims 原子认领（token 9d667207）",
+  "sources": [
+   {
+    "kind": "url",
+    "ref": "https://github.com/huggingface/accelerate/issues/4505"
+   }
+  ]
+ },
+ "verification": {
+  "status": "recorded",
+  "method": "regression",
+  "case": "issue #4505 场景：StoredBatchSampler 持有自有批次的 loader 经 prepare_data_loader 一遍后，sampler.batches 与原始 loader 的产出不变；tests/test_data_loader.py 全量",
+  "summary": "修复前：sampler.batches 变为 [[0,1,0,1]]、新回归测试 fail；修复后：保持 [[0,1]] 且原始 loader 不变，28 passed/13 skipped（GPU-only）；ruff format 净、check 计数与 main 持平",
+  "base_commit": "f47439c1fb24721ea71ab98f9b512726b5a97828",
+  "before": {
+   "commit": "f47439c1fb24721ea71ab98f9b512726b5a97828",
+   "command": "pytest tests/test_data_loader.py -k does_not_mutate_sampler",
+   "environment": "Windows 10 (Git Bash), Python 3.12.4 venv, torch CPU, accelerate main editable",
+   "test_case": "issue #4505 场景：StoredBatchSampler 持有自有批次的 loader 经 prepare_data_loader 一遍后，sampler.batches 与原始 loader 的产出不变；tests/test_data_loader.py 全量",
+   "ran_at": "2026-11-06T21:56:18+00:00",
+   "exit_code": 1,
+   "result": "regression_failed",
+   "scope": "project",
+   "log": {
+    "kind": "local",
+    "ref": "contributions/evidence/accelerate--issue-4505--prefix-pytest.txt",
+    "sha256": "a5eb58b6c85f8730c4033c3abeabf74cbb27d3d63a85166f679cbf69d3e566ed"
+   }
+  },
+  "after": {
+   "commit": "a0d0a73b8b6f3c3ca7db9be6deddf6ab5f13ca54",
+   "command": "pytest tests/test_data_loader.py",
+   "environment": "Windows 10 (Git Bash), Python 3.12.4 venv, torch CPU, accelerate main editable",
+   "test_case": "issue #4505 场景：StoredBatchSampler 持有自有批次的 loader 经 prepare_data_loader 一遍后，sampler.batches 与原始 loader 的产出不变；tests/test_data_loader.py 全量",
+   "ran_at": "2026-11-06T21:56:23+00:00",
+   "exit_code": 0,
+   "result": "passed",
+   "scope": "project",
+   "log": {
+    "kind": "local",
+    "ref": "contributions/evidence/accelerate--issue-4505--postfix-pytest.txt",
+    "sha256": "ac6d0ebec59e0e51ea857bc4ee4f96c61c169ef58a50b597368c832cb509972b"
+   }
+  }
+ },
+ "feedback": {
+  "checked_at": "2026-11-06T21:57:06+00:00",
+  "items": []
+ },
+ "outcome": {
+  "reason_category": "unknown",
+  "summary": "",
+  "sources": []
+ },
+ "next_actions": [],
+ "provenance": [
+  {
+   "kind": "local",
+   "ref": "contributions/evidence/accelerate--issue-4505--provenance.txt",
+   "sha256": "862bc1ff15a3607f845bad81885bde24592f7062505c61a99a945e22c21e60b5"
+  },
+  {
+   "kind": "local",
+   "ref": "contributions/evidence/accelerate--issue-4505--issue_repro.py",
+   "sha256": "dcda38e6185f3eb45867ad33798dcd2901e50e4d574ba246b9a24de07d467036"
+  }
+ ],
+ "submission": {
+  "head": "a0d0a73b8b6f3c3ca7db9be6deddf6ab5f13ca54",
+  "body": {
+   "kind": "local",
+   "ref": "contributions/evidence/huggingface--accelerate--issue-4505--body-12f391313f0ab42b17cbc8de6f36b865ed5bf06068c16b81fccf5135c3a69550.md",
+   "sha256": "12f391313f0ab42b17cbc8de6f36b865ed5bf06068c16b81fccf5135c3a69550"
+  },
+  "claims": [
+   {
+    "text": "post-fix it stays `[[0, 1]]` and the original loader still yields `[[0, 1]]`.",
+    "run": "after"
+   },
+   {
+    "text": "**fails on unpatched code (verified via stash A/B), full file 28 passed / 13 skipped (GPU-only skips) with the fix.**",
+    "run": "after"
+   },
+   {
+    "text": "`ruff format --check` clean on both touched files; `ruff check` finding counts unchanged vs `main` for `data_loader.py`.",
+    "run": "after"
+   }
+  ],
+  "limitations": [
+   "Verified CPU/single-process; distributed combination branches (`split_batches=True`, multi-rank joins) are exercised by the existing `test_data_loader.py` suite, which passes unchanged."
+  ],
+  "feedback": []
+ }
+}

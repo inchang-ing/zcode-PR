@@ -1,0 +1,7 @@
+provenance / toolchain for huggingface/accelerate PR (issue #4505)
+- fix authored by the ZCode automated pipeline (GLM model, inchang-ing account authorized), 2026-11-07
+- clone: E:/zcode-PR/work/accelerate @ origin/main f47439c1fb24, branch persist-partial-gradients-4503 (same branch stack as PR #4504's base repo state; this commit rides on a separate branch), head a0d0a73b8b6f
+- venv: Python 3.12.4, torch CPU, accelerate editable, pytest/parameterized, ruff
+- repro: the issue's exact script (contributions/evidence/accelerate--issue-4505--issue_repro.py), CPU, StoredBatchSampler retaining its batches
+- A/B via `git stash push src/accelerate/data_loader.py` (fix uncommitted at A/B time), restored via `git stash pop`
+- NOTE: branch pushed top-level (persist-partial-gradients-4503 style) since fork has a `fix` branch blocking fix/* namespaces

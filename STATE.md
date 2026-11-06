@@ -11,7 +11,7 @@
 > | 项目说明 / 目录 / 流程 / 飞书 / 换机 | **`README.md`** |
 > | 历史轮次 / 已合并 PR 验证记录 | **`rounds-log.md`**、**`STATE-archive.md`** |
 
-## OSS 贡献在飞（75）
+## OSS 贡献在飞（76）
 
 | PR | 仓库 | 状态 | 摘要 |
 | --- | --- | --- | --- |
@@ -20,6 +20,7 @@
 | [#866](https://github.com/run-llama/llama-agents/pull/866) | run-llama/llama-agents | OPEN(2026-11-06) | fix: count StepFailedEvent handlers as top-level producers in multi-slot validation |
 | [#24020](https://github.com/run-llama/llama_index/pull/24020) | run-llama/llama_index | OPEN(2026-11-07) | fix: count generated tool calls in the token-counting usage-less fallback |
 | [#13607](https://github.com/deepset-ai/haystack/pull/13607) | deepset-ai/haystack | OPEN(2026-11-07) | fix: Tool.from_dict must not deserialize into the caller dictionary |
+| [#4507](https://github.com/huggingface/accelerate/pull/4507) | huggingface/accelerate | OPEN(2026-11-07) | fix: stop BatchSamplerShard padding from mutating sampler-owned batches |
 | [#4504](https://github.com/huggingface/accelerate/pull/4504) | huggingface/accelerate | OPEN(2026-11-07) | fix: persist partial gradients in save_state for mid-accumulation checkpoints |
 | [#34406](https://github.com/dagster-io/dagster/pull/34406) | dagster-io/dagster | OPEN(2026-11-05) | Fix Helm command flow sequence indentation in daemon and webserver deployments |
 | [#11784](https://github.com/pylint-dev/pylint/pull/11784) | pylint-dev/pylint | OPEN(2026-11-05) | Fix false positive for too-many-statements on empty function bodies |

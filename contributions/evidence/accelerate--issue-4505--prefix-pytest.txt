@@ -1,0 +1,38 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+__________ test_batch_sampler_shard_does_not_mutate_sampler_batches ___________
+
+    def test_batch_sampler_shard_does_not_mutate_sampler_batches():
+        # https://github.com/huggingface/accelerate/issues/4505
+        # A sampler that retains its own batches must come out of a prepared
+        # pass unchanged: padding belongs to the prepared view only.
+        import torch
+        from torch.utils.data import BatchSampler, DataLoader
+    
+        from accelerate.data_loader import prepare_data_loader
+    
+        class StoredBatchSampler(BatchSampler):
+            def __init__(self, n):
+                super().__init__(range(n), 4, False)
+                self.batches = list(super().__iter__())
+    
+            def __iter__(self):
+                return iter(self.batches)
+    
+        sampler = StoredBatchSampler(2)
+        raw = DataLoader(torch.arange(2), batch_sampler=sampler)
+        prepared = prepare_data_loader(raw, num_processes=2, process_index=0, split_batches=False)
+    
+        list(prepared)
+    
+>       assert sampler.batches == [[0, 1]], sampler.batches
+E       AssertionError: [[0, 1, 0, 1]]
+E       assert [[0, 1, 0, 1]] == [[0, 1]]
+E         
+E         At index 0 diff: [0, 1, 0, 1] != [0, 1]
+E         Use -v to get more diff
+
+tests\test_data_loader.py:1117: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_data_loader.py::test_batch_sampler_shard_does_not_mutate_sampler_batches
+1 failed, 40 deselected in 3.72s

@@ -2549,5 +2549,9 @@
  "crewaiinc/crewai#9197": {
   "date": "2026-11-07",
   "reason": "same-repo cap: 该仓在飞 2 个（#7795/#7981，STATE.md 台账），硬上限 2 + docs feature"
+ },
+ "huggingface/accelerate#4505": {
+  "date": "2026-11-07",
+  "reason": "已提交 PR #4507（两处填充突变点改重绑定，prepared 视图不变而 sampler 列表不被触碰；issue repro A/B + 1 新回归测试 28/28，EVIDENCE_OK 推送前）"
  }
 }
