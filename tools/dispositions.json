@@ -2457,5 +2457,29 @@
  "crewaiinc/crewai#9194": {
   "date": "2026-11-07",
   "reason": "same-repo cap: 该仓在飞 2 个（#7795/#7981，STATE.md 台账），硬上限 2"
+ },
+ "openhands/openhands#19444": {
+  "date": "2026-11-07",
+  "reason": "人工门禁: PR 描述含真人专属段（HUMAN: ≥20 字符 + human-tested + e2e 证据）"
+ },
+ "openhands/openhands#19443": {
+  "date": "2026-11-07",
+  "reason": "人工门禁: PR 描述含真人专属段（HUMAN: ≥20 字符 + human-tested + e2e 证据）"
+ },
+ "openhands/openhands#19442": {
+  "date": "2026-11-07",
+  "reason": "人工门禁: PR 描述含真人专属段（HUMAN: ≥20 字符 + human-tested + e2e 证据）"
+ },
+ "arize-ai/phoenix#17713": {
+  "date": "2026-11-07",
+  "reason": "人工门禁: CONTRIBUTING 明写「An open issue is not an invitation to submit a PR」+ UI 层"
+ },
+ "crewaiinc/crewai#9195": {
+  "date": "2026-11-07",
+  "reason": "same-repo cap: 该仓在飞 2 个（#7795/#7981，STATE.md 台账），硬上限 2"
+ },
+ "langchain-ai/langchain#41735": {
+  "date": "2026-11-07",
+  "reason": "assign 门禁仓: 须先分配给当前账号（同 #41734 重复报入）"
  }
 }
