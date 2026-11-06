@@ -11,12 +11,14 @@
 > | 项目说明 / 目录 / 流程 / 飞书 / 换机 | **`README.md`** |
 > | 历史轮次 / 已合并 PR 验证记录 | **`rounds-log.md`**、**`STATE-archive.md`** |
 
-## OSS 贡献在飞（70）
+## OSS 贡献在飞（73）
 
 | PR | 仓库 | 状态 | 摘要 |
 | --- | --- | --- | --- |
+| [#8437](https://github.com/microsoft/autogen/pull/8437) | microsoft/autogen | OPEN(2026-11-06) | fix: serialize state and history writes in the agentchat FastAPI sample |
 | [#5952](https://github.com/Aider-AI/aider/pull/5952) | Aider-AI/aider | OPEN(2026-11-06) | fix: give assistant_output the same ASCII fallback as _tool_message |
 | [#866](https://github.com/run-llama/llama-agents/pull/866) | run-llama/llama-agents | OPEN(2026-11-06) | fix: count StepFailedEvent handlers as top-level producers in multi-slot validation |
+| [#4504](https://github.com/huggingface/accelerate/pull/4504) | huggingface/accelerate | OPEN(2026-11-07) | fix: persist partial gradients in save_state for mid-accumulation checkpoints |
 | [#34406](https://github.com/dagster-io/dagster/pull/34406) | dagster-io/dagster | OPEN(2026-11-05) | Fix Helm command flow sequence indentation in daemon and webserver deployments |
 | [#11784](https://github.com/pylint-dev/pylint/pull/11784) | pylint-dev/pylint | OPEN(2026-11-05) | Fix false positive for too-many-statements on empty function bodies |
 | [#3770](https://github.com/agentscope-ai/agentscope/pull/3770) | agentscope-ai/agentscope | OPEN(2026-11-05) | fix(app): re-establish the wakeup signal subscription when it ends |
@@ -48,6 +50,7 @@
 | [#986](https://github.com/QwenLM/Qwen-Agent/pull/986) | QwenLM/Qwen-Agent | OPEN(2026-10-17) | fix(agents): uniquify dialogue history filenames per run |
 | [#3187](https://github.com/repowise-dev/repowise/pull/3187) | repowise-dev/repowise | OPEN(2026-10-17) |  |
 | [#23876](https://github.com/run-llama/llama_index/pull/23876) | run-llama/llama_index | OPEN(2026-11-01) | fix(core): let Memory.reset() win over writes that are still in flight |
+| [#23998](https://github.com/run-llama/llama_index/pull/23998) | run-llama/llama_index | OPEN(2026-11-06) | fix(core): ignore non-query brackets in the FLARE output parser |
 | [#3046](https://github.com/snowflakedb/snowflake-connector-python/pull/3046) | snowflakedb/snowflake-connector-python | OPEN(2026-10-17) | fix: honor external_browser_timeout in the externalbrowser flow |
 | [#3050](https://github.com/snowflakedb/snowflake-connector-python/pull/3050) | snowflakedb/snowflake-connector-python | OPEN(2026-10-17) | Fix #3049: apply force_microsecond_precision to TIMESTAMP_NTZ/LTZ(7) |
 | [#2307](https://github.com/tortoise/tortoise-orm/pull/2307) | tortoise/tortoise-orm | OPEN(2026-10-17) |  |

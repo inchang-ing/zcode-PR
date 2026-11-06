@@ -3965,3 +3965,12 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - 预算：约 20 分钟；GitHub core 配额充足（起始 4995 / search 30），无 403；未发任何 GitHub 写操作（无认领、无 PR、无评论、无推送、无同步）。
 
 （勘误：上条 --release 需带 --claim 返回的 token，已用 aee06529 正确释放认领。）
+
+## 2026-11-07 01:4x 轮（第 83 轮，15 分钟间隔）— 1 新 PR（accelerate#4504）+ 收件箱 20 条清零
+
+- 收件箱 20 条 → 1 待办（988→1140 班次全天喂入）：19 条本地刀（inspect_ai ×4 accepted 门禁、swarms ×5 ai-generated、crewai/docling 上限、fastmcp MANUAL_GATES、agno ready+安全、adk CLA、haystack feature、tokenizers Rust、openai-agents、aider 上限 ×2 席）。dispositions 554→574。
+- **产出 `huggingface/accelerate#4504`**（issue #4503）：梯度累积窗口中段保存的 checkpoint 恢复 step 但不恢复 param.grad（不属于任何 state dict）→ 续跑梯度求和不完整（9.6e-05 vs 1.6e-03）。修法 = save_state 按模型捕获 {参数名: 梯度}，写 gradients_{i}.bin（仅窗口中段有文件=向后兼容），load 按参数名恢复；FSDP/DeepSpeed/Megatron 路径不动。
+- 判别性：issue 复现脚本修前差 4 个数量级、**修后逐位一致（0.0016263043507933617）** 且 grad tensor 恢复；2 新回归测试（safetensors 参数化 ×2）**修前 2 fail / 修后 18 passed 2 skipped**；ruff 持平（accelerator 22→22、checkpointing 8→6）；**EVIDENCE_OK 推送前**。
+- 流程坑两记：fork 上存在 `fix` 分支致 `fix/*` 命名空间 directory/file conflict → 改顶层分支名；A/B 时序第四次反（postfix 先写）→ 已固化「先 prefix 后 postfix」的命令顺序。
+- dagster#34406 CI 1✗ 定性：buildkite/unit-tests 对 fork PR 是阻塞门禁（0 秒失败=未运行），master-parity 对照 #34411/#34409 同败 = 仓级/外部 CI，非 block-style 改动引入。
+- STATE 72→73（#4504 登记）；monitor_oss 73/73 盲点 0；review_sweep 0 ACTION（dagster/md#1688/pygments 均已处置）。

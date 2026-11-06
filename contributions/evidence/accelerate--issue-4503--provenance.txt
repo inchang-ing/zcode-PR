@@ -1,0 +1,8 @@
+provenance / toolchain for huggingface/accelerate PR (issue #4503)
+- fix authored by the ZCode automated pipeline (GLM model, inchang-ing account authorized), 2026-11-07
+- clone: E:/zcode-PR/work/accelerate @ origin/main f47439c1fb24, branch persist-partial-gradients-4503 (fork had a `fix` branch blocking fix/* namespaces), head e68dcd2388b5
+- venv: Python 3.12.4, torch CPU, accelerate editable + numpy/packaging/psutil/safetensors/pyyaml/huggingface-hub, pytest/parameterized, ruff
+- repro: the issue's exact script (contributions/evidence/accelerate--issue-4503--issue_repro.py), CPU single process, save after 4 of 6 micro-batches, resume with fresh objects
+- A/B via `git checkout origin/main -- src/... tests/...` then restore from HEAD
+- ruff parity: accelerator.py 22->22 findings, checkpointing.py 8->6 (restructure drops two pre-existing); format clean
+- NOTE: fork push needed a top-level branch name (refs/heads/fix exists, so fix/* names hit a directory/file conflict)

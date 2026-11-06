@@ -2213,5 +2213,85 @@
  "bytedance/deer-flow#7953": {
   "date": "2026-11-07",
   "reason": "needs-triage 未分诊 + deer-flow 需 LLM 服务端到端验证，无人值守不可验证"
+ },
+ "crewaiinc/crewai#9186": {
+  "date": "2026-11-07",
+  "reason": "same-repo cap: 该仓在飞 2 个（#7795/#7981，STATE.md 台账），硬上限 2"
+ },
+ "prefecthq/fastmcp#6332": {
+  "date": "2026-11-07",
+  "reason": "人工门禁: 外部 PR 须 issue 已 assign + 禁发认领评论 + reporter 优先权 → 无自助通道（MANUAL_GATES）"
+ },
+ "docling-project/docling#5217": {
+  "date": "2026-11-07",
+  "reason": "same-repo cap: 该仓在飞 3 个（#4439/#5007/#5125），硬上限 2"
+ },
+ "ukgovernmentbeis/inspect_ai#6359": {
+  "date": "2026-11-07",
+  "reason": "issue-readiness 门禁仓: 缺 accepted 标签"
+ },
+ "ukgovernmentbeis/inspect_ai#6358": {
+  "date": "2026-11-07",
+  "reason": "issue-readiness 门禁仓: 缺 accepted 标签"
+ },
+ "ukgovernmentbeis/inspect_ai#6357": {
+  "date": "2026-11-07",
+  "reason": "issue-readiness 门禁仓: 缺 accepted 标签"
+ },
+ "ukgovernmentbeis/inspect_ai#6356": {
+  "date": "2026-11-07",
+  "reason": "issue-readiness 门禁仓: 缺 accepted 标签"
+ },
+ "agno-agi/agno#11509": {
+  "date": "2026-11-07",
+  "reason": "agno issue-readiness 门禁: 缺 ready 标签；且 SSRF 加固属安全敏感面"
+ },
+ "pydantic/pydantic-ai#12722": {
+  "date": "2026-11-07",
+  "reason": "受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "google/adk-python#8009": {
+  "date": "2026-11-07",
+  "reason": "人工门禁: 外部 PR 须先签 Google CLA + 非 GFI issue 须先征询"
+ },
+ "deepset-ai/haystack#13600": {
+  "date": "2026-11-07",
+  "reason": "feature: 新增 secondary_split 选项为公共接口扩展，需设计共识"
+ },
+ "huggingface/tokenizers#2655": {
+  "date": "2026-11-07",
+  "reason": "Rust core 让位: tokenizers 训练段错误在 Rust 实现层，非 Python 可修可验"
+ },
+ "kyegomez/swarms#3246": {
+  "date": "2026-11-07",
+  "reason": "维护者内部队列让位: kyegomez ai-generated 审计批量（规律 55）"
+ },
+ "kyegomez/swarms#3244": {
+  "date": "2026-11-07",
+  "reason": "维护者内部队列让位: kyegomez ai-generated 审计批量"
+ },
+ "kyegomez/swarms#3242": {
+  "date": "2026-11-07",
+  "reason": "维护者内部队列让位: kyegomez ai-generated 审计批量"
+ },
+ "kyegomez/swarms#3240": {
+  "date": "2026-11-07",
+  "reason": "维护者内部队列让位: kyegomez ai-generated 审计批量"
+ },
+ "kyegomez/swarms#3238": {
+  "date": "2026-11-07",
+  "reason": "维护者内部队列让位: kyegomez ai-generated 审计批量"
+ },
+ "ukgovernmentbeis/inspect_ai#6354": {
+  "date": "2026-11-07",
+  "reason": "issue-readiness 门禁仓: 缺 accepted 标签"
+ },
+ "aider-ai/aider#5956": {
+  "date": "2026-11-07",
+  "reason": "same-repo cap: 该仓在飞 2 个（#5945/#5952，STATE.md 台账），硬上限 2"
+ },
+ "huggingface/accelerate#4503": {
+  "date": "2026-11-07",
+  "reason": "已提交 PR #4504（save_state 持久化窗口中段 param.grad 为 gradients_{i}.bin，load 按参数名恢复；issue 复现逐位一致 + 2 新回归测试 A/B + ruff 持平，EVIDENCE_OK 推送前）"
  }
 }

@@ -1,0 +1,92 @@
+FF                                                                       [100%]
+================================== FAILURES ===================================
+_ CheckpointTest_use_safetensors.test_can_resume_training_mid_gradient_accumulation _
+
+self = <tests.test_state_checkpointing.CheckpointTest_use_safetensors testMethod=test_can_resume_training_mid_gradient_accumulation>
+
+    def test_can_resume_training_mid_gradient_accumulation(self):
+        # https://github.com/huggingface/accelerate/issues/4503
+        # A checkpoint taken mid gradient accumulation window must persist the
+        # partial parameter gradients; otherwise the resumed run's next
+        # optimizer update uses an incomplete gradient sum and the final
+        # weights diverge from the uninterrupted run.
+        with tempfile.TemporaryDirectory() as tmpdir:
+    
+            def make():
+                set_seed(0)
+                accelerator = Accelerator(cpu=True, gradient_accumulation_steps=3, project_dir=tmpdir)
+                model = torch.nn.Linear(1, 1, bias=False)
+                optimizer = torch.optim.SGD(model.parameters(), lr=0.1)
+                model, optimizer = accelerator.prepare(model, optimizer)
+                return accelerator, model, optimizer
+    
+            def train(save_at=None):
+                accelerator, model, optimizer = make()
+                save_dir = os.path.join(tmpdir, "mid_window")
+                for i, x in enumerate(torch.linspace(0.5, 3.0, 6)):
+                    if i == save_at:
+                        accelerator.save_state(save_dir, safe_serialization=self.use_safetensors)
+                        accelerator, model, optimizer = make()
+                        accelerator.load_state(save_dir)
+                    with accelerator.accumulate(model):
+                        accelerator.backward(model(x.view(1, 1)).pow(2).sum())
+                        optimizer.step()
+                        optimizer.zero_grad()
+                return model.weight.item()
+    
+            uninterrupted = train()
+            resumed = train(save_at=4)
+>           assert uninterrupted == resumed
+E           assert 0.0016263043507933617 == 9.566498920321465e-05
+
+tests\test_state_checkpointing.py:264: AssertionError
+_ CheckpointTest_use_pytorch.test_can_resume_training_mid_gradient_accumulation _
+
+self = <tests.test_state_checkpointing.CheckpointTest_use_pytorch testMethod=test_can_resume_training_mid_gradient_accumulation>
+
+    def test_can_resume_training_mid_gradient_accumulation(self):
+        # https://github.com/huggingface/accelerate/issues/4503
+        # A checkpoint taken mid gradient accumulation window must persist the
+        # partial parameter gradients; otherwise the resumed run's next
+        # optimizer update uses an incomplete gradient sum and the final
+        # weights diverge from the uninterrupted run.
+        with tempfile.TemporaryDirectory() as tmpdir:
+    
+            def make():
+                set_seed(0)
+                accelerator = Accelerator(cpu=True, gradient_accumulation_steps=3, project_dir=tmpdir)
+                model = torch.nn.Linear(1, 1, bias=False)
+                optimizer = torch.optim.SGD(model.parameters(), lr=0.1)
+                model, optimizer = accelerator.prepare(model, optimizer)
+                return accelerator, model, optimizer
+    
+            def train(save_at=None):
+                accelerator, model, optimizer = make()
+                save_dir = os.path.join(tmpdir, "mid_window")
+                for i, x in enumerate(torch.linspace(0.5, 3.0, 6)):
+                    if i == save_at:
+                        accelerator.save_state(save_dir, safe_serialization=self.use_safetensors)
+                        accelerator, model, optimizer = make()
+                        accelerator.load_state(save_dir)
+                    with accelerator.accumulate(model):
+                        accelerator.backward(model(x.view(1, 1)).pow(2).sum())
+                        optimizer.step()
+                        optimizer.zero_grad()
+                return model.weight.item()
+    
+            uninterrupted = train()
+            resumed = train(save_at=4)
+>           assert uninterrupted == resumed
+E           assert 0.0016263043507933617 == 9.566498920321465e-05
+
+tests\test_state_checkpointing.py:264: AssertionError
+============================== warnings summary ===============================
+src\accelerate\test_utils\testing.py:624
+  E:\zcode-PR\work\accelerate\src\accelerate\test_utils\testing.py:624: PytestUnknownMarkWarning: Unknown pytest.mark.order - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    return pytest.mark.order(1)(test_case)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/test_state_checkpointing.py::CheckpointTest_use_safetensors::test_can_resume_training_mid_gradient_accumulation
+FAILED tests/test_state_checkpointing.py::CheckpointTest_use_pytorch::test_can_resume_training_mid_gradient_accumulation
+2 failed, 18 deselected, 1 warning in 8.99s

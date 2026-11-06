@@ -1,0 +1,120 @@
+{
+ "schema_version": 1,
+ "id": "huggingface--accelerate--issue-4503",
+ "repo": "huggingface/accelerate",
+ "issue": 4503,
+ "pr": 4504,
+ "title": "Persist partial gradients in save_state for mid-accumulation checkpoints",
+ "kind": "bug",
+ "problem_type": "梯度累积窗口中段保存的 checkpoint 恢复 step 但不恢复 param.grad（不属于任何 state dict），续跑的梯度求和不完整，最终权重与不中断运行差 4 个数量级",
+ "approach": "save_state 按模型捕获 {参数名: 梯度}，save_accelerator_state 写 gradients_{i}.bin（仅窗口中段有内容，边界 checkpoint 无文件即向后兼容），load_accelerator_state 按参数名恢复",
+ "created_at": "2026-11-06T17:08:11+00:00",
+ "policy": {
+  "status": "verified",
+  "checked_at": "2026-11-06T17:08:45+00:00",
+  "summary": "CONTRIBUTING 无 AI 禁令、无 DCO；fork + PR 通道正常（路径冲突已绕开）",
+  "sources": [
+   {
+    "kind": "url",
+    "ref": "https://github.com/huggingface/accelerate/blob/main/CONTRIBUTING.md"
+   }
+  ]
+ },
+ "collision": {
+  "status": "verified",
+  "checked_at": "2026-11-06T17:08:45+00:00",
+  "summary": "issue #4503 timeline 0 cross-ref、0 评论、无认领语言；邻近编号 #4502-#4504 无同题 PR；session_claims 原子认领（token 8d558792）",
+  "sources": [
+   {
+    "kind": "url",
+    "ref": "https://github.com/huggingface/accelerate/issues/4503"
+   }
+  ]
+ },
+ "verification": {
+  "status": "recorded",
+  "method": "regression",
+  "case": "issue #4503 场景：gradient_accumulation_steps=3、第 4/6 个 micro-batch 处 save_state、全新对象 load_state 后继续训练，最终权重与不中断运行一致；tests/test_state_checkpointing.py 全量",
+  "summary": "修复前：resumed 最终权重 9.566498920321465e-05 vs 不中断 0.0016263043507933617（差 4 个数量级），load 后 grad 为 None，2 个新回归测试 fail；修复后：逐位一致（0.0016263043507933617），grad tensor 恢复，18 passed/2 skipped（GPU-only）；ruff check 持平 + format 净",
+  "base_commit": "f47439c1fb24721ea71ab98f9b512726b5a97828",
+  "before": {
+   "commit": "f47439c1fb24721ea71ab98f9b512726b5a97828",
+   "command": "python contributions/evidence/accelerate--issue-4503--issue_repro.py ; pytest tests/test_state_checkpointing.py -k mid_gradient_accumulation",
+   "environment": "Windows 10 (Git Bash), Python 3.12.4 venv, torch CPU, accelerate main editable",
+   "test_case": "issue #4503 场景：gradient_accumulation_steps=3、第 4/6 个 micro-batch 处 save_state、全新对象 load_state 后继续训练，最终权重与不中断运行一致；tests/test_state_checkpointing.py 全量",
+   "ran_at": "2026-11-06T17:09:13+00:00",
+   "exit_code": 1,
+   "result": "regression_failed",
+   "scope": "project",
+   "log": {
+    "kind": "local",
+    "ref": "contributions/evidence/accelerate--issue-4503--prefix-pytest.txt",
+    "sha256": "5f5bcbbba521ad299f8900cf88446ff3f83adb69dd7c9976220b516f6a4d1c6e"
+   }
+  },
+  "after": {
+   "commit": "e68dcd2388b553472c9ad239e62ab650824f1b5e",
+   "command": "python contributions/evidence/accelerate--issue-4503--issue_repro.py ; pytest tests/test_state_checkpointing.py",
+   "environment": "Windows 10 (Git Bash), Python 3.12.4 venv, torch CPU, accelerate main editable",
+   "test_case": "issue #4503 场景：gradient_accumulation_steps=3、第 4/6 个 micro-batch 处 save_state、全新对象 load_state 后继续训练，最终权重与不中断运行一致；tests/test_state_checkpointing.py 全量",
+   "ran_at": "2026-11-06T17:12:44+00:00",
+   "exit_code": 0,
+   "result": "passed",
+   "scope": "project",
+   "log": {
+    "kind": "local",
+    "ref": "contributions/evidence/accelerate--issue-4503--postfix-pytest.txt",
+    "sha256": "41537af5721d505e40dee2276b10d8d7bd46e7ba4a4137eaf60112a54100530e"
+   }
+  }
+ },
+ "feedback": {
+  "checked_at": "2026-11-06T17:13:35+00:00",
+  "items": []
+ },
+ "outcome": {
+  "reason_category": "unknown",
+  "summary": "",
+  "sources": []
+ },
+ "next_actions": [],
+ "provenance": [
+  {
+   "kind": "local",
+   "ref": "contributions/evidence/accelerate--issue-4503--provenance.txt",
+   "sha256": "e21ccde0527dee62ce84ff427391790adf4142de3e9d34386c6ce0f84bc8f542"
+  },
+  {
+   "kind": "local",
+   "ref": "contributions/evidence/accelerate--issue-4503--issue_repro.py",
+   "sha256": "caa320754990fb291b1dfa70dcbf18c46ae9a84723a9d3c515ca3135d7f3d431"
+  }
+ ],
+ "submission": {
+  "head": "e68dcd2388b553472c9ad239e62ab650824f1b5e",
+  "body": {
+   "kind": "local",
+   "ref": "contributions/evidence/huggingface--accelerate--issue-4503--body-7e69080c371687de4e6395cadd017acb87130b8b3c1f0e24bd1e98c825851b29.md",
+   "sha256": "7e69080c371687de4e6395cadd017acb87130b8b3c1f0e24bd1e98c825851b29"
+  },
+  "claims": [
+   {
+    "text": "post-fix: both runs return **`0.0016263043507933617`** (bit-identical) and the partial gradient is restored (`grad tensor([[-0.0153]])`).",
+    "run": "after"
+   },
+   {
+    "text": "**2 failed on unpatched code (verified via `git checkout origin/main --` A/B), full file 18 passed / 2 skipped (GPU-only skips) with the fix.**",
+    "run": "after"
+   },
+   {
+    "text": "`ruff check`: finding counts on the touched files unchanged vs `main` for `accelerator.py` (22 → 22) and reduced for `checkpointing.py` (8 → 6, the restructured save block drops two pre-existing hits); `ruff format --check` clean.",
+    "run": "after"
+   }
+  ],
+  "limitations": [
+   "Verified CPU/single-process (matching the issue's environment); multi-rank DDP writes gradients from the main process only (grads are identical across DDP ranks), and FSDP/DeepSpeed/Megatron keep using their own checkpoint engines. XLA and the other exotic paths follow the same save helper but were not exercised here.",
+   "Deliberately **not** persisted: `gradient_state.sync_gradients` (derived from the restored step) and optimizer scalars — both already round-trip."
+  ],
+  "feedback": []
+ }
+}
