@@ -4086,3 +4086,9 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 
 - 收件箱 3 条 → 0 pending（1208 reported / 1287 done）：pydantic-ai ×2 禁投、llama_index 上限 + Documentation 类。dispositions 640→642。
 - 本轮 0 干净候选。monitor_oss 76/76 盲点 0；review_sweep 1 ACTION = trulens#3052（基线残留）。
+
+## 2026-11-07 19:1x 轮（第 106 轮，15 分钟间隔）— 0 新单；收件箱 0 pending + linearmodels#850 离场
+
+- 收件箱 0 pending（1208 reported / 1287 done）。
+- **bashtage/linearmodels#850 CLOSED 未合并**（IV 秩检验修复，2026-10-18 开出，挂约 3 周）：merged=False，无合并者信息，判自然过期类离场不申诉。STATE 行已自动清理（在飞 75/75）。
+- 本轮 0 干净候选。monitor_oss 75/75 盲点 0；review_sweep 1 ACTION = trulens#3052（基线残留）。
