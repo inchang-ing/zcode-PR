@@ -3994,3 +3994,11 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 
 - 收件箱 4 条 → 0 pending（1157 reported / 1236 done）：docling 上限、python-genai CLA 门禁、langflow 前端、inspect_ai accepted 门禁。dispositions 587→591。
 - 本轮 0 干净候选。monitor_oss 73/73 盲点 0；review_sweep 1 ACTION = trulens#3052（Abelo9996 的验证确认评论，评审闭环已完成，基线残留）。
+
+## 2026-11-07 04:4x 轮（第 88 轮，15 分钟间隔）— 1 新 PR（llama_index#24020）+ 收件箱 4 条清零
+
+- 收件箱 4 条 → 0 pending（1157 reported / 1237 done）：docling 上限、python-genai CLA、langflow 前端、inspect_ai accepted。dispositions 587→592。
+- **产出 `run-llama/llama_index#24020`**（issue #24016）：无 usage 时 TokenCountingHandler 用 str(response) 估算，tool-call 回复被记为 "assistant: None"（3 tokens），生成的工具名与参数完全漏计。修法 = 兜底改用 `estimate_tokens_in_messages([response.message])`（同模块 prompt 侧已用的估算器，含 ToolCallBlock 计量），content 为 None 时以 blocks 渲染记录 completion；空回复仍走字符串路径。
+- 判别性：issue repro（无网络）修前 ('assistant: None', 3) + 断言失败、修后 completion 含工具名与参数 JSON、104 tokens；1 新回归测试 **修前 1 fail（checkout origin/main 基线）/ 修后 3/3**；ruff check+format 净；**EVIDENCE_OK 推送前**。session_claims 全生命周期。
+- 沉淀（规律 104-105，见当日记忆）。
+- STATE 73→74（#24020 登记）；monitor_oss 74/74 盲点 0；review_sweep 1 ACTION = trulens#3052 评审者的验证确认（闭环完成，基线残留）。

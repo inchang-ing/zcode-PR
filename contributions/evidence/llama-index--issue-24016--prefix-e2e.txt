@@ -1,0 +1,7 @@
+tool-call reply: ('assistant: None', 3)
+empty reply:     ('assistant: None', 3)
+Traceback (most recent call last):
+  File "E:\zcode-PR\contributions\evidence\llama-index--issue-24016--issue_repro.py", line 27, in <module>
+    assert "get_weather_forecast" in text, "the generated tool name and arguments are not counted as completion tokens"
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: the generated tool name and arguments are not counted as completion tokens

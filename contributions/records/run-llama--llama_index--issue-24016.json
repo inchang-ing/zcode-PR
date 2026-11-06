@@ -1,0 +1,120 @@
+{
+ "schema_version": 1,
+ "id": "run-llama--llama_index--issue-24016",
+ "repo": "run-llama/llama_index",
+ "issue": 24016,
+ "pr": 24020,
+ "title": "Count generated tool calls in the token-counting usage-less fallback",
+ "kind": "bug",
+ "problem_type": "无 usage 时 TokenCountingHandler 用 str(response) 估算，tool-call 回复被记为 'assistant: None'（3 tokens），生成的工具名与参数完全漏计",
+ "approach": "兜底改用 estimate_tokens_in_messages([response.message])（同模块 prompt 侧已用、含 ToolCallBlock 计量），content 为 None 时以 blocks 渲染记录 completion",
+ "created_at": "2026-11-06T18:22:30+00:00",
+ "policy": {
+  "status": "verified",
+  "checked_at": "2026-11-06T18:23:17+00:00",
+  "summary": "CONTRIBUTING 无 AI 禁令、无 DCO；llama-index-core 为本仓主包，fork+PR 通道正常",
+  "sources": [
+   {
+    "kind": "url",
+    "ref": "https://github.com/run-llama/llama_index/blob/main/CONTRIBUTING.md"
+   }
+  ]
+ },
+ "collision": {
+  "status": "verified",
+  "checked_at": "2026-11-06T18:23:17+00:00",
+  "summary": "issue #24016 timeline 0 cross-ref、0 评论、无认领语言；姊妹 #24015 已有竞品 #24018（4 分钟），本条开跑前复核仍干净；session_claims 原子认领（token e95d72b1）",
+  "sources": [
+   {
+    "kind": "url",
+    "ref": "https://github.com/run-llama/llama_index/issues/24016"
+   }
+  ]
+ },
+ "verification": {
+  "status": "recorded",
+  "method": "regression",
+  "case": "issue #24016 场景：无 usage 的 tool-call 回复经 TokenCountingHandler 的 usage-less 兜底后，completion 文本含工具名与参数且计数 > 'assistant: None'；tests/callbacks/test_token_counter.py 全量",
+  "summary": "修复前：repro 断言失败（'assistant: None', 3 tokens 与空回复完全相同），新回归测试 fail；修复后：completion 记录工具名与参数 JSON、completion_token_count=104、空回复走字符串路径（4 tokens，含 role 计入），3/3 passed；ruff check + format 净",
+  "base_commit": "444fdf0684707de62ebb447d658dba137dd9cb99",
+  "before": {
+   "commit": "444fdf0684707de62ebb447d658dba137dd9cb99",
+   "command": "python contributions/evidence/llama-index--issue-24016--issue_repro.py ; pytest llama-index-core/tests/callbacks/test_token_counter.py -k tool_call_fallback",
+   "environment": "Windows 10 (Git Bash), Python 3.12.4 venv, llama-index-core editable",
+   "test_case": "issue #24016 场景：无 usage 的 tool-call 回复经 TokenCountingHandler 的 usage-less 兜底后，completion 文本含工具名与参数且计数 > 'assistant: None'；tests/callbacks/test_token_counter.py 全量",
+   "ran_at": "2026-11-06T18:24:09+00:00",
+   "exit_code": 1,
+   "result": "regression_failed",
+   "scope": "project",
+   "log": {
+    "kind": "local",
+    "ref": "contributions/evidence/llama-index--issue-24016--prefix-pytest.txt",
+    "sha256": "0279c251633e257e82d21845d7cf70bb419b4a0fb6abbce2eb000884bcf970fd"
+   }
+  },
+  "after": {
+   "commit": "811c7cdd4ea1d9f82dd993a1de9934fcffcdb71e",
+   "command": "python contributions/evidence/llama-index--issue-24016--issue_repro.py ; pytest llama-index-core/tests/callbacks/test_token_counter.py",
+   "environment": "Windows 10 (Git Bash), Python 3.12.4 venv, llama-index-core editable",
+   "test_case": "issue #24016 场景：无 usage 的 tool-call 回复经 TokenCountingHandler 的 usage-less 兜底后，completion 文本含工具名与参数且计数 > 'assistant: None'；tests/callbacks/test_token_counter.py 全量",
+   "ran_at": "2026-11-06T18:24:22+00:00",
+   "exit_code": 0,
+   "result": "passed",
+   "scope": "project",
+   "log": {
+    "kind": "local",
+    "ref": "contributions/evidence/llama-index--issue-24016--postfix-pytest.txt",
+    "sha256": "62619d1b88fe8345e32358e29b18603487acbd9e030932c6ffc4a3664152b1f5"
+   }
+  }
+ },
+ "feedback": {
+  "checked_at": "2026-11-06T18:25:18+00:00",
+  "items": []
+ },
+ "outcome": {
+  "reason_category": "unknown",
+  "summary": "",
+  "sources": []
+ },
+ "next_actions": [],
+ "provenance": [
+  {
+   "kind": "local",
+   "ref": "contributions/evidence/llama-index--issue-24016--provenance.txt",
+   "sha256": "22eae2d9760b42dfb2778c1cfc95dca57f39a7507defdfc73c81e2858db3cb79"
+  },
+  {
+   "kind": "local",
+   "ref": "contributions/evidence/llama-index--issue-24016--issue_repro.py",
+   "sha256": "344605cf58aa239deb77f5d8525fb51a0d3ce091e10139f4d3a2c0f6d2578403"
+  }
+ ],
+ "submission": {
+  "head": "811c7cdd4ea1d9f82dd993a1de9934fcffcdb71e",
+  "body": {
+   "kind": "local",
+   "ref": "contributions/evidence/run-llama--llama_index--issue-24016--body-4c1e39b41820e281827274846c72a53582bad2394d859ee3231cd8a48a6068b7.md",
+   "sha256": "4c1e39b41820e281827274846c72a53582bad2394d859ee3231cd8a48a6068b7"
+  },
+  "claims": [
+   {
+    "text": "the completion records the tool call (`get_weather_forecast` + full argument JSON), `completion_token_count=104`, and the empty-reply control still estimates via the string path.",
+    "run": "after"
+   },
+   {
+    "text": "**fails on unpatched code (verified via stash A/B), 3/3 pass with the fix.**",
+    "run": "after"
+   },
+   {
+    "text": "`ruff check` clean and `ruff format` clean on both touched files.",
+    "run": "after"
+   }
+  ],
+  "limitations": [
+   "Verified with a local editable install of `llama-index-core` (Python 3.12, Windows); the repo's full matrix runs in CI.",
+   "The fallback estimate includes the role token (`\"assistant\"`), so an empty reply now estimates 4 instead of 3 — same estimator semantics the prompt side has always used."
+  ],
+  "feedback": []
+ }
+}

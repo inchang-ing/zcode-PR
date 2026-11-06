@@ -2361,5 +2361,9 @@
  "ukgovernmentbeis/inspect_ai#6363": {
   "date": "2026-11-07",
   "reason": "issue-readiness 门禁仓: 缺少 accepted 标签"
+ },
+ "run-llama/llama_index#24016": {
+  "date": "2026-11-07",
+  "reason": "已提交 PR #24020（usage-less 兜底改用 estimate_tokens_in_messages 计入 ToolCallBlock，content 为 None 时以 blocks 渲染记录 completion；issue repro 修前 3 tokens/断言失败 修后 104 tokens 含工具名；EVIDENCE_OK 推送前）"
  }
 }
