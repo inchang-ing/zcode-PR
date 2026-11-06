@@ -2481,5 +2481,33 @@
  "langchain-ai/langchain#41735": {
   "date": "2026-11-07",
   "reason": "assign 门禁仓: 须先分配给当前账号（同 #41734 重复报入）"
+ },
+ "arize-ai/phoenix#17715": {
+  "date": "2026-11-07",
+  "reason": "人工门禁: CONTRIBUTING 明写「An open issue is not an invitation to submit a PR」+ UI + needs information"
+ },
+ "arize-ai/phoenix#17714": {
+  "date": "2026-11-07",
+  "reason": "人工门禁: CONTRIBUTING 明写「An open issue is not an invitation to submit a PR」+ UI + needs information"
+ },
+ "kyegomez/swarms#3272": {
+  "date": "2026-11-07",
+  "reason": "维护者内部队列让位: kyegomez ai-generated 审计批量（规律 55）"
+ },
+ "kyegomez/swarms#3271": {
+  "date": "2026-11-07",
+  "reason": "维护者内部队列让位: kyegomez ai-generated 审计批量"
+ },
+ "kyegomez/swarms#3270": {
+  "date": "2026-11-07",
+  "reason": "维护者内部队列让位: kyegomez ai-generated 审计批量"
+ },
+ "kyegomez/swarms#3269": {
+  "date": "2026-11-07",
+  "reason": "维护者内部队列让位: kyegomez ai-generated 审计批量"
+ },
+ "kyegomez/swarms#3268": {
+  "date": "2026-11-07",
+  "reason": "维护者内部队列让位: kyegomez ai-generated 审计批量"
  }
 }
