@@ -2333,5 +2333,17 @@
  "pydantic/pydantic-ai#12732": {
   "date": "2026-11-07",
   "reason": "受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "arize-ai/phoenix#17710": {
+  "date": "2026-11-07",
+  "reason": "人工门禁: CONTRIBUTING 明写「An open issue is not an invitation to submit a PR」"
+ },
+ "mem0ai/mem0#7855": {
+  "date": "2026-11-07",
+  "reason": "issue-readiness 门禁仓: 缺少 accepted 标签（pr-gate 自动关闭未链 accepted 的 PR）"
+ },
+ "pydantic/pydantic-ai#12733": {
+  "date": "2026-11-07",
+  "reason": "受限/禁投仓库: pydantic/pydantic-ai"
  }
 }
