@@ -1997,5 +1997,9 @@
  "truera/trulens#3059": {
   "date": "2026-11-06",
   "reason": "same-repo cap: 该仓在飞 2 个（#3052 APPROVED + #3057 并行会话 PR），硬上限 2"
+ },
+ "pydantic/pydantic-ai#12662": {
+  "date": "2026-11-06",
+  "reason": "受限/禁投仓库: pydantic/pydantic-ai"
  }
 }
