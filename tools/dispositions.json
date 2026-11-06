@@ -2449,5 +2449,13 @@
  "nvidia-nemo/guardrails#2574": {
   "date": "2026-11-07",
   "reason": "feature + 安全敏感面: 第三方安全 rail 接入 guardrail catalog 为公共目录扩展，需维护者方向"
+ },
+ "openhands/openhands#19440": {
+  "date": "2026-11-07",
+  "reason": "人工门禁: PR 描述含真人专属段（HUMAN: ≥20 字符 + human-tested + e2e 证据）"
+ },
+ "crewaiinc/crewai#9194": {
+  "date": "2026-11-07",
+  "reason": "same-repo cap: 该仓在飞 2 个（#7795/#7981，STATE.md 台账），硬上限 2"
  }
 }
