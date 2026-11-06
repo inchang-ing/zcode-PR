@@ -2605,5 +2605,13 @@
  "unstructured-io/unstructured#4670": {
   "date": "2026-11-07",
   "reason": "竞品 PR #4671（issue 同分钟）覆盖同一 email multipart CR 破坏问题"
+ },
+ "openhands/openhands#19452": {
+  "date": "2026-11-07",
+  "reason": "人工门禁: PR 描述含真人专属段（HUMAN: ≥20 字符 + human-tested + e2e 证据）"
+ },
+ "openbmb/chatdev#714": {
+  "date": "2026-11-07",
+  "reason": "非代码任务: 研究工作流咨询类 issue，非仓库缺陷"
  }
 }
