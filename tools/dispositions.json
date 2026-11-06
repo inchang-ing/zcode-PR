@@ -2577,5 +2577,9 @@
  "arize-ai/phoenix#17721": {
   "date": "2026-11-07",
   "reason": "人工门禁: 「An open issue is not an invitation to submit a PR」+ needs information + spend limits feature 为公共接口扩展"
+ },
+ "openhands/openhands#19450": {
+  "date": "2026-11-07",
+  "reason": "人工门禁: PR 描述含真人专属段（HUMAN: ≥20 字符 + human-tested + e2e 证据）"
  }
 }
