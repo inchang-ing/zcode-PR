@@ -2345,5 +2345,21 @@
  "pydantic/pydantic-ai#12733": {
   "date": "2026-11-07",
   "reason": "受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "docling-project/docling#5219": {
+  "date": "2026-11-07",
+  "reason": "same-repo cap: 该仓在飞 3 个（#4439/#5007/#5125，STATE.md 台账），硬上限 2"
+ },
+ "googleapis/python-genai#3308": {
+  "date": "2026-11-07",
+  "reason": "人工门禁: 外部 PR 须先签 Google CLA（本人网页签署，流水线无法代办）"
+ },
+ "langflow-ai/langflow#16229": {
+  "date": "2026-11-07",
+  "reason": "前端 TS 让位: Generative AI 模型列表 UI 层，本流水线只做可本机验证的 Python 修复"
+ },
+ "ukgovernmentbeis/inspect_ai#6363": {
+  "date": "2026-11-07",
+  "reason": "issue-readiness 门禁仓: 缺少 accepted 标签"
  }
 }
