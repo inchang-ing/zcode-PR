@@ -3963,3 +3963,5 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
   - 新增回归断言 `test_no_ai_policy_and_renamed_fastmcp_slug_are_both_gated`（覆盖大小写别名、scan/vet DROP、旧 slug 池规范化）；`pytest tests/test_screening_{regressions,structure}.py tests/test_queue_pipeline.py -q` = **54 passed / 194 subtests**，改动前基线 35 passed / 167 subtests，无破坏。
 - 沉淀（详见 `.workbuddy/memory/2026-11-06.md`）：①**改名仓判政策以 `html_url` 为准，不能信请求用的 slug**；②「五项全清」≠「可验」，准入第三条（本机可跑测）应前移到撞车九查之前；③收件箱计数须在**轮末二次复核**，不只处置后复核一次。
 - 预算：约 20 分钟；GitHub core 配额充足（起始 4995 / search 30），无 403；未发任何 GitHub 写操作（无认领、无 PR、无评论、无推送、无同步）。
+
+（勘误：上条 --release 需带 --claim 返回的 token，已用 aee06529 正确释放认领。）
