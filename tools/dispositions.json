@@ -1981,5 +1981,13 @@
  "openai/openai-agents-python#5545": {
   "date": "2026-11-06",
   "reason": "受限/禁投仓库: openai/openai-agents-python（零外部 PR 通道）"
+ },
+ "pydantic/pydantic-ai#12658": {
+  "date": "2026-11-06",
+  "reason": "受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "run-llama/llama_index#23975": {
+  "date": "2026-11-06",
+  "reason": "竞品 PR #23976（issue 后 1 分钟）覆盖同一 KVStore 共享数据问题"
  }
 }
