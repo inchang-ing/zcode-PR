@@ -2541,5 +2541,13 @@
  "microsoft/semantic-kernel#14729": {
   "date": "2026-11-07",
   "reason": "报告者已备好修复分支让位: VANDRANKI 同上（compare link，239 tests pass）"
+ },
+ "agno-agi/agno#11511": {
+  "date": "2026-11-07",
+  "reason": "agno issue-readiness 门禁: 缺 ready 标签（CONTRIBUTING: 未 ready 的 PR 由 pr-lint 自动关闭）+ cookbook feature（Apple Silicon MLX 本机不可验证）"
+ },
+ "crewaiinc/crewai#9197": {
+  "date": "2026-11-07",
+  "reason": "same-repo cap: 该仓在飞 2 个（#7795/#7981，STATE.md 台账），硬上限 2 + docs feature"
  }
 }
