@@ -2365,5 +2365,21 @@
  "run-llama/llama_index#24016": {
   "date": "2026-11-07",
   "reason": "已提交 PR #24020（usage-less 兜底改用 estimate_tokens_in_messages 计入 ToolCallBlock，content 为 None 时以 blocks 渲染记录 completion；issue repro 修前 3 tokens/断言失败 修后 104 tokens 含工具名；EVIDENCE_OK 推送前）"
+ },
+ "mem0ai/mem0#7857": {
+  "date": "2026-11-07",
+  "reason": "issue-readiness 门禁仓: 缺少 accepted 标签"
+ },
+ "run-llama/llama_index#24015": {
+  "date": "2026-11-07",
+  "reason": "竞品 PR #24018（issue 后 4 分钟）覆盖同一 ToolCallBlock 重复计数问题（round 88 撞车扫描已证）"
+ },
+ "run-llama/llama_index#24014": {
+  "date": "2026-11-07",
+  "reason": "same-repo cap: llama_index 在飞 2 个（#23876/#24020，STATE.md 台账），硬上限 2"
+ },
+ "truera/trulens#3061": {
+  "date": "2026-11-07",
+  "reason": "same-repo cap: trulens 在飞 2 个（#3052/#3057，STATE.md 台账），硬上限 2；与 #3052 同一族 GroundTruthAggregator 修复面"
  }
 }
