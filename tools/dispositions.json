@@ -2385,5 +2385,21 @@
  "deepset-ai/haystack#13606": {
   "date": "2026-11-07",
   "reason": "已提交 PR #13607（from_dict 以 dict(data['data']) 浅拷贝反序列化，镜像 MetadataRouter #13421 sibling 模式；1 新回归测试 A/B 45/45，ruff 净，EVIDENCE_OK 推送前）"
+ },
+ "berriai/litellm#50434": {
+  "date": "2026-11-07",
+  "reason": "same-repo cap: 该仓在飞 2 个（STATE.md 台账），硬上限 2"
+ },
+ "langchain-ai/langgraph#9620": {
+  "date": "2026-11-07",
+  "reason": "assign 门禁仓: 须先分配给当前账号"
+ },
+ "openhands/openhands#19432": {
+  "date": "2026-11-07",
+  "reason": "人工门禁: PR 描述含真人专属段（HUMAN: ≥20 字符 + human-tested + e2e 证据）"
+ },
+ "arize-ai/phoenix#17711": {
+  "date": "2026-11-07",
+  "reason": "人工门禁: CONTRIBUTING 明写「An open issue is not an invitation to submit a PR」"
  }
 }

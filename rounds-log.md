@@ -4014,3 +4014,8 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - **产出 `deepset-ai/haystack#13607`**（issue #13606，simin-yuan 报告）：`Tool.from_dict` 直接以 data["data"] 为容器原地替换键 → 调用方字典被写入 callable、不可序列化、二次 from_dict 失败。修法 = **镜像 MetadataRouter 的 sibling 模式 `dict(data["data"])` 浅拷贝**（issue 自陈同缺陷已修三次：#13421/#13471/#13563）；helpers 本就 copy-on-convert，顶层拷贝即完整隔离。
 - 判别性：1 新回归测试（调用方字典保持字符串句柄 + json.dumps + 二次反序列化）**修前 1 fail（checkout origin/main 基线）/ 修后 45/45**；ruff check+format（line-length 120）全净；**EVIDENCE_OK 推送前**。session_claims 全生命周期。
 - STATE 74→75（#13607 登记）；monitor_oss 75/75 盲点 0；review_sweep 1 ACTION = trulens#3052 验证确认（基线残留）。
+
+## 2026-11-07 06:1x 轮（第 91 轮，15 分钟间隔）— 0 新单；收件箱 4 条清零
+
+- 收件箱 4 条 → 0 pending（1167 reported / 1246 done）：litellm 上限、langgraph assign、openhands HUMAN、phoenix 人工门禁（#17711 为再漏收口补记，幂等）。dispositions 597→601（突破 600 条里程碑）。
+- 本轮 0 干净候选。monitor_oss 75/75 盲点 0（haystack#13607 CI 8✓/1✗，1✗ 待定性下轮查）；review_sweep 1 ACTION = trulens#3052（基线残留）。
