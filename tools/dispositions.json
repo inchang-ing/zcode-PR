@@ -2573,5 +2573,9 @@
  "huggingface/lighteval#1486": {
   "date": "2026-11-07",
   "reason": "设计让位: continue-on-error 取舍有多个修复方向，需维护者定夺；weekly 调度使端到端验证不可行"
+ },
+ "arize-ai/phoenix#17721": {
+  "date": "2026-11-07",
+  "reason": "人工门禁: 「An open issue is not an invitation to submit a PR」+ needs information + spend limits feature 为公共接口扩展"
  }
 }

@@ -4097,3 +4097,8 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 
 - 收件箱 2 条 → 0 pending（1210 reported / 1289 done）：pydantic-ai#12752 禁投、lighteval#1486 设计让位（continue-on-error canary 取舍 + weekly 调度不可端到端验证）。dispositions 643→644。
 - 本轮 0 干净候选。monitor_oss 75/75 盲点 0；review_sweep 1 ACTION = trulens#3052（基线残留）。
+
+## 2026-11-07 21:1x 轮（第 108 轮，15 分钟间隔）— 0 新单；收件箱 1 条清零
+
+- 收件箱 1 条 → 0 pending（1211 reported / 1290 done）：phoenix#17721 人工门禁 + spend limits feature。dispositions 644→645。
+- 本轮 0 干净候选。monitor_oss 75/75 盲点 0；review_sweep 1 ACTION = trulens#3052（基线残留）。
