@@ -2565,5 +2565,13 @@
  "run-llama/llama_index#24043": {
   "date": "2026-11-07",
   "reason": "same-repo cap: llama_index 在飞 2 个（#23876/#24020），硬上限 2 + Documentation 类"
+ },
+ "pydantic/pydantic-ai#12752": {
+  "date": "2026-11-07",
+  "reason": "受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "huggingface/lighteval#1486": {
+  "date": "2026-11-07",
+  "reason": "设计让位: continue-on-error 取舍有多个修复方向，需维护者定夺；weekly 调度使端到端验证不可行"
  }
 }
