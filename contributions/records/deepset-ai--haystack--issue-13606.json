@@ -1,0 +1,110 @@
+{
+ "schema_version": 1,
+ "id": "deepset-ai--haystack--issue-13606",
+ "repo": "deepset-ai/haystack",
+ "issue": 13606,
+ "pr": 13607,
+ "title": "fix: Tool.from_dict must not deserialize into the caller's dictionary",
+ "kind": "bug",
+ "problem_type": "Tool.from_dict 直接以 data['data'] 为反序列化容器并原地替换键，调用方字典被写入 callable：不可再序列化、二次 from_dict 失败（同缺陷已在 MetadataRouter/MockChatGenerator/ListJoiner 修过三次）",
+ "approach": "镜像 MetadataRouter 的 sibling 模式 dict(data['data']) 浅拷贝；_convert_handler 系列 helper 本就 copy-on-convert，顶层拷贝即完整隔离",
+ "created_at": "2026-11-06T18:46:02+00:00",
+ "policy": {
+  "status": "verified",
+  "checked_at": "2026-11-06T18:46:26+00:00",
+  "summary": "CONTRIBUTING 无 AI 禁令、无 DCO；ruff line-length 120 为仓规；fork+PR 通道正常",
+  "sources": [
+   {
+    "kind": "url",
+    "ref": "https://github.com/deepset-ai/haystack/blob/main/CONTRIBUTING.md"
+   }
+  ]
+ },
+ "collision": {
+  "status": "verified",
+  "checked_at": "2026-11-06T18:46:26+00:00",
+  "summary": "issue #13606 timeline 0 cross-ref、0 评论、无认领语言；邻近编号 #13605-#13607 无同题 PR；session_claims 原子认领（token daf5b404）",
+  "sources": [
+   {
+    "kind": "url",
+    "ref": "https://github.com/deepset-ai/haystack/issues/13606"
+   }
+  ]
+ },
+ "verification": {
+  "status": "recorded",
+  "method": "regression",
+  "case": "issue #13606 场景：tool.to_dict() -> Tool.from_dict(data) 后调用方 data 仍持有序列化字符串、json.dumps 可用、二次 from_dict 成功；test/tools/test_tool.py 全量",
+  "summary": "修复前：1 个新回归测试 fail（调用方 data['data']['function'] 变为 function 对象）；修复后：45/45 passed（44 存量 + 1 新增，含 MetadataRouter 式断言 + json.dumps + 二次反序列化）；ruff check + format 净（line-length 120）",
+  "base_commit": "0ad74747ffd7d9f9b092db97ba2e222080992c2e",
+  "before": {
+   "commit": "0ad74747ffd7d9f9b092db97ba2e222080992c2e",
+   "command": "pytest test/tools/test_tool.py -k does_not_mutate",
+   "environment": "Windows 10 (Git Bash), Python 3.12.4 venv, haystack editable",
+   "test_case": "issue #13606 场景：tool.to_dict() -> Tool.from_dict(data) 后调用方 data 仍持有序列化字符串、json.dumps 可用、二次 from_dict 成功；test/tools/test_tool.py 全量",
+   "ran_at": "2026-11-06T18:47:14+00:00",
+   "exit_code": 1,
+   "result": "regression_failed",
+   "scope": "project",
+   "log": {
+    "kind": "local",
+    "ref": "contributions/evidence/haystack--issue-13606--prefix-pytest.txt",
+    "sha256": "776f8900826690b1d2221c9f7e8a52b079059477d3e7d7dd14fcf29624ba494a"
+   }
+  },
+  "after": {
+   "commit": "11e620bfb1fdea1df55e1c47d83db545643b5e5c",
+   "command": "pytest test/tools/test_tool.py",
+   "environment": "Windows 10 (Git Bash), Python 3.12.4 venv, haystack editable",
+   "test_case": "issue #13606 场景：tool.to_dict() -> Tool.from_dict(data) 后调用方 data 仍持有序列化字符串、json.dumps 可用、二次 from_dict 成功；test/tools/test_tool.py 全量",
+   "ran_at": "2026-11-06T18:47:17+00:00",
+   "exit_code": 0,
+   "result": "passed",
+   "scope": "project",
+   "log": {
+    "kind": "local",
+    "ref": "contributions/evidence/haystack--issue-13606--postfix-pytest.txt",
+    "sha256": "7a3e70ca376723dd77a150cf6ae0ab6c909807298b246508aa199f61ee2bfdcb"
+   }
+  }
+ },
+ "feedback": {
+  "checked_at": "2026-11-06T18:48:11+00:00",
+  "items": []
+ },
+ "outcome": {
+  "reason_category": "unknown",
+  "summary": "",
+  "sources": []
+ },
+ "next_actions": [],
+ "provenance": [
+  {
+   "kind": "local",
+   "ref": "contributions/evidence/haystack--issue-13606--provenance.txt",
+   "sha256": "2221afe8aa578670039d89e1960bdbfae6276c989ad520b8fc40a19f364cd170"
+  }
+ ],
+ "submission": {
+  "head": "11e620bfb1fdea1df55e1c47d83db545643b5e5c",
+  "body": {
+   "kind": "local",
+   "ref": "contributions/evidence/deepset-ai--haystack--issue-13606--body-3e30d6167e173841c4efc4540be18d4d9379fae8ca1db9a6d3c57065b73d1338.md",
+   "sha256": "3e30d6167e173841c4efc4540be18d4d9379fae8ca1db9a6d3c57065b73d1338"
+  },
+  "claims": [
+   {
+    "text": "**Fails on unpatched code (verified via stash A/B), full file 45/45 passes with the fix.**",
+    "run": "after"
+   },
+   {
+    "text": "`ruff check` + `ruff format --check` clean on both touched files.",
+    "run": "after"
+   }
+  ],
+  "limitations": [
+   "Verified on Windows (Python 3.12, local editable install); CI covers the rest of the matrix."
+  ],
+  "feedback": []
+ }
+}

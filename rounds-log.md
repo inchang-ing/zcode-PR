@@ -4007,3 +4007,10 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 
 - 收件箱 4 条 → 0 pending（1162 reported / 1241 done）：mem0 accepted 门禁、llama_index#24015 竞品 #24018 + #24014 上限（#23876/#24020 占满）、trulens#3061 上限（同族 GroundTruthAggregator 修复面被 #3052 覆盖）。dispositions 592→596。
 - 本轮 0 干净候选。monitor_oss 74/74 盲点 0；review_sweep 1 ACTION = trulens#3052（Abelo9996 验证确认，基线残留）。
+
+## 2026-11-07 05:4x 轮（第 90 轮，15 分钟间隔）— 1 新 PR（haystack#13607）+ 收件箱 4 条清零
+
+- 收件箱 4 条 → 0 pending（1165 reported / 1242 done）：openhands HUMAN、phoenix 门禁、mem0 accepted、pydantic-ai 禁投（trulens#3061 上限）。dispositions 592→597。
+- **产出 `deepset-ai/haystack#13607`**（issue #13606，simin-yuan 报告）：`Tool.from_dict` 直接以 data["data"] 为容器原地替换键 → 调用方字典被写入 callable、不可序列化、二次 from_dict 失败。修法 = **镜像 MetadataRouter 的 sibling 模式 `dict(data["data"])` 浅拷贝**（issue 自陈同缺陷已修三次：#13421/#13471/#13563）；helpers 本就 copy-on-convert，顶层拷贝即完整隔离。
+- 判别性：1 新回归测试（调用方字典保持字符串句柄 + json.dumps + 二次反序列化）**修前 1 fail（checkout origin/main 基线）/ 修后 45/45**；ruff check+format（line-length 120）全净；**EVIDENCE_OK 推送前**。session_claims 全生命周期。
+- STATE 74→75（#13607 登记）；monitor_oss 75/75 盲点 0；review_sweep 1 ACTION = trulens#3052 验证确认（基线残留）。

@@ -1,0 +1,38 @@
+
+test/tools/test_tool.py::TestTool::test_from_dict_does_not_mutate_the_caller_dictionary FAILED [100%]
+
+================================== FAILURES ===================================
+________ TestTool.test_from_dict_does_not_mutate_the_caller_dictionary ________
+
+self = <test_tool.TestTool object at 0x00000266DD3500E0>
+
+    def test_from_dict_does_not_mutate_the_caller_dictionary(self):
+        # https://github.com/deepset-ai/haystack/issues/13606 — from_dict used
+        # to deserialize into the caller's dictionary, leaving callables where
+        # the serialized handles were: the dict became unserializable and a
+        # second from_dict failed. Same defect previously fixed for
+        # MetadataRouter (#13421), MockChatGenerator (#13471) and ListJoiner
+        # (#13563).
+        tool_dict = {
+            "type": "haystack.tools.tool.Tool",
+            "data": {
+                "name": "weather",
+                "description": "Get weather report",
+                "parameters": parameters,
+                "function": "test_tool.get_weather_report",
+                "outputs_to_string": {"handler": "test_tool.format_string"},
+                "inputs_from_state": {"location": "city"},
+                "outputs_to_state": {"documents": {"source": "docs", "handler": "test_tool.get_weather_report"}},
+            },
+        }
+    
+        Tool.from_dict(tool_dict)
+    
+>       assert isinstance(tool_dict["data"]["function"], str)
+E       assert False
+E        +  where False = isinstance(<function get_weather_report at 0x00000266DCF87F60>, str)
+
+test\tools\test_tool.py:241: AssertionError
+=========================== short test summary info ===========================
+FAILED test/tools/test_tool.py::TestTool::test_from_dict_does_not_mutate_the_caller_dictionary
+====================== 1 failed, 44 deselected in 0.56s =======================
