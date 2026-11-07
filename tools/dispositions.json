@@ -2641,5 +2641,9 @@
  "pydantic/pydantic-ai#12763": {
   "date": "2026-11-08",
   "reason": "受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "pydantic/pydantic-ai#12765": {
+  "date": "2026-11-08",
+  "reason": "受限/禁投仓库: pydantic/pydantic-ai"
  }
 }
