@@ -2673,5 +2673,9 @@
  "microsoft/semantic-kernel#14734": {
   "date": "2026-11-08",
   "reason": "triage 标签 = 维护者已介入分析中；且同报告者 VANDRANKI 的 handoff 模式（#14730/#14729 先例），修复分支归其作者"
+ },
+ "microsoft/semantic-kernel#14735": {
+  "date": "2026-11-08",
+  "reason": "triage 标签 = 维护者已介入分析中；同报告者 VANDRANKI handoff 模式先例，修复分支归其作者"
  }
 }
