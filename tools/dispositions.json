@@ -2689,5 +2689,9 @@
  "agentscope-ai/agentscope#3802": {
   "date": "2026-11-08",
   "reason": "已认领: konlue /assign（bot 确认在验证中，再次评论即归其所有）——常驻审计 rotation 成员"
+ },
+ "openhands/openhands#19467": {
+  "date": "2026-11-08",
+  "reason": "人工门禁: PR 描述含真人专属段（HUMAN: ≥20 字符 + human-tested + e2e 证据）"
  }
 }
