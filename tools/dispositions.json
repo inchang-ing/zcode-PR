@@ -2633,5 +2633,13 @@
  "langchain-ai/langchain#41737": {
   "date": "2026-11-08",
   "reason": "assign 门禁仓: 须先分配给当前账号 + docs feature"
+ },
+ "arize-ai/phoenix#17733": {
+  "date": "2026-11-08",
+  "reason": "人工门禁: CONTRIBUTING 明写「An open issue is not an invitation to submit a PR」+ feature"
+ },
+ "pydantic/pydantic-ai#12763": {
+  "date": "2026-11-08",
+  "reason": "受限/禁投仓库: pydantic/pydantic-ai"
  }
 }
