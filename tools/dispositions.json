@@ -2645,5 +2645,9 @@
  "pydantic/pydantic-ai#12765": {
   "date": "2026-11-08",
   "reason": "受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "docling-project/docling#5226": {
+  "date": "2026-11-08",
+  "reason": "same-repo cap: 该仓在飞 3 个（#4439/#5007/#5125），硬上限 2"
  }
 }
