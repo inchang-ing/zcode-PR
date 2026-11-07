@@ -4217,3 +4217,8 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 
 - 收件箱 2 条 → 0 pending（1342 reported / 1421 done）：crewai 上限、llama_index 上限。dispositions 774→776。
 - 本轮 0 干净候选。monitor_oss 75/75 盲点 0；review_sweep 0 ACTION。
+
+## 2026-11-08 19:1x 轮（第 132 轮，15 分钟间隔）— 0 新单；收件箱 2 条清零
+
+- 收件箱 2 条 → 0 pending（1344 reported / 1423 done）：docling 上限 + OTel feature、aider 上限 + scipy dyld 环境层问题（macOS zero-fill section 加载失败，非 aider 缺陷）。dispositions 776→778。
+- 本轮 0 干净候选。monitor_oss 75/75 盲点 0；review_sweep 0 ACTION。

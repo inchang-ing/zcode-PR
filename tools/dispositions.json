@@ -3101,5 +3101,13 @@
  "run-llama/llama_index#24076": {
   "date": "2026-11-08",
   "reason": "same-repo cap: llama_index 在飞 2 个（#23876/#24020），硬上限 2"
+ },
+ "docling-project/docling#5234": {
+  "date": "2026-11-08",
+  "reason": "same-repo cap: 该仓在飞 3 个（#4439/#5007/#5125），硬上限 2 + OTel spans feature"
+ },
+ "aider-ai/aider#5962": {
+  "date": "2026-11-08",
+  "reason": "same-repo cap: 该仓在飞 2 个（#5945/#5952），硬上限 2 + scipy 二进制加载失败为环境层问题（macOS dyld zero-fill section），非 aider 代码缺陷"
  }
 }
