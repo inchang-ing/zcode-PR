@@ -2681,5 +2681,9 @@
  "langchain-ai/langchain#41738": {
   "date": "2026-11-08",
   "reason": "assign 门禁仓: 须先分配给当前账号"
+ },
+ "pydantic/pydantic-ai#12766": {
+  "date": "2026-11-08",
+  "reason": "受限/禁投仓库: pydantic/pydantic-ai"
  }
 }
