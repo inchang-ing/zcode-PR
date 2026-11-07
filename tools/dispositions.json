@@ -2649,5 +2649,9 @@
  "docling-project/docling#5226": {
   "date": "2026-11-08",
   "reason": "same-repo cap: 该仓在飞 3 个（#4439/#5007/#5125），硬上限 2"
+ },
+ "openhands/openhands#19461": {
+  "date": "2026-11-08",
+  "reason": "人工门禁: PR 描述含真人专属段（HUMAN: ≥20 字符 + human-tested + e2e 证据）"
  }
 }
