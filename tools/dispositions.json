@@ -3093,5 +3093,13 @@
  "ukgovernmentbeis/inspect_ai#6369": {
   "date": "2026-11-08",
   "reason": "issue-readiness 门禁仓: 缺少 accepted 标签"
+ },
+ "crewaiinc/crewai#9228": {
+  "date": "2026-11-08",
+  "reason": "same-repo cap: 该仓在飞 2 个（#7795/#7981），硬上限 2"
+ },
+ "run-llama/llama_index#24076": {
+  "date": "2026-11-08",
+  "reason": "same-repo cap: llama_index 在飞 2 个（#23876/#24020），硬上限 2"
  }
 }
