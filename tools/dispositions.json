@@ -2653,5 +2653,17 @@
  "openhands/openhands#19461": {
   "date": "2026-11-08",
   "reason": "人工门禁: PR 描述含真人专属段（HUMAN: ≥20 字符 + human-tested + e2e 证据）"
+ },
+ "openhands/openhands#19463": {
+  "date": "2026-11-08",
+  "reason": "人工门禁: PR 描述含真人专属段（HUMAN: ≥20 字符 + human-tested + e2e 证据）"
+ },
+ "berriai/litellm#50482": {
+  "date": "2026-11-08",
+  "reason": "same-repo cap: 该仓在飞 2 个（STATE.md 台账），硬上限 2 + cascade routing feature"
+ },
+ "ukgovernmentbeis/inspect_ai#6365": {
+  "date": "2026-11-08",
+  "reason": "issue-readiness 门禁仓: 缺少 accepted 标签"
  }
 }
