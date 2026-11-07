@@ -2613,5 +2613,17 @@
  "openbmb/chatdev#714": {
   "date": "2026-11-07",
   "reason": "非代码任务: 研究工作流咨询类 issue，非仓库缺陷"
+ },
+ "docling-project/docling#5224": {
+  "date": "2026-11-08",
+  "reason": "same-repo cap: 该仓在飞 3 个（#4439/#5007/#5125，STATE.md 台账），硬上限 2"
+ },
+ "docling-project/docling#5221": {
+  "date": "2026-11-08",
+  "reason": "same-repo cap: 该仓在飞 3 个，硬上限 2"
+ },
+ "docling-project/docling#5220": {
+  "date": "2026-11-08",
+  "reason": "same-repo cap: 该仓在飞 3 个，硬上限 2"
  }
 }
