@@ -2665,5 +2665,13 @@
  "ukgovernmentbeis/inspect_ai#6365": {
   "date": "2026-11-08",
   "reason": "issue-readiness 门禁仓: 缺少 accepted 标签"
+ },
+ "mem0ai/mem0#7861": {
+  "date": "2026-11-08",
+  "reason": "issue-readiness 门禁仓: 缺少 accepted 标签（pr-gate 自动关闭未链 accepted 的 PR）+ Wally docs feature"
+ },
+ "microsoft/semantic-kernel#14734": {
+  "date": "2026-11-08",
+  "reason": "triage 标签 = 维护者已介入分析中；且同报告者 VANDRANKI 的 handoff 模式（#14730/#14729 先例），修复分支归其作者"
  }
 }
