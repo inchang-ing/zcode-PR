@@ -2685,5 +2685,9 @@
  "pydantic/pydantic-ai#12766": {
   "date": "2026-11-08",
   "reason": "受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "agentscope-ai/agentscope#3802": {
+  "date": "2026-11-08",
+  "reason": "已认领: konlue /assign（bot 确认在验证中，再次评论即归其所有）——常驻审计 rotation 成员"
  }
 }
