@@ -1,0 +1,8 @@
+........s...........s...                                                 [100%]
+============================== warnings summary ===============================
+src\accelerate\test_utils\testing.py:624
+  E:\zcode-PR\work\accelerate\src\accelerate\test_utils\testing.py:624: PytestUnknownMarkWarning: Unknown pytest.mark.order - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    return pytest.mark.order(1)(test_case)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+22 passed, 2 skipped, 1 warning in 185.33s (0:03:05)

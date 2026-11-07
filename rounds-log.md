@@ -4195,3 +4195,11 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 
 - 收件箱 1 条 → 0 pending（1240 reported / 1319 done）：openhands#19467 HUMAN 门禁。dispositions 673→674。
 - 本轮 0 干净候选。monitor_oss 75/75 盲点 0；review_sweep 1 ACTION = trulens#3052（基线残留）。
+
+## 2026-11-08 15:4x 轮（第 128 轮，15 分钟间隔）— accelerate#4504 评审返工（4a81e1b）
+
+- **review_sweep 真实 ACTION（accelerate#4504）**：Michael-RDev CHANGES_REQUESTED，三个问题全部成立：①DDP 把主 rank 的窗口中段梯度恢复到每个 rank（评审人 2-process CPU 测试发散）；②同目录重存且新 save 无梯度时旧 gradients.bin 残留 → 恢复时复活；③hook 移除模型导致梯度文件索引错位、下一个模型加载错梯度。
+- **返工（4a81e1b 已推 PR 分支）**：①梯度文件改 per-process（镜像 RNG-state 模式：每 rank 直写 torch.save gradients_{i}_{rank}.pt，load 各恢复自己的）；②空 payload unlink 旧文件 + 清扫 pass 移除非本次写入的梯度文件；③payload 嵌入模型名（get_pretty_name），load 位置/名字不匹配时按名扫描兜底。
+- 判别性：2 个评审回归测试（overwrite-then-boundary-load、load hook 移除模型+权重文件随迁）**修前（origin/main 与旧方案各验一次）fail / 修后 22 passed 2 skipped**；ruff 持平 + format 净；**EVIDENCE_OK**（claims 与正文逐字对齐后通过）。2-rank gloo 证据脚本（file-init 绕开 Windows TCPStore 非 ASCII 主机名崩溃）记录：对称数据下新旧方案恰好同值（DDP 平均恒等），发散需按 rank 分片数据——回复中如实说明并请评审人重跑其脚本。
+- 流程坑（规律 90 第七次 + 证据三坑）：pre-fix 证据采集的 `git checkout e68dcd2 --` 会把同分支上未提交的 rework 洗掉（连续三次）——**评审返工期的 A/B 一律先 commit 再 checkout 基线**；claims 必须与正文逐字一致（换行处拆句）；limitations 必须在正文披露。
+- monitor_oss 75/75 盲点 0；review_sweep 0 ACTION（本轮 ACTION 已处置）。

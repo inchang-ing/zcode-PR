@@ -1,0 +1,14 @@
+E:\zcode-PR\work\accelerate\src\accelerate\state.py:279: UserWarning: OMP_NUM_THREADS/MKL_NUM_THREADS unset, we set it at 24 to improve oob performance.
+  warnings.warn(
+[rank 0] prepared
+[rank 0] saving
+[rank 0] saved; entering barrier
+[rank 0] barrier passed
+[rank 0] remade
+[rank 0] loaded
+resume: rank weights = [0.0016263043507933617, 0.0016263043507933617]
+[rank0]: Traceback (most recent call last):
+[rank0]:   File "E:\zcode-PR\contributions\evidence\accelerate--4504-review--ddp_repro.py", line 89, in <module>
+[rank0]:     print(f"{mode}: {'MATCH' if ws[0] == ws[1] else 'MISMATCH'} across ranks".replace("ws[0]", str(weights[0])).replace("ws[1]", str(weights[1])))
+[rank0]:                                 ^^
+[rank0]: NameError: name 'ws' is not defined. Did you mean: 'os'?

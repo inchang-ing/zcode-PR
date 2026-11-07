@@ -1,0 +1,210 @@
+FFFF                                                                     [100%]
+================================== FAILURES ===================================
+_ CheckpointTest_use_safetensors.test_load_hook_model_removal_keeps_gradients_matched _
+
+self = <tests.test_state_checkpointing.CheckpointTest_use_safetensors testMethod=test_load_hook_model_removal_keeps_gradients_matched>
+
+    def test_load_hook_model_removal_keeps_gradients_matched(self):
+        # Reviewer case 3 (PR #4504): a load hook that removes a model shifts
+        # the gradient file indices; gradients must match by embedded model
+        # name, not blindly by position.
+    
+        class OtherModel(torch.nn.Module):
+            def __init__(self):
+                super().__init__()
+                self.alpha = torch.nn.Parameter(torch.tensor(2.0))
+    
+        with tempfile.TemporaryDirectory() as tmpdir:
+            save_dir = os.path.join(tmpdir, "ckpt")
+    
+            def make_pair():
+                set_seed(0)
+                accelerator = Accelerator(cpu=True, gradient_accumulation_steps=2, project_dir=tmpdir)
+                first = DummyModel()
+                second = OtherModel()
+                first, second = accelerator.prepare(first, second)
+                return accelerator, first, second
+    
+            # Save mid-window with both models holding partial gradients
+            accelerator, first, second = make_pair()
+            with accelerator.accumulate(first):
+                accelerator.backward(first.a.pow(2).sum())
+            with accelerator.accumulate(second):
+                accelerator.backward(second.alpha.pow(3).sum())
+            accelerator.save_state(save_dir)
+            saved_second_grad = second.alpha.grad.detach().clone()
+    
+            # Fresh objects; a load hook removes the first model. A custom
+            # hook owns its file adjustments too, so it also shifts the
+            # weight files to stay consistent with the shortened model list.
+            accelerator, first, second = make_pair()
+    
+            def remove_first(models, input_dir):
+                models.pop(0)
+                for prefix in ("model", "pytorch_model"):
+                    base = os.path.join(input_dir, f"{prefix}.safetensors")
+                    shifted = os.path.join(input_dir, f"{prefix}_1.safetensors")
+                    if os.path.exists(shifted):
+                        os.replace(shifted, base)
+                    base_bin = os.path.join(input_dir, f"{prefix}.bin")
+                    shifted_bin = os.path.join(input_dir, f"{prefix}_1.bin")
+                    if os.path.exists(shifted_bin):
+                        os.replace(shifted_bin, base_bin)
+    
+            accelerator.register_load_state_pre_hook(remove_first)
+            accelerator.load_state(save_dir)
+    
+            # The removed model was never touched; the survivor received its
+            # own gradients, not the removed model's.
+            assert first.a.grad is None
+>           assert second.alpha.grad is not None
+E           assert None is not None
+E            +  where None = Parameter containing:\ntensor(2., requires_grad=True).grad
+E            +    where Parameter containing:\ntensor(2., requires_grad=True) = OtherModel().alpha
+
+tests\test_state_checkpointing.py:352: AssertionError
+_ CheckpointTest_use_safetensors.test_overwrite_checkpoint_removes_stale_gradients _
+
+self = <tests.test_state_checkpointing.CheckpointTest_use_safetensors testMethod=test_overwrite_checkpoint_removes_stale_gradients>
+
+    def test_overwrite_checkpoint_removes_stale_gradients(self):
+        # Reviewer case 2 (PR #4504): saving into an existing directory at a
+        # window boundary (no grads) must remove the gradients file written
+        # by an earlier mid-window save into the same directory, or resume
+        # resurrects stale gradients.
+        with tempfile.TemporaryDirectory() as tmpdir:
+            save_dir = os.path.join(tmpdir, "ckpt")
+    
+            def make():
+                set_seed(0)
+                accelerator = Accelerator(cpu=True, gradient_accumulation_steps=2, project_dir=tmpdir)
+                model = torch.nn.Linear(1, 1, bias=False)
+                optimizer = torch.optim.SGD(model.parameters(), lr=0.1)
+                model, optimizer = accelerator.prepare(model, optimizer)
+                return accelerator, model, optimizer
+    
+            # First save: mid-window, partial gradients exist
+            accelerator, model, optimizer = make()
+            with accelerator.accumulate(model):
+                accelerator.backward(model(torch.tensor([1.0])).pow(2).sum())
+            accelerator.save_state(save_dir)
+>           assert os.path.exists(os.path.join(save_dir, "gradients_0_0.pt"))
+E           AssertionError: assert False
+E            +  where False = <built-in function _path_exists>('C:\\Users\\ROG\\AppData\\Local\\Temp\\tmpzm5_y4q_\\ckpt\\gradients_0_0.pt')
+E            +    where <built-in function _path_exists> = <module 'ntpath' (frozen)>.exists
+E            +      where <module 'ntpath' (frozen)> = os.path
+E            +    and   'C:\\Users\\ROG\\AppData\\Local\\Temp\\tmpzm5_y4q_\\ckpt\\gradients_0_0.pt' = <function join at 0x000002404D5CCB80>('C:\\Users\\ROG\\AppData\\Local\\Temp\\tmpzm5_y4q_\\ckpt', 'gradients_0_0.pt')
+E            +      where <function join at 0x000002404D5CCB80> = <module 'ntpath' (frozen)>.join
+E            +        where <module 'ntpath' (frozen)> = os.path
+
+tests\test_state_checkpointing.py:287: AssertionError
+_ CheckpointTest_use_pytorch.test_load_hook_model_removal_keeps_gradients_matched _
+
+self = <tests.test_state_checkpointing.CheckpointTest_use_pytorch testMethod=test_load_hook_model_removal_keeps_gradients_matched>
+
+    def test_load_hook_model_removal_keeps_gradients_matched(self):
+        # Reviewer case 3 (PR #4504): a load hook that removes a model shifts
+        # the gradient file indices; gradients must match by embedded model
+        # name, not blindly by position.
+    
+        class OtherModel(torch.nn.Module):
+            def __init__(self):
+                super().__init__()
+                self.alpha = torch.nn.Parameter(torch.tensor(2.0))
+    
+        with tempfile.TemporaryDirectory() as tmpdir:
+            save_dir = os.path.join(tmpdir, "ckpt")
+    
+            def make_pair():
+                set_seed(0)
+                accelerator = Accelerator(cpu=True, gradient_accumulation_steps=2, project_dir=tmpdir)
+                first = DummyModel()
+                second = OtherModel()
+                first, second = accelerator.prepare(first, second)
+                return accelerator, first, second
+    
+            # Save mid-window with both models holding partial gradients
+            accelerator, first, second = make_pair()
+            with accelerator.accumulate(first):
+                accelerator.backward(first.a.pow(2).sum())
+            with accelerator.accumulate(second):
+                accelerator.backward(second.alpha.pow(3).sum())
+            accelerator.save_state(save_dir)
+            saved_second_grad = second.alpha.grad.detach().clone()
+    
+            # Fresh objects; a load hook removes the first model. A custom
+            # hook owns its file adjustments too, so it also shifts the
+            # weight files to stay consistent with the shortened model list.
+            accelerator, first, second = make_pair()
+    
+            def remove_first(models, input_dir):
+                models.pop(0)
+                for prefix in ("model", "pytorch_model"):
+                    base = os.path.join(input_dir, f"{prefix}.safetensors")
+                    shifted = os.path.join(input_dir, f"{prefix}_1.safetensors")
+                    if os.path.exists(shifted):
+                        os.replace(shifted, base)
+                    base_bin = os.path.join(input_dir, f"{prefix}.bin")
+                    shifted_bin = os.path.join(input_dir, f"{prefix}_1.bin")
+                    if os.path.exists(shifted_bin):
+                        os.replace(shifted_bin, base_bin)
+    
+            accelerator.register_load_state_pre_hook(remove_first)
+            accelerator.load_state(save_dir)
+    
+            # The removed model was never touched; the survivor received its
+            # own gradients, not the removed model's.
+            assert first.a.grad is None
+>           assert second.alpha.grad is not None
+E           assert None is not None
+E            +  where None = Parameter containing:\ntensor(2., requires_grad=True).grad
+E            +    where Parameter containing:\ntensor(2., requires_grad=True) = OtherModel().alpha
+
+tests\test_state_checkpointing.py:352: AssertionError
+_ CheckpointTest_use_pytorch.test_overwrite_checkpoint_removes_stale_gradients _
+
+self = <tests.test_state_checkpointing.CheckpointTest_use_pytorch testMethod=test_overwrite_checkpoint_removes_stale_gradients>
+
+    def test_overwrite_checkpoint_removes_stale_gradients(self):
+        # Reviewer case 2 (PR #4504): saving into an existing directory at a
+        # window boundary (no grads) must remove the gradients file written
+        # by an earlier mid-window save into the same directory, or resume
+        # resurrects stale gradients.
+        with tempfile.TemporaryDirectory() as tmpdir:
+            save_dir = os.path.join(tmpdir, "ckpt")
+    
+            def make():
+                set_seed(0)
+                accelerator = Accelerator(cpu=True, gradient_accumulation_steps=2, project_dir=tmpdir)
+                model = torch.nn.Linear(1, 1, bias=False)
+                optimizer = torch.optim.SGD(model.parameters(), lr=0.1)
+                model, optimizer = accelerator.prepare(model, optimizer)
+                return accelerator, model, optimizer
+    
+            # First save: mid-window, partial gradients exist
+            accelerator, model, optimizer = make()
+            with accelerator.accumulate(model):
+                accelerator.backward(model(torch.tensor([1.0])).pow(2).sum())
+            accelerator.save_state(save_dir)
+>           assert os.path.exists(os.path.join(save_dir, "gradients_0_0.pt"))
+E           AssertionError: assert False
+E            +  where False = <built-in function _path_exists>('C:\\Users\\ROG\\AppData\\Local\\Temp\\tmpq4y05eaz\\ckpt\\gradients_0_0.pt')
+E            +    where <built-in function _path_exists> = <module 'ntpath' (frozen)>.exists
+E            +      where <module 'ntpath' (frozen)> = os.path
+E            +    and   'C:\\Users\\ROG\\AppData\\Local\\Temp\\tmpq4y05eaz\\ckpt\\gradients_0_0.pt' = <function join at 0x000002404D5CCB80>('C:\\Users\\ROG\\AppData\\Local\\Temp\\tmpq4y05eaz\\ckpt', 'gradients_0_0.pt')
+E            +      where <function join at 0x000002404D5CCB80> = <module 'ntpath' (frozen)>.join
+E            +        where <module 'ntpath' (frozen)> = os.path
+
+tests\test_state_checkpointing.py:287: AssertionError
+============================== warnings summary ===============================
+src\accelerate\test_utils\testing.py:624
+  E:\zcode-PR\work\accelerate\src\accelerate\test_utils\testing.py:624: PytestUnknownMarkWarning: Unknown pytest.mark.order - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    return pytest.mark.order(1)(test_case)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/test_state_checkpointing.py::CheckpointTest_use_safetensors::test_load_hook_model_removal_keeps_gradients_matched
+FAILED tests/test_state_checkpointing.py::CheckpointTest_use_safetensors::test_overwrite_checkpoint_removes_stale_gradients
+FAILED tests/test_state_checkpointing.py::CheckpointTest_use_pytorch::test_load_hook_model_removal_keeps_gradients_matched
+FAILED tests/test_state_checkpointing.py::CheckpointTest_use_pytorch::test_overwrite_checkpoint_removes_stale_gradients
+4 failed, 20 deselected, 1 warning in 5.91s
