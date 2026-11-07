@@ -3109,5 +3109,17 @@
  "aider-ai/aider#5962": {
   "date": "2026-11-08",
   "reason": "same-repo cap: 该仓在飞 2 个（#5945/#5952），硬上限 2 + scipy 二进制加载失败为环境层问题（macOS dyld zero-fill section），非 aider 代码缺陷"
+ },
+ "crewaiinc/crewai#9230": {
+  "date": "2026-11-08",
+  "reason": "same-repo cap: 该仓在飞 2 个（#7795/#7981，STATE.md 台账），硬上限 2"
+ },
+ "docling-project/docling#5235": {
+  "date": "2026-11-08",
+  "reason": "same-repo cap: 该仓在飞 3 个（#4439/#5007/#5125，STATE.md 台账），硬上限 2 + OTel feature（#5234 重复报入）"
+ },
+ "pydantic/pydantic-ai#12815": {
+  "date": "2026-11-08",
+  "reason": "受限/禁投仓库: pydantic/pydantic-ai"
  }
 }
