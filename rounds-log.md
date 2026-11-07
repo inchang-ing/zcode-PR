@@ -4203,3 +4203,8 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - 判别性：2 个评审回归测试（overwrite-then-boundary-load、load hook 移除模型+权重文件随迁）**修前（origin/main 与旧方案各验一次）fail / 修后 22 passed 2 skipped**；ruff 持平 + format 净；**EVIDENCE_OK**（claims 与正文逐字对齐后通过）。2-rank gloo 证据脚本（file-init 绕开 Windows TCPStore 非 ASCII 主机名崩溃）记录：对称数据下新旧方案恰好同值（DDP 平均恒等），发散需按 rank 分片数据——回复中如实说明并请评审人重跑其脚本。
 - 流程坑（规律 90 第七次 + 证据三坑）：pre-fix 证据采集的 `git checkout e68dcd2 --` 会把同分支上未提交的 rework 洗掉（连续三次）——**评审返工期的 A/B 一律先 commit 再 checkout 基线**；claims 必须与正文逐字一致（换行处拆句）；limitations 必须在正文披露。
 - monitor_oss 75/75 盲点 0；review_sweep 0 ACTION（本轮 ACTION 已处置）。
+
+## 2026-11-08 16:1x 轮（第 129 轮，15 分钟间隔）— 0 新单；收件箱 11 条清零
+
+- 收件箱 11 条 → 0 pending（1340 reported / 1419 done）：crewai ×2 上限、genai CLA、openai-agents 禁投、pydantic-ai ×3 禁投、crewai docs、lancedb 前端/架构、agentscope 上限、livekit CLA+真机、inspect_ai accepted。dispositions 674→774（含并行会话同批登记）。
+- 本轮 0 干净候选。monitor_oss 75/75 盲点 0；review_sweep 0 ACTION。
