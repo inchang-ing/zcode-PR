@@ -4753,3 +4753,9 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - monitor_oss: 75/75 盲点 0，零变化（haystack#13633 瞬态 UNKNOWN 已自愈）
 - review_sweep: 6 更新 0 人工活动，3 自动消解，0 ACTION
 - 0 干净候选，0 新 PR；dispositions 1264→1267
+## 2026-11-11 round 167（出 1 PR）
+- 收件箱 7→0：deer-flow#8125 needs-triage、swarms#3368-3372 ai-generated 批量×5、**agentscope#3924 → 实现**
+- **agentscope#3925**（base main，[triage/confirmed] issue）：TracingMiddleware 三个 async-gen 钩子（_trace_async_generator_wrapper/on_reply/on_acting）把 BaseException 一律归 ERROR——GeneratorExit（aclose/early break）与 CancelledError（消费任务取消）被记为失败 + 合成异常事件。修复=三钩子区分控制流异常（保留末 chunk 属性 + end 不标 ERROR）与真异常（ERROR 不变）；on_reply 取消路径 span 状态留 UNSET（未完成不称 OK）
+- A/B：5 个新回归测试（三钩子 aclose + 取消 + 真异常对照）修复前 4 failed / 修复后全文件 29 passed
+- STATE 75→76；dispositions 1267→1274；认领已释放
+- monitor_oss 76/76 盲点 0；review_sweep 0 ACTION

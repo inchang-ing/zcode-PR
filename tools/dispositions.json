@@ -5065,5 +5065,33 @@
  "pydantic/pydantic-ai#13117": {
   "date": "2026-11-11",
   "reason": "受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "agentscope-ai/agentscope#3924": {
+  "date": "2026-11-11",
+  "reason": "已实现开 PR: agentscope-ai/agentscope#3925 — 三钩子区分 cancel/close 与真异常; A/B 4 failed→29 passed"
+ },
+ "bytedance/deer-flow#8125": {
+  "date": "2026-11-11",
+  "reason": "needs-triage + LLM 服务验证类"
+ },
+ "kyegomez/swarms#3368": {
+  "date": "2026-11-11",
+  "reason": "维护者内部队列让位: kyegomez ai-generated 审计批量（规律 55）"
+ },
+ "kyegomez/swarms#3369": {
+  "date": "2026-11-11",
+  "reason": "维护者内部队列让位: kyegomez ai-generated 审计批量（规律 55）"
+ },
+ "kyegomez/swarms#3370": {
+  "date": "2026-11-11",
+  "reason": "维护者内部队列让位: kyegomez ai-generated 审计批量（规律 55）"
+ },
+ "kyegomez/swarms#3371": {
+  "date": "2026-11-11",
+  "reason": "维护者内部队列让位: kyegomez ai-generated 审计批量（规律 55）"
+ },
+ "kyegomez/swarms#3372": {
+  "date": "2026-11-11",
+  "reason": "维护者内部队列让位: kyegomez ai-generated 审计批量（规律 55）"
  }
 }
