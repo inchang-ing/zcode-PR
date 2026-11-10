@@ -4633,3 +4633,12 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - monitor_oss: 73/73 盲点 0；autogpt#16718 CI 14✓→18✓（1✗ = Vercel 授权门禁不变）
 - review_sweep: 4 更新 0 人工活动，0 ACTION
 - 0 干净候选，0 新 PR
+## 2026-11-11 round 145（CI 横向对照轮）
+- 收件箱 2→0：litellm#50961 cap、pydantic-ai#13080 禁投
+- monitor_oss: 73/73 盲点 0；dispositions 1208→1210
+- **autogpt#16718 CI 35✓/5✗ 逐条核验（全部非我方引入）**：
+  - test (3.11/3.12/3.13, remainder) 三 shard 同败一测：experts/routines_test.py::test_roster_routines_are_declared（#16712 今日新增名册 routine 落 dev 所致）；master-parity: #16717 三 shard 同型全败、#16713 同败；我方 shard 17506 passed / 唯一失败即该测
+  - e2e journeys 1✗ = run-correctness-journey "a run whose node fails ends instead of hanging"（16/17 过），伴随 scheduler_server ConnectError 重试刷屏 = e2e 栈内服务通信基础设施噪声；与 library PATCH 改动无交集
+  - Vercel fail@0s = 授权门禁
+  - 结论：继承/平台性，不动
+- review_sweep: 0 ACTION

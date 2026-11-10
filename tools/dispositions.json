@@ -4829,5 +4829,13 @@
  "bytedance/deer-flow#8119": {
   "date": "2026-11-11",
   "reason": "needs-triage 未分诊 + deer-flow 需 LLM 服务端到端验证，无人值守不可验证"
+ },
+ "berriai/litellm#50961": {
+  "date": "2026-11-11",
+  "reason": "same-repo cap: 该仓在飞 2 个，硬上限 2"
+ },
+ "pydantic/pydantic-ai#13080": {
+  "date": "2026-11-11",
+  "reason": "受限/禁投仓库: pydantic/pydantic-ai"
  }
 }
