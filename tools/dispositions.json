@@ -4897,5 +4897,17 @@
  "huggingface/trl#8246": {
   "date": "2026-11-11",
   "reason": "manual gate: trl AI usage policy，无已合 PR 自证"
+ },
+ "agno-agi/agno#11573": {
+  "date": "2026-11-11",
+  "reason": "agno issue-readiness 门禁: 缺 ready 标签 + cookbook 第三方集成示例"
+ },
+ "bytedance/deer-flow#8121": {
+  "date": "2026-11-11",
+  "reason": "needs-triage 未分诊 + deer-flow 需 LLM 服务端到端验证"
+ },
+ "crewaiinc/crewai#9336": {
+  "date": "2026-11-11",
+  "reason": "same-repo cap: 该仓在飞 2 个，硬上限 2"
  }
 }
