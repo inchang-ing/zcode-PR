@@ -4941,5 +4941,21 @@
  "ukgovernmentbeis/inspect_ai#6472": {
   "date": "2026-11-11",
   "reason": "issue-readiness 门禁: 缺 accepted 标签"
+ },
+ "docling-project/docling#5286": {
+  "date": "2026-11-11",
+  "reason": "same-repo cap: 该仓在飞 2 个，硬上限 2"
+ },
+ "prefecthq/fastmcp#6435": {
+  "date": "2026-11-11",
+  "reason": "manual gate: 须被 assign 才能落地 + release prep 维护者内部事务"
+ },
+ "ukgovernmentbeis/inspect_ai#6473": {
+  "date": "2026-11-11",
+  "reason": "issue-readiness 门禁: 缺 accepted 标签"
+ },
+ "ukgovernmentbeis/inspect_ai#6474": {
+  "date": "2026-11-11",
+  "reason": "issue-readiness 门禁: 缺 accepted 标签"
  }
 }
