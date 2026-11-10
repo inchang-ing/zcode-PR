@@ -4961,5 +4961,17 @@
  "docling-project/docling#5288": {
   "date": "2026-11-11",
   "reason": "same-repo cap: 该仓在飞 2 个，硬上限 2"
+ },
+ "openhands/openhands#19624": {
+  "date": "2026-11-11",
+  "reason": "manual gate: openhands HUMAN 实测段，无人值守不可满足"
+ },
+ "arize-ai/phoenix#17843": {
+  "date": "2026-11-11",
+  "reason": "manual gate: open issue 非投递邀请 + c/ui + good student issue"
+ },
+ "arize-ai/phoenix#17842": {
+  "date": "2026-11-11",
+  "reason": "manual gate: open issue 非投递邀请 + c/ui + good student issue"
  }
 }
