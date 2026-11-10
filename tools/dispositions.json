@@ -4861,5 +4861,25 @@
  "ukgovernmentbeis/inspect_ai#6468": {
   "date": "2026-11-11",
   "reason": "inspect_ai accepted-gate: 缺维护者 accepted 标签（外部 PR 须先 accepted）"
+ },
+ "significant-gravitas/autogpt#16725": {
+  "date": "2026-11-11",
+  "reason": "已实现开 PR: Significant-Gravitas/AutoGPT#16726 (base dev) — not-set sentinel 透传 + _get_timezone 守卫; A/B ZoneInfoNotFoundError→pass"
+ },
+ "openhands/openhands#19622": {
+  "date": "2026-11-11",
+  "reason": "manual gate: openhands 人工门禁（HUMAN + human-tested + e2e），无人值守不可满足"
+ },
+ "berriai/litellm#50986": {
+  "date": "2026-11-11",
+  "reason": "same-repo cap: 该仓在飞 2 个，硬上限 2"
+ },
+ "docling-project/docling#5282": {
+  "date": "2026-11-11",
+  "reason": "same-repo cap: 该仓在飞 2 个，硬上限 2"
+ },
+ "openinterpreter/openinterpreter#1980": {
+  "date": "2026-11-11",
+  "reason": "非代码任务: App 使用定制问询，非代码缺陷"
  }
 }
