@@ -4683,3 +4683,11 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - monitor_oss: 74/74 盲点 0；pylint#11784 42✓/0✗（1 在跑）；autogpt#16726 42✓/6✗ = 与 #16718 同型继承失败（3 shard experts 名册 + skip policy + Check PR Status + Vercel），零代码侧失败
 - review_sweep: 6 更新 0 人工活动，2 自动消解，0 ACTION
 - 0 干净候选，0 新 PR；dispositions 1225→1228
+## 2026-11-11 round 154（出 1 PR）
+- 收件箱 4→0：phoenix#17841 门禁、aider#5975 cap、inspect_ai#6470 缺 accepted、**unstructured#4692 → 实现**
+- **Unstructured-IO/unstructured#4693**（base main）：partition_docx 垂直合并单元格 ~1500 行时 python-docx `row.cells` 递归解析（`iter_tc_cells → tc._tc_above` 每行一帧）RecursionError 被 `except Exception` 吞掉 → text_as_html 静默丢行（Table.text 不受影响，走 tc_lst 无递归）
+- 修复：`iter_row_cells` 改为手写 grid walk（`row._tr.tc_lst` 展开 gridSpan + 跨行 origin 字典追踪垂直合并的根 tc），merge_key 身份不变 → colspan/rowspan 几何不变、无递归；malformed 行为保持（continue 无 origin 时回退自身而非丢位）
+- A/B：回归测试（1500 行合并 + 侧列）修复前 rowspan 丢失 FAIL / 修复后 PASS；邻居 37 合并/表格测试全过
+- 环境坑：测试构造合并须用 `w:val="restart"` 命名空间前缀（裸 `val` 被 typed attribute 读成 default "continue"，row 0 变 continue 使 python-docx `_cells` 组装即 IndexError）；python-docx merge 助手本身同递归，故用裸 XML 构造
+- STATE 74→75；dispositions 1228→1232；认领已释放
+- monitor_oss 75/75 盲点 0；pylint#11784 CI **43✓/0✗ 收官全绿**；review_sweep 0 ACTION

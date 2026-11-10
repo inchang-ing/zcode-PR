@@ -11,7 +11,7 @@
 > | 项目说明 / 目录 / 流程 / 飞书 / 换机 | **`README.md`** |
 > | 历史轮次 / 已合并 PR 验证记录 | **`rounds-log.md`**、**`STATE-archive.md`** |
 
-## OSS 贡献在飞（74）
+## OSS 贡献在飞（75）
 > 2026-11-10 21:0x GMT+8 补记：litestar-org/litestar#5206 修复已推 fork 分支 `fix/accept-q0-wildcard-overrides-specific`（DCO 签署、测试全过），PR 创建被自动化 GitHub 凭证权限阻断（gh `CreatePullRequest` 错误 / REST 404 / MCP 403 `Resource not accessible by integration`，均无 PR 写权限）；待账号持有人代开或修复凭证后计入在飞。`session_claims` 保持认领防重复。
 
 > 2026-11-10 21:5x GMT+8 第 159 轮：huggingface/huggingface_hub#5327 修复已推 fork 分支 `fix/inference-endpoints-token-propagation`（DCO 签署、`test_inference_endpoints.py` 2 个新回归测试 + 既有 15 测试全过；改前原始代码 401 / 改后通过证据齐）；PR 创建同受自动化 GitHub 凭证 PR 写权限阻断，待账号持有人代开或修复凭证。不计入权威 72（PR 未开）。
@@ -44,6 +44,7 @@
 
 | PR | 仓库 | 状态 | 摘要 |
 | --- | --- | --- | --- |
+| [#4693](https://github.com/Unstructured-IO/unstructured/pull/4693) | Unstructured-IO/unstructured | OPEN(2026-11-11) | fix(docx): stop long vertical merges from dropping table rows from text_as_html |
 | [#16726](https://github.com/Significant-Gravitas/AutoGPT/pull/16726) | Significant-Gravitas/AutoGPT | OPEN(2026-11-11) | fix(backend): let Get Current Time fall back to its own timezone when the profile is not-set |
 | [#16718](https://github.com/Significant-Gravitas/AutoGPT/pull/16718) | Significant-Gravitas/AutoGPT | OPEN(2026-11-11) | fix(backend): don't apply library agent PATCH fields when the version update is refused |
 | [#13336](https://github.com/wandb/wandb/pull/13336) | wandb/wandb | OPEN(2026-11-08) | fix(cli): materialize projects paginator before the length check |

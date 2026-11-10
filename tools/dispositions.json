@@ -4909,5 +4909,21 @@
  "crewaiinc/crewai#9336": {
   "date": "2026-11-11",
   "reason": "same-repo cap: 该仓在飞 2 个，硬上限 2"
+ },
+ "unstructured-io/unstructured#4692": {
+  "date": "2026-11-11",
+  "reason": "已实现开 PR: Unstructured-IO/unstructured#4693 — vMerge 递归改迭代 grid walk + origin 追踪; A/B rowspan 丢失→pass"
+ },
+ "arize-ai/phoenix#17841": {
+  "date": "2026-11-11",
+  "reason": "manual gate: CONTRIBUTING 明写 open issue 非投递邀请"
+ },
+ "aider-ai/aider#5975": {
+  "date": "2026-11-11",
+  "reason": "same-repo cap: 该仓在飞 2 个（#5945/#5952），硬上限 2"
+ },
+ "ukgovernmentbeis/inspect_ai#6470": {
+  "date": "2026-11-11",
+  "reason": "issue-readiness 门禁: 缺 accepted 标签"
  }
 }
