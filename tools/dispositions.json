@@ -4825,5 +4825,9 @@
  "deepset-ai/haystack#13671": {
   "date": "2026-11-11",
   "reason": "报告者闭环: HareeshDaxton 自开修复 PR #13672，timeline cross-referenced 确认"
+ },
+ "bytedance/deer-flow#8119": {
+  "date": "2026-11-11",
+  "reason": "needs-triage 未分诊 + deer-flow 需 LLM 服务端到端验证，无人值守不可验证"
  }
 }
