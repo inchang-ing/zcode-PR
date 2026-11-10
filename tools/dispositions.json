@@ -4837,5 +4837,9 @@
  "pydantic/pydantic-ai#13080": {
   "date": "2026-11-11",
   "reason": "受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "openhands/openhands#19618": {
+  "date": "2026-11-11",
+  "reason": "manual gate: openhands 人工门禁 —— PR 描述须含真人专属段（HUMAN + human-tested + e2e 证据），无人值守不可满足"
  }
 }
