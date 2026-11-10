@@ -5093,5 +5093,17 @@
  "kyegomez/swarms#3372": {
   "date": "2026-11-11",
   "reason": "维护者内部队列让位: kyegomez ai-generated 审计批量（规律 55）"
+ },
+ "openhands/openhands#19632": {
+  "date": "2026-11-11",
+  "reason": "manual gate: openhands HUMAN 实测段，无人值守不可满足"
+ },
+ "arize-ai/openinference#4275": {
+  "date": "2026-11-11",
+  "reason": "JS/TS 层让位: js langchain instrumentor 非 Python 可修"
+ },
+ "googleapis/python-genai#3349": {
+  "date": "2026-11-11",
+  "reason": "人工门禁: CLA-bot 须知误投为 issue + Google CLA 本人签署"
  }
 }
