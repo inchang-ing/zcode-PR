@@ -4726,3 +4726,10 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - monitor_oss: 75/75 盲点 0，零变化
 - review_sweep: 6 更新 0 人工活动，2 自动消解，0 ACTION
 - 0 干净候选，0 新 PR；dispositions 1246→1247
+## 2026-11-11 round 162（accelerate#4504 评审回应）
+- 收件箱 3→0：litellm#51029 cap、fastmcp#6439 assign 门禁、inspect_ai#6480 缺 accepted
+- **发现并行会话已推 571543a**（disambiguate gradient files + sync 门禁）——评审的 `_gradient_key`/`flat[:64].numpy()` 与双胞胎碰撞均在该提交上；按多会话规则 fetch fork 后在其上重做（丢弃本地基于 4a81e1b 的旧稿）
+- 33802c9 两修：① gradient_key 改 uint8 view 哈希（bf16 在 numpy 无表示，load 每次算 key 必炸——评审 torch 2.15 实测）；② key 仅唯一时认领 + 名字组内序数兜底 + 组内 payload 数 > 模型数（同名列被 hook 移除）→ 弃用告警，绝不猜
+- A/B（torch 2.15.0+cpu = 评审同版本）：571543a 基线 4 failed（removed_identical ×2 + bfloat16 ×2）/ 修复后 18 passed 全绿；新增 3 测试
+- 已推 571543a..33802c9 + [回评](https://github.com/huggingface/accelerate/pull/4504#issuecomment-6780452870)（含一个未决点：歧义组告警是否要附梯度范数）
+- monitor_oss 75/75；review_sweep 本 ACTION 已响应；dispositions 1247→1250
