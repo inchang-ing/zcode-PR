@@ -4601,3 +4601,14 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - monitor_oss: 72/72 干净，盲点 0，过期 0，本轮变化无（仅时间戳）
 - review_sweep: 3 PR 更新，0 人工活动，1 自动消解（我方最后回复），0 unknown
 - 0 干净候选，0 新 PR；PIPELINE_ENABLED=true
+## 2026-11-11 round 140（出 1 PR）
+- 收件箱 3→0：
+  - openinference#4271 → 同分钟闭环让位（eddii1 issue 21 秒后自开 PR #4272）
+  - litellm#50928 → same-repo cap（在飞 2，硬上限 2）
+  - autogpt#16714 → 实现，开 **Significant-Gravitas/AutoGPT#16718**（base dev）
+- #16718 要点：`PATCH /api/v2/library/agents/{id}` 坏 graph_version 返 404 但其余字段已写（update_many 先于版本校验事务）。修复=新增 `extra_fields` 参数把字段更新并入 `update_agent_version_in_library` 同一事务（版本/冲突检查之后落库）；连带修掉 conflict 报错路径的同型部分写
+- A/B：回归测试 `test_a_refused_version_leaves_the_other_fields_unwritten` 修复前 **fail**（update_many awaited 1x）/ 修复后 **pass**；受影响子集 16 passed + 1 环境性 error（SpinTestServer 需真实 Postgres，CI 覆盖）
+- 环境坑：prisma 客户端需 `prisma py generate`（PATH 需带 venv Scripts）；autogpt_libs 是仓内 workspace 包（pip install ../autogpt_libs）；`backend/copilot/host_fs.py` import 时用 POSIX-only os 标志 → work/tmp 写 pytest 插件补齐（-p win_os_flags_plugin）；mcp 需 <2；stripe 按 repo pin 11.5.0
+- 登记：STATE.md 72→73；dispositions 1188→1191；认领已释放（token a72827d7）
+- monitor_oss 73/73 盲点 0（新增在飞 autogpt#16718）；wandb#13336 CI 1✗ = mergefreeze 冻结门禁，非测试失败，不动
+- review_sweep 0 ACTION（4 更新 0 人工）

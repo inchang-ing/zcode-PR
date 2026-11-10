@@ -4749,5 +4749,17 @@
  "huggingface/smolagents#3145": {
   "date": "2026-11-10",
   "reason": "报告者自陈条件性修复意图: Happy to open a PR if you'd like（等维护者表态后自己动手）"
+ },
+ "arize-ai/openinference#4271": {
+  "date": "2026-11-11",
+  "reason": "同分钟闭环: 报告者 eddii1 于 issue 21 秒后自开修复 PR #4272"
+ },
+ "berriai/litellm#50928": {
+  "date": "2026-11-11",
+  "reason": "same-repo cap: 该仓在飞 2 个（STATE.md 台账），硬上限 2"
+ },
+ "significant-gravitas/autogpt#16714": {
+  "date": "2026-11-11",
+  "reason": "已实现开 PR: Significant-Gravitas/AutoGPT#16718 (base dev) — PATCH library agent 部分写 bug; 字段并入同事务 extra_fields; 回归测试修复前 fail 修复后 pass"
  }
 }
