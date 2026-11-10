@@ -4985,5 +4985,25 @@
  "pydantic/pydantic-ai#13094": {
   "date": "2026-11-11",
   "reason": "受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "berriai/litellm#51029": {
+  "date": "2026-11-11",
+  "reason": "same-repo cap: 该仓在飞 2 个，硬上限 2"
+ },
+ "prefecthq/fastmcp#6439": {
+  "date": "2026-11-11",
+  "reason": "manual gate: 须被 assign 才能落地"
+ },
+ "ukgovernmentbeis/inspect_ai#6480": {
+  "date": "2026-11-11",
+  "reason": "issue-readiness 门禁: 缺 accepted 标签"
+ },
+ "prefecthq/fastmcp#6441": {
+  "date": "2026-11-11",
+  "reason": "manual gate: 须被 assign 才能落地"
+ },
+ "pydantic/pydantic-ai#13100": {
+  "date": "2026-11-11",
+  "reason": "受限/禁投仓库: pydantic/pydantic-ai"
  }
 }
