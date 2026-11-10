@@ -4657,3 +4657,8 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - monitor_oss: 73/73 盲点 0，零变化
 - review_sweep: 4 更新 0 人工活动，0 ACTION
 - 0 干净候选，0 新 PR；dispositions 1211→1213
+## 2026-11-11 round 149（静默轮）
+- 收件箱 3→0：crewai#9332（cap 2 + 第三方 provider feature）、pydantic-ai#13082（禁投）、inspect_ai#6468（缺 accepted 标签门禁）
+- monitor_oss: 73/73 盲点 0，零变化
+- review_sweep: 4 更新 0 人工活动，0 ACTION
+- 0 干净候选，0 新 PR；dispositions 1213→1216

@@ -4849,5 +4849,17 @@
  "nvidia-nemo/guardrails#2590": {
   "date": "2026-11-11",
   "reason": "needs-triage 未分诊 + Deep Agents 示例文档类，非代码缺陷"
+ },
+ "crewaiinc/crewai#9332": {
+  "date": "2026-11-11",
+  "reason": "same-repo cap: 该仓在飞 2 个，硬上限 2；且第三方 provider feature"
+ },
+ "pydantic/pydantic-ai#13082": {
+  "date": "2026-11-11",
+  "reason": "受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "ukgovernmentbeis/inspect_ai#6468": {
+  "date": "2026-11-11",
+  "reason": "inspect_ai accepted-gate: 缺维护者 accepted 标签（外部 PR 须先 accepted）"
  }
 }
