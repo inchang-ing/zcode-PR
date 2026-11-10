@@ -4889,5 +4889,13 @@
  "docling-project/docling#5284": {
   "date": "2026-11-11",
   "reason": "same-repo cap: 该仓在飞 2 个，硬上限 2"
+ },
+ "arize-ai/phoenix#17839": {
+  "date": "2026-11-11",
+  "reason": "manual gate: CONTRIBUTING 明写 open issue 非投递邀请，须 maintainer 确认"
+ },
+ "huggingface/trl#8246": {
+  "date": "2026-11-11",
+  "reason": "manual gate: trl AI usage policy，无已合 PR 自证"
  }
 }
