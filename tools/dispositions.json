@@ -4841,5 +4841,13 @@
  "openhands/openhands#19618": {
   "date": "2026-11-11",
   "reason": "manual gate: openhands 人工门禁 —— PR 描述须含真人专属段（HUMAN + human-tested + e2e 证据），无人值守不可满足"
+ },
+ "agno-agi/agno#11571": {
+  "date": "2026-11-11",
+  "reason": "agno issue-readiness 门禁: 缺 ready 标签 + 第三方 Channel3Tools feature"
+ },
+ "nvidia-nemo/guardrails#2590": {
+  "date": "2026-11-11",
+  "reason": "needs-triage 未分诊 + Deep Agents 示例文档类，非代码缺陷"
  }
 }
