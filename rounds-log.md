@@ -4706,3 +4706,8 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - monitor_oss: 75/75 盲点 0，零变化
 - review_sweep: 6 更新 0 人工活动，2 自动消解，0 ACTION
 - 0 干净候选，0 新 PR；dispositions 1236→1240
+## 2026-11-11 round 158（静默轮）
+- 收件箱 1→0：docling#5288 cap（在飞 2）
+- monitor_oss: 75/75 盲点 0，零变化
+- review_sweep: 6 更新 0 人工活动，2 自动消解，0 ACTION
+- 0 干净候选，0 新 PR；dispositions 1240→1241
