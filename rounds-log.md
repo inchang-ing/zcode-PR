@@ -4612,3 +4612,9 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - 登记：STATE.md 72→73；dispositions 1188→1191；认领已释放（token a72827d7）
 - monitor_oss 73/73 盲点 0（新增在飞 autogpt#16718）；wandb#13336 CI 1✗ = mergefreeze 冻结门禁，非测试失败，不动
 - review_sweep 0 ACTION（4 更新 0 人工）
+## 2026-11-11 round 141（静默轮，16 项全让）
+- 收件箱 16→0：litellm cap×6（在飞 2）、pydantic-ai 禁投×5、llama_index cap（#23876/#23998/#24020 在飞 3）×1、docling cap×3、haystack#13671 报告者闭环（HareeshDaxton 自开 PR #13672，timeline 确认）
+- **离场记录：haystack#13607 CLOSED-UNMERGED**——维护者 sjrl 关闭："copy the dict yourself before passing to from_dict, we do not consider this something we need to fix per component"。整个 from_dict 拷贝家族（#13421/#13471/#13563/#13607 模式）被上游整体否决为按组件不修 → 该仓该家族不再投入
+- autogpt#16718 CI 1✗ = Vercel 授权门禁（fail@0s 未运行），后端 12✓ 余在跑
+- monitor_oss 73/73 盲点 0；review_sweep 0 ACTION（4 更新 0 人工）
+- 0 干净候选，0 新 PR；dispositions 1191→1207
