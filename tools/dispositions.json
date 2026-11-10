@@ -4925,5 +4925,21 @@
  "ukgovernmentbeis/inspect_ai#6470": {
   "date": "2026-11-11",
   "reason": "issue-readiness 门禁: 缺 accepted 标签"
+ },
+ "openai/openai-agents-python#5743": {
+  "date": "2026-11-11",
+  "reason": "受限/禁投仓库: openai/openai-agents-python"
+ },
+ "pydantic/pydantic-ai#13090": {
+  "date": "2026-11-11",
+  "reason": "受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "pydantic/pydantic-ai#13089": {
+  "date": "2026-11-11",
+  "reason": "受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "ukgovernmentbeis/inspect_ai#6472": {
+  "date": "2026-11-11",
+  "reason": "issue-readiness 门禁: 缺 accepted 标签"
  }
 }

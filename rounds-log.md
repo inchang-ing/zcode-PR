@@ -4691,3 +4691,8 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - 环境坑：测试构造合并须用 `w:val="restart"` 命名空间前缀（裸 `val` 被 typed attribute 读成 default "continue"，row 0 变 continue 使 python-docx `_cells` 组装即 IndexError）；python-docx merge 助手本身同递归，故用裸 XML 构造
 - STATE 74→75；dispositions 1228→1232；认领已释放
 - monitor_oss 75/75 盲点 0；pylint#11784 CI **43✓/0✗ 收官全绿**；review_sweep 0 ACTION
+## 2026-11-11 round 155（静默轮）
+- 收件箱 4→0：openai-agents-python#5743 禁投、pydantic-ai#13089/#13090 禁投、inspect_ai#6472 缺 accepted
+- monitor_oss: 75/75 盲点 0，零变化
+- review_sweep: 7 更新 0 人工活动，2 自动消解，0 ACTION
+- 0 干净候选，0 新 PR；dispositions 1232→1236
