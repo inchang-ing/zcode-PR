@@ -4668,3 +4668,8 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - **pylint#11784 评审回应**（saruk-vedant 两问）：Q2 单 `...` 与单 `pass` 同类（astroid Expr(Const(Ellipsis)) 被 visit_default 计数，main 实证 2/1 误报）→ 扩展占位分支；Q1 测试文件头加历史计数指引（指向 too_many_statements.py）；扩展 commit 0fc0729 已推，A/B: pre-extension functional FAIL / post PASS；docstring-only 体在 astroid 里 body=[]（前后不变）；sole-call 控制组保持 2/1
 - monitor_oss 74/74 盲点 0；review_sweep: pylint ACTION 已响应，browser-use#6310 UNKNOWN = 瞬态 API 错误（自动重试类）
 - dispositions 1216→1221；认领已释放
+## 2026-11-11 round 151（静默轮）
+- 收件箱 2→0：docling#5284 cap、pydantic-ai#13085 禁投
+- monitor_oss: 74/74 盲点 0；pylint#11784 新一轮 CI 11✓/0✗（23 在跑）；autogpt#16726 15✓/1✗（Vercel 门禁）
+- review_sweep: 6 更新 0 人工活动，2 自动消解（我方最后回复），0 unknown（上轮 browser-use 瞬态自愈）
+- 0 干净候选，0 新 PR；dispositions 1221→1223

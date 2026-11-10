@@ -4881,5 +4881,13 @@
  "openinterpreter/openinterpreter#1980": {
   "date": "2026-11-11",
   "reason": "非代码任务: App 使用定制问询，非代码缺陷"
+ },
+ "pydantic/pydantic-ai#13085": {
+  "date": "2026-11-11",
+  "reason": "受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "docling-project/docling#5284": {
+  "date": "2026-11-11",
+  "reason": "same-repo cap: 该仓在飞 2 个，硬上限 2"
  }
 }
