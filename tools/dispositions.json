@@ -5117,5 +5117,13 @@
  "pydantic/pydantic-ai#13129": {
   "date": "2026-11-11",
   "reason": "受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "google/adk-python#8090": {
+  "date": "2026-11-11",
+  "reason": "manual gate: Google CLA + 非征询不可投"
+ },
+ "pydantic/pydantic-ai#13132": {
+  "date": "2026-11-11",
+  "reason": "受限/禁投仓库: pydantic/pydantic-ai"
  }
 }
