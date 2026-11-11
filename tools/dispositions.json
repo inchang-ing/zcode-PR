@@ -5105,5 +5105,17 @@
  "googleapis/python-genai#3349": {
   "date": "2026-11-11",
   "reason": "人工门禁: CLA-bot 须知误投为 issue + Google CLA 本人签署"
+ },
+ "berriai/litellm#51070": {
+  "date": "2026-11-11",
+  "reason": "same-repo cap: 该仓在飞 2 个，硬上限 2"
+ },
+ "pydantic/pydantic-ai#13131": {
+  "date": "2026-11-11",
+  "reason": "受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "pydantic/pydantic-ai#13129": {
+  "date": "2026-11-11",
+  "reason": "受限/禁投仓库: pydantic/pydantic-ai"
  }
 }
