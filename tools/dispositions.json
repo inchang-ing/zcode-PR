@@ -5125,5 +5125,13 @@
  "pydantic/pydantic-ai#13132": {
   "date": "2026-11-11",
   "reason": "受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "berriai/litellm#51074": {
+  "date": "2026-11-11",
+  "reason": "same-repo cap: 该仓在飞 2 个，硬上限 2；且新 provider feature"
+ },
+ "pydantic/pydantic-ai#13135": {
+  "date": "2026-11-11",
+  "reason": "受限/禁投仓库: pydantic/pydantic-ai"
  }
 }
