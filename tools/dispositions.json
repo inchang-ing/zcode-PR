@@ -9003,5 +9003,25 @@
  "langchain-ai/langchain#41842": {
   "date": "2026-11-14",
   "reason": "assign 门禁仓: 须先分配给当前账号才可开工"
+ },
+ "agno-agi/agno#11651": {
+  "date": "2026-11-14",
+  "reason": "agno issue-readiness 门禁: 缺 ready 标签"
+ },
+ "agno-agi/agno#11650": {
+  "date": "2026-11-14",
+  "reason": "agno issue-readiness 门禁: 缺 ready 标签"
+ },
+ "agno-agi/agno#11649": {
+  "date": "2026-11-14",
+  "reason": "agno issue-readiness 门禁: 缺 ready 标签"
+ },
+ "openhands/openhands#19718": {
+  "date": "2026-11-14",
+  "reason": "manual gate: openhands HUMAN 实测段"
+ },
+ "berriai/litellm#51648": {
+  "date": "2026-11-14",
+  "reason": "same-repo cap: 该仓在飞 2 个，硬上限 2"
  }
 }
