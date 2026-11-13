@@ -8975,5 +8975,25 @@
  "pydantic/pydantic-ai#13405": {
   "date": "2026-11-14",
   "reason": "受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "agno-agi/agno#11644": {
+  "date": "2026-11-14",
+  "reason": "agno issue-readiness 门禁: 缺 ready 标签"
+ },
+ "bytedance/deer-flow#8228": {
+  "date": "2026-11-14",
+  "reason": "needs-triage 未分诊 + LLM 服务验证类"
+ },
+ "mem0ai/mem0#7913": {
+  "date": "2026-11-14",
+  "reason": "issue-readiness 门禁: 缺 accepted + 新 plugin feature 须维护者背书"
+ },
+ "huggingface/accelerate#4549": {
+  "date": "2026-11-14",
+  "reason": "design-yield (fastmcp#6035 先例): save_state 崩溃一致性须设计决策——临时目录原子 rename 或完成标记 + load 跳过/清理不完整目录 + 多进程 barrier/crash 语义；与在飞 #4504 同函数待其落地后再议。根因: automatic_checkpoint_naming 直接写最终目录且无完成标记, 崩溃后 load_state 无路径时选中不完整 checkpoint_<i> 报错或缺随机状态。可行路径: (a) checkpoint_<i>.tmp 写满后 os.rename 到最终名（同目录同 FS, POSIX 原子; Windows 目标不存在时 rename 可用）(b) 完成标记文件 + load 侧跳过 + save 侧清理遗留 tmp；两案均需 maintainer 选型与多进程语义确认"
+ },
+ "run-llama/llama_index#24183": {
+  "date": "2026-11-14",
+  "reason": "same-repo cap: 该仓在飞 3 个，硬上限 2"
  }
 }
