@@ -9275,5 +9275,9 @@
  "pydantic/pydantic-ai#13431": {
   "date": "2026-11-14",
   "reason": "受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "google/adk-python#8130": {
+  "date": "2026-11-14",
+  "reason": "manual gate: Google CLA + 非征询不可投"
  }
 }
