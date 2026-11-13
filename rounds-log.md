@@ -5218,3 +5218,8 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - 流程坑：commit 误落在 #5341 分支上 → 基于 main 建新分支 cherry-pick + 强推替换远端；#5341 远端分支此前已推未受污染，本地分支重置回 d6dfae7 对齐 PR
 - STATE 78→79；dispositions 2283→2284；认领已释放
 - monitor_oss 79/79 盲点 0；docling#5341 CI 10✓/0✗ 收官；review_sweep 0 ACTION
+## 2026-11-14 round 190（CI lint 修复）
+- 收件箱 2→0：docling#5342 cap（#5341/#5344 在飞满）、tokenizers#2690 Rust core 让位（#2655 同类）
+- docling#5344 CI lint-and-type ✗ = ruff-format（测试行超宽）→ 按 repo pin ruff 本地 format + check 双清、835fbd1 已推
+- monitor_oss 79/79 盲点 0；review_sweep 0 ACTION
+- 0 干净候选；dispositions 2284→2286
