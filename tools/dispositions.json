@@ -9395,5 +9395,21 @@
  "docling-project/docling#5353": {
   "date": "2026-11-14",
   "reason": "same-repo cap: 该仓在飞 2 个（#5341/#5344），硬上限 2"
+ },
+ "openhands/openhands#19731": {
+  "date": "2026-11-14",
+  "reason": "manual gate: openhands HUMAN 实测段"
+ },
+ "langchain-ai/langchain#41854": {
+  "date": "2026-11-14",
+  "reason": "assign 门禁仓: 须先分配给当前账号"
+ },
+ "pydantic/pydantic-ai#13438": {
+  "date": "2026-11-14",
+  "reason": "受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "pydantic/pydantic-ai#13437": {
+  "date": "2026-11-14",
+  "reason": "受限/禁投仓库: pydantic/pydantic-ai"
  }
 }
