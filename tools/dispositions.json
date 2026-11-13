@@ -8995,5 +8995,9 @@
  "run-llama/llama_index#24183": {
   "date": "2026-11-14",
   "reason": "same-repo cap: 该仓在飞 3 个，硬上限 2"
+ },
+ "berriai/litellm#51638": {
+  "date": "2026-11-14",
+  "reason": "same-repo cap: 该仓在飞 2 个，硬上限 2"
  }
 }
