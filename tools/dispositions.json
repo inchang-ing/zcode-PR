@@ -8923,5 +8923,17 @@
  "livekit/agents#8536": {
   "date": "2026-11-13",
   "reason": "manual gate: livekit 首个 PR 须本人网页签 CLA（复投幂等重标）"
+ },
+ "agno-agi/agno#11641": {
+  "date": "2026-11-13",
+  "reason": "agno issue-readiness 门禁: 缺 ready 标签"
+ },
+ "agno-agi/agno#11640": {
+  "date": "2026-11-13",
+  "reason": "agno issue-readiness 门禁: 缺 ready 标签"
+ },
+ "pydantic/pydantic-ai#13398": {
+  "date": "2026-11-13",
+  "reason": "受限/禁投仓库: pydantic/pydantic-ai"
  }
 }
