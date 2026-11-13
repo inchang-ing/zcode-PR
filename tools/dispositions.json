@@ -9239,5 +9239,17 @@
  "pydantic/pydantic-ai#13424": {
   "date": "2026-11-14",
   "reason": "受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "openhands/openhands#19721": {
+  "date": "2026-11-14",
+  "reason": "manual gate: openhands HUMAN 实测段"
+ },
+ "kyegomez/swarms#3423": {
+  "date": "2026-11-14",
+  "reason": "维护者内部队列让位: kyegomez ai-generated 审计批量（规律 55）"
+ },
+ "pydantic/pydantic-ai#13426": {
+  "date": "2026-11-14",
+  "reason": "受限/禁投仓库: pydantic/pydantic-ai"
  }
 }
