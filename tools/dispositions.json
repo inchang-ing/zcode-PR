@@ -9219,5 +9219,21 @@
  "berriai/litellm#51691": {
   "date": "2026-11-14",
   "reason": "same-repo cap: 该仓在飞 2 个，硬上限 2"
+ },
+ "huggingface/trl#8367": {
+  "date": "2026-11-14",
+  "reason": "manual gate: trl AI usage policy"
+ },
+ "huggingface/trl#8366": {
+  "date": "2026-11-14",
+  "reason": "manual gate: trl AI usage policy"
+ },
+ "pydantic/pydantic-ai#13421": {
+  "date": "2026-11-14",
+  "reason": "受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "pydantic/pydantic-ai#13420": {
+  "date": "2026-11-14",
+  "reason": "受限/禁投仓库: pydantic/pydantic-ai"
  }
 }
