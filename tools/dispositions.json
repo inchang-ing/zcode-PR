@@ -9251,5 +9251,25 @@
  "pydantic/pydantic-ai#13426": {
   "date": "2026-11-14",
   "reason": "受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "openhands/openhands#19724": {
+  "date": "2026-11-14",
+  "reason": "manual gate: openhands HUMAN 实测段"
+ },
+ "openhands/openhands#19723": {
+  "date": "2026-11-14",
+  "reason": "manual gate: openhands HUMAN 实测段"
+ },
+ "mem0ai/mem0#7915": {
+  "date": "2026-11-14",
+  "reason": "issue-readiness 门禁: 缺 accepted 标签"
+ },
+ "pydantic/pydantic-ai#13428": {
+  "date": "2026-11-14",
+  "reason": "受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "pydantic/pydantic-ai#13427": {
+  "date": "2026-11-14",
+  "reason": "受限/禁投仓库: pydantic/pydantic-ai"
  }
 }
