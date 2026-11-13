@@ -5153,3 +5153,8 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - monitor_oss: 77/77 盲点 0，零变化
 - review_sweep: 2 更新 0 人工活动，1 自动消解，0 ACTION
 - 0 干净候选，0 新 PR；dispositions 2229→2232
+## 2026-11-14 round 178（静默轮）
+- 收件箱 5→0：agno#11642 缺 ready、deer-flow#8226 needs-triage、mcp-sdk#3856 assign 门禁、pydantic-ai#13399 禁投、llama_index#24180 cap（在飞 3）
+- monitor_oss: 77/77 盲点 0，零变化
+- review_sweep: 2 更新 0 人工活动，1 自动消解，0 ACTION
+- 0 干净候选，0 新 PR；dispositions 2232→2237
