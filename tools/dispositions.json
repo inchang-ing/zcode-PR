@@ -9391,5 +9391,9 @@
  "agentscope-ai/agentscope#4013": {
   "date": "2026-11-14",
   "reason": "same-repo cap: 该仓在飞 2 个，硬上限 2"
+ },
+ "docling-project/docling#5353": {
+  "date": "2026-11-14",
+  "reason": "same-repo cap: 该仓在飞 2 个（#5341/#5344），硬上限 2"
  }
 }
