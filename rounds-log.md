@@ -5283,3 +5283,9 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - monitor_oss: 79/79 盲点 0，零变化
 - review_sweep: 4 更新 0 人工活动，1 自动消解，0 ACTION
 - 0 干净候选，0 新 PR；dispositions 2322→2329
+## 2026-11-14 round 203（双离场 + 政策更新）
+- **accelerate#4504/#4507 双双 CLOSED-UNMERGED**——维护者 SunMarc 按新 CONTRIBUTING 过渡期批量关闭存量 PR（"update your PR accordingly, and reopen"）。新流程：PR 须含 `## Use case` 真实用例段（agent 只能写用户提供的用例，没有须如实写 "I do not have a use case"），空用例/超 250 词 open/reopen 即被 bot 自动关；描述 ≤250 词；优先扩展现有测试而非新增
+- **判定：本流水线无真实用例可填 → 不可合规重开**（编造用例违反指南与诚实规范）。修复内容保留在 fork 分支（4504: 571543a→33802c9 线含 bf16/歧义弃用；4507: 重绑定）
+- **repository_policy.py 新增 huggingface/accelerate 门禁条目**（interaction_hold 类：须账号持有人提供真实 use case 并本人复核）——policy sanity 四仓断言全过
+- dispositions 2329→2336；monitor 77/77（79→77 随双离场自动清账）
+- 经验：huggingface 系仓库（accelerate/peft/trl）已全部转向「真实用例 + 反纯 agent」政策，该系后续投递价值重估

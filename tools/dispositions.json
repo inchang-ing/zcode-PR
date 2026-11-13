@@ -9323,5 +9323,33 @@
  "pydantic/pydantic-ai#13432": {
   "date": "2026-11-14",
   "reason": "受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "agno-agi/agno#11658": {
+  "date": "2026-11-14",
+  "reason": "agno issue-readiness 门禁: 缺 ready 标签"
+ },
+ "agno-agi/agno#11659": {
+  "date": "2026-11-14",
+  "reason": "agno issue-readiness 门禁: 缺 ready 标签"
+ },
+ "agno-agi/agno#11660": {
+  "date": "2026-11-14",
+  "reason": "agno issue-readiness 门禁: 缺 ready 标签"
+ },
+ "berriai/litellm#51723": {
+  "date": "2026-11-14",
+  "reason": "same-repo cap: 该仓在飞 2 个，硬上限 2；且 model-map 语义 feature"
+ },
+ "kyegomez/swarms#3425": {
+  "date": "2026-11-14",
+  "reason": "维护者内部队列让位: kyegomez ai-generated 审计批量（规律 55）"
+ },
+ "huggingface/accelerate#4504": {
+  "date": "2026-11-14",
+  "reason": "离场: CLOSED-UNMERGED——维护者 SunMarc 按新 CONTRIBUTING 过渡期批量关闭存量 PR；新流程要求 ## Use case 真实用例段（空则 bot 自动关），agent 无真实用例不可合规重开；修复内容（per-process gradient files + bf16 key + 歧义弃用）保留在 fork persist-partial-gradients-4503@33802c9+835fbd1 前身 571543a 线"
+ },
+ "huggingface/accelerate#4507": {
+  "date": "2026-11-14",
+  "reason": "离场: CLOSED-UNMERGED——同 #4504，新 CONTRIBUTING 过渡期批量关闭（BatchSamplerShard padding 重绑定修复保留在 fork fix 分支）"
  }
 }
