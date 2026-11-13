@@ -9295,5 +9295,33 @@
  "docling-project/docling#5351": {
   "date": "2026-11-14",
   "reason": "same-repo cap: 该仓在飞 2 个（#5341/#5344），硬上限 2"
+ },
+ "agno-agi/agno#11657": {
+  "date": "2026-11-14",
+  "reason": "agno issue-readiness 门禁: 缺 ready 标签"
+ },
+ "google/adk-python#8137": {
+  "date": "2026-11-14",
+  "reason": "manual gate: Google CLA + 非征询不可投"
+ },
+ "google/adk-python#8133": {
+  "date": "2026-11-14",
+  "reason": "manual gate: Google CLA + 非征询不可投"
+ },
+ "google/adk-python#8132": {
+  "date": "2026-11-14",
+  "reason": "manual gate: Google CLA + 非征询不可投"
+ },
+ "google/adk-python#8131": {
+  "date": "2026-11-14",
+  "reason": "manual gate: Google CLA + 非征询不可投"
+ },
+ "langchain-ai/langchain#41852": {
+  "date": "2026-11-14",
+  "reason": "assign 门禁仓: 须先分配给当前账号"
+ },
+ "pydantic/pydantic-ai#13432": {
+  "date": "2026-11-14",
+  "reason": "受限/禁投仓库: pydantic/pydantic-ai"
  }
 }
