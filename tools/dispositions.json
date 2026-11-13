@@ -8955,5 +8955,13 @@
  "run-llama/llama_index#24180": {
   "date": "2026-11-14",
   "reason": "same-repo cap: 该仓在飞 3 个，硬上限 2"
+ },
+ "modelcontextprotocol/python-sdk#3857": {
+  "date": "2026-11-14",
+  "reason": "manual gate: 须 maintainer 先 assign"
+ },
+ "pydantic/pydantic-ai#13404": {
+  "date": "2026-11-14",
+  "reason": "受限/禁投仓库: pydantic/pydantic-ai"
  }
 }
