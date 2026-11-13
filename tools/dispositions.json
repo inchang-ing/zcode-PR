@@ -9279,5 +9279,17 @@
  "google/adk-python#8130": {
   "date": "2026-11-14",
   "reason": "manual gate: Google CLA + 非征询不可投"
+ },
+ "openhands/openhands#19727": {
+  "date": "2026-11-14",
+  "reason": "manual gate: openhands HUMAN 实测段"
+ },
+ "prefecthq/fastmcp#6485": {
+  "date": "2026-11-14",
+  "reason": "manual gate: 须被 assign 才能落地"
+ },
+ "langchain-ai/langchain#41851": {
+  "date": "2026-11-14",
+  "reason": "assign 门禁仓: 须先分配给当前账号"
  }
 }
