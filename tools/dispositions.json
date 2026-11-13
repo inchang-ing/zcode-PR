@@ -9155,5 +9155,69 @@
  "pydantic/pydantic-ai#13412": {
   "date": "2026-11-14",
   "reason": "受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "huggingface/trl#8352": {
+  "date": "2026-11-14",
+  "reason": "manual gate: trl AI usage policy"
+ },
+ "huggingface/trl#8353": {
+  "date": "2026-11-14",
+  "reason": "manual gate: trl AI usage policy"
+ },
+ "huggingface/trl#8354": {
+  "date": "2026-11-14",
+  "reason": "manual gate: trl AI usage policy"
+ },
+ "huggingface/trl#8355": {
+  "date": "2026-11-14",
+  "reason": "manual gate: trl AI usage policy"
+ },
+ "huggingface/trl#8356": {
+  "date": "2026-11-14",
+  "reason": "manual gate: trl AI usage policy"
+ },
+ "huggingface/trl#8357": {
+  "date": "2026-11-14",
+  "reason": "manual gate: trl AI usage policy"
+ },
+ "huggingface/trl#8358": {
+  "date": "2026-11-14",
+  "reason": "manual gate: trl AI usage policy"
+ },
+ "huggingface/trl#8359": {
+  "date": "2026-11-14",
+  "reason": "manual gate: trl AI usage policy"
+ },
+ "huggingface/trl#8360": {
+  "date": "2026-11-14",
+  "reason": "manual gate: trl AI usage policy"
+ },
+ "huggingface/trl#8361": {
+  "date": "2026-11-14",
+  "reason": "manual gate: trl AI usage policy"
+ },
+ "huggingface/trl#8362": {
+  "date": "2026-11-14",
+  "reason": "manual gate: trl AI usage policy"
+ },
+ "huggingface/trl#8363": {
+  "date": "2026-11-14",
+  "reason": "manual gate: trl AI usage policy"
+ },
+ "huggingface/trl#8364": {
+  "date": "2026-11-14",
+  "reason": "manual gate: trl AI usage policy"
+ },
+ "huggingface/trl#8365": {
+  "date": "2026-11-14",
+  "reason": "manual gate: trl AI usage policy"
+ },
+ "docling-project/docling#5345": {
+  "date": "2026-11-14",
+  "reason": "same-repo cap: 该仓在飞 2 个，硬上限 2"
+ },
+ "berriai/litellm#51691": {
+  "date": "2026-11-14",
+  "reason": "same-repo cap: 该仓在飞 2 个，硬上限 2"
  }
 }
