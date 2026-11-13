@@ -9291,5 +9291,9 @@
  "langchain-ai/langchain#41851": {
   "date": "2026-11-14",
   "reason": "assign 门禁仓: 须先分配给当前账号"
+ },
+ "docling-project/docling#5351": {
+  "date": "2026-11-14",
+  "reason": "same-repo cap: 该仓在飞 2 个（#5341/#5344），硬上限 2"
  }
 }
