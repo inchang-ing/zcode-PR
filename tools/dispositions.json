@@ -9023,5 +9023,13 @@
  "berriai/litellm#51648": {
   "date": "2026-11-14",
   "reason": "same-repo cap: 该仓在飞 2 个，硬上限 2"
+ },
+ "agno-agi/agno#11653": {
+  "date": "2026-11-14",
+  "reason": "agno issue-readiness 门禁: 缺 ready 标签"
+ },
+ "bytedance/deer-flow#8230": {
+  "date": "2026-11-14",
+  "reason": "needs-triage 未分诊 + LLM 服务验证类"
  }
 }
