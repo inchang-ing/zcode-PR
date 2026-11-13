@@ -5211,3 +5211,10 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - docling venv 新建 work/docling_venv（PyPI wheel + PYTHONPATH=克隆 覆盖代码）
 - STATE 77→78；dispositions 2271→2283；认领已释放
 - monitor_oss 78/78 盲点 0；review_sweep 0 ACTION
+## 2026-11-14 round 189（出 1 PR）
+- 收件箱 5→0：agno#11655 缺 ready、openhands#19719 HUMAN、pydantic-ai#13409/#13410 禁投、**docling#5340 → 实现**（timeline 空无竞品，docling 有座）
+- **docling#5344**（base main）：SimpleSceneChangeFrameSampler.detect_scenes 把 diffs[p] 峰当作 timestamps[p] 边界，但 diffs[p] 是 p 与 p+1 帧之差 → 新场景应始于 timestamps[p+1]（原实现早一个探测间隔，默认 1fps 边界全早 1 秒，短场景代表帧可能取自上一场景）。修复=边界与过近过滤均索引 p+1（p+1 恒在界内）
+- A/B：回归测试（合成 10 帧 0-4 黑 5-9 白，stub 探针无需 ffmpeg）基线 fail(4.0)→pass(5.0)；其余失败与 main 逐项一致（环境性）零新增
+- 流程坑：commit 误落在 #5341 分支上 → 基于 main 建新分支 cherry-pick + 强推替换远端；#5341 远端分支此前已推未受污染，本地分支重置回 d6dfae7 对齐 PR
+- STATE 78→79；dispositions 2283→2284；认领已释放
+- monitor_oss 79/79 盲点 0；docling#5341 CI 10✓/0✗ 收官；review_sweep 0 ACTION

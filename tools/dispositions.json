@@ -9139,5 +9139,9 @@
  "google/adk-python#8129": {
   "date": "2026-11-14",
   "reason": "manual gate: Google CLA + 非征询不可投"
+ },
+ "docling-project/docling#5340": {
+  "date": "2026-11-14",
+  "reason": "已实现开 PR: docling-project/docling#5344 — 场景边界取 timestamps[p+1] 修正 off-by-one; A/B fail→pass"
  }
 }
