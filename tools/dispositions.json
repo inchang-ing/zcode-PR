@@ -9411,5 +9411,45 @@
  "pydantic/pydantic-ai#13437": {
   "date": "2026-11-14",
   "reason": "受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "agno-agi/agno#11665": {
+  "date": "2026-11-14",
+  "reason": "agno issue-readiness 门禁: 缺 ready 标签"
+ },
+ "agno-agi/agno#11666": {
+  "date": "2026-11-14",
+  "reason": "agno issue-readiness 门禁: 缺 ready 标签"
+ },
+ "agno-agi/agno#11667": {
+  "date": "2026-11-14",
+  "reason": "agno issue-readiness 门禁: 缺 ready 标签"
+ },
+ "agno-agi/agno#11668": {
+  "date": "2026-11-14",
+  "reason": "agno issue-readiness 门禁: 缺 ready 标签"
+ },
+ "agno-agi/agno#11669": {
+  "date": "2026-11-14",
+  "reason": "agno issue-readiness 门禁: 缺 ready 标签"
+ },
+ "huggingface/accelerate#4553": {
+  "date": "2026-11-14",
+  "reason": "interaction_hold: CONTRIBUTING 新版须 ## Use case 真实用例段，agent 无真实用例不可填"
+ },
+ "huggingface/accelerate#4555": {
+  "date": "2026-11-14",
+  "reason": "interaction_hold: CONTRIBUTING 新版须 ## Use case 真实用例段，agent 无真实用例不可填"
+ },
+ "openai/openai-agents-python#5965": {
+  "date": "2026-11-14",
+  "reason": "受限/禁投仓库: openai/openai-agents-python"
+ },
+ "pydantic/pydantic-ai#13440": {
+  "date": "2026-11-14",
+  "reason": "受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "pydantic/pydantic-ai#13439": {
+  "date": "2026-11-14",
+  "reason": "受限/禁投仓库: pydantic/pydantic-ai"
  }
 }
