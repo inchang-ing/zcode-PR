@@ -9351,5 +9351,21 @@
  "huggingface/accelerate#4507": {
   "date": "2026-11-14",
   "reason": "离场: CLOSED-UNMERGED——同 #4504，新 CONTRIBUTING 过渡期批量关闭（BatchSamplerShard padding 重绑定修复保留在 fork fix 分支）"
+ },
+ "agno-agi/agno#11661": {
+  "date": "2026-11-14",
+  "reason": "agno issue-readiness 门禁: 缺 ready 标签"
+ },
+ "agno-agi/agno#11662": {
+  "date": "2026-11-14",
+  "reason": "agno issue-readiness 门禁: 缺 ready 标签"
+ },
+ "agno-agi/agno#11663": {
+  "date": "2026-11-14",
+  "reason": "agno issue-readiness 门禁: 缺 ready 标签"
+ },
+ "huggingface/huggingface_hub#5357": {
+  "date": "2026-11-14",
+  "reason": "报告者条件式修复意向: I can open a PR if you would like one（smolagents#3145 同型先例）"
  }
 }
