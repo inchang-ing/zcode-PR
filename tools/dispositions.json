@@ -9091,5 +9091,53 @@
  "langflow-ai/langflow#16412": {
   "date": "2026-11-14",
   "reason": "assign 门禁仓: 须先分配给当前账号才可开工"
+ },
+ "docling-project/docling#5339": {
+  "date": "2026-11-14",
+  "reason": "已实现开 PR: docling-project/docling#5341 — 双 HTML 格式同请时 split_page.html 后缀防覆盖; A/B fail→114 passed"
+ },
+ "huggingface/trl#8344": {
+  "date": "2026-11-14",
+  "reason": "manual gate: trl AI usage policy"
+ },
+ "huggingface/trl#8345": {
+  "date": "2026-11-14",
+  "reason": "manual gate: trl AI usage policy"
+ },
+ "huggingface/trl#8346": {
+  "date": "2026-11-14",
+  "reason": "manual gate: trl AI usage policy"
+ },
+ "huggingface/trl#8347": {
+  "date": "2026-11-14",
+  "reason": "manual gate: trl AI usage policy"
+ },
+ "huggingface/trl#8348": {
+  "date": "2026-11-14",
+  "reason": "manual gate: trl AI usage policy"
+ },
+ "huggingface/trl#8349": {
+  "date": "2026-11-14",
+  "reason": "manual gate: trl AI usage policy"
+ },
+ "huggingface/trl#8350": {
+  "date": "2026-11-14",
+  "reason": "manual gate: trl AI usage policy"
+ },
+ "huggingface/trl#8351": {
+  "date": "2026-11-14",
+  "reason": "manual gate: trl AI usage policy"
+ },
+ "agno-agi/agno#11654": {
+  "date": "2026-11-14",
+  "reason": "agno issue-readiness 门禁: 缺 ready 标签"
+ },
+ "berriai/litellm#51666": {
+  "date": "2026-11-14",
+  "reason": "same-repo cap: 该仓在飞 2 个，硬上限 2"
+ },
+ "google/adk-python#8129": {
+  "date": "2026-11-14",
+  "reason": "manual gate: Google CLA + 非征询不可投"
  }
 }

@@ -5204,3 +5204,10 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - monitor_oss: 77/77 盲点 0，零变化
 - review_sweep: 2 更新 0 人工活动，1 自动消解，0 ACTION
 - 0 干净候选，0 新 PR；dispositions 2256→2271
+## 2026-11-14 round 188（出 1 PR）
+- 收件箱 13→0：trl#8344-8351 AI policy×8、agno#11654 缺 ready、litellm#51666 cap、adk#8129 CLA、**docling#5339 → 实现**（timeline 空无竞品）
+- **docling#5341**（base main）：CLI 同时请求 html 与 html_split_page 时两分支都写 <stem>.html，split-page 后写覆盖普通 HTML。修复=双格式同请时 split-page 写 <stem>.split_page.html；仅 split-page 时保持 <stem>.html 原名（单格式用户零变化）；显式 --output 不动
+- A/B：2 个回归测试（双格式两文件共存 + 单格式原名保持）基线 fail→全文件 114 passed
+- docling venv 新建 work/docling_venv（PyPI wheel + PYTHONPATH=克隆 覆盖代码）
+- STATE 77→78；dispositions 2271→2283；认领已释放
+- monitor_oss 78/78 盲点 0；review_sweep 0 ACTION
