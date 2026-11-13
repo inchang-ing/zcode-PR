@@ -8963,5 +8963,17 @@
  "pydantic/pydantic-ai#13404": {
   "date": "2026-11-14",
   "reason": "受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "huggingface/trl#8339": {
+  "date": "2026-11-14",
+  "reason": "manual gate: trl AI usage policy"
+ },
+ "pydantic/pydantic-ai#13406": {
+  "date": "2026-11-14",
+  "reason": "受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "pydantic/pydantic-ai#13405": {
+  "date": "2026-11-14",
+  "reason": "受限/禁投仓库: pydantic/pydantic-ai"
  }
 }
