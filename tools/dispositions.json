@@ -9031,5 +9031,65 @@
  "bytedance/deer-flow#8230": {
   "date": "2026-11-14",
   "reason": "needs-triage 未分诊 + LLM 服务验证类"
+ },
+ "huggingface/trl#8340": {
+  "date": "2026-11-14",
+  "reason": "manual gate: trl AI usage policy"
+ },
+ "huggingface/trl#8341": {
+  "date": "2026-11-14",
+  "reason": "manual gate: trl AI usage policy"
+ },
+ "huggingface/trl#8342": {
+  "date": "2026-11-14",
+  "reason": "manual gate: trl AI usage policy"
+ },
+ "huggingface/trl#8343": {
+  "date": "2026-11-14",
+  "reason": "manual gate: trl AI usage policy"
+ },
+ "langflow-ai/langflow#16402": {
+  "date": "2026-11-14",
+  "reason": "assign 门禁仓: 须先分配给当前账号才可开工"
+ },
+ "langflow-ai/langflow#16403": {
+  "date": "2026-11-14",
+  "reason": "assign 门禁仓: 须先分配给当前账号才可开工"
+ },
+ "langflow-ai/langflow#16404": {
+  "date": "2026-11-14",
+  "reason": "assign 门禁仓: 须先分配给当前账号才可开工"
+ },
+ "langflow-ai/langflow#16405": {
+  "date": "2026-11-14",
+  "reason": "assign 门禁仓: 须先分配给当前账号才可开工"
+ },
+ "langflow-ai/langflow#16406": {
+  "date": "2026-11-14",
+  "reason": "assign 门禁仓: 须先分配给当前账号才可开工"
+ },
+ "langflow-ai/langflow#16407": {
+  "date": "2026-11-14",
+  "reason": "assign 门禁仓: 须先分配给当前账号才可开工"
+ },
+ "langflow-ai/langflow#16408": {
+  "date": "2026-11-14",
+  "reason": "assign 门禁仓: 须先分配给当前账号才可开工"
+ },
+ "langflow-ai/langflow#16409": {
+  "date": "2026-11-14",
+  "reason": "assign 门禁仓: 须先分配给当前账号才可开工"
+ },
+ "langflow-ai/langflow#16410": {
+  "date": "2026-11-14",
+  "reason": "assign 门禁仓: 须先分配给当前账号才可开工"
+ },
+ "langflow-ai/langflow#16411": {
+  "date": "2026-11-14",
+  "reason": "assign 门禁仓: 须先分配给当前账号才可开工"
+ },
+ "langflow-ai/langflow#16412": {
+  "date": "2026-11-14",
+  "reason": "assign 门禁仓: 须先分配给当前账号才可开工"
  }
 }
