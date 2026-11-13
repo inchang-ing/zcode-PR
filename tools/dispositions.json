@@ -9367,5 +9367,29 @@
  "huggingface/huggingface_hub#5357": {
   "date": "2026-11-14",
   "reason": "报告者条件式修复意向: I can open a PR if you would like one（smolagents#3145 同型先例）"
+ },
+ "agno-agi/agno#11664": {
+  "date": "2026-11-14",
+  "reason": "agno issue-readiness 门禁: 缺 ready 标签"
+ },
+ "openhands/openhands#19730": {
+  "date": "2026-11-14",
+  "reason": "manual gate: openhands HUMAN 实测段"
+ },
+ "google/adk-python#8139": {
+  "date": "2026-11-14",
+  "reason": "manual gate: Google CLA + 非征询不可投"
+ },
+ "huggingface/setfit#675": {
+  "date": "2026-11-14",
+  "reason": "issue-readiness 门禁: 缺 accepted 标签"
+ },
+ "langchain-ai/langchain#41853": {
+  "date": "2026-11-14",
+  "reason": "assign 门禁仓 + 新 feature"
+ },
+ "agentscope-ai/agentscope#4013": {
+  "date": "2026-11-14",
+  "reason": "same-repo cap: 该仓在飞 2 个，硬上限 2"
  }
 }
