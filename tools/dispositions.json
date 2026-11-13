@@ -9151,5 +9151,9 @@
  "huggingface/tokenizers#2690": {
   "date": "2026-11-14",
   "reason": "Rust core 让位: tokenizers v1 实现层在 Rust，非 Python 可修（#2655 同类）"
+ },
+ "pydantic/pydantic-ai#13412": {
+  "date": "2026-11-14",
+  "reason": "受限/禁投仓库: pydantic/pydantic-ai"
  }
 }

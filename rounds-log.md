@@ -5223,3 +5223,8 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - docling#5344 CI lint-and-type ✗ = ruff-format（测试行超宽）→ 按 repo pin ruff 本地 format + check 双清、835fbd1 已推
 - monitor_oss 79/79 盲点 0；review_sweep 0 ACTION
 - 0 干净候选；dispositions 2284→2286
+## 2026-11-14 round 191（静默轮）
+- 收件箱 1→0：pydantic-ai#13412 禁投
+- monitor_oss: 79/79 盲点 0；docling#5344 CI **11✓/0✗ 收官全绿**（ruff-format 修复生效）
+- review_sweep: 4 更新 0 人工活动，1 自动消解，0 ACTION
+- 0 干净候选，0 新 PR；dispositions 2286→2287
