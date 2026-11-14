@@ -9611,5 +9611,9 @@
  "bytedance/deer-flow#8246": {
   "date": "2026-11-14",
   "reason": "needs-triage 未分诊 + LLM 服务验证类 + Windows 触摸滚动 E2E 需真机"
+ },
+ "crewaiinc/crewai#9438": {
+  "date": "2026-11-14",
+  "reason": "报告者闭环（勘误重查）: blurman-ai 自开修复 PR #9368 已交叉引用本 issue（时间线确认）；上轮 cap 勘误不再适用"
  }
 }

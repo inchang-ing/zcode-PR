@@ -5517,3 +5517,8 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - monitor_oss: 78/78 盲点 0，零变化
 - review_sweep: 2 更新 0 人工活动，1 自动消解，0 ACTION
 - dispositions 2400→2401（注内 cap 数过期，已在本条勘误）
+## 2026-11-14 round 249（静默轮 + 候选复核）
+- crewai#9438（上轮勘误保留候选）复核：报告者 blurman-ai 自带修复 PR #9368 已交叉引用本 issue → 闭环让位（上轮 cap 勘误不再适用）；dispositions 更新
+- 收件箱 0 pending；monitor_oss 78/78 盲点 0 零变化
+- review_sweep: 2 更新 0 人工活动，0 ACTION
+- 0 干净候选，0 新 PR
