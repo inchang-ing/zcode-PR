@@ -9507,5 +9507,13 @@
  "agentscope-ai/agentscope#4022": {
   "date": "2026-11-14",
   "reason": "same-repo cap: 该仓在飞 2 个，硬上限 2"
+ },
+ "567-labs/instructor#3049": {
+  "date": "2026-11-14",
+  "reason": "observe-only 仓: instructor，维护者自修族，不再投入"
+ },
+ "567-labs/instructor#3047": {
+  "date": "2026-11-14",
+  "reason": "observe-only 仓: instructor，维护者自修族，不再投入"
  }
 }
