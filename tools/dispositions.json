@@ -9667,5 +9667,9 @@
  "docling-project/docling#5366": {
   "date": "2026-11-14",
   "reason": "same-repo cap: 台账 3 行在飞，硬上限 2"
+ },
+ "docling-project/docling#5367": {
+  "date": "2026-11-14",
+  "reason": "same-repo cap: 台账 3 行在飞，硬上限 2"
  }
 }
