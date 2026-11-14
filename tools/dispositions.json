@@ -9583,5 +9583,13 @@
  "qdrant/qdrant-client#1696": {
   "date": "2026-11-14",
   "reason": "性能调查类: 需活体服务+代表性负载测量，无人值守不可验证"
+ },
+ "mem0ai/mem0#7920": {
+  "date": "2026-11-14",
+  "reason": "issue-readiness 门禁: 缺 accepted 标签"
+ },
+ "mem0ai/mem0#7919": {
+  "date": "2026-11-14",
+  "reason": "issue-readiness 门禁: 缺 accepted 标签"
  }
 }
