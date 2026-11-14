@@ -9495,5 +9495,9 @@
  "agentscope-ai/agentscope#4018": {
   "date": "2026-11-14",
   "reason": "same-repo cap: 该仓在飞 2 个，硬上限 2"
+ },
+ "deepset-ai/haystack#13742": {
+  "date": "2026-11-14",
+  "reason": "报告者闭环: 67-luck 自开修复 PR #13743，timeline 确认"
  }
 }

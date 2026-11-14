@@ -5370,3 +5370,8 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - monitor_oss: 77/77 盲点 0；autogpt#16718 CI 44✓/1✗（仅 Vercel 门禁）
 - review_sweep: 5 更新 0 人工活动，2 自动消解，0 ACTION
 - 0 干净候选，0 新 PR
+## 2026-11-14 round 220（静默轮）
+- 收件箱 3→0：litellm#51765 cap、deer-flow#8236 needs-triage、haystack#13742 报告者闭环（67-luck 自开 #13743）
+- monitor_oss: 77/77 盲点 0；autogpt#16718 CI 49✓/1✗（仅 Vercel 门禁）
+- review_sweep: 5 更新 0 人工活动，2 自动消解，0 ACTION
+- 0 干净候选，0 新 PR；dispositions 2372→2373
