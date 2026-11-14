@@ -9555,5 +9555,21 @@
  "agentscope-ai/agentscope#4026": {
   "date": "2026-11-14",
   "reason": "same-repo cap: 该仓在飞 2 个，硬上限 2"
+ },
+ "agno-agi/agno#11678": {
+  "date": "2026-11-14",
+  "reason": "agno issue-readiness 门禁: 缺 ready 标签"
+ },
+ "crewaiinc/crewai#9435": {
+  "date": "2026-11-14",
+  "reason": "same-repo cap: 该仓在飞 2 个，硬上限 2"
+ },
+ "google/adk-python#8143": {
+  "date": "2026-11-14",
+  "reason": "manual gate: Google CLA + 非征询不可投"
+ },
+ "huggingface/accelerate#4559": {
+  "date": "2026-11-14",
+  "reason": "interaction_hold: 新 CONTRIBUTING 用例门禁，agent 无真实用例不可填"
  }
 }
