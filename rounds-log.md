@@ -5530,3 +5530,8 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - 教训：测试常数写错导致基线假阴性（_constant_frames 参数序错读）→ 诊断脚本先在 main 复现再信测试；工作树版本态（基线 checkout 未还原）也曾让两次运行测同一份代码
 - STATE 78→79；dispositions 2373→2403；认领已释放
 - monitor_oss 79/79 盲点 0；review_sweep 0 ACTION
+## 2026-11-14 round 251（静默轮）
+- 收件箱 0 pending（2968 reported / 3052 done）
+- monitor_oss: 79/79 盲点 0；pipecat#6807 CI 2✓/0✗ 开跑绿
+- review_sweep: 3 更新 0 人工活动，1 自动消解，0 ACTION
+- 0 干净候选，0 新 PR
