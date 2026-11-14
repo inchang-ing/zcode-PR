@@ -9619,5 +9619,17 @@
  "pipecat-ai/pipecat#6806": {
   "date": "2026-11-14",
   "reason": "已实现开 PR: pipecat-ai/pipecat#6807 — handle_interruptions 放弃被中断音频时自行 reset resampler; A/B main 峰值 9399→<2000"
+ },
+ "crewaiinc/crewai#9439": {
+  "date": "2026-11-14",
+  "reason": "same-repo cap + 第三方 tools feature"
+ },
+ "docling-project/docling#5362": {
+  "date": "2026-11-14",
+  "reason": "same-repo cap: 台账 3 行在飞，硬上限 2"
+ },
+ "aider-ai/aider#5980": {
+  "date": "2026-11-14",
+  "reason": "same-repo cap: 该仓在飞 2 个，硬上限 2"
  }
 }

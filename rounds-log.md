@@ -5535,3 +5535,8 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - monitor_oss: 79/79 盲点 0；pipecat#6807 CI 2✓/0✗ 开跑绿
 - review_sweep: 3 更新 0 人工活动，1 自动消解，0 ACTION
 - 0 干净候选，0 新 PR
+## 2026-11-14 round 252（静默轮）
+- 收件箱 3→0：crewai#9439 cap+feature、docling#5362 cap、aider#5980 cap
+- monitor_oss: 79/79 盲点 0；pipecat#6807 CI 6✓/0✗ 收官全绿
+- review_sweep: 3 更新 0 人工活动，1 自动消解，0 ACTION
+- 0 干净候选，0 新 PR；dispositions 2403→2406
