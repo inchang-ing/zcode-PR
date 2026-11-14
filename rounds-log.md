@@ -5354,3 +5354,8 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - monitor_oss: 77/77 盲点 0，零变化
 - review_sweep: 4 更新 0 人工活动，1 自动消解，0 ACTION
 - 0 干净候选，0 新 PR
+## 2026-11-14 round 217（评审回应）
+- 收件箱 1→0：crewai#9434 cap + opt-in 安全 feature
+- **autogpt#16718 收到 Pwuts AI 评审**："fix is right and minimal"，一条 should-fix = accepted 路径无测试（三种变异可存活全 322 测试）；红 shard 系 experts 名册（#16712 已修）、journey 超时无关、CLA 未签挡合并
+- **should-fix 已修**：328757e 新增 accepted-path companion 测试（update_many 恰一次、where 精确 scoped、data 正确、update 版本变更仍发生）——评审的三变异逐一被钉死；双路径 2 passed；已推 0565e58..328757e + 回评（含 CLA 账号持有人侧跟进）
+- monitor_oss 77/77 盲点 0；dispositions 2364→2371
