@@ -5522,3 +5522,11 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - 收件箱 0 pending；monitor_oss 78/78 盲点 0 零变化
 - review_sweep: 2 更新 0 人工活动，0 ACTION
 - 0 干净候选，0 新 PR
+## 2026-11-14 round 250（出 1 PR）
+- 收件箱 3→0：crewai#9438 幂等（第三次复投，闭环已证）、litellm#51813 cap、**pipecat#6806 → 实现**（timeline 空无竞品、离线可复现）
+- **pipecat#6807**（base main）：BaseOutputTransport 的 resampler 在到达时转换，未填满 chunk 的短音频把尾部留在 resampler；中断时清理走 _bot_stopped_speaking，但旗标只在播放时经 _handle_bot_speech 置位 → 未达播放的音频旗标恒 False → 提前 return 不 reset → 旧样本串入下一段语音（issue 峰值 21755）
+- 修复=handle_interruptions 在「无 interruptible 残留」（放弃被中断音频）时自行 reset resampler；bot 续说（uninterruptible 待播）时不动（resampler 仍在转换其流）
+- A/B：诊断脚本在 main 复现（follow-up 峰值 9399 应为负音频）；回归测试（裸 OutputAudioRawFrame +8000@24kHz→8kHz 未填 chunk → 中断 → -8000）main fail(9399)/修复 pass(<2000)；全文件 26 passed + 2 subtests
+- 教训：测试常数写错导致基线假阴性（_constant_frames 参数序错读）→ 诊断脚本先在 main 复现再信测试；工作树版本态（基线 checkout 未还原）也曾让两次运行测同一份代码
+- STATE 78→79；dispositions 2373→2403；认领已释放
+- monitor_oss 79/79 盲点 0；review_sweep 0 ACTION

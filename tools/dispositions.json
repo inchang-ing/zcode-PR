@@ -9615,5 +9615,9 @@
  "crewaiinc/crewai#9438": {
   "date": "2026-11-14",
   "reason": "报告者闭环（勘误重查）: blurman-ai 自开修复 PR #9368 已交叉引用本 issue（时间线确认）；上轮 cap 勘误不再适用"
+ },
+ "pipecat-ai/pipecat#6806": {
+  "date": "2026-11-14",
+  "reason": "已实现开 PR: pipecat-ai/pipecat#6807 — handle_interruptions 放弃被中断音频时自行 reset resampler; A/B main 峰值 9399→<2000"
  }
 }

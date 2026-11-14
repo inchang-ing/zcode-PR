@@ -11,7 +11,7 @@
 > | 项目说明 / 目录 / 流程 / 飞书 / 换机 | **`README.md`** |
 > | 历史轮次 / 已合并 PR 验证记录 | **`rounds-log.md`**、**`STATE-archive.md`** |
 
-## OSS 贡献在飞（78）
+## OSS 贡献在飞（79）
 
 > 2026-11-13 16:0x–16:5x GMT+8 / 11-13 08:0x–08:5x UTC round 192 对账：权威在飞 **78** / 台账 78（本轮离场 `docling#4439` CLOSED + 新开 `qdrant/qdrant-client#1694`，一出一进持平；monitor_oss 自动清理 1 行并报 BLIND #1694，已同轮补录）。开关 ON（shift 43388378657）。收件箱 **40 + 轮末补投 13 = 53 条全当轮 disposition**、终检 0 pending（2709 reported / 2793 done，规律 120 再命中）；全池 `--all` 348 仓 71 NEW（40 与 inbox 重叠 / 31 扫描专属）四刀降维后 **1 干净候选** `qdrant/qdrant-client#1693`（五项全清 + 号段 #1694-#1696 全 404 + 无 AGENTS/CONTRIBUTING 门禁）→ A/B 验证（改前 7 failed/23 passed → 改后 30 passed）后投出 **PR #1694**（base=dev，quality_check EVIDENCE_OK）。**关键判弃 `kedro-org/kedro#5856`**：五项全清且纯 Python 编码缺陷恰在 Windows 可复现，但准入探测 CONTRIBUTING.md 发现「Note for agents and bots」明禁无人工把关 bot 开 PR（须真人持有者先开 issue 事先批准）+ 仅 curated ticket board 开放贡献 → 弃并**补编码 `policy_reason` + `interaction_hold` 双通道** + 回归断言（1 个新测试方法，全量 474 passed / 1 skipped / 1 failed 既有 Windows 符号链接环境性）；反向自查不会报（该仓 4 条历史弃单全为 issue 级）。**1 评审回应**：`docling#4439` 维护者 PeterStaar-IBM 要求 rebase 解冲突 → rebase 时发现上游 `43c016ca`（#4689 iXBRL 重写）已整段删除 dimensions 渲染（含未守卫 `memberQname.localName` 解引用），修复对象在 main 不复存在、无残值 → 留言说明后**自关 PR**（同 docling#5007 先例），不 force-push。余 38 条 inbox 弃因：仓级门禁 19（pydantic-ai×5 / langchain×2 / fastmcp×4 / python-sdk×2 / servers / openai-agents / agno / trl / mem0 / livekit）、竞品 PR 或自陈 12、assign 3、在飞超额 4（agentscope/litellm×2/crewai 均 2 达上限）。扫描专属 31 条台账化（frappe×21 vouched 门禁一刀砍；polars×2 Rust 不可验；nltk#4029 自陈已有补丁分支；余门禁/feature/竞品）。19 条 ⚠CI 未逐一新回认（本轮 monitor_oss 零变化、无新引入）。rotator **51 奇数跳过**（上轮刚跑 slice 50，非连续跳过，保持 51）；dispositions **2167→2215**（+48，LF/CR=0）。**0 认领评论 / 1 新 PR / 1 评审回应 / 0 推送返工 / 1 自关离场**，详见 rounds-log 本轮。
 
@@ -95,6 +95,7 @@
 | [#1694](https://github.com/qdrant/qdrant-client/pull/1694) | qdrant/qdrant-client | OPEN(2026-11-13) | fix: honor the verify parameter in the client-server compatibility check |
 | [#13703](https://github.com/deepset-ai/haystack/pull/13703) | deepset-ai/haystack | OPEN(2026-11-12) | fix: propagate caller cancellation from PipelineStreamHandle.aclose() |
 | [#433](https://github.com/chardet/chardet/pull/433) | chardet/chardet | OPEN(2026-11-11) | fix(escape): reject UTF-7 shifted runs decoding into private-use units |
+| [#6807](https://github.com/pipecat-ai/pipecat/pull/6807) | pipecat-ai/pipecat | OPEN(2026-11-14) | fix(transports): discard resampler state when interrupting audio that never played |
 | [#5360](https://github.com/huggingface/huggingface_hub/pull/5360) | huggingface/huggingface_hub | OPEN(2026-11-14) | fix(jobs): derive the default Job name from the last path component on both separators |
 | [#5344](https://github.com/docling-project/docling/pull/5344) | docling-project/docling | OPEN(2026-11-14) | fix(video): start each detected scene at the first frame after the cut |
 | [#5341](https://github.com/docling-project/docling/pull/5341) | docling-project/docling | OPEN(2026-11-14) | fix(cli): stop split-page HTML export from overwriting the plain HTML export |
