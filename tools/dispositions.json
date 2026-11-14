@@ -9639,5 +9639,33 @@
  "openai/openai-python#4271": {
   "date": "2026-11-14",
   "reason": "受限/禁投仓库: openai/openai-python（openai 系）"
+ },
+ "berriai/litellm#51823": {
+  "date": "2026-11-14",
+  "reason": "same-repo cap: 该仓在飞 2 个，硬上限 2"
+ },
+ "berriai/litellm#51824": {
+  "date": "2026-11-14",
+  "reason": "same-repo cap: 该仓在飞 2 个，硬上限 2"
+ },
+ "berriai/litellm#51825": {
+  "date": "2026-11-14",
+  "reason": "same-repo cap: 该仓在飞 2 个，硬上限 2"
+ },
+ "berriai/litellm#51826": {
+  "date": "2026-11-14",
+  "reason": "same-repo cap: 该仓在飞 2 个，硬上限 2"
+ },
+ "docling-project/docling#5364": {
+  "date": "2026-11-14",
+  "reason": "same-repo cap: 台账 3 行在飞，硬上限 2"
+ },
+ "docling-project/docling#5365": {
+  "date": "2026-11-14",
+  "reason": "same-repo cap: 台账 3 行在飞，硬上限 2"
+ },
+ "docling-project/docling#5366": {
+  "date": "2026-11-14",
+  "reason": "same-repo cap: 台账 3 行在飞，硬上限 2"
  }
 }
