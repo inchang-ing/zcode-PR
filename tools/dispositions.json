@@ -9455,5 +9455,9 @@
  "agno-agi/agno#11670": {
   "date": "2026-11-14",
   "reason": "agno issue-readiness 门禁: 缺 ready 标签"
+ },
+ "pydantic/pydantic-ai#13442": {
+  "date": "2026-11-14",
+  "reason": "受限/禁投仓库: pydantic/pydantic-ai"
  }
 }
