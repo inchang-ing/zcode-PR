@@ -9551,5 +9551,9 @@
  "ukgovernmentbeis/inspect_ai#6559": {
   "date": "2026-11-14",
   "reason": "issue-readiness 门禁: 缺 accepted 标签"
+ },
+ "agentscope-ai/agentscope#4026": {
+  "date": "2026-11-14",
+  "reason": "same-repo cap: 该仓在飞 2 个，硬上限 2"
  }
 }
