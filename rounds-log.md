@@ -5580,3 +5580,8 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - monitor_oss: 79/79 盲点 0，零变化
 - review_sweep: 3 更新 0 人工活动，1 自动消解，0 ACTION
 - 0 干净候选，0 新 PR
+## 2026-11-14 round 261（静默轮 + 判定勘误）
+- 收件箱 2→0：openhands#19753 HUMAN 门禁、aider#5982——cap 判定又引过期台账（实际 aider 在飞清零）。勘误入账；issue 仍 OPEN，下轮候选重查（同 crewai#9438 前例）
+- monitor_oss: 79/79 盲点 0，零变化
+- review_sweep: 3 更新 0 人工活动，1 自动消解，0 ACTION
+- dispositions 2418→2420
