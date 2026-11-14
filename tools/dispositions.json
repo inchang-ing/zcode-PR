@@ -9603,5 +9603,9 @@
  "agentscope-ai/agentscope#4028": {
   "date": "2026-11-14",
   "reason": "same-repo cap: 该仓在飞 2 个，硬上限 2"
+ },
+ "berriai/litellm#51810": {
+  "date": "2026-11-14",
+  "reason": "same-repo cap: 该仓在飞 2 个，硬上限 2"
  }
 }
