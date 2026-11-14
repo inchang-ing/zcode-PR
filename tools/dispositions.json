@@ -9579,5 +9579,9 @@
  "openhands/openhands#19747": {
   "date": "2026-11-14",
   "reason": "manual gate: openhands HUMAN 实测段"
+ },
+ "qdrant/qdrant-client#1696": {
+  "date": "2026-11-14",
+  "reason": "性能调查类: 需活体服务+代表性负载测量，无人值守不可验证"
  }
 }
