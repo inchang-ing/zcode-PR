@@ -9547,5 +9547,9 @@
  "huggingface/huggingface_hub#5359": {
   "date": "2026-11-14",
   "reason": "已实现开 PR: huggingface/huggingface_hub#5360 — job name 双分隔符切末段; A/B fail→pass; 凭证修复后 hub 可开 PR 而 haystack 仍仓级阻断"
+ },
+ "ukgovernmentbeis/inspect_ai#6559": {
+  "date": "2026-11-14",
+  "reason": "issue-readiness 门禁: 缺 accepted 标签"
  }
 }
