@@ -5430,3 +5430,10 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - monitor_oss: 77/77 盲点 0，零变化
 - review_sweep: 4 更新 0 人工活动，1 自动消解，0 ACTION
 - 0 干净候选，0 新 PR；dispositions 2377→2383
+## 2026-11-14 round 232（出 1 PR + 凭证判定）
+- 收件箱 5→0：agentscope#4025 cap、litellm#51765 cap、deer-flow#8236 门禁、haystack#13742 报告者闭环、**hub#5359 → 实现**
+- **hub#5360**（base main）：`_default_job_name_from_script` 只按 / 切分——Windows 路径（PowerShell `.\train.py` → `--train-<hash>`；绝对路径泄漏目录与用户名进 name 标签；长路径 100 字符截断吞掉脚本名）。修复=re.split 双分隔符取末段 + strip 尾部双分隔符（哈希输入不变，POSIX 行为不变）
+- A/B：Windows 两案基线 fail（--train/C--Users-...）→ 修复后 pass；全文件 28 passed + ruff 清
+- **凭证判定更新：hub/docling PR 创建已恢复，haystack 仍仓级阻断**（CreatePullRequest 权限非全局、按仓生效）——haystack#13740 认领继续持有
+- STATE 77→78；dispositions 2373→2385；认领已释放（hub#5359）
+- monitor_oss 78/78 盲点 0；review_sweep 0 ACTION
