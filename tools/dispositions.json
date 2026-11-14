@@ -9591,5 +9591,17 @@
  "mem0ai/mem0#7919": {
   "date": "2026-11-14",
   "reason": "issue-readiness 门禁: 缺 accepted 标签"
+ },
+ "docling-project/docling#5360": {
+  "date": "2026-11-14",
+  "reason": "same-repo cap: 台账 3 行在飞，硬上限 2"
+ },
+ "microsoft/graphrag#2626": {
+  "date": "2026-11-14",
+  "reason": "仓级限制: 仅协作者可开 PR（报告者已试被拒、修复挂其 fork），流水线同样无法提交"
+ },
+ "agentscope-ai/agentscope#4028": {
+  "date": "2026-11-14",
+  "reason": "same-repo cap: 该仓在飞 2 个，硬上限 2"
  }
 }

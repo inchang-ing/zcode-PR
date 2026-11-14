@@ -5497,3 +5497,8 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - monitor_oss: 78/78 盲点 0，零变化
 - review_sweep: 3 更新 0 人工活动，1 自动消解，0 ACTION
 - 0 干净候选，0 新 PR
+## 2026-11-14 round 245（静默轮）
+- 收件箱 3→0：docling#5360 cap（台账 3 行）、graphrag#2626 仓级限制（仅协作者可开 PR——报告者已试被拒、修复挂其 fork 等邀请，流水线同样无法提交）、agentscope#4028 cap
+- monitor_oss: 78/78 盲点 0，零变化
+- review_sweep: 2 更新 0 人工活动，1 自动消解，0 ACTION
+- 0 干净候选，0 新 PR；dispositions 2396→2399
