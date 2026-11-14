@@ -9679,5 +9679,13 @@
  "openai/openai-agents-python#5992": {
   "date": "2026-11-14",
   "reason": "受限/禁投仓库: openai/openai-agents-python"
+ },
+ "berriai/litellm#51832": {
+  "date": "2026-11-14",
+  "reason": "same-repo cap: 该仓在飞 2 个，硬上限 2"
+ },
+ "huggingface/huggingface_hub#5361": {
+  "date": "2026-11-14",
+  "reason": "报告者条件式修复意向: I have a fix, can open a PR if welcome（hub#5357 同型先例）"
  }
 }
