@@ -9535,5 +9535,13 @@
  "aider-ai/aider#5979": {
   "date": "2026-11-14",
   "reason": "same-repo cap: 该仓在飞 2 个，硬上限 2；且 feature"
+ },
+ "eleutherai/lm-evaluation-harness#4602": {
+  "date": "2026-11-14",
+  "reason": "修复空间已被占: 开放 PR #4214（determinism 同题）+ #4591（falsy-kwargs=机制一半）覆盖同一 vendored 文件"
+ },
+ "ukgovernmentbeis/inspect_ai#6556": {
+  "date": "2026-11-14",
+  "reason": "issue-readiness 门禁: 缺 accepted 标签"
  }
 }
