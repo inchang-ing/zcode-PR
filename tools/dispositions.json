@@ -9515,5 +9515,9 @@
  "567-labs/instructor#3047": {
   "date": "2026-11-14",
   "reason": "observe-only 仓: instructor，维护者自修族，不再投入"
+ },
+ "deepset-ai/haystack#13744": {
+  "date": "2026-11-14",
+  "reason": "报告者闭环: Assertive-xxh 自开修复 PR #13745，timeline 确认"
  }
 }
