@@ -5540,3 +5540,8 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - monitor_oss: 79/79 盲点 0；pipecat#6807 CI 6✓/0✗ 收官全绿
 - review_sweep: 3 更新 0 人工活动，1 自动消解，0 ACTION
 - 0 干净候选，0 新 PR；dispositions 2403→2406
+## 2026-11-14 round 253（静默轮）
+- 收件箱 2→0：docling#5363 cap、openai-python#4271 禁投（openai 系）
+- monitor_oss: 79/79 盲点 0，零变化
+- review_sweep: 3 更新 0 人工活动，1 自动消解，0 ACTION
+- 0 干净候选，0 新 PR；dispositions 2406→2408

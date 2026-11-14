@@ -9631,5 +9631,13 @@
  "aider-ai/aider#5980": {
   "date": "2026-11-14",
   "reason": "same-repo cap: 该仓在飞 2 个，硬上限 2"
+ },
+ "docling-project/docling#5363": {
+  "date": "2026-11-14",
+  "reason": "same-repo cap: 台账 3 行在飞，硬上限 2"
+ },
+ "openai/openai-python#4271": {
+  "date": "2026-11-14",
+  "reason": "受限/禁投仓库: openai/openai-python（openai 系）"
  }
 }
