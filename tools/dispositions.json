@@ -9503,5 +9503,9 @@
  "agentscope-ai/agentscope#4020": {
   "date": "2026-11-14",
   "reason": "same-repo cap: 该仓在飞 2 个，硬上限 2"
+ },
+ "agentscope-ai/agentscope#4022": {
+  "date": "2026-11-14",
+  "reason": "same-repo cap: 该仓在飞 2 个，硬上限 2"
  }
 }
