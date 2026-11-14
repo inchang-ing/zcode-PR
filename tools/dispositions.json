@@ -9519,5 +9519,9 @@
  "deepset-ai/haystack#13744": {
   "date": "2026-11-14",
   "reason": "报告者闭环: Assertive-xxh 自开修复 PR #13745，timeline 确认"
+ },
+ "docling-project/docling#5355": {
+  "date": "2026-11-14",
+  "reason": "same-repo cap: 该仓在飞 2 个（#5341/#5344），硬上限 2"
  }
 }
