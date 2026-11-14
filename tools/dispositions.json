@@ -9575,5 +9575,9 @@
  "pydantic/pydantic-ai#13447": {
   "date": "2026-11-14",
   "reason": "受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "openhands/openhands#19747": {
+  "date": "2026-11-14",
+  "reason": "manual gate: openhands HUMAN 实测段"
  }
 }
