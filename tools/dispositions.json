@@ -9523,5 +9523,17 @@
  "docling-project/docling#5355": {
   "date": "2026-11-14",
   "reason": "same-repo cap: 该仓在飞 2 个（#5341/#5344），硬上限 2"
+ },
+ "bytedance/deer-flow#8239": {
+  "date": "2026-11-14",
+  "reason": "needs-triage 未分诊 + LLM 服务验证类"
+ },
+ "docling-project/docling#5358": {
+  "date": "2026-11-14",
+  "reason": "same-repo cap: 台账 3 行在飞，硬上限 2"
+ },
+ "aider-ai/aider#5979": {
+  "date": "2026-11-14",
+  "reason": "same-repo cap: 该仓在飞 2 个，硬上限 2；且 feature"
  }
 }
