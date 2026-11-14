@@ -5437,3 +5437,8 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - **凭证判定更新：hub/docling PR 创建已恢复，haystack 仍仓级阻断**（CreatePullRequest 权限非全局、按仓生效）——haystack#13740 认领继续持有
 - STATE 77→78；dispositions 2373→2385；认领已释放（hub#5359）
 - monitor_oss 78/78 盲点 0；review_sweep 0 ACTION
+## 2026-11-14 round 233（静默轮 + 漏口自纠）
+- 收件箱 1→0：agentscope#4025 复现——上轮「收件箱 5→0」漏了它的 inbox done（仅登记了 dispositions；规律 98 变体：done 收口必须以工具输出逐项确认，不能从轮报倒推）
+- monitor_oss: 78/78 盲点 0；hub#5360 CI 1✓/0✗ 开跑
+- review_sweep: 5 更新 0 人工活动，1 自动消解，0 ACTION
+- 0 干净候选，0 新 PR；dispositions 2385（4025 重复登记幂等）
