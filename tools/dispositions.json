@@ -9671,5 +9671,13 @@
  "docling-project/docling#5367": {
   "date": "2026-11-14",
   "reason": "same-repo cap: 台账 3 行在飞，硬上限 2"
+ },
+ "openai/openai-agents-python#5995": {
+  "date": "2026-11-14",
+  "reason": "受限/禁投仓库: openai/openai-agents-python"
+ },
+ "openai/openai-agents-python#5992": {
+  "date": "2026-11-14",
+  "reason": "受限/禁投仓库: openai/openai-agents-python"
  }
 }
