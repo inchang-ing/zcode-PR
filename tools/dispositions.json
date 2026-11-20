@@ -9687,5 +9687,3269 @@
  "huggingface/huggingface_hub#5361": {
   "date": "2026-11-14",
   "reason": "报告者条件式修复意向: I have a fix, can open a PR if welcome（hub#5357 同型先例）"
+ },
+ "openhands/openhands#19773": {
+  "date": "2026-11-15",
+  "reason": "仓级人工门禁: PR 模板须 HUMAN 真人专属段 + human-tested 勾选, 真人声明不能代签"
+ },
+ "bytedance/deer-flow#8280": {
+  "date": "2026-11-15",
+  "reason": "reporter 自开竞品 PR #8281 (同仓 xref/+1, OPEN)"
+ },
+ "comet-ml/opik#9566": {
+  "date": "2026-11-15",
+  "reason": "正文自陈 I have a fix ready + 自开竞品 PR #9567 (同仓 xref/+1, OPEN)"
+ },
+ "pydantic/pydantic-ai#13550": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "pydantic/pydantic-ai#13548": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "agentscope-ai/agentscope#4052": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 2 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "google/adk-python#8168": {
+  "date": "2026-11-15",
+  "reason": "仓级人工门禁: 外部 PR 须账号持有人网页签 Google CLA, 且非 GFI 须先征询维护者"
+ },
+ "agno-agi/agno#11688": {
+  "date": "2026-11-15",
+  "reason": "仓级 issue-readiness 门禁: 缺 ready 标签"
+ },
+ "huggingface/peft#4176": {
+  "date": "2026-11-15",
+  "reason": "仓级人工门禁: AGENTS.md Mandatory Agentic 明禁纯 agent PR, 须维护者 approved 并指派"
+ },
+ "google/adk-python#8167": {
+  "date": "2026-11-15",
+  "reason": "仓级人工门禁: 外部 PR 须账号持有人网页签 Google CLA, 且非 GFI 须先征询维护者"
+ },
+ "confident-ai/deepeval#3655": {
+  "date": "2026-11-15",
+  "reason": "正文自陈已备好六种模块的补丁与测试并将自行提 PR; 根因在 DeepSpeed profiler 而非本仓代码"
+ },
+ "google/adk-python#8165": {
+  "date": "2026-11-15",
+  "reason": "仓级人工门禁: 外部 PR 须账号持有人网页签 Google CLA, 且非 GFI 须先征询维护者"
+ },
+ "agentscope-ai/agentscope#4050": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 2 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "pydantic/pydantic-ai#13547": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "pydantic/pydantic-ai#13546": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "pydantic/pydantic-ai#13545": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "pydantic/pydantic-ai#13544": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "pydantic/pydantic-ai#13543": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "pydantic/pydantic-ai#13542": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "pydantic/pydantic-ai#13541": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "pydantic/pydantic-ai#13540": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "pydantic/pydantic-ai#13539": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "pydantic/pydantic-ai#13538": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "pydantic/pydantic-ai#13537": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "pydantic/pydantic-ai#13536": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "pydantic/pydantic-ai#13535": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "pydantic/pydantic-ai#13534": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "ukgovernmentbeis/inspect_ai#6568": {
+  "date": "2026-11-15",
+  "reason": "仓级 issue-readiness 门禁: 缺 accepted 标签"
+ },
+ "agentscope-ai/agentscope#4047": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 2 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "agentscope-ai/agentscope#4046": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 2 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "pydantic/pydantic-ai#13533": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "pydantic/pydantic-ai#13532": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "pydantic/pydantic-ai#13531": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "pydantic/pydantic-ai#13530": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "pydantic/pydantic-ai#13529": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "berriai/litellm#51936": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 2 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "berriai/litellm#51935": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 2 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "bytedance/deer-flow#8271": {
+  "date": "2026-11-15",
+  "reason": "已 assign reporter 本人 + 自开竞品 PR #8272"
+ },
+ "huggingface/smolagents#3179": {
+  "date": "2026-11-15",
+  "reason": "issue 已 CLOSED + 修复 PR #3180 已 MERGED"
+ },
+ "crewaiinc/crewai#9470": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 2 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "crewaiinc/crewai#9468": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 2 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "arize-ai/openinference#4315": {
+  "date": "2026-11-15",
+  "reason": "reporter 评论自陈已把补丁开成 #4316 (OPEN)"
+ },
+ "berriai/litellm#51933": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 2 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "arize-ai/phoenix#17970": {
+  "date": "2026-11-15",
+  "reason": "仓级人工门禁: CONTRIBUTING 明写 open issue 不等于邀请提 PR"
+ },
+ "bytedance/deer-flow#8270": {
+  "date": "2026-11-15",
+  "reason": "多人软认领: reporter 已在 fork 实现, 另一人也表示接手"
+ },
+ "crewaiinc/crewai#9466": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 2 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "langchain-ai/langchain#41875": {
+  "date": "2026-11-15",
+  "reason": "仓级 assign 门禁: 须先分配给当前账号"
+ },
+ "huggingface/smolagents#3177": {
+  "date": "2026-11-15",
+  "reason": "reporter 评论自陈想接手且 fork 上已有补丁; 该仓新增 assigned-issue 门禁"
+ },
+ "i-am-bee/beeai-framework#1963": {
+  "date": "2026-11-15",
+  "reason": "TypeScript 适配器本机不可验 + reporter 自开 draft PR #1964"
+ },
+ "langchain-ai/langchain#41874": {
+  "date": "2026-11-15",
+  "reason": "仓级 assign 门禁: 须先分配给当前账号"
+ },
+ "langchain-ai/langgraph#9713": {
+  "date": "2026-11-15",
+  "reason": "仓级 assign 门禁: 须先分配给当前账号"
+ },
+ "huggingface/smolagents#3175": {
+  "date": "2026-11-15",
+  "reason": "issue 已 CLOSED + 修复 PR #3176 已 MERGED"
+ },
+ "langchain-ai/langchain#41873": {
+  "date": "2026-11-15",
+  "reason": "仓级 assign 门禁: 须先分配给当前账号"
+ },
+ "langchain-ai/langchain#41872": {
+  "date": "2026-11-15",
+  "reason": "仓级 assign 门禁: 须先分配给当前账号"
+ },
+ "langchain-ai/langchain#41871": {
+  "date": "2026-11-15",
+  "reason": "仓级 assign 门禁: 须先分配给当前账号"
+ },
+ "langchain-ai/langchain#41870": {
+  "date": "2026-11-15",
+  "reason": "仓级 assign 门禁: 须先分配给当前账号"
+ },
+ "langchain-ai/langgraph#9712": {
+  "date": "2026-11-15",
+  "reason": "仓级 assign 门禁: 须先分配给当前账号"
+ },
+ "pydantic/pydantic-ai#13526": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "run-llama/llama_index#24227": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 3 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "berriai/litellm#51931": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 2 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "docling-project/docling#5381": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 3 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "aider-ai/aider#5990": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 2 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "berriai/litellm#51930": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 2 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "crewaiinc/crewai#9458": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 2 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "crewaiinc/crewai#9457": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 2 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "crewaiinc/crewai#9456": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 2 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "crewaiinc/crewai#9455": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 2 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "crewaiinc/crewai#9454": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 2 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "crewaiinc/crewai#9452": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 2 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "arize-ai/openinference#4312": {
+  "date": "2026-11-15",
+  "reason": "他人已开 draft 补丁 #4313 并附回归测试 (评论明说 Say the word and I will mark it ready)"
+ },
+ "openai/openai-agents-python#6025": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空: 受限/禁投仓库)"
+ },
+ "crewaiinc/crewai#9449": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 2 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "docling-project/docling#5379": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 3 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "ukgovernmentbeis/inspect_ai#6567": {
+  "date": "2026-11-15",
+  "reason": "仓级 issue-readiness 门禁: 缺 accepted 标签"
+ },
+ "ukgovernmentbeis/inspect_ai#6566": {
+  "date": "2026-11-15",
+  "reason": "仓级 issue-readiness 门禁: 缺 accepted 标签"
+ },
+ "ukgovernmentbeis/inspect_ai#6565": {
+  "date": "2026-11-15",
+  "reason": "仓级 issue-readiness 门禁: 缺 accepted 标签"
+ },
+ "pipecat-ai/pipecat#6819": {
+  "date": "2026-11-15",
+  "reason": "竞品 PR #6820 (同仓 xref/+1, OPEN)"
+ },
+ "bytedance/deer-flow#8263": {
+  "date": "2026-11-15",
+  "reason": "issue 已 CLOSED + 修复 PR #8264 已 MERGED"
+ },
+ "mem0ai/mem0#7927": {
+  "date": "2026-11-15",
+  "reason": "仓级 issue-readiness 门禁: 缺 accepted 标签"
+ },
+ "run-llama/llama_index#24224": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 3 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "run-llama/llama_index#24223": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 3 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "crewaiinc/crewai#9447": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 2 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "significant-gravitas/autogpt#16820": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 2 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "mem0ai/mem0#7926": {
+  "date": "2026-11-15",
+  "reason": "仓级 issue-readiness 门禁: 缺 accepted 标签"
+ },
+ "modelcontextprotocol/servers#5551": {
+  "date": "2026-11-15",
+  "reason": "仓级人工门禁: handoff-only, 须维护者代开 PR"
+ },
+ "swe-agent/swe-agent#1641": {
+  "date": "2026-11-15",
+  "reason": "reporter 自开竞品 PR #1642"
+ },
+ "berriai/litellm#51910": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 2 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "berriai/litellm#51909": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 2 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "berriai/litellm#51908": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 2 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "berriai/litellm#51907": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 2 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "berriai/litellm#51900": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 2 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "confident-ai/deepeval#3654": {
+  "date": "2026-11-15",
+  "reason": "竞品 PR #3657 (同仓 xref, OPEN)"
+ },
+ "nvidia-nemo/guardrails#2600": {
+  "date": "2026-11-15",
+  "reason": "文档提案尚待维护者确认是否合适, 结论依赖并行竞态顺序非稳定契约, 方案未定调 (issue 级)"
+ },
+ "bolna-ai/bolna#1218": {
+  "date": "2026-11-15",
+  "reason": "非缺陷 (申请成为 maintainer), 且低星无大厂背书仓不满足准入"
+ },
+ "pydantic/pydantic-ai#13523": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "pydantic/pydantic-ai#13522": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "google/adk-python#8161": {
+  "date": "2026-11-15",
+  "reason": "仓级人工门禁: 外部 PR 须账号持有人网页签 Google CLA, 且非 GFI 须先征询维护者"
+ },
+ "google/adk-python#8160": {
+  "date": "2026-11-15",
+  "reason": "仓级人工门禁: 外部 PR 须账号持有人网页签 Google CLA, 且非 GFI 须先征询维护者"
+ },
+ "langchain-ai/langchain#41866": {
+  "date": "2026-11-15",
+  "reason": "仓级 assign 门禁: 须先分配给当前账号"
+ },
+ "ukgovernmentbeis/inspect_ai#6562": {
+  "date": "2026-11-15",
+  "reason": "仓级 issue-readiness 门禁: 缺 accepted 标签"
+ },
+ "arize-ai/phoenix#17967": {
+  "date": "2026-11-15",
+  "reason": "仓级人工门禁: CONTRIBUTING 明写 open issue 不等于邀请提 PR"
+ },
+ "bytedance/deer-flow#8259": {
+  "date": "2026-11-15",
+  "reason": "正文与评论自陈正在修 + 自开竞品 PR #8260"
+ },
+ "deepset-ai/haystack#13757": {
+  "date": "2026-11-15",
+  "reason": "已 assign 维护者 + reporter 自开竞品 PR #13758"
+ },
+ "google/adk-python#8158": {
+  "date": "2026-11-15",
+  "reason": "仓级人工门禁: 外部 PR 须账号持有人网页签 Google CLA, 且非 GFI 须先征询维护者"
+ },
+ "arize-ai/phoenix#17966": {
+  "date": "2026-11-15",
+  "reason": "仓级人工门禁: CONTRIBUTING 明写 open issue 不等于邀请提 PR"
+ },
+ "pydantic/pydantic-ai#13520": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "pydantic/pydantic-ai#13519": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "significant-gravitas/autogpt#16819": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 2 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "significant-gravitas/autogpt#16818": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 2 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "agno-agi/agno#11685": {
+  "date": "2026-11-15",
+  "reason": "仓级 issue-readiness 门禁: 缺 ready 标签"
+ },
+ "pydantic/pydantic-ai#13518": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "pydantic/pydantic-ai#13517": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "anthropics/anthropic-sdk-python#2064": {
+  "date": "2026-11-15",
+  "reason": "reporter 自开竞品 PR #2065 (同仓 xref/+1, OPEN)"
+ },
+ "google/adk-python#8157": {
+  "date": "2026-11-15",
+  "reason": "仓级人工门禁: 外部 PR 须账号持有人网页签 Google CLA, 且非 GFI 须先征询维护者"
+ },
+ "567-labs/instructor#3059": {
+  "date": "2026-11-15",
+  "reason": "reporter 自开竞品 PR #3060 (同仓 xref/+1, OPEN)"
+ },
+ "567-labs/instructor#3058": {
+  "date": "2026-11-15",
+  "reason": "两个竞品 PR #3062 / #3063 (同仓 xref, 均 OPEN)"
+ },
+ "langchain-ai/langchain#41864": {
+  "date": "2026-11-15",
+  "reason": "仓级 assign 门禁: 须先分配给当前账号"
+ },
+ "openai/openai-python#4272": {
+  "date": "2026-11-15",
+  "reason": "评论里已贴完整 tested patch 与 RED/GREEN 结果 (对方已在做), bug 3 留待 #3588, 方案未定调"
+ },
+ "aider-ai/aider#5989": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 2 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "google/adk-python#8155": {
+  "date": "2026-11-15",
+  "reason": "仓级人工门禁: 外部 PR 须账号持有人网页签 Google CLA, 且非 GFI 须先征询维护者"
+ },
+ "pydantic/pydantic-ai#13515": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "pydantic/pydantic-ai#13514": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "pydantic/pydantic-ai#13513": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "berriai/litellm#51871": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 2 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "pydantic/pydantic-ai#13512": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "pydantic/pydantic-ai#13511": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "pydantic/pydantic-ai#13509": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "pydantic/pydantic-ai#13508": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "pydantic/pydantic-ai#13507": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "pydantic/pydantic-ai#13506": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "pydantic/pydantic-ai#13505": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "pydantic/pydantic-ai#13504": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "mem0ai/mem0#7922": {
+  "date": "2026-11-15",
+  "reason": "仓级 issue-readiness 门禁: 缺 accepted 标签"
+ },
+ "huggingface/trl#8375": {
+  "date": "2026-11-15",
+  "reason": "仓级人工门禁: AI usage policy 不评审 first-time contributor 的全 AI PR"
+ },
+ "pydantic/pydantic-ai#13502": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "pydantic/pydantic-ai#13500": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "significant-gravitas/autogpt#16811": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 2 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "pydantic/pydantic-ai#13497": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "pydantic/pydantic-ai#13496": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "pydantic/pydantic-ai#13493": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "docling-project/docling#5376": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 3 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "prefecthq/fastmcp#6491": {
+  "date": "2026-11-15",
+  "reason": "仓级人工门禁: 须链接 issue 且作者已被 assign, 却明禁认领/求分配评论"
+ },
+ "openai/openai-agents-python#6007": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空: 受限/禁投仓库)"
+ },
+ "aider-ai/aider#5988": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 2 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "pydantic/pydantic-ai#13490": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "ukgovernmentbeis/inspect_ai#6560": {
+  "date": "2026-11-15",
+  "reason": "仓级 issue-readiness 门禁: 缺 accepted 标签"
+ },
+ "docling-project/docling#5374": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 3 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "langchain-ai/langgraph#9711": {
+  "date": "2026-11-15",
+  "reason": "仓级 assign 门禁: 须先分配给当前账号"
+ },
+ "pipecat-ai/pipecat#6815": {
+  "date": "2026-11-15",
+  "reason": "reporter 自开竞品 PR #6816 (同仓 xref/+1, OPEN), 且 >24h 窗口已过"
+ },
+ "google/adk-python#8149": {
+  "date": "2026-11-15",
+  "reason": "仓级人工门禁: 外部 PR 须账号持有人网页签 Google CLA, 且非 GFI 须先征询维护者"
+ },
+ "pydantic/pydantic-ai#13488": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "pydantic/pydantic-ai#13487": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "pydantic/pydantic-ai#13486": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "pydantic/pydantic-ai#13484": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "livekit/agents#8568": {
+  "date": "2026-11-15",
+  "reason": "仓级人工门禁: 首个 PR 须账号持有人网页签 LiveKit CLA"
+ },
+ "pydantic/pydantic-ai#13482": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "pydantic/pydantic-ai#13481": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "pydantic/pydantic-ai#13480": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "deepset-ai/haystack#13754": {
+  "date": "2026-11-15",
+  "reason": "已 assign 维护者 + 竞品 PR #13755 (OPEN)"
+ },
+ "deepset-ai/haystack#13753": {
+  "date": "2026-11-15",
+  "reason": "竞品 PR #13756 (同仓 xref, OPEN)"
+ },
+ "livekit/agents#8567": {
+  "date": "2026-11-15",
+  "reason": "仓级人工门禁: 首个 PR 须账号持有人网页签 LiveKit CLA"
+ },
+ "deepset-ai/haystack#13751": {
+  "date": "2026-11-15",
+  "reason": "已 assign 维护者 + 正文自陈有补丁 + 自开竞品 PR #13752"
+ },
+ "pydantic/pydantic-ai#13477": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "microsoft/graphrag#2627": {
+  "date": "2026-11-15",
+  "reason": "评论 i can take this 已被他人认领并给出完整方案"
+ },
+ "lancedb/lancedb#5052": {
+  "date": "2026-11-15",
+  "reason": "issue 已 CLOSED; 12 语言 README 翻译非缺陷且 Rust SDK 本机不可验"
+ },
+ "modelcontextprotocol/python-sdk#3862": {
+  "date": "2026-11-15",
+  "reason": "仓级人工门禁+HOLD: 须 maintainer assign, 明禁 agent 认领评论与自主 PR"
+ },
+ "huggingface/peft#4174": {
+  "date": "2026-11-15",
+  "reason": "仓级人工门禁: AGENTS.md Mandatory Agentic 明禁纯 agent PR, 须维护者 approved 并指派"
+ },
+ "pydantic/pydantic-ai#13474": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "pydantic/pydantic-ai#13472": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "pydantic/pydantic-ai#13471": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "pydantic/pydantic-ai#13470": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "arize-ai/phoenix#17964": {
+  "date": "2026-11-15",
+  "reason": "仓级人工门禁: CONTRIBUTING 明写 open issue 不等于邀请提 PR"
+ },
+ "aider-ai/aider#5985": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 2 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "aider-ai/aider#5984": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 2 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "bytedance/deer-flow#8255": {
+  "date": "2026-11-15",
+  "reason": "正文写明 Fix: #8248 (reporter 自开 PR 已覆盖), >24h 窗口已过"
+ },
+ "agentscope-ai/agentscope#4037": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 2 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "pydantic/pydantic-ai#13468": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "pydantic/pydantic-ai#13467": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "openhands/openhands#19755": {
+  "date": "2026-11-15",
+  "reason": "仓级人工门禁: PR 模板须 HUMAN 真人专属段 + human-tested 勾选, 真人声明不能代签"
+ },
+ "pydantic/pydantic-ai#13465": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "google/adk-python#8147": {
+  "date": "2026-11-15",
+  "reason": "仓级人工门禁: 外部 PR 须账号持有人网页签 Google CLA, 且非 GFI 须先征询维护者"
+ },
+ "agentscope-ai/agentscope#4035": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 2 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "pydantic/pydantic-ai#13462": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "pydantic/pydantic-ai#13461": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "pydantic/pydantic-ai#13458": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "pydantic/pydantic-ai#13457": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "pydantic/pydantic-ai#13456": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "pydantic/pydantic-ai#13455": {
+  "date": "2026-11-15",
+  "reason": "仓级禁投 (policy_reason 非空); 该仓以维护者自建内部单为主"
+ },
+ "agno-agi/agno#11681": {
+  "date": "2026-11-15",
+  "reason": "仓级 issue-readiness 门禁: 缺 ready 标签"
+ },
+ "crewaiinc/crewai#9444": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 2 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "crewaiinc/crewai#9442": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 2 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "huggingface/accelerate#4562": {
+  "date": "2026-11-15",
+  "reason": "仓级贡献类别门禁: PR 描述须账号持有人真实 Use case, 流水线无用例可填"
+ },
+ "langflow-ai/langflow#16422": {
+  "date": "2026-11-15",
+  "reason": "正文自陈 will open a PR + 自开竞品 PR #16423"
+ },
+ "docling-project/docling#5372": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 3 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "huggingface/peft#4173": {
+  "date": "2026-11-15",
+  "reason": "仓级人工门禁: AGENTS.md Mandatory Agentic 明禁纯 agent PR, 须维护者 approved 并指派"
+ },
+ "modelcontextprotocol/python-sdk#3861": {
+  "date": "2026-11-15",
+  "reason": "仓级人工门禁+HOLD: 须 maintainer assign, 明禁 agent 认领评论与自主 PR"
+ },
+ "swe-agent/swe-agent#1639": {
+  "date": "2026-11-15",
+  "reason": "reporter 自开竞品 PR #1640 (同仓 xref/+1, OPEN)"
+ },
+ "openhands/openhands#19753": {
+  "date": "2026-11-15",
+  "reason": "仓级人工门禁: PR 模板须 HUMAN 真人专属段 + human-tested 勾选, 真人声明不能代签"
+ },
+ "aider-ai/aider#5982": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 2 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "langchain-ai/langchain#41876": {
+  "date": "2026-11-15",
+  "reason": "仓级 assign 门禁: 须先分配给当前账号 (policy_reason 非空)"
+ },
+ "bytedance/deer-flow#8284": {
+  "date": "2026-11-15",
+  "reason": "reporter 自开竞品 PR #8285 (同仓 xref/+1, OPEN)"
+ },
+ "agno-agi/agno#11618": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: issue-readiness 门禁仓: 缺少 ready 标签"
+ },
+ "agno-agi/agno#11619": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: issue-readiness 门禁仓: 缺少 ready 标签"
+ },
+ "agno-agi/agno#11620": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: issue-readiness 门禁仓: 缺少 ready 标签"
+ },
+ "agno-agi/agno#11621": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: issue-readiness 门禁仓: 缺少 ready 标签"
+ },
+ "agno-agi/agno#11622": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: issue-readiness 门禁仓: 缺少 ready 标签"
+ },
+ "agno-agi/agno#11623": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: issue-readiness 门禁仓: 缺少 ready 标签"
+ },
+ "agno-agi/agno#11624": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: issue-readiness 门禁仓: 缺少 ready 标签"
+ },
+ "agno-agi/agno#11625": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: issue-readiness 门禁仓: 缺少 ready 标签"
+ },
+ "agno-agi/agno#11626": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: issue-readiness 门禁仓: 缺少 ready 标签"
+ },
+ "agno-agi/agno#11627": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: issue-readiness 门禁仓: 缺少 ready 标签"
+ },
+ "agno-agi/agno#11629": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: issue-readiness 门禁仓: 缺少 ready 标签"
+ },
+ "agno-agi/agno#11630": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: issue-readiness 门禁仓: 缺少 ready 标签"
+ },
+ "agno-agi/agno#11631": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: issue-readiness 门禁仓: 缺少 ready 标签"
+ },
+ "agno-agi/agno#11633": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: issue-readiness 门禁仓: 缺少 ready 标签"
+ },
+ "agno-agi/agno#11634": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: issue-readiness 门禁仓: 缺少 ready 标签"
+ },
+ "agno-agi/agno#11635": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: issue-readiness 门禁仓: 缺少 ready 标签"
+ },
+ "agno-agi/agno#11636": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: issue-readiness 门禁仓: 缺少 ready 标签"
+ },
+ "agno-agi/agno#11637": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: issue-readiness 门禁仓: 缺少 ready 标签"
+ },
+ "agno-agi/agno#11655": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: issue-readiness 门禁仓: 缺少 ready 标签"
+ },
+ "agronholm/anyio#1476": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 37.28h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "aio-libs/aiohttp#14378": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 31.36h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "apache/airflow#77019": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 51.77h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "apache/airflow#77021": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 51.49h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "apache/airflow#77030": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 47.84h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "apache/airflow#77049": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 44.98h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "apache/airflow#77050": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 44.87h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "apache/airflow#77052": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 44.79h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "apache/airflow#77053": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 44.77h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "apache/airflow#77054": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 44.74h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "apache/airflow#77055": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 44.71h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "apache/airflow#77056": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 44.7h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "apache/airflow#77057": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 44.68h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "apache/airflow#77058": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 44.68h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "apache/airflow#77060": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 44.62h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "apache/airflow#77061": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 44.58h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "apache/airflow#77079": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 33.07h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "apache/airflow#77088": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 29.37h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "apache/iceberg-python#4373": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: AGENTS.md「GitHub Write Approval」把 GitHub 设为默认只读：任何写操作（issue/PR/评论/review/标签/分支/合并）须用户在本会话中针对该具"
+ },
+ "apache/iceberg-python#4382": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: AGENTS.md「GitHub Write Approval」把 GitHub 设为默认只读：任何写操作（issue/PR/评论/review/标签/分支/合并）须用户在本会话中针对该具"
+ },
+ "apache/superset#46196": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 54.18h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "apache/superset#46197": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 52.91h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "argilla-io/argilla#5880": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 51.61h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "arize-ai/openinference#4301": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 53.8h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "arize-ai/openinference#4302": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 52.45h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "astropy/astropy#20851": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 47.86h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "berriai/litellm#51597": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 2 个 PR 已达硬上限 2, 让出"
+ },
+ "berriai/litellm#51601": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 2 个 PR 已达硬上限 2, 让出"
+ },
+ "berriai/litellm#51609": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 2 个 PR 已达硬上限 2, 让出"
+ },
+ "berriai/litellm#51613": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 2 个 PR 已达硬上限 2, 让出"
+ },
+ "berriai/litellm#51615": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 2 个 PR 已达硬上限 2, 让出"
+ },
+ "berriai/litellm#51618": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 2 个 PR 已达硬上限 2, 让出"
+ },
+ "berriai/litellm#51626": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 2 个 PR 已达硬上限 2, 让出"
+ },
+ "berriai/litellm#51627": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 2 个 PR 已达硬上限 2, 让出"
+ },
+ "berriai/litellm#51765": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 2 个 PR 已达硬上限 2, 让出"
+ },
+ "berriai/litellm#51813": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 2 个 PR 已达硬上限 2, 让出"
+ },
+ "bokeh/bokeh#15753": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 52.87h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "bokeh/bokeh#15755": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 52.31h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "bokeh/bokeh#15758": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 46.09h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "bokeh/bokeh#15760": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 41.12h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "bokeh/bokeh#15763": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 28.2h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "bokeh/bokeh#15764": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 26.76h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "bytedance/deer-flow#8219": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 53.13h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "bytedance/deer-flow#8223": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 49.6h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "bytedance/deer-flow#8236": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 37.15h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "ccxt/ccxt#31201": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 49.06h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "chardet/chardet#435": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 31.29h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "coleifer/peewee#3102": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 54.3h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "conda/conda#16991": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 49.14h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "confident-ai/deepeval#3647": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 54.22h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "crewaiinc/crewai#9431": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 2 个 PR 已达硬上限 2, 让出"
+ },
+ "dagster-io/dagster#34440": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 25.67h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "dateutil/dateutil#1675": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 34.62h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "dbt-labs/dbt-core#17176": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 50.35h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "dbt-labs/dbt-core#17177": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 49.71h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "dbt-labs/dbt-core#17178": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 44.25h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "dbt-labs/dbt-core#17181": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 41.18h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "dbt-labs/dbt-core#17183": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 39.59h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "deepset-ai/haystack#13736": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 50.13h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "deepset-ai/haystack#13738": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 49.53h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "deepset-ai/haystack#13740": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 48.99h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "delta-io/delta-rs#5063": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 52.56h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "delta-io/delta-rs#5064": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 45.37h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "delta-io/delta-rs#5066": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 44.0h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "docker/docker-py#3464": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 47.51h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "docling-project/docling#5337": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 3 个 PR 已达硬上限 2, 让出"
+ },
+ "duckdb/duckdb#28808": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 50.25h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "duckdb/duckdb#28822": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 46.46h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "duckdb/duckdb#28823": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 45.58h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "duckdb/duckdb#28824": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 45.54h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "duckdb/duckdb#28825": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 44.67h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "duckdb/duckdb#28826": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 44.25h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "duckdb/duckdb#28828": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 42.14h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "duckdb/duckdb#28829": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 42.14h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "duckdb/duckdb#28830": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 41.75h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "executablebooks/myst-parser#1232": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 38.76h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "explosion/spacy#14078": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 43.36h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "factoryboy/factory_boy#1165": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 30.06h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "falconry/falcon#2810": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: CONTRIBUTING「Use of LLMs (\"AI\")」明写「autonomous coding agents must never open pull requests on t"
+ },
+ "flet-dev/flet#7083": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 53.65h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "flet-dev/flet#7085": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 42.88h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "frappe/frappe#47313": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47329": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47330": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47338": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47339": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47340": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47348": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47350": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47351": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47352": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47353": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47354": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47358": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47362": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47363": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47364": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47365": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47366": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47367": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47368": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47369": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47371": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47372": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47373": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47374": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47375": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47376": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47377": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47378": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47379": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47385": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47386": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47387": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47388": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47389": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47390": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47391": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47392": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47393": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47395": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47396": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47397": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47398": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47399": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47400": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47401": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47402": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47403": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47404": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47405": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47406": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47407": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47408": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47409": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47410": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47411": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47412": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47413": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47414": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47415": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47416": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47417": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47418": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47419": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47431": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47432": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47433": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47434": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47436": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47437": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47438": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47439": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47440": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47441": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47442": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47444": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47453": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47455": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47456": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47457": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47460": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47461": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47462": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47463": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47466": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47468": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47494": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47495": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47496": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47498": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47506": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: vouched 资格未核验"
+ },
+ "getmoto/moto#10557": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 53.79h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "google/adk-python#8126": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: 外部 PR 须先签 Google CLA（cla.developers.google.com，需账号持有者网页签署，流水线无法代办）；CONTRIBUTING「For other issu"
+ },
+ "google/adk-python#8127": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: 外部 PR 须先签 Google CLA（cla.developers.google.com，需账号持有者网页签署，流水线无法代办）；CONTRIBUTING「For other issu"
+ },
+ "great-expectations/great_expectations#12374": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: 人工门禁（AGENTS.md CLA 硬停止 + CONTRIBUTING 认领标签双约束）：AGENTS.md「Before opening a pull request」明写「The "
+ },
+ "guardrails-ai/guardrails#1702": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 54.09h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "holoviz/holoviews#7159": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 41.19h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "holoviz/panel#9052": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 54.08h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "holoviz/panel#9053": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 52.27h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "huggingface/datasets#9036": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 50.93h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "huggingface/datasets#9041": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 41.84h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "huggingface/datasets#9043": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 41.4h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "huggingface/peft#4168": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: AGENTS.md「Mandatory Agentic contribution policy」明写「Pure code-agent PRs are not allowed: a huma"
+ },
+ "huggingface/peft#4169": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: AGENTS.md「Mandatory Agentic contribution policy」明写「Pure code-agent PRs are not allowed: a huma"
+ },
+ "huggingface/peft#4170": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: AGENTS.md「Mandatory Agentic contribution policy」明写「Pure code-agent PRs are not allowed: a huma"
+ },
+ "huggingface/smolagents#3169": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 54.05h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "huggingface/trl#8302": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: CONTRIBUTING「AI usage policy」：不会评审 first-time contributor 的全 AI 生成 PR（「we will not review full"
+ },
+ "huggingface/trl#8307": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: CONTRIBUTING「AI usage policy」：不会评审 first-time contributor 的全 AI 生成 PR（「we will not review full"
+ },
+ "huggingface/trl#8310": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: CONTRIBUTING「AI usage policy」：不会评审 first-time contributor 的全 AI 生成 PR（「we will not review full"
+ },
+ "huggingface/trl#8311": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: CONTRIBUTING「AI usage policy」：不会评审 first-time contributor 的全 AI 生成 PR（「we will not review full"
+ },
+ "huggingface/trl#8316": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: CONTRIBUTING「AI usage policy」：不会评审 first-time contributor 的全 AI 生成 PR（「we will not review full"
+ },
+ "huggingface/trl#8324": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: CONTRIBUTING「AI usage policy」：不会评审 first-time contributor 的全 AI 生成 PR（「we will not review full"
+ },
+ "huggingface/trl#8325": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: CONTRIBUTING「AI usage policy」：不会评审 first-time contributor 的全 AI 生成 PR（「we will not review full"
+ },
+ "huggingface/trl#8327": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: CONTRIBUTING「AI usage policy」：不会评审 first-time contributor 的全 AI 生成 PR（「we will not review full"
+ },
+ "huggingface/trl#8331": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: CONTRIBUTING「AI usage policy」：不会评审 first-time contributor 的全 AI 生成 PR（「we will not review full"
+ },
+ "ibis-project/ibis#12217": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 54.01h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "instructor-ai/instructor#3047": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 36.22h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "instructor-ai/instructor#3049": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 36.17h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "jaraco/inflect#314": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 27.42h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "jcrist/msgspec#1344": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 36.91h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "jupyterlab/jupyterlab#20490": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 51.23h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "jupyterlab/jupyterlab#20495": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 47.69h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "jupyterlab/jupyterlab#20496": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 46.87h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "jupyterlab/jupyterlab#20499": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 42.41h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "jupyterlab/jupyterlab#20505": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 24.26h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "kyegomez/swarms#3417": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 52.46h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "lancedb/lancedb#5050": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 25.66h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "langchain-ai/langgraph#9706": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: assign 门禁仓: 须先分配给当前账号"
+ },
+ "langflow-ai/langflow#16387": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 49.73h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "lepture/authlib#1053": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 45.66h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "lepture/authlib#1054": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 45.14h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "lepture/authlib#1055": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 44.64h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "lepture/authlib#1056": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 44.56h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "lepture/authlib#1057": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 26.74h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "lepture/authlib#1058": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 26.66h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "mahmoud/boltons#768": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 41.06h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "mahmoud/boltons#769": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 41.06h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "mahmoud/boltons#770": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 41.06h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "mahmoud/boltons#771": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 41.05h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "mahmoud/boltons#772": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 41.05h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "mahmoud/boltons#773": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 41.05h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "mahmoud/boltons#774": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 41.05h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "mahmoud/boltons#775": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 41.05h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "mahmoud/boltons#776": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 41.05h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "mahmoud/boltons#777": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 41.05h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "mahmoud/boltons#778": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 39.46h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "mlflow/mlflow#27761": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: issue-readiness 门禁仓: 缺少 ready 标签"
+ },
+ "mlflow/mlflow#27782": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: issue-readiness 门禁仓: 缺少 ready 标签"
+ },
+ "modelcontextprotocol/python-sdk#3855": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: 外部 PR 须 maintainer 先 assign；CONTRIBUTING 明令「不要用 agent 发认领评论」「若 agent 在自主提 PR 请关掉本仓」"
+ },
+ "modelcontextprotocol/servers#5549": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: handoff-only：修复推 fork 后请维护者代开 PR"
+ },
+ "modelscope/agentscope#4001": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 54.22h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "modelscope/agentscope#4003": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 53.46h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "modelscope/agentscope#4010": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 48.43h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "modelscope/agentscope#4013": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 40.95h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "modelscope/agentscope#4016": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 38.86h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "modelscope/agentscope#4018": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 37.72h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "modelscope/agentscope#4020": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 36.85h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "modelscope/agentscope#4022": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 36.72h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "modelscope/agentscope#4025": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 34.01h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "modelscope/agentscope#4026": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 33.36h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "modelscope/agentscope#4028": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 30.97h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "modelscope/agentscope#4035": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 25.09h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "modelscope/agentscope#4037": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 24.25h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "narwhals-dev/narwhals#4153": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 49.0h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "narwhals-dev/narwhals#4154": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 44.75h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "narwhals-dev/narwhals#4156": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 41.14h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "nedbat/coveragepy#2394": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 50.07h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "networkx/networkx#9015": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: 人工门禁（AI 政策 + AGENTS.md 双约束）：CONTRIBUTING.rst 的 Automated Contributions Policy 明写「Contributing "
+ },
+ "networkx/networkx#9017": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: 人工门禁（AI 政策 + AGENTS.md 双约束）：CONTRIBUTING.rst 的 Automated Contributions Policy 明写「Contributing "
+ },
+ "numpy/numpy#33324": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 52.19h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "open-telemetry/opentelemetry-python#5937": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 27.16h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "openhands/openhands#19714": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: PR 描述含真人专属段：模板首行必须是 `HUMAN:`，`.github/scripts/check_pr_description.py` 要求该段 ≥20 字符并勾选 human-te"
+ },
+ "openhands/openhands#19717": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: PR 描述含真人专属段：模板首行必须是 `HUMAN:`，`.github/scripts/check_pr_description.py` 要求该段 ≥20 字符并勾选 human-te"
+ },
+ "openhands/openhands#19719": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: PR 描述含真人专属段：模板首行必须是 `HUMAN:`，`.github/scripts/check_pr_description.py` 要求该段 ≥20 字符并勾选 human-te"
+ },
+ "paul-gauthier/aider#5978": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 53.32h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "paul-gauthier/aider#5979": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 34.73h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "paul-gauthier/aider#5980": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 29.2h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "paul-gauthier/aider#5982": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 27.06h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "paul-gauthier/aider#5984": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 24.09h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "pdm-project/pdm#4006": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 45.41h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "pdm-project/pdm#4007": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 27.64h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "pipecat-ai/pipecat#6787": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 54.4h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "plotly/dash#4147": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 42.93h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "pola-rs/polars#30767": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 49.52h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "pola-rs/polars#30769": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 49.1h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "pola-rs/polars#30780": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 45.47h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "pola-rs/polars#30784": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 40.56h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "pola-rs/polars#30792": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 26.1h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "pola-rs/polars#30793": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 26.1h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "prefecthq/fastmcp#6480": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: 贡献门禁要求外部 PR 必须同时「链接 issue」且「作者已被 assign」（除非 issue 带 `prs welcome`），否则 bot 自动关闭；同一页又明令「Do not p"
+ },
+ "prefecthq/prefect#23873": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 48.48h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "prefecthq/prefect#23875": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 47.07h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "prefecthq/prefect#23876": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 47.06h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "prefecthq/prefect#23877": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 47.05h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "prefecthq/prefect#23878": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 47.04h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "prefecthq/prefect#23887": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 46.3h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "prefecthq/prefect#23888": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 46.29h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "prefecthq/prefect#23896": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 43.37h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "prefecthq/prefect#23904": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 39.7h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "prefecthq/prefect#23913": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 28.55h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "psf/black#5691": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 49.4h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "psf/black#5693": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 42.55h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "pydantic/pydantic#14278": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 36.87h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "pydantic/pydantic#14284": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 25.15h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "pydantic/pydantic-settings#1150": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 52.73h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "pydantic/pydantic-settings#1151": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 29.74h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "pydantic/pydantic-settings#1153": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 29.63h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "pydantic/pydantic-settings#1155": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 29.61h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "pydantic/pydantic-settings#1157": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 29.6h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "pydata/xarray#11883": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 47.08h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "pymc-devs/pymc#8633": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 46.33h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "pypa/cibuildwheel#3048": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 43.52h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "pypa/pip#14437": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 28.34h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "pytest-dev/pluggy#833": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 47.02h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "pytest-dev/pytest-xdist#1417": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 51.11h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "python-babel/babel#1463": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 46.29h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "python-markdown/markdown#1708": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: 禁止 agent 自主提交/评论，须由作者本人理解并参与"
+ },
+ "python-poetry/poetry#11228": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 45.37h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "python/mypy#22460": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 贡献类别门禁: 本地降级（非上游封锁）：外部修复 PR 三连无声离场（#22288、#22291 未合并关闭且零人工互动，#22056 被维护者自有 PR 取代；唯一合并 #22058 为文档区）。停"
+ },
+ "python/mypy#22466": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 贡献类别门禁: 本地降级（非上游封锁）：外部修复 PR 三连无声离场（#22288、#22291 未合并关闭且零人工互动，#22056 被维护者自有 PR 取代；唯一合并 #22058 为文档区）。停"
+ },
+ "python/mypy#22491": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 贡献类别门禁: 本地降级（非上游封锁）：外部修复 PR 三连无声离场（#22288、#22291 未合并关闭且零人工互动，#22056 被维护者自有 PR 取代；唯一合并 #22058 为文档区）。停"
+ },
+ "python/typeshed#16791": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 46.97h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "pytoolz/toolz#663": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 52.95h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "ray-project/ray#68123": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 52.76h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "ray-project/ray#68138": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 50.27h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "ray-project/ray#68146": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 42.3h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "ray-project/ray#68147": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 41.07h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "redis/redis-py#4638": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 51.31h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "redis/redis-py#4640": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 46.14h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "reflex-dev/reflex#7894": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 44.14h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "reflex-dev/reflex#7896": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 42.05h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "robotframework/robotframework#5858": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 28.0h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "scikit-hep/awkward#4532": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 36.01h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "scipy/scipy#26704": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 32.6h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "scipy/scipy#26705": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 30.38h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "scipy/scipy#26707": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 26.86h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "scrapy/scrapy#8493": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 53.95h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "seleniumhq/selenium#18312": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 53.49h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "significant-gravitas/auto-gpt#16796": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 41.6h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "sktime/sktime#11829": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 32.57h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "sphinx-doc/sphinx#14841": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 30.53h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "spyder-ide/spyder#26525": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 48.62h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "statsmodels/statsmodels#10741": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 41.17h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "streamlit/streamlit#18009": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 51.08h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "streamlit/streamlit#18014": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 50.35h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "streamlit/streamlit#18018": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 48.3h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "sympy/sympy#31081": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: 人工门禁（AI 政策 + AGENTS.md 双约束）：AI 生成代码政策「New Contributors」段明写新贡献者实质由 AI 生成的 issue/discussion/PR 大"
+ },
+ "sympy/sympy#31083": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: 人工门禁（AI 政策 + AGENTS.md 双约束）：AI 生成代码政策「New Contributors」段明写新贡献者实质由 AI 生成的 issue/discussion/PR 大"
+ },
+ "sympy/sympy#31086": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: 人工门禁（AI 政策 + AGENTS.md 双约束）：AI 生成代码政策「New Contributors」段明写新贡献者实质由 AI 生成的 issue/discussion/PR 大"
+ },
+ "sympy/sympy#31096": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: 人工门禁（AI 政策 + AGENTS.md 双约束）：AI 生成代码政策「New Contributors」段明写新贡献者实质由 AI 生成的 issue/discussion/PR 大"
+ },
+ "sympy/sympy#31107": {
+  "date": "2026-11-15",
+  "reason": "仓级门禁 policy_reason 非空: 人工门禁: 人工门禁（AI 政策 + AGENTS.md 双约束）：AI 生成代码政策「New Contributors」段明写新贡献者实质由 AI 生成的 issue/discussion/PR 大"
+ },
+ "syrupy-project/syrupy#1296": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 25.88h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "syrupy-project/syrupy#1297": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 25.87h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "tobymao/sqlglot#9060": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 52.48h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "tobymao/sqlglot#9061": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 52.45h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "tobymao/sqlglot#9062": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 52.45h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "tobymao/sqlglot#9063": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 52.44h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "tobymao/sqlglot#9065": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 49.92h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "tobymao/sqlglot#9083": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 46.12h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "tobymao/sqlglot#9093": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 39.0h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "tornadoweb/tornado#3883": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 53.73h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "tornadoweb/tornado#3890": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 31.43h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "tortoise/tortoise-orm#2412": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 2 个 PR 已达硬上限 2, 让出"
+ },
+ "tortoise/tortoise-orm#2415": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 2 个 PR 已达硬上限 2, 让出"
+ },
+ "tortoise/tortoise-orm#2417": {
+  "date": "2026-11-15",
+  "reason": "同仓我方在飞 2 个 PR 已达硬上限 2, 让出"
+ },
+ "twisted/twisted#12948": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 31.21h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "twisted/twisted#12949": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 24.38h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "unionai-oss/pandera#2669": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 42.71h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "unionai-oss/pandera#2671": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 28.62h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "unit8co/darts#3364": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 53.16h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "unit8co/darts#3365": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 53.16h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "unit8co/darts#3366": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 53.16h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "unit8co/darts#3367": {
+  "date": "2026-11-15",
+  "reason": "标签含 wontfix (禁投标签)"
+ },
+ "unit8co/darts#3368": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 53.16h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "unit8co/darts#3372": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 26.51h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "unit8co/darts#3373": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 24.94h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "unstructured-io/unstructured#4711": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 54.01h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "wagtail/wagtail#14812": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 51.43h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "yaml/pyyaml#1008": {
+  "date": "2026-11-15",
+  "reason": "扫描发现延迟 36.85h > 24h, 认领窗口已过, 不为凑数硬做"
+ },
+ "instructor-ai/instructor#3058": {
+  "date": "2026-11-15",
+  "reason": "改名/别名仓, 同一 issue 本轮 inbox 已判 (567-labs/instructor#3058): 两个竞品 PR #3062 / #3063 (同仓 xref, 均 OPEN)"
+ },
+ "instructor-ai/instructor#3059": {
+  "date": "2026-11-15",
+  "reason": "改名/别名仓, 同一 issue 本轮 inbox 已判 (567-labs/instructor#3059): reporter 自开竞品 PR #3060 (同仓 xref/+1, OPEN)"
+ },
+ "modelscope/agentscope#4046": {
+  "date": "2026-11-15",
+  "reason": "改名/别名仓, 同一 issue 本轮 inbox 已判 (agentscope-ai/agentscope#4046): 同仓我方在飞 2 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "modelscope/agentscope#4047": {
+  "date": "2026-11-15",
+  "reason": "改名/别名仓, 同一 issue 本轮 inbox 已判 (agentscope-ai/agentscope#4047): 同仓我方在飞 2 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "modelscope/agentscope#4050": {
+  "date": "2026-11-15",
+  "reason": "改名/别名仓, 同一 issue 本轮 inbox 已判 (agentscope-ai/agentscope#4050): 同仓我方在飞 2 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "modelscope/agentscope#4052": {
+  "date": "2026-11-15",
+  "reason": "改名/别名仓, 同一 issue 本轮 inbox 已判 (agentscope-ai/agentscope#4052): 同仓我方在飞 2 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "nvidia/nemo-guardrails#2600": {
+  "date": "2026-11-15",
+  "reason": "改名/别名仓, 同一 issue 本轮 inbox 已判 (nvidia-nemo/guardrails#2600): 文档提案尚待维护者确认是否合适, 结论依赖并行竞态顺序非稳定契约, 方案未定调 (issue 级)"
+ },
+ "paul-gauthier/aider#5985": {
+  "date": "2026-11-15",
+  "reason": "改名/别名仓, 同一 issue 本轮 inbox 已判 (aider-ai/aider#5985): 同仓我方在飞 2 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "paul-gauthier/aider#5988": {
+  "date": "2026-11-15",
+  "reason": "改名/别名仓, 同一 issue 本轮 inbox 已判 (aider-ai/aider#5988): 同仓我方在飞 2 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "paul-gauthier/aider#5989": {
+  "date": "2026-11-15",
+  "reason": "改名/别名仓, 同一 issue 本轮 inbox 已判 (aider-ai/aider#5989): 同仓我方在飞 2 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "paul-gauthier/aider#5990": {
+  "date": "2026-11-15",
+  "reason": "改名/别名仓, 同一 issue 本轮 inbox 已判 (aider-ai/aider#5990): 同仓我方在飞 2 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "significant-gravitas/auto-gpt#16811": {
+  "date": "2026-11-15",
+  "reason": "改名/别名仓, 同一 issue 本轮 inbox 已判 (significant-gravitas/autogpt#16811): 同仓我方在飞 2 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "significant-gravitas/auto-gpt#16818": {
+  "date": "2026-11-15",
+  "reason": "改名/别名仓, 同一 issue 本轮 inbox 已判 (significant-gravitas/autogpt#16818): 同仓我方在飞 2 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "significant-gravitas/auto-gpt#16819": {
+  "date": "2026-11-15",
+  "reason": "改名/别名仓, 同一 issue 本轮 inbox 已判 (significant-gravitas/autogpt#16819): 同仓我方在飞 2 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "significant-gravitas/auto-gpt#16820": {
+  "date": "2026-11-15",
+  "reason": "改名/别名仓, 同一 issue 本轮 inbox 已判 (significant-gravitas/autogpt#16820): 同仓我方在飞 2 个 PR 已达硬上限 2, 让出不再开第三个"
+ },
+ "getsentry/sentry-python#8271": {
+  "date": "2026-11-15",
+  "reason": "标签 Waiting for: Product Owner (须维护者先批准) + linear-linkback 内部同步单, 且复现需 uvicorn 流水线 HTTP/1.1 环境"
+ },
+ "agronholm/anyio#1478": {
+  "date": "2026-11-15",
+  "reason": "竞品 PR #1483 (同仓 xref, OPEN)"
+ },
+ "agronholm/anyio#1479": {
+  "date": "2026-11-15",
+  "reason": "竞品 PR #1482 (同仓 xref/+3, OPEN)"
+ },
+ "agronholm/anyio#1480": {
+  "date": "2026-11-15",
+  "reason": "竞品 PR #1481 (同仓 xref/+1, OPEN)"
+ },
+ "agronholm/apscheduler#1198": {
+  "date": "2026-11-15",
+  "reason": "DST cron 语义需维护者定调(与已关闭 #529/#606 同族); 同仓 50 个 open PR 且 DST 区域正被密集修改(#1195/#1196/#1178/#1188/#1191), 复现依赖 macOS tzdata 2026c + Python 3.15, 本机不可验"
+ },
+ "agronholm/apscheduler#1199": {
+  "date": "2026-11-15",
+  "reason": "文档与实现不符的修法二选一(改文档 or 改触发器)属设计决策, 维护者未定调; 同一研究者批量开单, 同仓 DST 区域在飞 PR 密集"
+ },
+ "agronholm/apscheduler#1200": {
+  "date": "2026-11-15",
+  "reason": "DST 重复 fire instant 属语义设计决策; 正文关联 open PR #1147 同改 fire-time 区域, 改动会冲突; 本机 tzdata/Python 版本不一致不可验"
+ },
+ "aio-libs/aiohttp#14381": {
+  "date": "2026-11-15",
+  "reason": "reporter 正文自陈愿提 PR + 竞品 PR #14382 (同仓 xref/+1, OPEN)"
+ },
+ "apache/airflow#77097": {
+  "date": "2026-11-15",
+  "reason": "评论 adiranjan25 \"I would like to take\" 认领 + 自开 PR #77101 (OPEN) + airflow breeze 验证路径门禁"
+ },
+ "apache/airflow#77116": {
+  "date": "2026-11-15",
+  "reason": "评论 Abhi2939 \"I would like to work\" 认领 + airflow breeze 验证路径门禁"
+ },
+ "bokeh/bokeh#15766": {
+  "date": "2026-11-15",
+  "reason": "bokehjs 前端 TypeScript feature + 竞品 PR #15767 (OPEN)"
+ },
+ "bokeh/bokeh#15768": {
+  "date": "2026-11-15",
+  "reason": "已 assign mattpap + 竞品 PR #15769 (OPEN) + bokehjs 类型检查不可本机验"
+ },
+ "bokeh/bokeh#15771": {
+  "date": "2026-11-15",
+  "reason": "已 assign mattpap + 竞品 PR #15772 (OPEN) + 前端 TS"
+ },
+ "coleifer/peewee#3104": {
+  "date": "2026-11-15",
+  "reason": "issue 已 CLOSED + 修复 PR #3105 已 CLOSED"
+ },
+ "conda/conda#16993": {
+  "date": "2026-11-15",
+  "reason": "自动化 \"Tests failed (2026-11-14)\" 内部 CI 报告单, 非缺陷工单"
+ },
+ "dagster-io/dagster#34442": {
+  "date": "2026-11-15",
+  "reason": "竞品 PR #34443 (同仓 xref/+1, OPEN)"
+ },
+ "dbt-labs/dbt-core#17185": {
+  "date": "2026-11-15",
+  "reason": "根因在 Rust crate crates/dbt-adbc 的第三方 ADBC 驱动发布/供应链(provenance), 需 Go build info 与 CDN 二进制核对, 本机不可验"
+ },
+ "delgan/loguru#1542": {
+  "date": "2026-11-15",
+  "reason": "竞品 PR #1543 (同仓 xref/+1, OPEN)"
+ },
+ "dmlc/xgboost#12853": {
+  "date": "2026-11-15",
+  "reason": "根因在 C++ OpenMP ParallelFor2d, 需 C++ 构建与多核环境, 本机不可验"
+ },
+ "duckdb/duckdb#28838": {
+  "date": "2026-11-15",
+  "reason": "DuckDB C++ 执行引擎 ANTI JOIN 结果错误, 本机不可验 (准入第三条前移)"
+ },
+ "duckdb/duckdb#28839": {
+  "date": "2026-11-15",
+  "reason": "DuckDB C++ 执行引擎 INSERT/count 不一致, 本机不可验"
+ },
+ "duckdb/duckdb#28841": {
+  "date": "2026-11-15",
+  "reason": "DuckDB C++ MSYS2/UCRT64 TLS 静态构建失败, 需 Windows MSYS2 工具链, 本机不可验"
+ },
+ "duckdb/duckdb#28842": {
+  "date": "2026-11-15",
+  "reason": "DuckDB C++ planner 指数爆炸, 需 C++ 构建与大规模查询, 本机不可验"
+ },
+ "duckdb/duckdb#28843": {
+  "date": "2026-11-15",
+  "reason": "DuckDB C++ Top-N 窗口消除返回错列, 本机不可验"
+ },
+ "duckdb/duckdb#28844": {
+  "date": "2026-11-15",
+  "reason": "DuckDB C++ Windows 日志存储读取, 平台专属且需 C++ 构建, 本机不可验"
+ },
+ "duckdb/duckdb#28846": {
+  "date": "2026-11-15",
+  "reason": "评论 hector2394 \"I would like to work\" 认领 + DuckDB C++ 不可本机验"
+ },
+ "duckdb/duckdb#28848": {
+  "date": "2026-11-15",
+  "reason": "DuckDB C++ printf/format 精度行为, 需 C++ 构建, 本机不可验"
+ },
+ "encode/starlette#3793": {
+  "date": "2026-11-15",
+  "reason": "reporter 自陈已备好 fix 分支与回归测试(1409 passed)并贴出 fork 链接; 正文注明该仓 PR 创建仅限 collaborators (API 404/FORBIDDEN) → 不收外部 PR"
+ },
+ "getsentry/sentry-python#8272": {
+  "date": "2026-11-15",
+  "reason": "标签 Waiting for: Product Owner + linear-linkback 内部同步单; 正文 \"wanted to check the direction before sending a PR\" 方案未定调 + 既有两个 wsgi 测试把旧行为钉成契约"
+ },
+ "gorakhargosh/watchdog#1462": {
+  "date": "2026-11-15",
+  "reason": "issue 已 CLOSED + 修复 PR #1467 已 MERGED"
+ },
+ "gorakhargosh/watchdog#1463": {
+  "date": "2026-11-15",
+  "reason": "issue 已 CLOSED + 修复 PR #1464/#1465 已 MERGED"
+ },
+ "ibis-project/ibis#12219": {
+  "date": "2026-11-15",
+  "reason": "竞品 PR #12220 (同仓 xref/+1, OPEN)"
+ },
+ "jaraco/keyring#784": {
+  "date": "2026-11-15",
+  "reason": "macOS Keyring 专属 get_credential() 缺失, 本机 Windows 无法复现 (平台信号不可验)"
+ },
+ "jupyterlab/jupyterlab#20510": {
+  "date": "2026-11-15",
+  "reason": "前端 TypeScript/浏览器 UI(空文件 revert), 需 e2e 不可本机验"
+ },
+ "lepture/authlib#1059": {
+  "date": "2026-11-15",
+  "reason": "正文方案二选一(分离 active/inactive 方法 or 加 include_inactive 参数)未定调, 且自陈属于 #856 更大范围清理, 须维护者定范围"
+ },
+ "lepture/authlib#1060": {
+  "date": "2026-11-15",
+  "reason": "RFC 6750 §2.2 是 MAY(可选实现)的 feature 请求, 非缺陷; 同仓邻号 PR #1061/#1062 已在飞"
+ },
+ "mahmoud/boltons#788": {
+  "date": "2026-11-15",
+  "reason": "竞品 PR #789 (同仓 xref/+1, OPEN)"
+ },
+ "narwhals-dev/narwhals#4159": {
+  "date": "2026-11-15",
+  "reason": "竞品 PR #4160 (同仓 xref/+1, OPEN)"
+ },
+ "nedbat/coveragepy#2400": {
+  "date": "2026-11-15",
+  "reason": "enhancement(glob in source) 属 feature 请求, 方案待维护者定调"
+ },
+ "numpy/numpy#33336": {
+  "date": "2026-11-15",
+  "reason": "Windows ARM64 + MSVC 19.52 专属 C 分区错误, 本机不可验 + 同仓 #33335/#33338 已 MERGED"
+ },
+ "numpy/numpy#33343": {
+  "date": "2026-11-15",
+  "reason": "构建溯源请求 (macOS wheel libquadmath), 非代码缺陷且需历史构建产物"
+ },
+ "plotly/plotly.py#5880": {
+  "date": "2026-11-15",
+  "reason": "正文自陈 \"I have a fix\" + 竞品 PR #5881 (同仓 xref/+1, OPEN)"
+ },
+ "pola-rs/polars#30811": {
+  "date": "2026-11-15",
+  "reason": "根因在 Rust 流式执行引擎 + 需 spill 到磁盘的大规模复现, 本机不可验"
+ },
+ "prefecthq/prefect#23917": {
+  "date": "2026-11-15",
+  "reason": "竞品 PR #23918 (同仓 xref/+1, OPEN)"
+ },
+ "prefecthq/prefect#23919": {
+  "date": "2026-11-15",
+  "reason": "竞品 PR #23920 (同仓 xref/+1, OPEN)"
+ },
+ "prefecthq/prefect#23921": {
+  "date": "2026-11-15",
+  "reason": "竞品 PR #23922/#23923 (同仓 xref, 均 OPEN)"
+ },
+ "psf/black#5696": {
+  "date": "2026-11-15",
+  "reason": "正文自陈 \"Happy to send the one-line PR\" + 竞品 PR #5697 (同仓 xref/+1, OPEN)"
+ },
+ "pydantic/pydantic#14288": {
+  "date": "2026-11-15",
+  "reason": "SIGSEGV 根因在 pydantic-core (Rust 扩展) + 需 Py3.14 特定组合, 本机不可验 (准入第三条前移)"
+ },
+ "pymc-devs/pymc#8635": {
+  "date": "2026-11-15",
+  "reason": "正文自陈 \"happy to open a PR\" + pytensor C 后端不可本机验"
+ },
+ "pypa/pip#14438": {
+  "date": "2026-11-15",
+  "reason": "复现需 Python 3.16 的 urllib SCP-style stub URL 行为, 本机无该解释器 (不可验)"
+ },
+ "python-humanize/humanize#518": {
+  "date": "2026-11-15",
+  "reason": "仓星数/背书不满足准入(个人小库), 且邻号 PR #519 已在飞"
+ },
+ "ray-project/ray#68165": {
+  "date": "2026-11-15",
+  "reason": "根因在 Ray Data C++/Arrow 列式 list.get, 需 Ray 集群运行时, 本机不可验 + 同仓竞品 PR #68166/#68185"
+ },
+ "ray-project/ray#68167": {
+  "date": "2026-11-15",
+  "reason": "Ray Sandbox runsc/gofer 僵尸进程, 需 gVisor 运行时, 本机不可验 + 竞品 PR #68164"
+ },
+ "scikit-hep/awkward#4534": {
+  "date": "2026-11-15",
+  "reason": "根因在 awkward C++ 层 Arrow sliced array, 本机不可验 + 已 assign + 竞品 PR #4535"
+ },
+ "scikit-hep/awkward#4536": {
+  "date": "2026-11-15",
+  "reason": "根因在 awkward C++ 层 masked array pad_none, 本机不可验 + 正文自陈将开 PR + 竞品 PR #4537"
+ },
+ "scikit-learn/scikit-learn#35401": {
+  "date": "2026-11-15",
+  "reason": "Narwhals/pandas 零拷贝优化属 feature, 涉及 Cython 扩展与性能基准, 本机不可验"
+ },
+ "scikit-learn/scikit-learn#35402": {
+  "date": "2026-11-15",
+  "reason": "正文自陈 \"happy to open a PR\" + 邻号 PR #35403 (OPEN)"
+ },
+ "scipy/scipy#26715": {
+  "date": "2026-11-15",
+  "reason": "issue 已 CLOSED + 构建溯源请求非代码缺陷"
+ },
+ "sktime/sktime#11836": {
+  "date": "2026-11-15",
+  "reason": "竞品 PR #11839 (同仓 xref, OPEN)"
+ },
+ "sktime/sktime#11837": {
+  "date": "2026-11-15",
+  "reason": "正文自陈愿提 PR + 竞品 PR #11838 (同仓 xref/+1, OPEN)"
+ },
+ "sktime/sktime#11842": {
+  "date": "2026-11-15",
+  "reason": "竞品 PR #11843 (同仓 xref/+1, OPEN)"
+ },
+ "sktime/sktime#11845": {
+  "date": "2026-11-15",
+  "reason": "竞品 PR #11846 (同仓 xref/+1, OPEN)"
+ },
+ "snakemake/snakemake#4392": {
+  "date": "2026-11-15",
+  "reason": "竞品 PR #4393 (同仓 xref/+1, OPEN)"
+ },
+ "statsmodels/statsmodels#10743": {
+  "date": "2026-11-15",
+  "reason": "竞品 PR #10744 (同仓 xref/+1, OPEN)"
+ },
+ "streamlit/streamlit#18027": {
+  "date": "2026-11-15",
+  "reason": "issue 已 CLOSED"
+ },
+ "syrupy-project/syrupy#1302": {
+  "date": "2026-11-15",
+  "reason": "issue 已 CLOSED + 修复 PR #1303/#1305 已 MERGED"
+ },
+ "tobymao/sqlglot#9100": {
+  "date": "2026-11-15",
+  "reason": "竞品 PR #9111 (同仓 xref, OPEN)"
+ },
+ "tobymao/sqlglot#9101": {
+  "date": "2026-11-15",
+  "reason": "竞品 PR #9106 (同仓 xref, OPEN)"
+ },
+ "tobymao/sqlglot#9102": {
+  "date": "2026-11-15",
+  "reason": "评论 hector2394 \"I have a fix\" 认领"
+ },
+ "tobymao/sqlglot#9103": {
+  "date": "2026-11-15",
+  "reason": "竞品 PR #9105 (同仓 xref, OPEN)"
+ },
+ "tobymao/sqlglot#9104": {
+  "date": "2026-11-15",
+  "reason": "竞品 PR #9109 (同仓 xref, OPEN)"
+ },
+ "tobymao/sqlglot#9107": {
+  "date": "2026-11-15",
+  "reason": "竞品 PR #9108 (同仓 xref, OPEN)"
+ },
+ "tobymao/sqlglot#9112": {
+  "date": "2026-11-15",
+  "reason": "reporter 自陈 \"I have a branch for the generator side and can open a PR if this direction sounds right\" + exp.Format 语义方向待维护者定调"
+ },
+ "tobymao/sqlglot#9113": {
+  "date": "2026-11-15",
+  "reason": "五项全清但同批 reporter 连开三条且 #9112 自陈已有 generator 分支; 该仓 26 个同质 open PR(LLM 密集仓, #9100-#9107 全在 17h 内被竞品占据), 全局在飞 78 已饱和, 本轮不开新单 (策略性让位, 非硬弃因)"
+ },
+ "tobymao/sqlglot#9114": {
+  "date": "2026-11-15",
+  "reason": "同上: 五项全清但同批 reporter 自陈已有 generator 分支 + 方案二选一(位运算展开 / unsupported 标记)未定调 + LLM 密集仓 + 在飞 78 饱和 (策略性让位)"
+ },
+ "twisted/twisted#12952": {
+  "date": "2026-11-15",
+  "reason": "维护者 glyph 自开的机器人封禁策略请求, 非缺陷/内部治理议题"
+ },
+ "wntrblm/nox#1237": {
+  "date": "2026-11-15",
+  "reason": "竞品 PR #1238 (同仓 xref/+1, OPEN)"
+ },
+ "zauberzeug/nicegui#6507": {
+  "date": "2026-11-15",
+  "reason": "前端异步 UI dialog 竞态, 需浏览器/事件循环 e2e, 本机不可验"
+ },
+ "zauberzeug/nicegui#6508": {
+  "date": "2026-11-15",
+  "reason": "竞品 PR #6509 (同仓 xref/+1, OPEN)"
+ },
+ "agno-agi/agno#11733": {
+  "date": "2026-11-18",
+  "reason": "仓级 issue-readiness 门禁缺 ready 标签 + feature 请求(新增 model provider) + 作者疑似厂商自推"
+ },
+ "apache/airflow#77208": {
+  "date": "2026-11-18",
+  "reason": "reporter 自开竞品 PR #77209(同仓 xref/branch fix-next-url-77208)"
+ },
+ "confident-ai/deepeval#3661": {
+  "date": "2026-11-18",
+  "reason": "reporter 自开竞品 PR #3662(同仓 xref/author BahaaMattar)"
+ },
+ "i-am-bee/beeai-framework#1969": {
+  "date": "2026-11-18",
+  "reason": "reporter 自开竞品 PR #1970(同仓 xref/Closes #1969)"
+ },
+ "explodinggradients/ragas#3120": {
+  "date": "2026-11-18",
+  "reason": "软认领正文 Happy to send a PR(SOFT regex) + 同作者 BahaaMattar 多处自开竞品 PR"
+ },
+ "run-llama/llama_index#24298": {
+  "date": "2026-11-18",
+  "reason": "同仓我方在飞 3 超硬上限 2"
+ },
+ "run-llama/llama_index#24299": {
+  "date": "2026-11-18",
+  "reason": "同仓我方在飞 3 超硬上限 2 + 正文 I will open a PR(软认领)"
+ },
+ "frappe/frappe#47814": {
+  "date": "2026-11-18",
+  "reason": "仓级人工门禁 vouched 资格未核验(policy_reason 非空)"
+ },
+ "livekit/agents#8606": {
+  "date": "2026-11-18",
+  "reason": "仓级人工门禁 CLA 网页 OAuth 须本人签(policy_reason 非空)"
+ },
+ "jupyterlab/jupyterlab#20528": {
+  "date": "2026-11-18",
+  "reason": "前端 TS/CSS 滚动渲染, 本机不可验"
+ },
+ "ray-project/ray#68249": {
+  "date": "2026-11-18",
+  "reason": "RFC enhancement 非 bug-fix"
+ },
+ "arize-ai/openinference#4344": {
+  "date": "2026-11-18",
+  "reason": "Question 咨询安全报告渠道, 非缺陷"
+ },
+ "altair-viz/altair#4221": {
+  "date": "2026-11-18",
+  "reason": "enhancement 目录重排, 纯风格/结构改动无 issue 缺陷支撑"
+ },
+ "significant-gravitas/autogpt#16873": {
+  "date": "2026-11-18",
+  "reason": "同仓我方在飞 2 达硬上限(#16718/#16726) + 已 assign 给作者 ntindle"
+ },
+ "significant-gravitas/autogpt#16872": {
+  "date": "2026-11-18",
+  "reason": "同仓我方在飞 2 达硬上限(#16718/#16726)"
+ },
+ "pydantic/pydantic-ai#13759": {
+  "date": "2026-11-18",
+  "reason": "仓级禁投 policy_reason 非空 + 同仓在飞 3 超上限 + feature 请求"
+ },
+ "pydantic/pydantic-ai#13758": {
+  "date": "2026-11-18",
+  "reason": "仓级禁投 policy_reason 非空(pydanty:skip) + 同仓在飞 3 超上限"
+ },
+ "bytedance/deer-flow#8345": {
+  "date": "2026-11-18",
+  "reason": "RFC feature 非 bug-fix + 同仓 xref 竞品 PR #8346"
+ },
+ "mem0ai/mem0#7949": {
+  "date": "2026-11-18",
+  "reason": "仓级门禁: issue-readiness 缺 accepted 标签"
+ },
+ "pydantic/pydantic-ai#13768": {
+  "date": "2026-11-18",
+  "reason": "受限禁投仓 pydantic-ai"
+ },
+ "berriai/litellm#52335": {
+  "date": "2026-11-18",
+  "reason": "同仓我方在飞 2 达硬上限; 双 retry loop 方案未定调"
+ },
+ "pydantic/pydantic-ai#13767": {
+  "date": "2026-11-18",
+  "reason": "受限禁投仓 pydantic-ai"
+ },
+ "confident-ai/deepeval#3663": {
+  "date": "2026-11-18",
+  "reason": "同仓已有竞品 PR #3664 xref; 正文软认领"
+ },
+ "pydantic/pydantic-ai#13766": {
+  "date": "2026-11-18",
+  "reason": "受限禁投仓 pydantic-ai"
+ },
+ "docling-project/docling#5448": {
+  "date": "2026-11-18",
+  "reason": "同仓我方在飞 3 超硬上限; 三种修法待维护者定调"
+ },
+ "huggingface/huggingface_hub#5372": {
+  "date": "2026-11-18",
+  "reason": "正文软认领 Happy to open a PR; 方案待定"
+ },
+ "twisted/twisted#12957": {
+  "date": "2026-11-18",
+  "reason": "仓级门禁: 生成式 AI 全面禁用(ai-policy + PR 模板自检), 无真人合规路径不可投"
+ },
+ "astropy/astropy#20891": {
+  "date": "2026-11-18",
+  "reason": "维护者自问 CI 方案(conditional/blind install), 内部讨论未定调"
+ },
+ "dask/distributed#9390": {
+  "date": "2026-11-18",
+  "reason": "自陈补丁 + 同仓 xref PR #9391"
+ },
+ "dask/distributed#9392": {
+  "date": "2026-11-18",
+  "reason": "自陈补丁 + 同仓 xref PR #9393"
+ },
+ "dbt-labs/dbt-core#17205": {
+  "date": "2026-11-18",
+  "reason": "自陈补丁 + 同仓 xref PR #17206/#17207"
+ },
+ "dbt-labs/dbt-core#17208": {
+  "date": "2026-11-18",
+  "reason": "同仓 xref PR #17210/#17195"
+ },
+ "dbt-labs/dbt-core#17210": {
+  "date": "2026-11-18",
+  "reason": "同仓 xref PR #17195"
+ },
+ "duckdb/duckdb#28982": {
+  "date": "2026-11-18",
+  "reason": "C++ 编译型本机不可验; 他仓 duckdb-aws#261 xref"
+ },
+ "frappe/frappe#47818": {
+  "date": "2026-11-18",
+  "reason": "仓级门禁: vouched 资格未核验"
+ },
+ "frappe/frappe#47822": {
+  "date": "2026-11-18",
+  "reason": "仓级门禁: vouched 资格未核验"
+ },
+ "mlflow/mlflow#27880": {
+  "date": "2026-11-18",
+  "reason": "仓级门禁: 缺少 ready 标签"
+ },
+ "mlflow/mlflow#27882": {
+  "date": "2026-11-18",
+  "reason": "仓级门禁: 缺少 ready 标签"
+ },
+ "python/mypy#22509": {
+  "date": "2026-11-18",
+  "reason": "本地降级: 外部修复 PR 三连无声离场"
+ },
+ "redis/redis-py#4654": {
+  "date": "2026-11-18",
+  "reason": "正文软认领"
+ },
+ "reflex-dev/reflex#7916": {
+  "date": "2026-11-18",
+  "reason": "同仓 xref PR #7917"
+ },
+ "scipy/scipy#26743": {
+  "date": "2026-11-18",
+  "reason": "编译型扩展 + 同仓 xref PR #26744"
+ },
+ "scipy/scipy#26745": {
+  "date": "2026-11-18",
+  "reason": "间歇性 CI 失败本机不可确定性复现; C/Fortran 编译型"
+ },
+ "significant-gravitas/auto-gpt#16872": {
+  "date": "2026-11-18",
+  "reason": "同作者批量自开 PR #16874; 需真实 Postgres/Prisma 全流程本机不可验"
+ },
+ "significant-gravitas/auto-gpt#16873": {
+  "date": "2026-11-18",
+  "reason": "同仓 xref PR #16865"
+ },
+ "statsmodels/statsmodels#10778": {
+  "date": "2026-11-18",
+  "reason": "作者自陈已有补丁将开 PR"
+ },
+ "sympy/sympy#31160": {
+  "date": "2026-11-18",
+  "reason": "受限禁投仓 sympy(AI 政策+AGENTS.md)"
+ },
+ "sympy/sympy#31163": {
+  "date": "2026-11-18",
+  "reason": "受限禁投仓 sympy; 讨论话题非缺陷"
+ },
+ "unionai-oss/pandera#2685": {
+  "date": "2026-11-18",
+  "reason": "同仓 xref PR #2686"
+ },
+ "huggingface/huggingface_hub#5374": {
+  "date": "2026-11-18",
+  "reason": "Issues-First: 纯代码改动维护者自实现, 0评论未经讨论定范围(issue级)"
+ },
+ "huggingface/huggingface_hub#5373": {
+  "date": "2026-11-18",
+  "reason": "Issues-First: 纯代码改动维护者自实现, 0评论未经讨论定范围(issue级)"
+ },
+ "berriai/litellm#52346": {
+  "date": "2026-11-18",
+  "reason": "同仓在飞2达上限; 正文软认领 Happy to open a PR if approach works"
+ },
+ "pydantic/pydantic-ai#13775": {
+  "date": "2026-11-18",
+  "reason": "受限禁投仓; feature 维护者Claude自建+xref内部issue"
+ },
+ "pydantic/pydantic-ai#13774": {
+  "date": "2026-11-18",
+  "reason": "受限禁投仓; feature 维护者Claude自建+xref内部issue"
+ },
+ "agno-agi/agno#11737": {
+  "date": "2026-11-17",
+  "reason": "issue-readiness门禁仓缺ready标签;且feature request非bug"
+ },
+ "dbt-labs/dbt-core#17213": {
+  "date": "2026-11-17",
+  "reason": "已有内部assignee ajhlee-dbt"
+ },
+ "dmlc/xgboost#12871": {
+  "date": "2026-11-17",
+  "reason": "性能调优需C++基准且结论为设计权衡;本机不可验"
+ },
+ "duckdb/duckdb#28984": {
+  "date": "2026-11-17",
+  "reason": "根因在duckdb C++引擎INTERNAL error;本机不可跑测"
+ },
+ "duckdb/duckdb#28985": {
+  "date": "2026-11-17",
+  "reason": "根因在duckdb C++ row-group stats;本机不可跑测"
+ },
+ "huggingface/datasets#9069": {
+  "date": "2026-11-17",
+  "reason": "timeline有同仓竞品PR#9070 Fix the eval loader已占据"
+ },
+ "pola-rs/polars#30871": {
+  "date": "2026-11-17",
+  "reason": "根因在polars Rust streaming merge join;本机不可跑测"
+ },
+ "pola-rs/polars#30872": {
+  "date": "2026-11-17",
+  "reason": "根因在polars Rust dtype内核(scatter Decimal/Categorical);本机不可跑测"
+ },
+ "pola-rs/polars#30873": {
+  "date": "2026-11-17",
+  "reason": "根因在polars Rust dtype内核(整数Series算术);本机不可跑测"
+ },
+ "prefecthq/fastmcp#6543": {
+  "date": "2026-11-17",
+  "reason": "policy_reason人工门禁:须链接issue且作者已被assign"
+ },
+ "ray-project/ray#68270": {
+  "date": "2026-11-17",
+  "reason": "复现需cgroup内存限制+真实OOM kill多进程;本机判别力无法稳定建立"
+ },
+ "scipy/scipy#26748": {
+  "date": "2026-11-17",
+  "reason": "根因在scipy C/Fortran signal内核;本机不可跑测"
+ },
+ "statsmodels/statsmodels#10782": {
+  "date": "2026-11-17",
+  "reason": "作者自陈已有branch并正向维护者征询方案(软认领+方案待定,改默认值需设计共识)"
+ },
+ "pola-rs/polars#30714": {
+  "date": "2026-11-17",
+  "reason": "Rust SQL执行内核本机不可验;正文自陈PR须accepted后follow(软认领待定调);timeline有同仓PR#30869"
+ },
+ "modelcontextprotocol/servers#5520": {
+  "date": "2026-11-18",
+  "reason": "handoff-only 政策仓（policy_reason 非空）+ MEMBER 维护者自建，不可投"
+ },
+ "bytedance/deer-flow#8452": {
+  "date": "2026-11-21",
+  "reason": "needs-triage 未分诊 + deer-flow 需 LLM 服务端到端验证，无人值守不可验证"
+ },
+ "bytedance/deer-flow#8443": {
+  "date": "2026-11-21",
+  "reason": "needs-triage 未分诊 + deer-flow 需 LLM 服务端到端验证，无人值守不可验证"
+ },
+ "bytedance/deer-flow#8431": {
+  "date": "2026-11-21",
+  "reason": "needs-triage 未分诊 + deer-flow 需 LLM 服务端到端验证，无人值守不可验证"
+ },
+ "bytedance/deer-flow#8430": {
+  "date": "2026-11-21",
+  "reason": "needs-triage 未分诊 + deer-flow 需 LLM 服务端到端验证，无人值守不可验证"
+ },
+ "bytedance/deer-flow#8426": {
+  "date": "2026-11-21",
+  "reason": "needs-triage 未分诊 + deer-flow 需 LLM 服务端到端验证，无人值守不可验证"
+ },
+ "bytedance/deer-flow#8421": {
+  "date": "2026-11-21",
+  "reason": "needs-triage 未分诊 + deer-flow 需 LLM 服务端到端验证，无人值守不可验证"
+ },
+ "bytedance/deer-flow#8420": {
+  "date": "2026-11-21",
+  "reason": "needs-triage 未分诊 + deer-flow 需 LLM 服务端到端验证，无人值守不可验证"
+ },
+ "bytedance/deer-flow#8419": {
+  "date": "2026-11-21",
+  "reason": "needs-triage 未分诊 + deer-flow 需 LLM 服务端到端验证，无人值守不可验证"
+ },
+ "bytedance/deer-flow#8407": {
+  "date": "2026-11-21",
+  "reason": "needs-triage 未分诊 + deer-flow 需 LLM 服务端到端验证，无人值守不可验证"
+ },
+ "bytedance/deer-flow#8406": {
+  "date": "2026-11-21",
+  "reason": "needs-triage 未分诊 + deer-flow 需 LLM 服务端到端验证，无人值守不可验证"
+ },
+ "bytedance/deer-flow#8404": {
+  "date": "2026-11-21",
+  "reason": "needs-triage 未分诊 + deer-flow 需 LLM 服务端到端验证，无人值守不可验证"
+ },
+ "bytedance/deer-flow#8395": {
+  "date": "2026-11-21",
+  "reason": "needs-triage 未分诊 + deer-flow 需 LLM 服务端到端验证，无人值守不可验证"
+ },
+ "bytedance/deer-flow#8394": {
+  "date": "2026-11-21",
+  "reason": "needs-triage 未分诊 + deer-flow 需 LLM 服务端到端验证，无人值守不可验证"
+ },
+ "bytedance/deer-flow#8392": {
+  "date": "2026-11-21",
+  "reason": "needs-triage 未分诊 + deer-flow 需 LLM 服务端到端验证，无人值守不可验证"
+ },
+ "bytedance/deer-flow#8389": {
+  "date": "2026-11-21",
+  "reason": "needs-triage 未分诊 + deer-flow 需 LLM 服务端到端验证，无人值守不可验证"
+ },
+ "bytedance/deer-flow#8382": {
+  "date": "2026-11-21",
+  "reason": "needs-triage 未分诊 + deer-flow 需 LLM 服务端到端验证，无人值守不可验证"
+ },
+ "bytedance/deer-flow#8380": {
+  "date": "2026-11-21",
+  "reason": "needs-triage 未分诊 + deer-flow 需 LLM 服务端到端验证，无人值守不可验证"
+ },
+ "bytedance/deer-flow#8373": {
+  "date": "2026-11-21",
+  "reason": "needs-triage 未分诊 + deer-flow 需 LLM 服务端到端验证，无人值守不可验证"
+ },
+ "bytedance/deer-flow#8371": {
+  "date": "2026-11-21",
+  "reason": "needs-triage 未分诊 + deer-flow 需 LLM 服务端到端验证，无人值守不可验证"
+ },
+ "bytedance/deer-flow#8369": {
+  "date": "2026-11-21",
+  "reason": "needs-triage 未分诊 + deer-flow 需 LLM 服务端到端验证，无人值守不可验证"
+ },
+ "bytedance/deer-flow#8367": {
+  "date": "2026-11-21",
+  "reason": "needs-triage 未分诊 + deer-flow 需 LLM 服务端到端验证，无人值守不可验证"
+ },
+ "bytedance/deer-flow#8364": {
+  "date": "2026-11-21",
+  "reason": "needs-triage 未分诊 + deer-flow 需 LLM 服务端到端验证，无人值守不可验证"
+ },
+ "bytedance/deer-flow#8360": {
+  "date": "2026-11-21",
+  "reason": "needs-triage 未分诊 + deer-flow 需 LLM 服务端到端验证，无人值守不可验证"
+ },
+ "bytedance/deer-flow#8359": {
+  "date": "2026-11-21",
+  "reason": "needs-triage 未分诊 + deer-flow 需 LLM 服务端到端验证，无人值守不可验证"
+ },
+ "bytedance/deer-flow#8358": {
+  "date": "2026-11-21",
+  "reason": "needs-triage 未分诊 + deer-flow 需 LLM 服务端到端验证，无人值守不可验证"
+ },
+ "bytedance/deer-flow#8353": {
+  "date": "2026-11-21",
+  "reason": "needs-triage 未分诊 + deer-flow 需 LLM 服务端到端验证，无人值守不可验证"
+ },
+ "kyegomez/swarms#3591": {
+  "date": "2026-11-21",
+  "reason": "维护者内部队列让位: kyegomez ai-generated 审计批量（规律 55）"
+ },
+ "kyegomez/swarms#3558": {
+  "date": "2026-11-21",
+  "reason": "维护者内部队列让位: kyegomez ai-generated 审计批量（规律 55）"
+ },
+ "kyegomez/swarms#3557": {
+  "date": "2026-11-21",
+  "reason": "维护者内部队列让位: kyegomez ai-generated 审计批量（规律 55）"
+ },
+ "kyegomez/swarms#3556": {
+  "date": "2026-11-21",
+  "reason": "维护者内部队列让位: kyegomez ai-generated 审计批量（规律 55）"
+ },
+ "kyegomez/swarms#3555": {
+  "date": "2026-11-21",
+  "reason": "维护者内部队列让位: kyegomez ai-generated 审计批量（规律 55）"
+ },
+ "kyegomez/swarms#3554": {
+  "date": "2026-11-21",
+  "reason": "维护者内部队列让位: kyegomez ai-generated 审计批量（规律 55）"
+ },
+ "kyegomez/swarms#3552": {
+  "date": "2026-11-21",
+  "reason": "维护者内部队列让位: kyegomez ai-generated 审计批量（规律 55）"
+ },
+ "kyegomez/swarms#3551": {
+  "date": "2026-11-21",
+  "reason": "维护者内部队列让位: kyegomez ai-generated 审计批量（规律 55）"
+ },
+ "kyegomez/swarms#3550": {
+  "date": "2026-11-21",
+  "reason": "维护者内部队列让位: kyegomez ai-generated 审计批量（规律 55）"
+ },
+ "kyegomez/swarms#3549": {
+  "date": "2026-11-21",
+  "reason": "维护者内部队列让位: kyegomez ai-generated 审计批量（规律 55）"
+ },
+ "kyegomez/swarms#3548": {
+  "date": "2026-11-21",
+  "reason": "维护者内部队列让位: kyegomez ai-generated 审计批量（规律 55）"
+ },
+ "kyegomez/swarms#3547": {
+  "date": "2026-11-21",
+  "reason": "维护者内部队列让位: kyegomez ai-generated 审计批量（规律 55）"
+ },
+ "kyegomez/swarms#3546": {
+  "date": "2026-11-21",
+  "reason": "维护者内部队列让位: kyegomez ai-generated 审计批量（规律 55）"
+ },
+ "kyegomez/swarms#3545": {
+  "date": "2026-11-21",
+  "reason": "维护者内部队列让位: kyegomez ai-generated 审计批量（规律 55）"
+ },
+ "kyegomez/swarms#3544": {
+  "date": "2026-11-21",
+  "reason": "维护者内部队列让位: kyegomez ai-generated 审计批量（规律 55）"
+ },
+ "kyegomez/swarms#3533": {
+  "date": "2026-11-21",
+  "reason": "维护者内部队列让位: kyegomez ai-generated 审计批量（规律 55）"
+ },
+ "kyegomez/swarms#3532": {
+  "date": "2026-11-21",
+  "reason": "维护者内部队列让位: kyegomez ai-generated 审计批量（规律 55）"
+ },
+ "kyegomez/swarms#3531": {
+  "date": "2026-11-21",
+  "reason": "维护者内部队列让位: kyegomez ai-generated 审计批量（规律 55）"
+ },
+ "kyegomez/swarms#3526": {
+  "date": "2026-11-21",
+  "reason": "维护者内部队列让位: kyegomez ai-generated 审计批量（规律 55）"
+ },
+ "kyegomez/swarms#3525": {
+  "date": "2026-11-21",
+  "reason": "维护者内部队列让位: kyegomez ai-generated 审计批量（规律 55）"
+ },
+ "kyegomez/swarms#3524": {
+  "date": "2026-11-21",
+  "reason": "维护者内部队列让位: kyegomez ai-generated 审计批量（规律 55）"
+ },
+ "kyegomez/swarms#3523": {
+  "date": "2026-11-21",
+  "reason": "维护者内部队列让位: kyegomez ai-generated 审计批量（规律 55）"
+ },
+ "nvidia-nemo/guardrails#2634": {
+  "date": "2026-11-21",
+  "reason": "needs-triage 未分诊"
+ },
+ "567-labs/instructor#3087": {
+  "date": "2026-11-21",
+  "reason": "observe-only 仓: instructor（#2717/#2879 维护者自修族，不再投入）"
+ },
+ "567-labs/instructor#3083": {
+  "date": "2026-11-21",
+  "reason": "observe-only 仓: instructor（#2717/#2879 维护者自修族，不再投入）"
+ },
+ "bolna-ai/bolna#1233": {
+  "date": "2026-11-21",
+  "reason": "不可本机验证类: 无本地可复现路径"
+ },
+ "bolna-ai/bolna#1230": {
+  "date": "2026-11-21",
+  "reason": "不可本机验证类: 无本地可复现路径"
+ },
+ "foundationagents/metagpt#2211": {
+  "date": "2026-11-21",
+  "reason": "不可本机验证类: 无本地可复现路径"
+ },
+ "huggingface/tokenizers#2742": {
+  "date": "2026-11-21",
+  "reason": "Rust core 让位: tokenizers 实现层在 Rust，非 Python 可修（#2655 同类）"
+ },
+ "huggingface/tokenizers#2733": {
+  "date": "2026-11-21",
+  "reason": "Rust core 让位: tokenizers 实现层在 Rust，非 Python 可修（#2655 同类）"
+ },
+ "huggingface/tokenizers#2732": {
+  "date": "2026-11-21",
+  "reason": "Rust core 让位: tokenizers 实现层在 Rust，非 Python 可修（#2655 同类）"
+ },
+ "huggingface/tokenizers#2731": {
+  "date": "2026-11-21",
+  "reason": "Rust core 让位: tokenizers 实现层在 Rust，非 Python 可修（#2655 同类）"
+ },
+ "huggingface/tokenizers#2730": {
+  "date": "2026-11-21",
+  "reason": "Rust core 让位: tokenizers 实现层在 Rust，非 Python 可修（#2655 同类）"
+ },
+ "huggingface/tokenizers#2728": {
+  "date": "2026-11-21",
+  "reason": "Rust core 让位: tokenizers 实现层在 Rust，非 Python 可修（#2655 同类）"
+ },
+ "huggingface/tokenizers#2725": {
+  "date": "2026-11-21",
+  "reason": "Rust core 让位: tokenizers 实现层在 Rust，非 Python 可修（#2655 同类）"
+ },
+ "huggingface/tokenizers#2724": {
+  "date": "2026-11-21",
+  "reason": "Rust core 让位: tokenizers 实现层在 Rust，非 Python 可修（#2655 同类）"
+ },
+ "huggingface/tokenizers#2722": {
+  "date": "2026-11-21",
+  "reason": "Rust core 让位: tokenizers 实现层在 Rust，非 Python 可修（#2655 同类）"
+ },
+ "huggingface/tokenizers#2719": {
+  "date": "2026-11-21",
+  "reason": "Rust core 让位: tokenizers 实现层在 Rust，非 Python 可修（#2655 同类）"
+ },
+ "huggingface/tokenizers#2710": {
+  "date": "2026-11-21",
+  "reason": "Rust core 让位: tokenizers 实现层在 Rust，非 Python 可修（#2655 同类）"
+ },
+ "julep-ai/julep#1637": {
+  "date": "2026-11-21",
+  "reason": "不可本机验证类: 无本地可复现路径"
+ },
+ "microsoft/autogen#8498": {
+  "date": "2026-11-21",
+  "reason": "handoff-only 仓: microsoft 系（#8437 为并行会话 PR，本仓不重复投入）"
+ },
+ "microsoft/graphrag#2633": {
+  "date": "2026-11-21",
+  "reason": "仓级限制: 仅协作者可开 PR，流水线无法提交"
+ },
+ "microsoft/semantic-kernel#14824": {
+  "date": "2026-11-21",
+  "reason": "handoff-only 仓: microsoft 系（Textualize/microsoft 系 handoff 先例）"
+ },
+ "microsoft/semantic-kernel#14818": {
+  "date": "2026-11-21",
+  "reason": "handoff-only 仓: microsoft 系（Textualize/microsoft 系 handoff 先例）"
+ },
+ "openai/openai-python#4293": {
+  "date": "2026-11-21",
+  "reason": "受限/禁投仓库: openai/openai-python（openai 系，此前 manual 类）"
+ },
+ "openai/openai-python#4287": {
+  "date": "2026-11-21",
+  "reason": "受限/禁投仓库: openai/openai-python（openai 系，此前 manual 类）"
+ },
+ "openbmb/chatdev#733": {
+  "date": "2026-11-21",
+  "reason": "非代码任务: 研究工作流咨询类（#714 先例）"
  }
 }

@@ -5585,3 +5585,86 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - monitor_oss: 79/79 盲点 0，零变化
 - review_sweep: 3 更新 0 人工活动，1 自动消解，0 ACTION
 - dispositions 2418→2420
+
+2026-11-16 用户请求处理积压：crewAI #7795 经明确同意关闭，原分支/证据保留；DataDog #20873 已更新签名提交 ea97b4a 并消除冲突，仅待 ml-observability 团队批准；AutoGPT #16726 已快进发布623b2ca，17/35项回归与4175项必要测试通过（84跳过），CLA成功，新官方CI/审阅待完成。AgentScope #3770、Xarray #11759 的已验证补丁保留，遵守提交者本人审阅要求；Pylint #11770、AutoGPT #16718 等待外部审阅/授权。未新建公开PR或执行上游合并。完整处理清单见 [本轮报告](/E:/zcode-PR/work/backlog-20261116/report.md)。
+
+## 2026-11-18 round 262（01:26 GMT+8 / 11-17 17:26 UTC，开关 ON，shift 44096899756）— 2 产出：1 新 PR（boltons#801）+ 1 评审返工推送（unstructured#4693）
+- 开关首查 ON。收件箱 **395 条历史积压**（多日 gap：11-14 最后轮后 discovery 持续投递未消费）+ 轮末二次复核 9 条 = **404 条全当轮 disposition**，终检 0 pending（3590 reported / 3674 done）；规律 120 最后一次复核放在所有日志写完之后，写日志期间又投 9 条已清。四刀降维：177 仓级门禁（policy_reason 全非空）/ 121 同仓在飞达上限 / 49 超 24h 窗口已过 / 48 深查；48 深查中 34 条 timeline cross-referenced 或号段 +1/+2/+3 有竞品 PR（reporter 秒开，多为 `llm translation`/AI 批量发单），14 条逐条正文读毕全弃（软认领、方案未定调、feature、需真机/线上 API/Python3.14）。novel 扫描专属 167 条再经 canonical slug 归并（modelscope/agentscope=agentscope-ai 在飞满、auto-gpt=autogpt 满）+ claim/xref + 可测性/feature 三刀 → 30 纯 Python bug 候选，逐条读正文后锁定唯一干净候选。
+- **1 新 PR `mahmoud/boltons#801`**（base master，6948★ 纯 Python）：`IndexedSet` 继承 `MutableSet` 但空集无参 `pop()` 漏出 `list.pop()` 的 `IndexError` 而非 `KeyError`。五项全清（0 评论/0 xref/号段 404/无 assignee/无标签/无 AGENTS·CONTRIBUTING·DCO 要求）+ 正文给出窄修法 + 本机可验。修复仅在 `index is None and not len_self` 时抛 `KeyError`，保留 `pop(0)`/`pop(-1)` 的 `IndexError` 契约。A/B：新回归测试在基线 d31d821 失败（IndexError）→ 修复后 29 passed（setutils 全文件）；全量 620 passed / 1 skipped / 1 failed（既有 Windows CRLF 环境失败，stash 基线复现同款）；AST 干净、LF-only。PR 模板要求 backstory + AI 披露，如实填写无人回评、无跨仓裸引用；quality_check EVIDENCE_OK；FF 推送无 `+`。
+- **1 评审返工 `unstructured-io/unstructured#4693`**：codex 评审提出两项真实回归，均复现确认后修复并 FF 推送 `be95f0e8..4c33811`（无 `+`）：①`vmerge_origins` 跨行从不清理 → 列缺口（gridBefore）后的孤儿 continue 复用几行前 stale origin（复现 HTML 把 `CURRENT` 写成 `OLD`）→ 每行末按本期覆盖列剪枝，孤儿 continue 发空位（与 plain-text/emphasis walker 一致，reviewer 第 3 点当场定契约并测试）；②`_row_grid_width` 记 `max(gridSpan,0)` 但迭代器扩 `max(gridSpan,1)` → gridSpan≤0 产 1 位却不耗预算 → 统一归一化 ≥1。加 2 回归测试 + 强化长合并断言为精确有序 side-cell（原子串判断 side-1 会误中 side-10）。A/B：2 failed（旧 head）→ 2 passed（新 head），test_docx.py 全量 221 passed，ruff 0.15.10 format/check 全绿。单条合并评审回复（四点逐条，无跨仓裸引用）；PR 描述/记录 policy+collision 时间戳已刷新、EVIDENCE_OK。
+- monitor_oss 权威 OPEN **76→77**（boltons#801 进）/ 台账 77 / 盲点 0（新 PR 同轮补录 STATE.md）；review_sweep 1 ACTION 已处置、复核 0 人工活动；maintainer_sweep slice 53（101 仓 ok / 33 候选，唯一新面孔 servers#5520 handoff 仓判弃）→ rotator 53→54；dispositions 3093（本轮 inbox 走 inbox.py done，台账口径不变）；贡献记录 2 条 EVIDENCE_OK；session_claims 已 release。
+- 预算：约 1 轮；0 认领评论 / 2 PR（1 新 1 返工）/ 1 评审回复 / 0 force-push / 0 跨仓裸引用外发。
+- 下轮：观察 boltons#801 与 unstructured#4693 CI/评审；rotator 54（偶数可跑 slice 54）；llama_index/crewai/agentscope/litellm 在飞额度；MEMORY.md 贴阈值待下沉。
+
+## 2026-11-18 02:26–03:xx GMT+8 / 11-17 18:26–19:xx UTC 轮（round 263，开关 ON，shift 44096899756）— 1 新 PR；收件箱 6 条清零
+- 触发：每小时自动化轮。开关首查 effective=ON。收件箱首拉 1（agno#11733）+ 写日志期间新投 5 = **6 条全当轮 disposition**、终检 0 pending（3596 reported / 3680 done），规律 120 再实证（最后一次复核放在所有日志写完后）。
+- 全池 `--all` 348 仓 **14 NEW**，四刀降维后 **1 干净候选**。
+- **1 新 PR `sphinx-doc/sphinx#14857`**（base master，8101★）：`Callable[..., T]` 被 `stringify_annotation()`/`restify()` 渲染成 `Callable[[...], T]`（裸 Ellipsis 参数被当成单个 Ellipsis 类型参数，产出「接受一个 Ellipsis 参数」的错误签名）。修复：两处均检测 `__args__==(Ellipsis,T)` 形状并直接输出 `Callable[..., T]`；concrete/empty 形式不变。既有 8 条测试钉住旧输出且 git blame 显示 2024 年加入，但 issue 标 `type:bug` 且 #9418 证明省略号形式在 2021 年渲染正确=回归，故更新断言属修复一部分。证据：改前（base 035a07c32 + 新断言）2 failed → 改后（HEAD e1cb0059）34 passed；`tests/test_util/` 229 passed/1 skipped/1 xfailed；AST 干净、CHANGES.rst LF-only。quality_check EVIDENCE_OK，PR 正文如实披露 AI 参与，无跨仓裸引用。
+- 弃因（6 inbox + 13 扫描专属）：仓级门禁 3（agno 缺 ready / frappe vouched / livekit CLA）、reporter 自开 +1 竞品 PR 3（airflow#77208→#77209、deepeval#3661→#3662、beeai#1969→#1970）、同仓在飞满额 6（llama_index×2 超 2、autogpt×2 达 2、pydantic-ai×2 禁投且超 2）、软认领 1（ragas#3120「Happy to send a PR」命中 SOFT 且同作者 BahaaMattar 多处自开 PR）、deer-flow#8345 RFC+xref PR #8346、feature/问询/重排若干。未降标准凑数。
+- monitor_oss 权威 OPEN **77→78** / 台账 78 / 盲点 0（新 PR 同轮补录 STATE.md）；review_sweep **0 ACTION**；`dd-trace-py#20873` MERGEABLE→CONFLICTING 但 APPROVED、无维护者请求，按「无新信息默认等待」不做高风险解冲突（PLAYBOOK 记载该仓解冲突取错 ref 致大量删除的教训），留维护者 squash 时处理。`unstructured#4693` CI 49✓→51✓ 全绿。
+- maintainer_sweep 本轮跳过（全量 pytest 卡死耗 37 分钟预算，且第 1 步 `--all` 已覆盖池子；上轮 slice 53→rotator 54，非连续跳过无停摆风险），rotator 保持 54。dispositions 3112（+18）。贡献记录 EVIDENCE_OK；session_claims 已 release；临时 base worktree 已清理。
+- 预算：约 1 轮（全量 pytest 卡死占用大量时间）。0 认领评论 / 1 新 PR / 0 评审回复 / 0 force-push / 0 跨仓裸引用外发。
+- 下轮：观察 sphinx#14857 CI/评审；rotator 54（偶数，本轮跳过则下轮强制跑 slice 54）；llama_index/crewai/autogpt/agentscope/litellm 在飞额度；MEMORY.md 贴阈值待下沉。
+
+
+## 2026-11-18 04:2x GMT+8 / 11-17 20:2x UTC 轮（round 264，开关 ON，shift 44159487675）— 1 评审返工推送 + 2 项机制修复；收件箱 8 条清零
+- 触发：每小时自动化轮。开关首查 effective=ON。收件箱首拉 **8 条全当轮 disposition**、终检 0 pending；规律 120 最后一次复核放在所有日志写完后（见补记）。
+- 全池 `--all` 348 仓 **29 NEW**（8 与 inbox 重叠 / 21 扫描专属）四刀降维 + novel 逐条读正文 → **0 干净候选**（twisted#12957 五项全清但准入探测发现 AI 政策门禁），未降标准凑数。
+- **实质产出 1：unstructured#4693 评审返工**。codex 第 2 条评审新报多列 unresolved vMerge continuation 的 stale origin 回归：三行复现 OLD 重复 2 次 → 在 orphan 分支清除其覆盖列的 origin → 1 次；判别力撤销修复 fail(`assert 2==1`)/恢复 pass；新增回归测试 `test_partition_docx_unresolved_spanned_continuation_clears_stale_origins`；另按评审把负 gridSpan 测试改为按 qname 选 `w:gridSpan` 并断值。全量 test_docx.py **222 passed**（221→222）、ruff 0.15.9 format+check 干净、AST OK。DCO FF 推送 `4c33811..105ac00`（无 `+`）；1 条合并评审回复逐条交代（第 1 条两项已在 4c33811 修、新回归已修、测试细节已处理、兼容性契约交维护者定夺未代决），仅本仓编号/sha，无跨仓裸引用。
+- **实质产出 2：twisted 生成式 AI 门禁下沉**。twisted#12957 五项全清纯 Python 可本机复现（WebSocketClientEndpoint.connect 握手期断连挂死），已 `--claim` 后才在准入探测 PR 模板读到 ai-policy.rst「does not allow outputs of generative AI tools」+ PR 模板自检「未使用 AI」+ 虚报永久封禁、无 sympy 式真人合规路径 → 立即 `--release`；下沉 repository_policy `manual_gate` + `interaction_hold` 双通道（含 evidence）+ 回归断言；兄弟仓 twisted.web 不受影响。回归 35 passed / 230 subtests。
+- **实质产出 3：maintainer_sweep.py 旧数据崩溃修复**。第 131 行 `seen['date']` 遇 11 条用 `ts` 的历史 disposition 抛 KeyError 崩整个 slice：改 `seen.get('date') or ts` 兼容 + 判别力 fail(KeyError)→pass + 回归断言；slice 54 重跑 102 仓 ok / 0 failed / 25 候选全已处置。自工具+政策回归 53 passed / 230 subtests。
+- inbox 弃因：仓级门禁 2（mem0 缺 accepted / pydantic-ai 禁投）、同仓在飞满额 2（litellm 2 / docling 3）、竞品 PR 1（deepeval#3664）、正文软认领 2（hf_hub#5372 / deepeval）。扫描专属弃因以门禁（frappe/mlflow/mypy/sympy）、竞品 xref、自陈补丁、本机不可验（C/Fortran/TS/postgres）为主。
+- monitor_oss **78/78 盲点 0** 零变化（返工同一 PR）；sphinx#14857 全矩阵 19✗ 经日志 + 同仓非我方 PR fix/gettext-context 对照判为 test_ext_graphviz.py::test_graphviz_png_html assert None 继承 base（graphviz 环境），不修不催；review_sweep 1 ACTION 已处置。rotator 54→55；dispositions 3112→3143。
+- 预算：约 1 轮。0 认领评论 / 0 新 PR / 1 返工推送 / 1 评审回复 / 0 force-push / 0 跨仓裸引用外发。
+- 下轮：rotator 55（奇数可跳过，连续跳过则强制跑 slice 55）；观察 unstructured#4693 新 head CI 与维护者评审；llama_index/crewai/agentscope/litellm 在飞额度；MEMORY.md 贴阈值待下沉。
+
+
+- round 264 收尾补记（所有日志写完后 20:4xZ 新投 5 条）：收件箱校正 8→**13 条**（首拉 8 + 轮末 5），终检 0 pending（**3609 / 3693**）；规律 120 再实证。5 条＝huggingface_hub#5374/#5373（Issues-First 纯代码改动 0 评论未定范围，issue 级不下沉）、litellm#52346（在飞满 + 软认领）、pydantic-ai#13774/#13775（禁投仓 + 维护者 Claude 自建 feature）。dispositions 3143→**3148**；首段「8 条 / 3112→3143」为写日志前阶段性口径。产出口径不变。
+
+## round 265（2026-11-18 05:5x–06:4x GMT+8 / 11-17 21:5x–22:4x UTC，开关 ON，shift 44159487675）
+- 触发：每小时自动化轮。开关首查 `effective=ON`。收件箱首拉 **17 条全当轮 disposition** + 轮末二次复核（见补记）；规律 120 最后一次复核放在所有日志写完后。
+- 全池 `--all` 348 仓 **26 NEW**（12 与 inbox 重叠 / 14 扫描专属）四刀降维 + novel 逐条读正文 → **0 干净候选**，未降标准凑数。扫描专属弃因：feature/epic/镜像刷新/平台提升非 bug-fix 5（airflow#77220、astropy#20892、conda#17007、numpy#33365、ray#68266）、本机不可验 2（dbt-core#17212 为 v2/Fusion Rust 引擎 var() + status:triage；duckdb#28983 为 C++ 实现修复）、人工门禁 1（frappe#47832 vouched）、作者自陈已备补丁/软认领 4（hf_hub#5373/#5374 Issues-First + 自陈 tested fix、virtualenv#3569 已有 PR #3570 + 自陈补丁、virtualenv#3571 方案二选一待定调）、已有竞品 PR 2（peewee#3109→#3110 且已 closed、litellm#52346 密集仓饱和）。
+- inbox 弃因：禁投/人工/贡献类别门禁 13（pydantic-ai#13780-13789 十条 durable-exec feature 禁投仓 + phoenix#18011 人工门禁 + adk-python#8204 Google CLA + accelerate#4588 Use case 门禁）、已有同仓竞品 PR 4（litellm#52366→#51020、#52362→#50532/#50534/#51752、pipecat#6849→#6850、ragas#3122→#3123 均 xref/+N 硬证据；litellm 3744 open PR 密集仓饱和）、环境问题 1（aider#5996 Windows System32 权限）、作者已在做 1（autogpt#16880 AI 生成架构图 docs）、已 assign+Fix PR 2（autogpt#16879→#16876、#16878→#16874）。
+- **实质产出 1：unstructured#4693 评审返工**。codex 第 3 条评审新报 resolved 多列 vMerge continuation stale origin 真回归：起始列**有** origin 的跨列 continue 只记起始列、其他覆盖列残留几行前旧 origin，后续孤儿 continue 重新发出 OLD。三行复现改前 OLD 2 次 → 修「resolved 分支把覆盖列全部更新为该 origin（与 restart 分支一致）」→ 1 次；判别力撤销修复 fail(`assert 2==1`)/恢复 pass；新增回归测试 `test_partition_docx_resolved_spanned_continuation_clears_stale_origins`。全量 test_docx.py **223 passed**（222→223，repo venv work/bu_venv Py3.12）、ruff 0.14.14 format+check 干净。FF 推送 `105ac00..6296cab`（无 `+`）；1 条合并评审回复逐条交代（第 1/2 条已在旧 head 修、第 3 条本轮修、兼容性契约交维护者定夺未代决、exact-head CI 请重审），仅本仓编号/sha，无跨仓裸引用。PR body 追加验证段、贡献记录 EVIDENCE_OK（1 条声明 + 3 条 fact 反馈逐条分类：2 not_actionable + 1 addressed 关联回归）。
+- monitor_oss **78/78 盲点 0** 零变化（返工同一 PR，unstructured#4693 CI 51✓→2✓ 为测试重跑中 0 失败，非我方引入）；review_sweep 1 ACTION 已处置。rotator 55（奇数跳过，符合历史规律）；contributions render 34 records。
+- 预算：约 1 轮。0 认领评论 / 0 新 PR / 1 返工推送 / 1 评审回复 / 0 force-push / 0 跨仓裸引用外发。
+- 下轮：rotator 55（奇数可跳过，连续跳过则强制跑 slice 55）；观察 unstructured#4693 新 head `6296cab` CI 与维护者评审；llama_index/crewai/agentscope/litellm 在飞额度；MEMORY.md 贴阈值待下沉。
+
+### round 265 轮末补记（所有日志写完后 22:4xZ 新投 1 条）
+- 规律 120 第 N 轮实证：所有日志写完后新投 1 条 `agno-agi/agno#11737`（Feature Request SocialScrape toolkit，22:17Z），issue-readiness 门禁仓（缺 `ready` 标签，labels 实际为空）+ feature 非 bug-fix → 当轮 done。收件箱校正为首拉 17 + 中段 4 + 轮末 1 = **22 条全当轮 disposition**，终检 0 pending（**3631 reported / 3715 done**）；首段 21 条 / 3630 / 3714 为写日志前阶段性口径。产出口径不变（1 返工推送 / 1 评审回复）。
+
+
+## round 266（2026-11-18 07:41–07:5x GMT+8 / 11-17 23:41–23:5x UTC，开关 ON，shift 44159487675）— 0 产出；收件箱 6 条清零
+- 触发：每小时自动化轮。开关首查 `effective=ON`（shift 44159487675）。收件箱首拉 **6 条全当轮 disposition**、处置后 0 pending（3637 reported / 3721 done）；规律 120 最后一次复核放在所有日志写完后（见补记）。
+- 6 条 inbox 弃因：haystack#13796（已有 assignee anakin87 + 作者自陈有 fix 可开 PR，双命中）、openhands#19823（policy_reason 人工门禁：PR 描述须真人 `HUMAN:` 段 + e2e 证据不可代签）、phoenix#18015（policy_reason 人工门禁须维护者确认 + enhancement 非 bug）、docling#5449（timeline 同仓竞品 PR #5450）、lancedb#5081（根因在 lance-core Rust schema.rs nullable 检查，本机不可跑测）、autogpt#16883（已有 assignee ntindle + 正文 Fix:To follow 方案未定）。
+- 全池 `--all` 348 仓 **19 NEW**（6 与 inbox 重叠 / 13 扫描专属）四刀降维 + novel 逐条读正文 → **0 干净候选**，未降标准凑数。扫描专属弃因：门禁 2（agno#11737 缺 ready、fastmcp#6543 须链接 issue 且被 assign）、编译型不可验 6（xgboost C++ 基准、duckdb×2 C++ 内核、polars×3 Rust dtype/streaming、scipy C/Fortran）、已有 assignee/竞品 3（dbt-core#17213 内部 assignee、datasets#9069→#9070、ray#68270 需 cgroup+真实 OOM kill 多进程判别力无法建立）、自陈/软认领 1（statsmodels#10782 作者自陈有 branch 且征询方案、改默认值需设计共识）。
+- **review_sweep 1 ACTION 已判读不回复**：unstructured#4693 第 4 条 codex review（23:20Z）为确认性收尾，明说「no remaining actionable Critical/High/Medium issue」，前 3 条报出的 4 个 Medium 已在 round 262/264/265 逐条修复；唯一开放项＝malformed-continuation 兼容性契约（我方 22:28Z 已明确留维护者决定，未代决）+ CI approval（维护者侧门禁）。无新证据、无具体请求 → 按流程不发占位评论。
+- monitor_oss **78/78 盲点 0** 零变化（unstructured#4693 CI 仅运行态变化 2✓/0✗，无新失败）；PR head 仍 `6296cab`。maintainer_sweep slice 55 防停摆强制跑（rotator 奇数，上轮已跳过一次），102 仓 ok / 48 候选，唯一新面孔 polars#30714（Rust SQL 内核 + 自陈 PR 须 accepted 后 follow + 同仓 PR #30869 xref）判弃；rotator **55→56**。dispositions **3148→3162**（+14：13 扫描专属 + 1 sweep 新面孔；6 条 inbox 走 inbox.py done 不计入）。
+- 预算：约 1 轮。**0 认领评论 / 0 新 PR / 0 评审回复 / 0 返工推送 / 0 force-push / 0 发往 GitHub 文本**。
+- 下轮：rotator 56（偶数可跑 slice 56）；观察 unstructured#4693 维护者兼容性契约决定与 CI approval；llama_index/crewai/agentscope/litellm 在飞额度；MEMORY.md 贴阈值待下沉。
+
+- round 266 轮末补记（所有日志写完后 23:48Z 新投 1 条）：规律 120 再实证。新投 `prefecthq/fastmcp#6543`（Skills extension discovery，23:48Z）＝扫描阶段已判过的同一候选（policy_reason 人工门禁须被 assign），当轮 done。收件箱校正首拉 6 + 轮末 1 = **7 条全当轮 disposition**，终检 0 pending（**3638 reported / 3722 done**）；首段 6 条 / 3637 / 3721 为写日志前阶段性口径。开关 ON、rotator 56、78/78 盲点 0、dispositions 3162、review_sweep 判读不回复均不变；产出口径不变（0 新 PR / 0 回复 / 0 推送）。
+
+
+## round 267（2026-11-18 08:51–09:2x GMT+8 / 11-18 00:51–01:2x UTC，开关 ON，shift 44159487675）— 1 新 PR；收件箱 5 条清零；unstructured#4693 评审契约确认
+- 触发：每小时自动化轮。开关首查 `effective=ON`。收件箱首拉 **5 条全当轮 disposition**、处置后 0 pending（3643 reported / 3727 done）；规律 120 最后一次复核放在所有日志写完后（见补记）。
+- 5 条 inbox 弃因：langchain#41925（assign 门禁仓须先分配）、phoenix#18022（人工门禁须 maintainer 确认 + needs information）、haystack#13798（MCP ServerList 徽章营销请求，非代码缺陷）、livekit/agents#8611（CLA 须账号本人网页 OAuth，8 条同源弃单）、pipecat#6854（设计级方案待定：修复需覆盖 7 个 S2S 服务 + 改 RTVI 客户端 segment-join 协议，与既有架构改动同款，无窄范围可本机验证修复）。
+- 全池 `--all` 348 仓 **14 NEW**（5 与 inbox 重叠 / 9 扫描专属）四刀降维 + novel 逐条读正文 → **1 干净候选**。novel 为 MateehUllah 7 分钟内批量 5 条（boltons#804/805/806 + funcy#233/234）诚实 AI 辅助 bug 报告（明确无补丁无自认领），zero 评论/zero xref/无 assignee/近号段无竞品 PR；boltons 已有在飞 #801 按同仓 ≤1 让出 → 选 funcy（0 在飞）。弃因：boltons#802（reporter 自开 +1 PR #803）、frappe#47840（vouched 门禁）、inspect_ai#6622（缺 accepted 标签门禁）、pipecat/haystack 两条 inbox 重叠。
+- **实质产出 1：新 PR `Suor/funcy#235`**（base master，3508★，fork inchang-ing/funcy）。`once = once_per()` 无 argnames 却在装饰期调 `arggetter(func)` 读 `func.__code__`，致 `functools.partial`/内建/callable object 无法包装（AttributeError）。修 `get_arg = arggetter(func) if argnames else None`（无 argnames 时 getter 从不调用）。判别力：撤修复→新回归 fail（精确复现原 AttributeError）、恢复→pass；全量 `pytest -W error` 296 passed、flake8 funcy + tests 全净、benchmark 装饰 20k 次 base 0.077s→fix 0.066s（微快）、AST OK、EVIDENCE_OK。PR 正文按 CONTRIBUTING 简短 + 分隔线后证据，AI 披露。贡献记录 `suor--funcy--issue-234` EVIDENCE_OK、render 35 records；session_claims 已 release。
+- **评审 1 ACTION 已处置 `unstructured-io/unstructured#4693`**：维护者 cragwolfe APPROVE 并明确接受 malformed 兼容性契约（orphan continuation 输出空白且省略自身文本 / resolved 不一致宽度用起始列 origin 跨 span 传播），明确要求「更新正文匹配已实现策略」。核实真实 HTML（`<td rowspan="2">LEFT</td>` 证明确认评论指出的测试注释不准）。定点更新 PR 正文两处（ Fix 段 orphan 语义 + 删「留待维护者决定」改「维护者已确认契约」）+ 1 条合并 PR 评论；**无代码推送**以保住既有 APPROVED + 绿 CI（51✓/0✗）。测试注释/断言类两条非阻塞建议在评论中明确留作 follow-up、不为此重置批准与全 CI。CI 由 2✓→51✓/0✗、评审 REVIEW_REQUIRED→APPROVED。
+- monitor_oss 报 BLIND funcy#235，同轮补录 STATE.md → 复核 **79/79 盲点 0**（新 PR 入表、头部 78→79）。maintainer_sweep slice 56（101 仓 ok / 36 候选，唯一 novel `servers#5520` handoff-only 政策仓 + MEMBER 自建判弃并写入 dispositions），rotator **56→57**；dispositions 3162→**3163**。
+- 预算：约 1 轮。1 新 PR / 1 评审回复 / 0 认领评论 / 0 返工推送 / 0 force-push / 0 跨仓裸引用外发。
+- 下轮：rotator 57（奇数可跳过，连续则强制 slice 57）；观察 funcy#235 CI/评审、unstructured#4693 合并（契约已确认、绿 CI + APPROVED）；llama_index/crewai/agentscope/litellm 在飞额度；MEMORY.md 贴阈值待下沉。
+
+### round 267 轮末补记（所有日志写完后 01:11Z 新投 6 条）
+- 规律 120 再实证：所有日志写完后最后一次复核新投 **6 条**，全当轮 disposition。＝openhands#19833/#19832/#19831（人工门禁 HUMAN: 段不可代签，后两条另为 Feature）、phoenix#18023（人工门禁 + enhancement）、swarms#3507（reporter 自开 PR #3502 已 MERGED 且评论 Fixed by #3502，核 xref+评论确认）、inspect_ai#6622（缺 accepted 门禁，扫描阶段已判）。
+- 收件箱校正首拉 5 + 轮末 6 = **11 条全当轮 disposition**，终检 **0 pending（3649 / 3734）**；首段 5 条 / 3643 / 3727 为写日志前阶段性口径。开关 ON、rotator 57、79/79 盲点 0、dispositions 3163、review_sweep 1 ACTION 已处置均不变；产出口径不变（1 新 PR / 1 评审回复）。
+## 2026-11-21 round 262（合并轮 262~324，7 天积压 790 项）
+- **收件箱 790 → 128**（4444 reported / 4401 done）——静态过滤零 API 三层：
+  1. policy+cap 门禁 594（pydantic-ai/openhands/litellm/agentscope/docling/fastmcp/adk/agno/inspect_ai/mem0/openai-agents/phoenix 等全门禁类 + 同仓 cap）
+  2. 标签类别 49（swarms ai-generated 批量、deer-flow needs-triage ×26、tokenizers Rust ×11（#2655 同类）、instructor observe-only ×2、graphrag 协作者限制、langflow/semantic-kernel/autogen handoff、lighteval/setfit 缺 accepted 等；**修正一版脚本 None-label 逻辑缺陷**）
+  3. repo 级类 24
+- **顺延 128 项**（需逐项 timeline 核验，超本轮预算）：crewai×21、openinference×16、pipecat×11、swarms×10、haystack×9、hub×8、swe-agent×8、langflow×6、deepeval×5 及余项——清单+标签已落盘 work/tmp/keep2_20261121.json 供后续轮次按仓处理
+- **离场与合并**：**unstructured#4693 MERGED（11-19）外部合并 +1**；hub#5360 CLOSED-UNMERGED（Wauplin: superseded by #5388）；pipecat#6807、docling#5341 仍 OPEN；monitor 77/77 盲点 0 过期 1（下轮清账）
+- review_sweep: 2 更新 0 人工活动，0 ACTION
+- dispositions 2420→3236（+816）；后续轮策略：keep2 清单按仓逐项 timeline 核验
