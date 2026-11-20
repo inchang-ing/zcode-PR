@@ -13091,5 +13091,13 @@
  "huggingface/smolagents#3233": {
   "date": "2026-11-21",
   "reason": "解析类: code-blob markdown 回退吃掉 fence 语言标签（python3）；smolagents venv 未建，留待批量"
+ },
+ "arize-ai/openinference#4419": {
+  "date": "2026-11-21",
+  "reason": "semantic-conventions 规范类: flattened-list leaf live-check 校验须维护者选型"
+ },
+ "pydantic/pydantic-ai#14109": {
+  "date": "2026-11-21",
+  "reason": "受限/禁投仓库: pydantic/pydantic-ai（复投幂等）"
  }
 }

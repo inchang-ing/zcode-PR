@@ -5773,3 +5773,8 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - monitor_oss: 77/76 权 盲点 0 过期 1
 - review_sweep: 6 更新 0 人工活动，0 ACTION
 - dispositions 3270→3272
+## 2026-11-14 round 281（静默轮）
+- 收件箱 2→0：openinference#4419 semconv 规范类（live-check 设计须维护者选型）、pydantic-ai#14109 复投禁投
+- monitor_oss: 77/76 权 盲点 0 过期 1
+- review_sweep: 6 更新 0 人工活动，0 ACTION
+- 0 干净候选，0 新 PR；dispositions 3272→3273
