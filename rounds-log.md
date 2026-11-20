@@ -5674,3 +5674,14 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - 本轮处理 pipecat 组（11 项）：#6864 让位，余 10 项下轮逐项 timeline 核验
 - monitor_oss: 77/77 盲点 0 过期 1（下轮清账）；review_sweep: 2 更新 0 人工活动 0 ACTION
 - dispositions → 3237
+## 2026-11-21 round 264（在飞 PR 全量处理）
+- **5 个 CONFLICTING 全部解决**：
+  - autogpt#16718 ✅ MERGEABLE——dev 未动目标函数，fork-point→PR 补丁 3-way 重放干净；db_test 单冲突双侧保留（dev 新增 escape_like 测试 + 我方 accepted-path 测试），双路径 2 passed
+  - autogpt#16726 ✅ MERGEABLE——12 文件补丁重放，import 冲突两处解（helpers_test 双 import 并存、executor/utils 留 dev 新增 PLATFORM_FUNDED_COST_KEY 去 USER_TIMEZONE_NOT_SET）；time_blocks 16 passed（2 失败=缺 agentmail/firecrawl 环境包）
+  - browser-use#6310 ✅ MERGEABLE——上游重写 doctor 测试族，双侧保留；junction 空行致 code-style ✗ → 补两空行转绿；windows telemetry 1 失败 = posthog inflight Windows 计时 flake（diff 无涉）
+  - browser-use#6300 ✅ 关闭 superseded——main 已以更完整实现吸收（--version 报 browser-use 版本+harness 版本）；分支重放至零差异后关闭留言
+  - wandb#13336 ✅ 已推——main 发布后清空 unreleased 段（theirs 空），按台账惯例保留重挂我方条目
+- CI 红 master-parity 抽查：deepeval#3529 继承（main 同败 test+lint）、aiohttp#14017 = backport-label bot 门禁 + codecov fork 继承、coveragepy#2359 = macOS 车队失败（main 无记录，待续查）、dagster/dask/haystack/litellm = 既往已验证模式
+- 剩余 CONFLICTING（agentscope#3770、litellm#46262/#48309、coveragepy#2350、dd-trace#20873）全为并行会话 PR，不碰
+- monitor: 75/76 权威，过期 1 下轮清账；盲点 0
+- **流程坑 ×3**：(1) 部分克隆 promisor 走 HTTPS 间歇失败 → SSH 整浅克隆 dev+加深双向历史到 merge-base；(2) `git add 目录` 卷入未 ignore 的 venv → 精确列文件重做（venv 从未出本地）；(3) 浅层嫁接使 merge-base 为空 → 补丁重放替代 merge 机制
