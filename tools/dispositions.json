@@ -12955,5 +12955,9 @@
  "pipecat-ai/pipecat#6864": {
   "date": "2026-11-21",
   "reason": "双竞品已占: nurlanmnn #6865 + lixuanqun #6894（timeline 确认）"
+ },
+ "chroma-core/chroma#8012": {
+  "date": "2026-11-21",
+  "reason": "已实现开 PR: chroma-core/chroma#8016 — 同步 FastAPI stop() 关闭 _session; A/B fail→2 passed"
  }
 }

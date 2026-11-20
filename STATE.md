@@ -11,7 +11,15 @@
 > | 项目说明 / 目录 / 流程 / 飞书 / 换机 | **`README.md`** |
 > | 历史轮次 / 已合并 PR 验证记录 | **`rounds-log.md`**、**`STATE-archive.md`** |
 
-## OSS 贡献在飞（79）
+## OSS 贡献在飞（76）
+> 2026-11-18 09:1x GMT+8 / 11-18 01:1x UTC round 267 对账：权威在飞 **78→79** / 台账 79（新 PR `Suor/funcy#235` 同轮补录，monitor_oss 报 BLIND #235）。开关 ON（shift 44159487675）。收件箱首拉 5 条全当轮 disposition、0 pending（3643/3727）；全池 `--all` 348 仓 14 NEW 四刀降维 + novel 逐条读正文 → **1 干净候选** `suor/funcy#234`（`once=once_per()` 无 argnames 却在装饰期读 `func.__code__`，partial/内建/callable object 无法包装；改 `arggetter(func) if argnames else None`，撤修复回归 fail→pass、全量 296 passed、flake8 净、benchmark 微快，quality_check EVIDENCE_OK）→ 投出 **PR #235**（base master，3508★，fork inchang-ing/funcy）。review_sweep 1 ACTION `unstructured#4693`：维护者 APPROVED 并确认兼容性契约、明确要求更新正文匹配已实现策略 → 定点更新 PR 正文两处（orphan continuation 输出空白且省略自身文本 / 删「留待维护者决定」改为已确认契约）+ 1 条合并 PR 评论；无代码推送以保住已批准与绿 CI（51✓/0✗），测试注释/断言类非阻塞建议留跟进。1 新 PR / 1 评审回复 / 0 返工推送。**0 认领评论 / 0 force-push / 0 跨仓裸引用外发**，详见 rounds-log 本轮。
+
+> 2026-11-18 07:4x GMT+8 / 11-17 23:4x UTC round 266 对账：权威在飞 **78** / 台账 78，盲点 0 / 过期行 0，零变化（无新 PR、无离场）。开关 ON（shift 44159487675）。收件箱 6 条 + 轮末新投 1 条（fastmcp#6543，扫描阶段已判）= **7 条全当轮 disposition**、0 pending（3638/3722）；全池 `--all` 348 仓 19 NEW 四刀降维后 0 干净候选。review_sweep 1 ACTION 判读后不回复（unstructured#4693 第 4 条 codex review 为确认性收尾、无新可操作项，兼容性契约留维护者）；rotator 55→56；dispositions 3148→3162。**0 认领 / 0 新 PR / 0 评审回复 / 0 推送 / 0 跨仓裸引用外发**，详见 rounds-log 本轮。
+
+> 2026-11-18 02:26–03:xx GMT+8 / 11-17 18:26–19:xx UTC round 263 对账：权威在飞 **77→78** / 台账 78（新 PR `sphinx-doc/sphinx#14857` 同轮补录），盲点 0 / 过期行 0。开关 ON（shift 44096899756）。收件箱首拉 1（agno#11733）+ 轮末新投 5 = **6 条全当轮 disposition**、终检 0 pending（3596 reported / 3680 done），规律 120 再实证。全池 `--all` 348 仓 14 NEW 四刀降维后 **1 干净候选** `sphinx-doc/sphinx#14856`（`Callable[..., T]` 被渲染成 `Callable[[...], T]`，两处 stringify/restify 加 bare-Ellipsis 守卫；红 2 failed→绿 34 passed，test_util 229 passed，quality_check EVIDENCE_OK）→ 投出 **PR #14857**（base master，8101★）。弃因：reporter 自开 +1 竞品 PR 3（airflow#77208→#77209、deepeval#3661→#3662、beeai#1969→#1970）、同仓在飞满额 4（llama_index×2 超 2、autogpt×2 达 2）、软认领 1（ragas#3120）、仓级门禁 2（frappe vouched / livekit CLA）、feature/RFC/问询若干。review_sweep 0 ACTION；`dd-trace-py#20873` MERGEABLE→CONFLICTING 但 APPROVED 且无维护者要求，高风险解冲突本轮不做、留维护者 squash 时处理。dispositions 3112（+18）。**0 认领评论 / 1 新 PR / 0 评审回复 / 0 返工推送 / 0 跨仓裸引用外发**，详见 rounds-log 本轮。
+
+> 2026-11-18 01:26–02:1x GMT+8 / 11-17 17:26–18:1x UTC round 262 对账：权威在飞 **76→77** / 台账 77，盲点 0 / 过期行 0（新 PR `mahmoud/boltons#801` 同轮补录 STATE.md）。开关 ON（shift 44096899756）。收件箱 **395 历史积压 + 轮末 9 = 404 条全当轮 disposition**、终检 0 pending（3590 reported / 3674 done），规律 120 再次实证（日志写完后仍投递 9 条已清）。四刀降维 + novel 逐条读正文 → **1 干净候选** `mahmoud/boltons#801`（空集 `IndexedSet.pop()` 漏 IndexError 而非 KeyError，A/B 新回归 fail→pass，全量 620 passed / 1 既有 Windows 环境失败），投出 **PR #801**（base master，6948★）。**1 评审返工** `unstructured-io/unstructured#4693`：codex 两项真实回归（stale vMerge origin 跨列缺口复用 / gridSpan≤0 绕过预算）均复现后修复，FF 推送 `be95f0e8..4c33811`（无 `+`），2 回归 test 2 failed→2 passed、test_docx.py 221 passed、ruff 0.15.10 全绿，单条合并评审回复四点逐条。两条贡献记录 EVIDENCE_OK。review_sweep 1 ACTION 已处置、复核 0 人工活动；maintainer_sweep slice 53（101 仓 ok / 33 候选，servers#5520 handoff 仓判弃），rotator 53→54。**0 认领评论 / 1 新 PR / 1 评审回复 / 1 返工推送 / 0 跨仓裸引用外发**，详见 rounds-log 本轮。
+
 
 > 2026-11-13 16:0x–16:5x GMT+8 / 11-13 08:0x–08:5x UTC round 192 对账：权威在飞 **78** / 台账 78（本轮离场 `docling#4439` CLOSED + 新开 `qdrant/qdrant-client#1694`，一出一进持平；monitor_oss 自动清理 1 行并报 BLIND #1694，已同轮补录）。开关 ON（shift 43388378657）。收件箱 **40 + 轮末补投 13 = 53 条全当轮 disposition**、终检 0 pending（2709 reported / 2793 done，规律 120 再命中）；全池 `--all` 348 仓 71 NEW（40 与 inbox 重叠 / 31 扫描专属）四刀降维后 **1 干净候选** `qdrant/qdrant-client#1693`（五项全清 + 号段 #1694-#1696 全 404 + 无 AGENTS/CONTRIBUTING 门禁）→ A/B 验证（改前 7 failed/23 passed → 改后 30 passed）后投出 **PR #1694**（base=dev，quality_check EVIDENCE_OK）。**关键判弃 `kedro-org/kedro#5856`**：五项全清且纯 Python 编码缺陷恰在 Windows 可复现，但准入探测 CONTRIBUTING.md 发现「Note for agents and bots」明禁无人工把关 bot 开 PR（须真人持有者先开 issue 事先批准）+ 仅 curated ticket board 开放贡献 → 弃并**补编码 `policy_reason` + `interaction_hold` 双通道** + 回归断言（1 个新测试方法，全量 474 passed / 1 skipped / 1 failed 既有 Windows 符号链接环境性）；反向自查不会报（该仓 4 条历史弃单全为 issue 级）。**1 评审回应**：`docling#4439` 维护者 PeterStaar-IBM 要求 rebase 解冲突 → rebase 时发现上游 `43c016ca`（#4689 iXBRL 重写）已整段删除 dimensions 渲染（含未守卫 `memberQname.localName` 解引用），修复对象在 main 不复存在、无残值 → 留言说明后**自关 PR**（同 docling#5007 先例），不 force-push。余 38 条 inbox 弃因：仓级门禁 19（pydantic-ai×5 / langchain×2 / fastmcp×4 / python-sdk×2 / servers / openai-agents / agno / trl / mem0 / livekit）、竞品 PR 或自陈 12、assign 3、在飞超额 4（agentscope/litellm×2/crewai 均 2 达上限）。扫描专属 31 条台账化（frappe×21 vouched 门禁一刀砍；polars×2 Rust 不可验；nltk#4029 自陈已有补丁分支；余门禁/feature/竞品）。19 条 ⚠CI 未逐一新回认（本轮 monitor_oss 零变化、无新引入）。rotator **51 奇数跳过**（上轮刚跑 slice 50，非连续跳过，保持 51）；dispositions **2167→2215**（+48，LF/CR=0）。**0 认领评论 / 1 新 PR / 1 评审回应 / 0 推送返工 / 1 自关离场**，详见 rounds-log 本轮。
 
@@ -92,15 +100,16 @@
 
 | PR | 仓库 | 状态 | 摘要 |
 | --- | --- | --- | --- |
+| [#235](https://github.com/Suor/funcy/pull/235) | Suor/funcy | OPEN(2026-11-18) | fix(flow): let once() wrap partials, builtins and callable objects |
+| [#14857](https://github.com/sphinx-doc/sphinx/pull/14857) | sphinx-doc/sphinx | OPEN(2026-11-17) | fix: render Callable[..., T] with bare ellipsis in type hints |
+| [#801](https://github.com/mahmoud/boltons/pull/801) | mahmoud/boltons | OPEN(2026-11-17) | fix(setutils): raise KeyError from IndexedSet.pop() on empty set |
 | [#1694](https://github.com/qdrant/qdrant-client/pull/1694) | qdrant/qdrant-client | OPEN(2026-11-13) | fix: honor the verify parameter in the client-server compatibility check |
 | [#13703](https://github.com/deepset-ai/haystack/pull/13703) | deepset-ai/haystack | OPEN(2026-11-12) | fix: propagate caller cancellation from PipelineStreamHandle.aclose() |
-| [#433](https://github.com/chardet/chardet/pull/433) | chardet/chardet | OPEN(2026-11-11) | fix(escape): reject UTF-7 shifted runs decoding into private-use units |
+| [#8016](https://github.com/chroma-core/chroma/pull/8016) | chroma-core/chroma | OPEN(2026-11-21) | fix(api): close the sync FastAPI httpx session on stop |
 | [#6807](https://github.com/pipecat-ai/pipecat/pull/6807) | pipecat-ai/pipecat | OPEN(2026-11-14) | fix(transports): discard resampler state when interrupting audio that never played |
-| [#5360](https://github.com/huggingface/huggingface_hub/pull/5360) | huggingface/huggingface_hub | OPEN(2026-11-14) | fix(jobs): derive the default Job name from the last path component on both separators |
 | [#5344](https://github.com/docling-project/docling/pull/5344) | docling-project/docling | OPEN(2026-11-14) | fix(video): start each detected scene at the first frame after the cut |
 | [#5341](https://github.com/docling-project/docling/pull/5341) | docling-project/docling | OPEN(2026-11-14) | fix(cli): stop split-page HTML export from overwriting the plain HTML export |
 | [#3925](https://github.com/agentscope-ai/agentscope/pull/3925) | agentscope-ai/agentscope | OPEN(2026-11-11) | fix(tracing): don't record early stream close or cancellation as span ERROR |
-| [#4693](https://github.com/Unstructured-IO/unstructured/pull/4693) | Unstructured-IO/unstructured | OPEN(2026-11-11) | fix(docx): stop long vertical merges from dropping table rows from text_as_html |
 | [#16726](https://github.com/Significant-Gravitas/AutoGPT/pull/16726) | Significant-Gravitas/AutoGPT | OPEN(2026-11-11) | fix(backend): let Get Current Time fall back to its own timezone when the profile is not-set |
 | [#16718](https://github.com/Significant-Gravitas/AutoGPT/pull/16718) | Significant-Gravitas/AutoGPT | OPEN(2026-11-11) | fix(backend): don't apply library agent PATCH fields when the version update is refused |
 | [#13336](https://github.com/wandb/wandb/pull/13336) | wandb/wandb | OPEN(2026-11-08) | fix(cli): materialize projects paginator before the length check |
@@ -116,14 +125,12 @@
 | [#3467](https://github.com/pygments/pygments/pull/3467) | pygments/pygments | OPEN(2026-11-05) | Fill in version_added for five lexers whose version line never rendered |
 | [#6310](https://github.com/browser-use/browser-use/pull/6310) | browser-use/browser-use | OPEN(2026-11-05) | fix: accept the advertised doctor flags instead of rejecting them |
 | [#5945](https://github.com/Aider-AI/aider/pull/5945) | Aider-AI/aider | OPEN(2026-11-04) | fix: don't crash startup when litellm ships a new exception type |
-| [#6300](https://github.com/browser-use/browser-use/pull/6300) | browser-use/browser-use | OPEN(2026-11-04) | fix(cli): report the browser-use package version for --version |
 | [#3052](https://github.com/truera/trulens/pull/3052) | truera/trulens | OPEN(2026-11-03) | fix(dataset): keep parquet list columns as their elements when curating |
 | [#3057](https://github.com/truera/trulens/pull/3057) | truera/trulens | OPEN(2026-11-05) | fix(huggingface): score an empty statement as ungrounded, not nan |
 | [#2359](https://github.com/coveragepy/coveragepy/pull/2359) | coveragepy/coveragepy | OPEN(2026-11-04) | fix: don't treat a touched file as a conflicting tracer claim |
 | [#3981](https://github.com/Arize-ai/openinference/pull/3981) | Arize-ai/openinference | OPEN(2026-10-17) | Fix #3803: record attributes for tuple-valued and unsupported message content parts |
 | [#4633](https://github.com/traceloop/openllmetry/pull/4633) | traceloop/openllmetry | OPEN(2026-10-18) | fix(sdk): keep local dataset state when a delete request fails |
 | [#46262](https://github.com/BerriAI/litellm/pull/46262) | BerriAI/litellm | OPEN(2026-10-17) |  |
-| [#7795](https://github.com/crewAIInc/crewAI/pull/7795) | crewAIInc/crewAI | OPEN(2026-10-17) | fix(openai): allow multimodal file inputs for GPT-6 Astra |
 | [#7981](https://github.com/crewAIInc/crewAI/pull/7981) | crewAIInc/crewAI | OPEN(2026-10-17) |  |
 | [#12636](https://github.com/dask/dask/pull/12636) | dask/dask | OPEN(2026-10-17) |  |
 | [#20873](https://github.com/DataDog/dd-trace-py/pull/20873) | DataDog/dd-trace-py | OPEN(2026-10-17) | Fix #20782: map Anthropic 1h cache creation tokens to the correct span attribute |
@@ -147,7 +154,6 @@
 | [#2826](https://github.com/deepchecks/deepchecks/pull/2826) | deepchecks/deepchecks | OPEN(2026-10-12) | Fix single dataset performance conditions for metrics with a |
 | [#14017](https://github.com/aio-libs/aiohttp/pull/14017) | aio-libs/aiohttp | OPEN(2026-10-12) | Fix RequestHandler crash after connection_lost() during keep |
 | [#2332](https://github.com/jupyter/nbconvert/pull/2332) | jupyter/nbconvert | OPEN(2026-10-13) | Preserve safe subdirectories in extracted output filenames |
-| [#2993](https://github.com/huggingface/smolagents/pull/2993) | huggingface/smolagents | OPEN(2026-10-15) | Fix comprehension scoping to match CPython closure capture |
 | [#987](https://github.com/python-poetry/poetry-core/pull/987) | python-poetry/poetry-core | OPEN(2026-10-18) | fix: generate valid PEP 508 metadata for OR version constrai |
 | [#4526](https://github.com/zarr-developers/zarr-python/pull/4526) | zarr-developers/zarr-python | OPEN(2026-10-18) | fix: tolerate unencodable default_scalar in ShardingCodec.validate（11-01 冲突已解，merge 双父 9f7cea0，MERGEABLE 待 d-v-b 复评） |
 | [#11759](https://github.com/pydata/xarray/pull/11759) | pydata/xarray | OPEN(2026-10-19) | Fix rolling(center=True) splitting the rolling dimension int |
@@ -198,3 +204,5 @@
 | [#16](https://github.com/inchang-ing/commerce-ops-xianyu/pull/16) | inchang-ing/commerce-ops-xianyu | OPEN(2026-10-17) | feat: Edge 任推邦持久只读会话 v0.15.0 |
 | [#17](https://github.com/inchang-ing/commerce-ops-xianyu/pull/17) | inchang-ing/commerce-ops-xianyu | OPEN(2026-10-17) | feat: AI 任务工作台 G0 验证与 Cloudflare Pages 入口 |
 | [#18](https://github.com/inchang-ing/commerce-ops-xianyu/pull/18) | inchang-ing/commerce-ops-xianyu | OPEN(2026-10-17) | docs: 9月21日多 SKU 周审计受阻记录 |
+
+2026-11-16 用户请求处理积压：crewAI #7795 经明确同意关闭，原分支/证据保留；DataDog #20873 已更新签名提交 ea97b4a 并消除冲突，仅待 ml-observability 团队批准；AutoGPT #16726 已快进发布623b2ca，17/35项回归与4175项必要测试通过（84跳过），CLA成功，新官方CI/审阅待完成。AgentScope #3770、Xarray #11759 的已验证补丁保留，遵守提交者本人审阅要求；Pylint #11770、AutoGPT #16718 等待外部审阅/授权。未新建公开PR或执行上游合并。完整处理清单见 [本轮报告](/E:/zcode-PR/work/backlog-20261116/report.md)。

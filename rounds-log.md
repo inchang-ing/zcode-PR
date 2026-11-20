@@ -5685,3 +5685,13 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - 剩余 CONFLICTING（agentscope#3770、litellm#46262/#48309、coveragepy#2350、dd-trace#20873）全为并行会话 PR，不碰
 - monitor: 75/76 权威，过期 1 下轮清账；盲点 0
 - **流程坑 ×3**：(1) 部分克隆 promisor 走 HTTPS 间歇失败 → SSH 整浅克隆 dev+加深双向历史到 merge-base；(2) `git add 目录` 卷入未 ignore 的 venv → 精确列文件重做（venv 从未出本地）；(3) 浅层嫁接使 merge-base 为空 → 补丁重放替代 merge 机制
+## 2026-11-21 round 265（出 1 PR）
+- 收件箱 19→**0 pending**（4540/4544）——19 真候选逐项 triage：
+  - **chroma#8012 → 实现，开 chroma#8016**（base main）：同步 FastAPI 组件 __init__ 建 httpx.Client 但无 stop() 覆写 → Client.close()→System.stop() 从不释放会话，keep-alive 连接累积至 open-file limit（报告者服务 10 天泄漏 ~1000 连接）。修复=加 stop() 覆写（super().stop() + _session.close()，httpx close 幂等）；异步侧 AsyncFastAPI.stop() 已有 _cleanup 不受影响
+  - A/B：回归测试（组件 stop + System.stop 两路径断言 is_closed）main fail→修复后 2 passed
+  - pipecat#6874/#6872 重复双投：5 处 teardown 设计多点改动 + 报告者 "happy to open a PR if this approach sounds right" 条件式意向 = yield（等维护者背书）
+  - haystack#13830：期望行为待维护者确认（reporter 自问 confirm if expected）→ yield
+  - 其余 15 项 = feature/文档/基础设施问询类让位（vocode#765、crewai#9601、langflow#16526/#16497、hub#5402 AAAA、openinference#4370/#4369、chroma#8009 弃用提醒、guardrails#1709、haystack#13826 安全测试账号、lancedb#5106、inspect_ai#6695、llama_index#24358 cap、openai-python#4302、semantic-kernel#14842 handoff、autogpt#17151 maintainer meta、anthropic#2075 待观察）
+- chroma venv：maturin+rust 本地构建失败 → 纯 Python 依赖 + repo on sys.path 绕行（iterative import-install 收敛）；pytest 9 内部错误 → 降 8.3.5
+- STATE 76；dispositions → 3238；认领已释放
+- monitor 77/77 权 盲点 0 过期 1；autogpt#16726 CI 57✓/1✗（唯一 ✗ 为既知项）；review_sweep 0 ACTION
