@@ -13067,5 +13067,9 @@
  "arize-ai/phoenix#18146": {
   "date": "2026-11-21",
   "reason": "manual gate: open issue 非投递邀请 + 验收语义设计（round 策略须维护者选型）"
+ },
+ "crewaiinc/crewai#9612": {
+  "date": "2026-11-21",
+  "reason": "Windows-only 环境依赖 bug，需真机复现 Qdrant 目录残留场景，不可无人值守验证"
  }
 }

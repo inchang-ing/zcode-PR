@@ -5746,3 +5746,8 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - monitor_oss: 77/76 权 盲点 0 过期 1
 - review_sweep: 6 更新 0 人工活动，0 ACTION
 - 0 干净候选，0 新 PR；dispositions 2422→3265
+## 2026-11-21 round 276（静默轮 + 勘误）
+- 收件箱 1→0：crewai#9612 Windows Qdrant 目录残留——**让位理由勘误**：本机就是 Windows（win32），"Windows-only 不可验证"对本机不成立；crewai 无本地 venv 是真实障碍。issue 仍 OPEN，装好 crewai venv 后可作候选重查
+- monitor_oss: 77/76 权 盲点 0 过期 1
+- review_sweep: 6 更新 0 人工活动，0 ACTION
+- dispositions 3265→3266
