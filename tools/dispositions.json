@@ -12951,5 +12951,9 @@
  "openbmb/chatdev#733": {
   "date": "2026-11-21",
   "reason": "非代码任务: 研究工作流咨询类（#714 先例）"
+ },
+ "pipecat-ai/pipecat#6864": {
+  "date": "2026-11-21",
+  "reason": "双竞品已占: nurlanmnn #6865 + lixuanqun #6894（timeline 确认）"
  }
 }

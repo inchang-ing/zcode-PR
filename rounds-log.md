@@ -5668,3 +5668,9 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - **离场与合并**：**unstructured#4693 MERGED（11-19）外部合并 +1**；hub#5360 CLOSED-UNMERGED（Wauplin: superseded by #5388）；pipecat#6807、docling#5341 仍 OPEN；monitor 77/77 盲点 0 过期 1（下轮清账）
 - review_sweep: 2 更新 0 人工活动，0 ACTION
 - dispositions 2420→3236（+816）；后续轮策略：keep2 清单按仓逐项 timeline 核验
+## 2026-11-21 round 263（顺延处理第 1 轮）
+- 收件箱 132 → 131：pipecat#6864 双竞品已占（报告者 #6865 + lixuanqun #6894）让位
+- 顺延清单标题已回填（work/tmp/deferred_titles_20261121.json，23 仓一次 API 各一）——上轮脚本组号错取日期当标题的缺陷已补
+- 本轮处理 pipecat 组（11 项）：#6864 让位，余 10 项下轮逐项 timeline 核验
+- monitor_oss: 77/77 盲点 0 过期 1（下轮清账）；review_sweep: 2 更新 0 人工活动 0 ACTION
+- dispositions → 3237
