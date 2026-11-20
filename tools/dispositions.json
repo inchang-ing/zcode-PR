@@ -13063,5 +13063,9 @@
  "ukgovernmentbeis/inspect_ai#6696": {
   "date": "2026-11-21",
   "reason": "issue-readiness 门禁: 缺 accepted"
+ },
+ "arize-ai/phoenix#18146": {
+  "date": "2026-11-21",
+  "reason": "manual gate: open issue 非投递邀请 + 验收语义设计（round 策略须维护者选型）"
  }
 }

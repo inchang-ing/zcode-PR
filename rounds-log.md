@@ -5741,3 +5741,8 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - monitor_oss: 77/76 权 盲点 0 过期 1
 - review_sweep: 6 更新 0 人工活动，0 ACTION
 - 0 干净候选，0 新 PR；dispositions 2420→2422
+## 2026-11-21 round 275（静默轮）
+- 收件箱 3→0：agno#11792 复投幂等、litellm#53159 复投幂等、phoenix#18146 manual gate + 浮点均值阈值边界属验收语义设计
+- monitor_oss: 77/76 权 盲点 0 过期 1
+- review_sweep: 6 更新 0 人工活动，0 ACTION
+- 0 干净候选，0 新 PR；dispositions 2422→3265
