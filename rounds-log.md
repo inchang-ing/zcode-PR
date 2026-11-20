@@ -5766,3 +5766,10 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - monitor_oss: 77/76 权 盲点 0 过期 1
 - review_sweep: 6 更新 0 人工活动，0 ACTION
 - dispositions 3269→3270（cap 数过期已勘误）
+## 2026-11-14 round 280（静默轮 + 1 design-yield）
+- 收件箱 3→0：openai-agents#14109 复投（pydantic-ai 禁投 上轮已收）、smolagents#3233 解析类（venv 未建留待批量）、**litellm#53185 design-yield**
+- **litellm#53185 design-yield**（hardened security path 先例）：v1.110.1 起 pass-through GET 把 query 参数并入 body 送 `_BANNED_REQUEST_BODY_PARAMS` 过滤器（auth_utils.py:523，huntr 赏金安全修复），OAuth 授权 URL 必带的 client_id 触发 401。修复须安全决策：client_id 豁免范围（仅 GET? 仅授权端点? redirect_uri 等邻居参数?）——根因与可行路径已记 dispositions 供复活
+- pydantic-ai#14109 SubAgents resume 禁投（上轮已收，本轮复投幂等）
+- monitor_oss: 77/76 权 盲点 0 过期 1
+- review_sweep: 6 更新 0 人工活动，0 ACTION
+- dispositions 3270→3272

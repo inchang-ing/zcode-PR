@@ -13086,6 +13086,10 @@
  },
  "berriai/litellm#53185": {
   "date": "2026-11-21",
-  "reason": "same-repo cap: 该仓台账 2 行在飞，硬上限 2"
+  "reason": "design-yield (hardened security path): pass-through GET query 参数并入 body 触发 _BANNED_REQUEST_BODY_PARAMS（auth_utils.py:523 huntr 安全修复）；修复须安全决策：OAuth client_id 豁免范围（仅 GET/仅授权端点/redirect_uri 等）须维护者选型。根因+路径已记"
+ },
+ "huggingface/smolagents#3233": {
+  "date": "2026-11-21",
+  "reason": "解析类: code-blob markdown 回退吃掉 fence 语言标签（python3）；smolagents venv 未建，留待批量"
  }
 }
