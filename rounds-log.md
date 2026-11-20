@@ -5695,3 +5695,9 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - chroma venv：maturin+rust 本地构建失败 → 纯 Python 依赖 + repo on sys.path 绕行（iterative import-install 收敛）；pytest 9 内部错误 → 降 8.3.5
 - STATE 76；dispositions → 3238；认领已释放
 - monitor 77/77 权 盲点 0 过期 1；autogpt#16726 CI 57✓/1✗（唯一 ✗ 为既知项）；review_sweep 0 ACTION
+## 2026-11-21 round 266（复投收口 + 规律 98 复习）
+- 收件箱 20→0：**round 265 的 18 项 yield 只写了日志未执行 inbox done（规律 98 第 N 次复犯——出 PR 轮/大批量轮漏 done 是高危区）**，本轮补真实收口；+2 新 litellm（#53152/#53156 cap）
+- dispositions 幂等登记 → 3258
+- monitor_oss: 77/76 权 盲点 0 过期 1；chroma#8016 CI 2✓/0✗ 绿
+- review_sweep: 6 更新 0 人工活动，0 ACTION
+- 0 干净候选，0 新 PR

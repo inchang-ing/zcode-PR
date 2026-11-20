@@ -12959,5 +12959,85 @@
  "chroma-core/chroma#8012": {
   "date": "2026-11-21",
   "reason": "已实现开 PR: chroma-core/chroma#8016 — 同步 FastAPI stop() 关闭 _session; A/B fail→2 passed"
+ },
+ "berriai/litellm#53156": {
+  "date": "2026-11-21",
+  "reason": "same-repo cap: 该仓在飞 2 个，硬上限 2"
+ },
+ "berriai/litellm#53152": {
+  "date": "2026-11-21",
+  "reason": "same-repo cap: 该仓在飞 2 个，硬上限 2"
+ },
+ "vocodedev/vocode-core#765": {
+  "date": "2026-11-21",
+  "reason": "不可本机验证类: 第三方 provider 集成 feature"
+ },
+ "guardrails-ai/guardrails#1709": {
+  "date": "2026-11-21",
+  "reason": "非代码任务: Hub 退役后 listing 路径问询"
+ },
+ "crewaiinc/crewai#9601": {
+  "date": "2026-11-21",
+  "reason": "feature-request: 新 LLMTR provider 须维护者背书"
+ },
+ "langflow-ai/langflow#16526": {
+  "date": "2026-11-21",
+  "reason": "assign 门禁仓 + 设计问询"
+ },
+ "deepset-ai/haystack#13830": {
+  "date": "2026-11-21",
+  "reason": "期望行为待维护者确认"
+ },
+ "huggingface/huggingface_hub#5402": {
+  "date": "2026-11-21",
+  "reason": "基础设施类: CDN AAAA 记录，非代码可解"
+ },
+ "deepset-ai/haystack#13826": {
+  "date": "2026-11-21",
+  "reason": "非代码任务: 安全测试账号问询"
+ },
+ "lancedb/lancedb#5106": {
+  "date": "2026-11-21",
+  "reason": "breaking-change: Drop Python 3.10 为维护者决策"
+ },
+ "arize-ai/openinference#4370": {
+  "date": "2026-11-21",
+  "reason": "文档类: semcov flag 用法说明"
+ },
+ "arize-ai/openinference#4369": {
+  "date": "2026-11-21",
+  "reason": "设计类: semcov YAML 须维护者选型"
+ },
+ "anthropics/anthropic-sdk-python#2075": {
+  "date": "2026-11-21",
+  "reason": "上游 SDK 行为待 triage 观察"
+ },
+ "traceloop/openllmetry#4719": {
+  "date": "2026-11-21",
+  "reason": "不可本机验证: 需 MCP 环境"
+ },
+ "langflow-ai/langflow#16497": {
+  "date": "2026-11-21",
+  "reason": "assign 门禁仓 + enhancement"
+ },
+ "pipecat-ai/pipecat#6874": {
+  "date": "2026-11-21",
+  "reason": "teardown 设计多点改动 + 条件式意向"
+ },
+ "pipecat-ai/pipecat#6872": {
+  "date": "2026-11-21",
+  "reason": "同 #6874 重复双投"
+ },
+ "pipecat-ai/pipecat#6868": {
+  "date": "2026-11-21",
+  "reason": "feature 须维护者背书"
+ },
+ "chroma-core/chroma#8010": {
+  "date": "2026-11-21",
+  "reason": "安全类: 漏洞报告须维护者处理"
+ },
+ "chroma-core/chroma#8009": {
+  "date": "2026-11-21",
+  "reason": "基础设施类: 默认模型退役"
  }
 }
