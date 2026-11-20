@@ -13039,5 +13039,29 @@
  "chroma-core/chroma#8009": {
   "date": "2026-11-21",
   "reason": "基础设施类: 默认模型退役"
+ },
+ "agno-agi/agno#11790": {
+  "date": "2026-11-21",
+  "reason": "agno issue-readiness 门禁: 缺 ready + cookbook feature"
+ },
+ "arize-ai/phoenix#18145": {
+  "date": "2026-11-21",
+  "reason": "manual gate + 依赖上游修复 timing"
+ },
+ "langchain-ai/langchain#41983": {
+  "date": "2026-11-21",
+  "reason": "assign 门禁仓"
+ },
+ "openai/openai-agents-python#6114": {
+  "date": "2026-11-21",
+  "reason": "受限/禁投仓库: openai/openai-agents-python"
+ },
+ "significant-gravitas/autogpt#17154": {
+  "date": "2026-11-21",
+  "reason": "安全类: 允许域名清单须维护者定义"
+ },
+ "ukgovernmentbeis/inspect_ai#6696": {
+  "date": "2026-11-21",
+  "reason": "issue-readiness 门禁: 缺 accepted"
  }
 }

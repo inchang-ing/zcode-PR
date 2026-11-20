@@ -5706,3 +5706,8 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - monitor_oss: 77/76 权 盲点 0 过期 1（下轮清账）
 - review_sweep: 6 更新 0 人工活动，0 ACTION
 - 0 干净候选，0 新 PR
+## 2026-11-21 round 268（静默轮）
+- 收件箱 6→0：agno#11790 缺 ready、phoenix#18145 manual gate + 上游依赖 timing、langchain#41983 assign 门禁、openai-agents#6114 禁投、autogpt#17154 安全类须维护者域名清单、inspect_ai#6696 缺 accepted
+- monitor_oss: 77/76 权 盲点 0 过期 1
+- review_sweep: 6 更新 0 人工活动，0 ACTION
+- 0 干净候选，0 新 PR；dispositions 3258→3264
