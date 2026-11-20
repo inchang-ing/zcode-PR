@@ -5761,3 +5761,8 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - monitor_oss: 77/76 权 盲点 0 过期 1
 - review_sweep: 6 更新 0 人工活动，0 ACTION
 - 0 干净候选，0 新 PR；dispositions 2422→3269
+## 2026-11-14 round 279（静默轮 + 勘误）
+- 收件箱 1→0：litellm#53185——cap 判定引用了过期台账快照（litellm 实际在飞已清零，grep 数 0）。勘误入账；issue 仍 OPEN，下轮候选重查（同 crewai#9438/aider#5982 前例）
+- monitor_oss: 77/76 权 盲点 0 过期 1
+- review_sweep: 6 更新 0 人工活动，0 ACTION
+- dispositions 3269→3270（cap 数过期已勘误）

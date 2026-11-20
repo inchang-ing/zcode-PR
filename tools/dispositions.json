@@ -13083,5 +13083,9 @@
  "pydantic/pydantic-ai#14107": {
   "date": "2026-11-21",
   "reason": "受限/禁投仓库: pydantic/pydantic-ai"
+ },
+ "berriai/litellm#53185": {
+  "date": "2026-11-21",
+  "reason": "same-repo cap: 该仓台账 2 行在飞，硬上限 2"
  }
 }
