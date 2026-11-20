@@ -105,6 +105,7 @@
 | [#801](https://github.com/mahmoud/boltons/pull/801) | mahmoud/boltons | OPEN(2026-11-17) | fix(setutils): raise KeyError from IndexedSet.pop() on empty set |
 | [#1694](https://github.com/qdrant/qdrant-client/pull/1694) | qdrant/qdrant-client | OPEN(2026-11-13) | fix: honor the verify parameter in the client-server compatibility check |
 | [#13703](https://github.com/deepset-ai/haystack/pull/13703) | deepset-ai/haystack | OPEN(2026-11-12) | fix: propagate caller cancellation from PipelineStreamHandle.aclose() |
+| [#3236](https://github.com/huggingface/smolagents/pull/3236) | huggingface/smolagents | OPEN(2026-11-21) | fix(agents): reset the Python executor when reset=True |
 | [#8016](https://github.com/chroma-core/chroma/pull/8016) | chroma-core/chroma | OPEN(2026-11-21) | fix(api): close the sync FastAPI httpx session on stop |
 | [#6807](https://github.com/pipecat-ai/pipecat/pull/6807) | pipecat-ai/pipecat | OPEN(2026-11-14) | fix(transports): discard resampler state when interrupting audio that never played |
 | [#5344](https://github.com/docling-project/docling/pull/5344) | docling-project/docling | OPEN(2026-11-14) | fix(video): start each detected scene at the first frame after the cut |

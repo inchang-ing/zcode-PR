@@ -13099,5 +13099,9 @@
  "pydantic/pydantic-ai#14109": {
   "date": "2026-11-21",
   "reason": "受限/禁投仓库: pydantic/pydantic-ai（复投幂等）"
+ },
+ "huggingface/smolagents#3234": {
+  "date": "2026-11-21",
+  "reason": "已实现开 PR: huggingface/smolagents#3236 — PythonExecutor.reset() + Local 实现 + run() 调用; A/B fail→2 passed"
  }
 }

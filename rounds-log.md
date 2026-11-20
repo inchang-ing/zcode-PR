@@ -5793,3 +5793,10 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - monitor_oss: 77/76 权 盲点 0 过期 1
 - review_sweep: 6 更新 0 人工活动，0 ACTION
 - 0 干净候选，0 新 PR
+## 2026-11-21 round 325（出 1 PR）
+- 收件箱 1→0：smolagents#3234 timeline 空无竞品 → **实现，开 smolagents#3236**（base main）
+- **smolagents#3236**：`run(reset=True)` 只重置 memory/monitor 不清 executor → 变量跨 run 泄漏（Docker executor 整个 kernel namespace 也保留）。修复=PythonExecutor ABC 加 reset() hook（默认 no-op：remote executor 保持 kernel），LocalPythonExecutor 实现清 state 回初始态，run() 在 reset=True 时调用（tools/additional_args 下轮自动重发，只清残余）
+- A/B：回归测试 main fail(api_key 泄漏到 run 2)→修复后 2 passed；全文件 489 passed（19 环境性失败 main 同）
+- **教训：测试初版只给了 1 个 code，run 2 pop from empty list → IndexError → AgentError，main 上假绿（非 NameError）**——补足 code 数后 main 正确 fail(DID NOT RAISE)
+- STATE +1 行；dispositions 3270→3274；认领已释放
+- monitor 79/79；review_sweep 0 ACTION
