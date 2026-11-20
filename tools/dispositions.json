@@ -13103,5 +13103,21 @@
  "huggingface/smolagents#3234": {
   "date": "2026-11-21",
   "reason": "已实现开 PR: huggingface/smolagents#3236 — PythonExecutor.reset() + Local 实现 + run() 调用; A/B fail→2 passed"
+ },
+ "browser-use/browser-use#6491": {
+  "date": "2026-11-21",
+  "reason": "安全类: pillow 版本升级须维护者确认依赖兼容"
+ },
+ "arize-ai/openinference#4421": {
+  "date": "2026-11-21",
+  "reason": "semconv 规范类: snapshot-test 设计须维护者选型"
+ },
+ "huggingface/smolagents#3235": {
+  "date": "2026-11-21",
+  "reason": "docs 类: 第三方 provider Hubris Models 文档"
+ },
+ "significant-gravitas/autogpt#17158": {
+  "date": "2026-11-21",
+  "reason": "安全类/竞态: 409 竞态须维护者定义策略"
  }
 }

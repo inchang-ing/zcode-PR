@@ -5800,3 +5800,8 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - **教训：测试初版只给了 1 个 code，run 2 pop from empty list → IndexError → AgentError，main 上假绿（非 NameError）**——补足 code 数后 main 正确 fail(DID NOT RAISE)
 - STATE +1 行；dispositions 3270→3274；认领已释放
 - monitor 79/79；review_sweep 0 ACTION
+## 2026-11-21 round 326（静默轮）
+- 收件箱 4→0：browser-use#6491 安全类 pillow 升级须维护者确认、openinference#4421 semconv 设计、smolagents#3235 docs 第三方 provider、autogpt#17158 安全类竞态
+- monitor_oss: 79/79 权 盲点 0
+- review_sweep: 7 更新 0 人工活动，0 ACTION
+- 0 干净候选，0 新 PR；dispositions 3274→3278
