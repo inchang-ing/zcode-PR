@@ -13131,5 +13131,9 @@
  "docling-project/docling#5502": {
   "date": "2026-11-21",
   "reason": "same-repo cap: 台账 3 行在飞，硬上限 2"
+ },
+ "openhands/openhands#19922": {
+  "date": "2026-11-21",
+  "reason": "manual gate: openhands HUMAN 实测段"
  }
 }
