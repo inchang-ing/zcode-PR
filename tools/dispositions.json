@@ -13135,5 +13135,13 @@
  "openhands/openhands#19922": {
   "date": "2026-11-21",
   "reason": "manual gate: openhands HUMAN 实测段"
+ },
+ "huggingface/huggingface_hub#5409": {
+  "date": "2026-11-21",
+  "reason": "报告者条件式修复意向（hub#5357 同型先例）"
+ },
+ "kyegomez/swarms#3615": {
+  "date": "2026-11-21",
+  "reason": "竞品闭环: GrandhiShryuk PR #3616 已存在"
  }
 }

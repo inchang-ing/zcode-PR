@@ -5845,3 +5845,8 @@ agno#10647→#10652、crewAI#7797→#7798、mem0#7483→#7485、MCP servers#4885
 - monitor_oss: 79/79 权 盲点 0
 - review_sweep: 6 更新 0 人工活动，0 ACTION
 - 0 干净候选，0 新 PR；dispositions 3281→3282
+## 2026-11-21 round 335（静默轮）
+- 收件箱 2→0：hub#5409 报告者条件式意向（hub#5357 同型先例）、swarms#3615 竞品闭环（GrandhiShryuk PR #3616）
+- monitor_oss: 79/79 权 盲点 0
+- review_sweep: 6 更新 0 人工活动，0 ACTION
+- 0 干净候选，0 新 PR；dispositions 3282→3284
