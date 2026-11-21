@@ -13119,5 +13119,9 @@
  "significant-gravitas/autogpt#17158": {
   "date": "2026-11-21",
   "reason": "安全类/竞态: 409 竞态须维护者定义策略"
+ },
+ "ukgovernmentbeis/inspect_ai#6698": {
+  "date": "2026-11-21",
+  "reason": "issue-readiness 门禁: 缺 accepted 标签"
  }
 }
