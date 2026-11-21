@@ -13127,5 +13127,9 @@
  "arize-ai/openinference#4424": {
   "date": "2026-11-21",
   "reason": "semconv 规范类: media MIME 记录 vs 推断须维护者选型"
+ },
+ "docling-project/docling#5502": {
+  "date": "2026-11-21",
+  "reason": "same-repo cap: 台账 3 行在飞，硬上限 2"
  }
 }
