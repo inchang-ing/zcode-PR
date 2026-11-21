@@ -13123,5 +13123,9 @@
  "ukgovernmentbeis/inspect_ai#6698": {
   "date": "2026-11-21",
   "reason": "issue-readiness 门禁: 缺 accepted 标签"
+ },
+ "arize-ai/openinference#4424": {
+  "date": "2026-11-21",
+  "reason": "semconv 规范类: media MIME 记录 vs 推断须维护者选型"
  }
 }
